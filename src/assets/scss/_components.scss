@@ -1,0 +1,40 @@
+.p-toast.p-toast-top-right {
+  z-index: 1000;
+  top: 7em;
+}
+
+.p-dialog-mask.p-component-overlay.p-component-overlay-enter {
+  z-index: 999999 !important;
+}
+.p-confirm-dialog {
+  min-width: 300px;
+  .p-dialog-content {
+    justify-content: center;
+  }
+}
+
+.p-dialog {
+  min-width: 300px;
+}
+
+.p-sidebar {
+  .p-sidebar-header {
+    display: none;
+  }
+  .p-sidebar-content {
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+  }
+}
+
+/**
+ * DataTable 
+ */
+.p-datatable {
+  .p-highlight {
+    a {
+      color: lightgreen;
+    }
+  }
+}

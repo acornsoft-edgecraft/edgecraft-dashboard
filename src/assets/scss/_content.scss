@@ -1,0 +1,15 @@
+// .layout-main-container {
+//   display: flex;
+//   flex-direction: column;
+//   min-height: 100vh;
+//   min-height: calc(100vh - 50px);
+//   justify-content: space-between;
+//   // padding: 7rem 2rem 2rem 4rem;
+//   padding: $topbarHeight, 0.5rem 0.5rem 0.5rem;
+//   transition: margin-left $transitionDuration;
+// }
+
+.layout-main {
+  //flex: 1 1 auto;
+  flex: 0.1rem;
+}

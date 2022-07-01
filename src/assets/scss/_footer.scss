@@ -1,0 +1,12 @@
+.layout-footer {
+  border-top: 1px solid var(--surface-border);
+  background-color: #dcdcdc;
+  height: $footerHeight;
+
+  .version-logo {
+    .logo {
+      height: 2rem;
+      width: 10rem;
+    }
+  }
+}
