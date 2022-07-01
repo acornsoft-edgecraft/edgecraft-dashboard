@@ -1,8 +1,6 @@
 .layout-sidebar {
   background: #2a323d !important;
   color: white;
-  width: $sidebarWidth;
-  min-width: $sidebarMinWidth;
   z-index: 999;
   user-select: none;
   transition: transform $transitionDuration, left $transitionDuration;
@@ -34,42 +32,37 @@
         color: white;
         font-size: 1.5rem;
       }
-
-      /*
-display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    color: var(--text-color-secondary);
-    border-radius: 50%;
-    width: 3rem;
-    height: 3rem;
-    cursor: pointer;
-    transition: background-color $transitionDuration;
-
-    &:hover {
-      color: var(--text-color);
-      background-color: var(--surface-hover);
-    }
-
-    &:focus {
-      @include focused();
-    }
-
-    i {
-      font-size: 1.5rem;
-    }
-
-    span {
-      font-size: 1rem;
-      display: none;
-    }
-*/
     }
   }
 
   .info-container {
     height: 100%;
+  }
+}
+
+.layout-container.on {
+  .layout-sidebar {
+    width: $sidebarWidth;
+
+    .logo-container {
+      .toggle-button {
+        margin-right: 3px;
+      }
+    }
+  }
+}
+
+.layout-container.off {
+  .layout-sidebar {
+    width: $sidebarMinWidth;
+
+    .logo-container {
+      display: none;
+
+      .toggle-button {
+        margin-right: none;
+      }
+    }
   }
 }
 
@@ -118,6 +111,7 @@ display: inline-flex;
         .p-panelmenu-header-link {
           border: none;
           background-color: var(--gray-700);
+
           .p-panelmenu-icon,
           .p-menuitem-icon {
             opacity: 0.9;
@@ -136,6 +130,7 @@ display: inline-flex;
 
         .p-menuitem {
           .p-menuitem-link {
+
             .p-panelmenu-icon,
             .p-menuitem-icon {
               color: White;
@@ -220,7 +215,7 @@ display: inline-flex;
     }
 
     &.active-menuitem {
-      > a {
+      >a {
         .menuitem-toggle-icon {
           &:before {
             content: "\e933";
