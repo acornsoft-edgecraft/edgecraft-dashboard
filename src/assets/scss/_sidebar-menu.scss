@@ -1,0 +1,523 @@
+.v-sidebar-menu {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    text-align: left;
+    -webkit-transition: max-width .3s ease;
+    transition: max-width .3s ease;
+    width: 100%;
+    z-index: 999;
+    background-color: #2a2a2e;
+
+    .vsm--scroll-wrapper {
+        -webkit-box-flex: 1;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex: 1;
+        flex: 1;
+        min-height: 0;
+        position: relative;
+    }
+
+    .vsm--scroll-wrapper:active .vsm--scroll-bar,
+    .vsm--scroll-wrapper:focus .vsm--scroll-bar,
+    .vsm--scroll-wrapper:hover .vsm--scroll-bar {
+        opacity: 1
+    }
+
+    .vsm--scroll-overflow {
+        height: 100%;
+        overflow: hidden;
+        width: 100%
+    }
+
+    .vsm--scroll {
+        -ms-overflow-style: none;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        scrollbar-width: none
+    }
+
+    .vsm--scroll::-webkit-scrollbar {
+        display: none;
+        height: 0;
+        width: 0
+    }
+
+    .vsm--scroll>.vsm--menu {
+        position: static !important;
+        -webkit-transition: width .3s ease;
+        transition: width .3s ease
+    }
+
+    .vsm--scroll-bar {
+        bottom: 2px;
+        opacity: 0;
+        position: absolute;
+        right: 2px;
+        top: 2px;
+        width: 6px;
+        z-index: 5
+    }
+
+    .vsm--scroll-thumb {
+        background-color: #aaa;
+        cursor: pointer;
+        display: block;
+        opacity: .5;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none
+    }
+
+    .vsm--scroll-thumb:hover {
+        opacity: 1
+    }
+
+    .vsm--scroll-bar,
+    .vsm--scroll-thumb {
+        border-radius: 4px;
+        -webkit-transition: opacity .3s ease;
+        transition: opacity .3s ease
+    }
+
+    .vsm--dropdown,
+    .vsm--menu {
+        list-style: none;
+        margin: 0;
+        padding: 0
+    }
+
+    .vsm--dropdown {
+        padding: 5px
+    }
+
+    .vsm--item {
+        display: block;
+        position: static !important;
+        white-space: nowrap;
+        width: 100%
+    }
+
+    .vsm--link {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 30px;
+        padding: 10px 15px;
+        position: static !important;
+        text-decoration: none;
+        -webkit-transition: all .3s ease;
+        transition: all .3s ease;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        color: #fff
+    }
+
+    .vsm--link_active {
+        font-weight: 600
+    }
+
+    .vsm--link_disabled {
+        opacity: .4;
+        pointer-events: none
+    }
+
+    .vsm--link_level-1 .vsm--icon {
+        -ms-flex-negative: 0;
+        border-radius: 3px;
+        flex-shrink: 0;
+        height: 35px;
+        width: 35px
+    }
+
+    .vsm--icon {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        height: 25px;
+        justify-content: center;
+        margin-right: 15px;
+        width: 25px;
+        z-index: 20
+    }
+
+    .vsm--icon,
+    .vsm--title {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex
+    }
+
+    .vsm--title {
+        -webkit-box-flex: 1;
+        -ms-flex: 1;
+        flex: 1
+    }
+
+    .vsm--title>span:first-child {
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1
+    }
+
+    .vsm--title_hidden {
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px
+    }
+
+    .vsm--arrow {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        font-size: 14px;
+        height: 30px;
+        justify-content: center;
+        text-align: center;
+        width: 30px
+    }
+
+    .vsm--arrow_default {
+        height: 12px;
+        position: relative;
+        -webkit-transition: -webkit-transform .3s ease;
+        transition: -webkit-transform .3s ease;
+        transition: transform .3s ease;
+        transition: transform .3s ease, -webkit-transform .3s ease;
+        width: 12px
+    }
+
+    .vsm--arrow_default:before {
+        border-bottom: 2px solid;
+        border-left: 2px solid;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+        content: "";
+        display: inline-block;
+        height: 6px;
+        left: 0;
+        position: absolute;
+        top: 2px;
+        -webkit-transform: rotate(-135deg);
+        transform: rotate(-135deg);
+        width: 6px
+    }
+
+    .vsm--arrow_open .vsm--arrow_default {
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg)
+    }
+
+    .vsm--header {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px 15px;
+        text-transform: uppercase;
+        white-space: nowrap
+    }
+
+    .vsm--badge_default {
+        border-radius: 3px;
+        font-size: 12px;
+        font-weight: 600;
+        height: 20px;
+        line-height: 20px;
+        padding: 0 6px;
+        text-transform: uppercase
+    }
+
+    .vsm--toggle-btn {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        border: none;
+        cursor: pointer;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        font-size: 18px;
+        height: 65px;
+        justify-content: center;
+        text-align: center;
+        width: 100%
+    }
+
+    .vsm--toggle-btn_default {
+        height: 12px;
+        position: relative;
+        width: 12px
+    }
+
+    .vsm--toggle-btn_default:before {
+        border-left: 2px solid;
+        content: "";
+        display: inline-block;
+        height: 12px;
+        left: 0;
+        position: absolute;
+        top: 0
+    }
+
+    .vsm--toggle-btn_default:after {
+        border-bottom: 2px solid;
+        border-left: 2px solid;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+        content: "";
+        display: inline-block;
+        height: 6px;
+        left: 6px;
+        position: absolute;
+        top: 2px;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        width: 6px
+    }
+
+    .expand-enter-active,
+    .expand-leave-active {
+        overflow: hidden;
+        -webkit-transition: height .3s ease;
+        transition: height .3s ease
+    }
+
+    .expand-enter-from,
+    .expand-leave-to {
+        height: 0 !important
+    }
+
+    .slide-animation-enter-active,
+    .slide-animation-leave-active {
+        -webkit-transition: width .3s ease;
+        transition: width .3s ease
+    }
+
+    .slide-animation-enter-from,
+    .slide-animation-leave-to {
+        width: 0 !important
+    }
+
+    .vsm--link_level-1.vsm--link_active {
+        -webkit-box-shadow: inset 3px 0 0 0 #4285f4;
+        box-shadow: inset 3px 0 0 0 #4285f4
+    }
+
+    .vsm--link_level-1 .vsm--icon {
+        background-color: #1e1e21
+    }
+
+    .vsm--link_hover {
+        background-color: rgba(30, 30, 33, .5)
+    }
+
+    .vsm--link_mobile {
+        color: #fff
+    }
+
+    .vsm--dropdown {
+        background-color: #36363b
+    }
+
+    .vsm--mobile-bg {
+        background-color: #4285f4
+    }
+
+    .vsm--header {
+        color: hsla(0, 0%, 100%, .7)
+    }
+
+    .vsm--badge_default,
+    .vsm--toggle-btn {
+        background-color: #1e1e21;
+        color: #fff
+    }
+}
+
+.v-sidebar-menu.vsm_collapsed {
+
+    .vsm--link_level-1.vsm--link_hover,
+    .vsm--link_level-1:hover {
+        background-color: transparent !important
+    }
+
+    .vsm--toggle-btn_default {
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1)
+    }
+
+    .vsm--link_level-1.vsm--link_hover .vsm--icon {
+        background-color: #4285f4;
+        color: #fff
+    }
+}
+
+.v-sidebar-menu.vsm_collapsed.vsm_rtl {
+    direction: rtl;
+    left: inherit;
+    right: 0;
+    text-align: right;
+
+    .vsm--toggle-btn_default {
+        -webkit-transform: scaleX(1);
+        transform: scaleX(1)
+    }
+
+    .vsm--scroll-wrapper {
+        width: calc(100% + 8px)
+    }
+
+    .vsm--icon {
+        margin-left: 15px;
+        margin-right: 0
+    }
+
+    .vsm--arrow_default {
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1)
+    }
+
+    .vsm--toggle-btn_default {
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1)
+    }
+
+    .vsm--scroll-bar {
+        left: 2px;
+        right: inherit
+    }
+
+    .vsm--arrow_open {
+        .vsm--arrow_default {
+            -webkit-transform: rotate(-90deg) scaleX(-1);
+            transform: rotate(-90deg) scaleX(-1)
+        }
+    }
+}
+
+.v-sidebar-menu.vsm_relative {
+    height: 100%;
+    position: relative
+}
+
+.v-sidebar-menu.vsm_expanded {
+    .vsm--link_level-1.vsm--link_open {
+        background-color: #4285f4;
+        color: #fff
+    }
+
+    .vsm--link_level-1.vsm--link_open .vsm--icon {
+        background-color: #4285f4
+    }
+}
+
+.v-sidebar-menu.vsm_rtl .vsm--link_level-1.vsm--link_active {
+    -webkit-box-shadow: inset -3px 0 0 0 #4285f4;
+    box-shadow: inset -3px 0 0 0 #4285f4
+}
+
+.v-sidebar-menu.vsm_white-theme {
+    background-color: #fff;
+
+    .vsm--link {
+        color: #262626
+    }
+
+    .vsm--link_level-1.vsm--link_active {
+        -webkit-box-shadow: inset 3px 0 0 0 #4285f4;
+        box-shadow: inset 3px 0 0 0 #4285f4
+    }
+
+    .vsm--link_level-1.vsm--link_active .vsm--icon {
+        background-color: #262626;
+        color: #fff
+    }
+
+    .vsm--link_level-1 .vsm--icon {
+        background-color: #bbc5d6
+    }
+
+    .vsm--link_hover {
+        background-color: hsla(0, 0%, 95%, .5)
+    }
+
+    .vsm--link_mobile {
+        color: #fff
+    }
+
+    .vsm--dropdown {
+        background-color: #e3e3e3
+    }
+
+    .vsm--mobile-bg {
+        background-color: #4285f4
+    }
+
+    .vsm--header {
+        color: rgba(38, 38, 38, .7)
+    }
+
+    .vsm--badge_default,
+    .vsm--toggle-btn {
+        background-color: #f2f2f2;
+        color: #262626
+    }
+}
+
+.v-sidebar-menu.vsm_white-theme.vsm_expanded {
+    .vsm--link_level-1.vsm--link_open {
+        background-color: #4285f4;
+        color: #fff
+    }
+
+    .vsm--link_level-1.vsm--link_open .vsm--icon {
+        background-color: #4285f4
+    }
+}
+
+.v-sidebar-menu.vsm_white-theme.vsm_collapsed .vsm--link_level-1.vsm--link_hover .vsm--icon {
+    background-color: #4285f4;
+    color: #fff
+}
+
+.v-sidebar-menu.vsm_white-theme.vsm_rtl .vsm--link_level-1.vsm--link_active {
+    -webkit-box-shadow: inset -3px 0 0 0 #4285f4;
+    box-shadow: inset -3px 0 0 0 #4285f4
+}
+
+.v-sidebar-menu,
+.v-sidebar-menu * {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}

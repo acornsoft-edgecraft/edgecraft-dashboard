@@ -5,7 +5,8 @@
                 <K3PageTitle />
             </section>
             <section class="page-content">
-                Home Page
+                Cloud Management
+                <!-- Content here -->
             </section>
         </div>
     </div>
@@ -13,16 +14,14 @@
 
 <script setup lang="ts">
 // imports
-// Compputed
 // Page meta
-definePageMeta({ layout: 'default', title: 'Home', public: true })
+definePageMeta({ layout: 'default', title: 'Cloud Management', public: true })
 // Props
-const route = useRoute()
-route.meta.layout = route.query.test === 'good' ? 'empty' : 'default'
 // const props = defineProps({}),
 // Emits
 // const emits = defineEmits(['eventname']),
 // Properties
+// Compputed
 // Watcher
 // Methods
 // Events

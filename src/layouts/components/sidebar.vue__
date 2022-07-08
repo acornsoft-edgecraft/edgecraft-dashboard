@@ -10,6 +10,18 @@
             </div>
         </div>
         <div class="info-container flex flex-row justify-content-center">
+            <div class="flex flex-1 flex-column menu-container pt-3">
+                <Menus :items="menus"
+                       class="layout-menu"
+                       :root="false"
+                       @menuitem-click="onMenuItemClick" />
+            </div>
+            <!-- <div class="flex flex-1 flex-column menu-container pt-3">
+                <PanelMenus class="layout-menu"
+                       :items="menus"
+                       :root="true"
+                       @menuitem-click="onMenuItemClick" />
+            </div> -->
             <!-- <div class="flex flex-column context-container p-3">
                 <Context />
             </div>
@@ -29,21 +41,23 @@
  * this 등의 사용이 불가능합니다.
  */
 // imports
-// import Menus from "./panel-menu.vue";
-// import Context from "./context.vue";
+import Menus from "./menus.vue";
+import PanelMenu from './panel-menus.vue'
 import Logo from "./logo.vue";
 //
 // Properties
 // Props
 // Emits
-const emits = defineEmits(['toggleSidebar'])
-//const emits = defineEmits(["menuitem-click", "toggleMenu"]);
+const emits = defineEmits(['toggleSidebar', "menuitem-click"])
 // Compputed
-//const menu = computed(() => StateHelper.user.get().value.menus);
+const menus = computed(() => useAppHelper().State.user.get().value.menus);
 // Watcher
 // Methods
-// const onMenuItemClick = (event) => {
-//     emits("menuitem-click", event);
-// };
+const onMenuItemClick = (event) => {
+    emits("menuitem-click", event);
+};
 // Events
 </script>
+
+<style lang="scss" scoped>
+</style>

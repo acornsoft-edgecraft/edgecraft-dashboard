@@ -1,0 +1,73 @@
+{
+    "clouds": [
+        {
+            "id": 1,
+            "type": "baremeta",
+            "name": "Baremetal Cloud #1",
+            "status": 1,
+            "nodeCount": 6,
+            "version": "1.23.0",
+            "created": "2022-03-02 12:12:12"
+        },
+        {
+            "id": 2,
+            "type": "openstack",
+            "name": "Openstack Cloud #1",
+            "status": 1,
+            "nodeCount": 6,
+            "version": "1.23.0",
+            "created": "2022-03-03 15:33:04"
+        }
+    ],
+    "user": {
+        "userInfo": {
+            "name": "Morris Chang",
+            "role": "admin"
+        },
+        "menuInfo": [
+            {
+                "header": "Status",
+                "hiddenOnCollapse": true
+            },
+            {
+                "href": "/dashboard",
+                "title": "Dashboard",
+                "icon": "fas fa-gauge"
+            },
+            {
+                "separator": true
+            },
+            {
+                "header": "Cloud",
+                "hiddenOnCollapse": true
+            },
+            {
+                "href": "/cloud",
+                "title": "Cloud Mgmt",
+                "icon": "fas fa-cloud"
+            },
+            {
+                "separator": true
+            },
+            {
+                "header": "Management",
+                "hiddenOnCollapse": true
+            },
+            {
+                "href": "/management/image",
+                "title": "Image Mgmt",
+                "icon": "fas fa-box-archive"
+            },
+            {
+                "href": "/management/security",
+                "title": "Security Mgmt",
+                "icon": "fas fa-shield-halved"
+            },
+            {
+                "href": "/management/user",
+                "title": "User Mgmt",
+                "icon": "fas fa-people-roof"
+            }
+        ]
+    }
+}

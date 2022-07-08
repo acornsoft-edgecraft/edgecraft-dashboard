@@ -14,6 +14,8 @@ import annotationPlugin from "chartjs-plugin-annotation";
 /**
  * 초기화
  */
+useAppHelper().initialize()
+
 // Chartjs 설정
 Chart.register(annotationPlugin);
 </script>

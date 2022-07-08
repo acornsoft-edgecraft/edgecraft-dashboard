@@ -6,16 +6,20 @@
         "build": "nuxt build",
         "dev": "nuxt dev",
         "generate": "nuxt generate",
-        "preview": "nuxt preview"
+        "preview": "nuxt preview",
+        "api": "json-server --watch ./mock/api.json --routes ./mock/routes.json --port 3001"
     },
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^6.1.1",
+        "@fortawesome/fontawesome-svg-core": "^6.1.1",
+        "@fortawesome/free-solid-svg-icons": "^6.1.1",
         "@types/js-yaml": "^4.0.5",
         "@vueuse/nuxt": "^8.7.5",
         "ace-builds": "^1.6.1",
         "chart.js": "^3.8.0",
         "chartjs-plugin-annotation": "^1.4.0",
         "js-yaml": "^4.1.0",
+        "json-server": "^0.17.0",
         "nuxt": "3.0.0-rc.4",
         "primevue": "^3.15.0",
         "prismjs": "^1.28.0",

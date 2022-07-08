@@ -5,28 +5,17 @@
                 <K3PageTitle />
             </section>
             <section class="page-content">
-                Home Page
+                Security Verification Management
+                <!-- Content here -->
             </section>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-// imports
-// Compputed
-// Page meta
-definePageMeta({ layout: 'default', title: 'Home', public: true })
-// Props
-const route = useRoute()
-route.meta.layout = route.query.test === 'good' ? 'empty' : 'default'
+definePageMeta({ layout: 'default', title: 'Security Verification Management', public: true })
 // const props = defineProps({}),
-// Emits
 // const emits = defineEmits(['eventname']),
-// Properties
-// Watcher
-// Methods
-// Events
-// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss">
