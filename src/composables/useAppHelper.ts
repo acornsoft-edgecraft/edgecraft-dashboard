@@ -1,6 +1,7 @@
 import { useRuntimeConfig } from '#app'
 import { join } from 'pathe'
-import { useFetch, useClipboard, usePermission, useStorage, StorageSerializers } from '@vueuse/core'
+import { useFetch, useClipboard, usePermission, useStorage, StorageSerializers, isNumber } from '@vueuse/core'
+import { FilterMatchMode } from "primevue/api";
 import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
 import { MessageTypes, StateKeys, StoreTypes, APIResponse, defaultMessageType, IUser, defaultUser, IAuthType, defaultAuthType } from '~/models'
@@ -18,16 +19,16 @@ const redirect = (path: object) => {
 const onBeforeFetch = ({ url, options, cancel }) => {
     return options
 }
-const onAfterFetch = (ctx) =>{
+const onAfterFetch = (ctx) => {
     return ctx
 }
-const onFetchError = (ctx) =>{
+const onFetchError = (ctx) => {
     if (ctx.data && ctx.data.message) {
         ctx.error = new Error(ctx.data.message)
     }
     return ctx
 }
-const defaultRequestTimeout = () =>{
+const defaultRequestTimeout = () => {
     return useRuntimeConfig().requestTimeout
 }
 
@@ -79,6 +80,17 @@ const UI = {
     init: () => {
         toast = useToast()
         confirm = useConfirm()
+    },
+    tableSettings: {
+        filters: ref({ global: { value: null, matchMode: FilterMatchMode.CONTAINS } }),
+        scrollHeight: 'calc(100vh - 150px)',
+        rows: 10,
+        paginatorTemplate: 'CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown',
+        rowPerPageOptions: [5, 10, 20, 50],
+        pageReportTemplate: '({first}~{last}) of {totalRecords}',
+        initFilters: (pageFilters) => {
+            Object.assign(UI.tableSettings.filters.value, pageFilters)
+        }
     },
     isDeskTop: () => window.innerWidth >= 992,
     getBasicChartOption: () => new Object({
@@ -249,6 +261,21 @@ const UI = {
         UI.showToastMessage(MessageTypes.WARN, title, "클립보드로 복사되었습니다.")
         return true;
     },
+    getEnumMap: (target, stringValues = true) => {
+        if (!stringValues) {
+            return Object.keys(target).map((key: string) => {
+                if (isNaN(Number(key))) {
+                    return { name: key, value: target[key as any] }
+                } else {
+                    return null
+                }
+            }).filter(m => m !== null)
+        } else {
+            return Object.keys(target).map((key: string) => {
+                return { name: key, value: target[key as any] }
+            })
+        }
+    }
 }
 
 const Route = {
@@ -265,21 +292,41 @@ const Route = {
             next();
         })
     },
-    crums: () => {
-        let pathArray = router.currentRoute.value.path.split("/")
+    breadcrumbs: () => {
         const currRoute = router.currentRoute.value
-        pathArray.shift()
-        let breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
-            breadcrumbArray.push({
-                path: path,
-                to: breadcrumbArray[idx - 1]
-                    ? "/" + breadcrumbArray[idx - 1].path + "/" + path
-                    : "/" + path,
-                label: (currRoute.matched[idx] && currRoute.matched[idx].meta.title) || path,
-            });
-            return breadcrumbArray;
-        }, [])
-        return breadcrumbs;
+        let paths = currRoute.path.split('/')
+        paths.shift()
+
+        const crumbs = []
+
+        if (currRoute.fullPath !== '/') {
+            let path = ''
+            let pathName = ''
+            paths.forEach((p, idx) => {
+                path = `${path}/${p}`
+                pathName = pathName ? `${pathName}-${p}` : p
+
+                if (router.hasRoute(pathName)) {
+                    const title = router.getRoutes().find(r => r.path === path)?.meta.title || p
+                    if (path === currRoute.fullPath) {
+                        crumbs.push({
+                            label: title
+                        })
+                    } else {
+                        crumbs.push({
+                            to: path,
+                            label: title
+                        })
+                    }
+                } else {
+                    crumbs.push({
+                        label: p
+                    })
+                }
+            })
+        }
+
+        return crumbs.filter(c => c.to !== '/');
     },
     checkAuth: () => {
         if (!State.auth.get().value.isAuthenticated) {
@@ -350,6 +397,7 @@ export default function useAppHelper(opts: any = {}) {
     const options = opts
 
     const initialize = () => {
+        Route.init()
         UI.init()
     }
 

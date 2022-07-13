@@ -1,33 +1,17 @@
 <template>
   <div class="logo-container">
-    <img alt="Logo"
-         src="favicon.svg" />
-    <span class="brand-text text-info font-bold align-bottom"> K</span>
-    <span class="align-bottom">ore</span>
-    <sup>
-      <i class="fas fa-sm fa-cubes ml-1 text-warning"></i>
-    </sup>
-    <span class="brand-text text-info font-bold align-bottom"
-          text-sm
-          ml-1> C</span>
-    <span class="align-bottom">onsole</span>
+    <NuxtLink :to="to">
+      <img alt="Logo"
+           :src="source" />
+    </NuxtLink>
   </div>
 </template>
 
 <script setup>
-/**
- * 여기서는 해당 화면 생성 이전에 처리할 설정을 구성합니다.
- * this 등의 사용이 불가능합니다.
- */
-// Props
-// const props = defineProps({}),
-// Emits
-// const emits = defineEmits(['eventname']),
-// Properties
-// Compputed
-// Watcher
-// Methods
-// Events
+const props = defineProps({
+  source: { type: String, default: '/images/edgecraft_logo.png' },
+  to: { type: String, default: '/' }
+})
 </script>
 
 <style scoped lang="scss">

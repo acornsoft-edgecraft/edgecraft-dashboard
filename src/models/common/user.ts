@@ -37,7 +37,12 @@ export const defaultUser: IUser = {
         {
             "href": "/management/image",
             "title": "Image Mgmt",
-            "icon": "fas fa-box-archive"
+            "icon": "fas fa-box-archive",
+            "child": [{
+                "href": "/management/image/test",
+                "title": "Image Test",
+                "icon": "fas fa-face-grimace"
+            }]
         },
         {
             "href": "/management/security",

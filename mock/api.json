@@ -2,21 +2,48 @@
     "clouds": [
         {
             "id": 1,
-            "type": "baremeta",
-            "name": "Baremetal Cloud #1",
-            "status": 1,
+            "type": 1,
+            "name": "Non-profit charity...",
+            "status": 4,
             "nodeCount": 6,
             "version": "1.23.0",
             "created": "2022-03-02 12:12:12"
         },
         {
             "id": 2,
-            "type": "openstack",
-            "name": "Openstack Cloud #1",
+            "type": 1,
+            "name": "Search for company logos and embed them in your project.",
             "status": 1,
-            "nodeCount": 6,
+            "nodeCount": 7,
             "version": "1.23.0",
             "created": "2022-03-03 15:33:04"
+        },
+        {
+            "id": 3,
+            "type": 2,
+            "name": "Registered Domain Names Search",
+            "status": 2,
+            "nodeCount": 3,
+            "version": "1.23.0",
+            "created": "2022-03-04 14:44:44"
+        },
+        {
+            "id": 4,
+            "type": 2,
+            "name": "Flexible, RESTful access to the user's inbox",
+            "status": 4,
+            "nodeCount": 6,
+            "version": "1.22.0",
+            "created": "2022-03-06 21:03:11"
+        },
+        {
+            "id": 5,
+            "type": 2,
+            "name": "Collect configure and analyze your data to reach the right audience",
+            "status": 3,
+            "nodeCount": 6,
+            "version": "1.23.0",
+            "created": "2022-03-08 11:11:55"
         }
     ],
     "user": {

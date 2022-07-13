@@ -1,6 +1,6 @@
 <template>
     <div class="layout-header flex flex-row p-2">
-        Header
+        <Logo />
         <HeaderTitle />
         <ul class="menu hidden lg:flex origin-top">
             <li>
@@ -27,6 +27,7 @@
 
 <script setup lang="ts">
 import HeaderTitle from "./header-title.vue";
+import Logo from "./logo.vue";
 
 /**
  * 여기서는 해당 화면 생성 이전에 처리할 설정을 구성합니다.
