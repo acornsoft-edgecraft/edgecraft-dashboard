@@ -5,16 +5,17 @@
                 <K3PageTitle />
             </section>
             <section class="page-content">
+                Management Index
+                <!-- Content here -->
             </section>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({ layout: 'default', title: 'Home', public: true })
-
-useCloudService().currentCloud.value = "Home Cloud"
-useClusterService().currentCluster.value = "Cluster #1"
+definePageMeta({ layout: 'default', title: 'Management', public: true })
+// const props = defineProps({}),
+// const emits = defineEmits(['eventname']),
 </script>
 
 <style scoped lang="scss">

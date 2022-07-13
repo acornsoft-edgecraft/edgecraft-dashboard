@@ -7,7 +7,9 @@
                            :show-one-child="true"
                            @update:collapsed="onToggleCollapsed"
                            @item-click="onItemClicked" />
-            <slot />
+            <div class="page-container">
+                <slot />
+            </div>
         </div>
         <Footer />
     </div>

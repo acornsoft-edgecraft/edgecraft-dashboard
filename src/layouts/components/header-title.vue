@@ -1,30 +1,26 @@
 <template>
   <div class="header-title-container align-items-center">
-    Header Title
-    <!-- <K3Tag :value="context.currentContext" />
-    <K3Tag :value="'aa / bb / cc'"
-           class="breadcrum" /> -->
+    <K3Tag v-if="keyPath"
+           class="mr-3"
+           severity="success"
+           :value="keyPath" />
+    <!-- <K3Breadcrumb :home="home"
+                  :model="useAppHelper().Route.breadcrumbs()">
+    </K3Breadcrumb> -->
+    <K3BreadCrumb v-if="breadcrumbs.length > 0"
+                  :home="home"
+                  :model="breadcrumbs">
+    </K3BreadCrumb>
   </div>
 </template>
 
 <script setup lang="ts">
-/**
- * 여기서는 해당 화면 생성 이전에 처리할 설정을 구성합니다.
- * this 등의 사용이 불가능합니다.
- */
-// imports
+const home = ref({ icon: 'pi pi-home', to: '/' })
 
-// Props
-// const props = defineProps({}),
-// Emits
-// const emits = defineEmits(['eventname']),
-// Properties
-//const { context } = ContextService();
-// Compputed
-// Watcher
-// Methods
-// Events
-// Logics (like api call, etc)
+const breadcrumbs = computed(() => useAppHelper().Route.breadcrumbs())
+const cloudName = computed(() => useCloudService().currentCloud.value)
+const clusterName = computed(() => useClusterService().currentCluster.value)
+const keyPath = computed(() => (cloudName.value && clusterName.value) ? `${cloudName.value} >> ${clusterName.value}` : '')
 </script>
 
 <style scoped lang="scss">
@@ -32,19 +28,23 @@
   display: flex;
 
   .p-tag {
-    margin: 0 0.5rem 0 0;
-    padding: 0.2rem 1rem 0.2rem 1rem;
-    background-color: var(--indigo-100);
-    //border-left: 6px solid darkgray;
-    font-size: 1.5rem;
+    //margin: 0 0.5rem 0 0;
+    padding: 0.4rem 1rem 0.4rem 1rem;
+    background-color: var(--green-100);
+    border: 1px solid magenta;
+    border-left: 5px solid magenta;
+    font-size: 1.2rem;
     color: var(--text-coor);
   }
 
-  .p-tag.breadcrum {
-    padding: 0.2rem 1rem 0.2rem 1rem;
+  .p-breadcrumb {
+    padding: 0.65rem 1rem 0.65rem 1rem;
     background-color: var(--orange-100);
-    //border-left: 6px solid green;
+    border: 1px solid green;
+    border-left: 5px solid green;
     color: var(--text-color-secondary);
+    font-size: 1.2rem;
+    color: var(--text-coor);
   }
 }
 </style>
