@@ -25,7 +25,12 @@ export const defaultUser: IUser = {
         {
             "href": "/cloud",
             "title": "Cloud Mgmt",
-            "icon": "fas fa-cloud"
+            "icon": "fas fa-cloud",
+            "child": [{
+                "href": "/cloud/step-view",
+                "title": "Step View",
+                "icon": "fas fa-square-plus"
+            }]
         },
         {
             "separator": true

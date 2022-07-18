@@ -1,0 +1,30 @@
+.form-title {
+    font-weight: 600;
+    background-color: #324354;
+    color: white;
+    padding: 1rem;
+}
+
+.form-grid.field {
+    border: 1px solid yellow;
+    padding: 2rem;
+}
+
+.field.grid {
+    margin: 0.5rem;
+}
+
+.grid>div {
+    padding: 1rem;
+    text-align: center;
+
+    span {
+        display: block;
+    }
+
+    button {
+        position: relative;
+        display: inline-flex;
+        justify-content: center;
+    }
+}

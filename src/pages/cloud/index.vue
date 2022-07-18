@@ -5,10 +5,8 @@
         </section>
         <section class="page-content">
             <K3DataTable :value="clouds"
-                         contextMenu
                          v-model:filters="UI.tableSettings.filters.value"
                          v-model:selection="selectedItem"
-                         v-model:contextMenuSelection="selectedItem"
                          dataKey="id"
                          :autoLayout="true"
                          :scrollable="true"
@@ -87,10 +85,8 @@
                         <NuxtLink v-else-if="slotProps.field === 'name'"
                                   :to="`/cloud/${slotProps.data.id}`">{{ slotProps.data.name }}</NuxtLink>
                         <span v-else-if="slotProps.field === 'status'">{{ CloudStatus[slotProps.data.status] }} </span>
-                        <span v-else-if="slotProps.field === 'nodeCount'"
-                              class="flex justify-content-end">{{ slotProps.data.nodeCount }}</span>
-                        <span v-else-if="slotProps.field === 'created'"
-                              class="flex justify-content-end">{{ slotProps.data.created }}</span>
+                        <span v-else-if="slotProps.field === 'nodeCount'">{{ slotProps.data.nodeCount }}</span>
+                        <span v-else-if="slotProps.field === 'created'">{{ slotProps.data.created }}</span>
                         <span v-else>{{ slotProps.data[slotProps.field] }}</span>
                     </template>
                 </K3Column>
@@ -107,8 +103,7 @@
                 </K3Column>
             </K3DataTable>
             <K3ContextMenu ref="menu"
-                           :model="menus">
-            </K3ContextMenu>
+                           :model="menus" />
         </section>
     </div>
 </template>
