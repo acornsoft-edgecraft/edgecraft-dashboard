@@ -54,7 +54,7 @@
         </div>
         <div :class="['bottom', (currentStep.index > 0) ? '' : 'only-next']">
             <div v-if="currentStep.index > 0"
-                 class="stepper-button-top previous"
+                 class="stepper-button previous"
                  @click="backStep()">
                 <i class="pi pi-arrow-left" />
                 <span class="ml-2">Back</span>
@@ -135,7 +135,7 @@ const nextStep = () => {
     //         nextStepAction()
     //     }
     // })
-    if (comp.value) {
+    if (comp.value && canContinue.value) {
         const next = comp.value.beforeNextStep()
         if (next) {
             nextStepAction()

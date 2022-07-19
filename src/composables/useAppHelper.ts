@@ -5,13 +5,15 @@ import { FilterMatchMode } from "primevue/api";
 import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
 import { MessageTypes, StateKeys, StoreTypes, APIResponse, defaultMessageType, IUser, defaultUser, IAuthType, defaultAuthType } from '~/models'
-import { Router } from 'vue-router'
+import { Router as Routing } from 'vue-router'
+import { useVuelidate } from '@vuelidate/core'
+import { required, email } from '@vuelidate/validators'
 
 const messageTimeout = 3000
 const authSync = ref(null)      // sync for SessionStorage
 let toast = null
 let confirm = null
-let router: Router = null
+let router: Routing = null
 
 const redirect = (path: object) => {
     return router.push(path)
@@ -275,10 +277,16 @@ const UI = {
                 return { name: key, value: target[key as any] }
             })
         }
+    },
+    getValidators: () => {
+        return { required }
+    },
+    configValidatior: (rules, state) => {
+        return useVuelidate(rules, state)
     }
 }
 
-const Route = {
+const Routing = {
     /**
      * Initialize (Router Middleware 처리)
      * - 주소줄 입력 처리시는 적용되지 않음
@@ -397,9 +405,9 @@ export default function useAppHelper(opts: any = {}) {
     const options = opts
 
     const initialize = () => {
-        Route.init()
+        Routing.init()
         UI.init()
     }
 
-    return { API, UI, Route, State, initialize }
+    return { API, UI, Routing, State, initialize }
 }
