@@ -124,17 +124,6 @@ const nextStepAction = () => {
     getCurrentInstance()?.proxy?.$forceUpdate()
 }
 const nextStep = () => {
-    // TODO: $listeners
-    // if (!this.$listeners || !this.$listeners['before-next-step']) {
-    //     this.nextStepAction()
-    // }
-    // canContinue.value = false;
-    // emits('before-next-step', { currentStep }, (next = true) => {
-    //     canContinue.value = true
-    //     if (next) {
-    //         nextStepAction()
-    //     }
-    // })
     if (comp.value && canContinue.value) {
         const next = comp.value.beforeNextStep()
         if (next) {

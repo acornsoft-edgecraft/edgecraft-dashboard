@@ -20,6 +20,7 @@ import ClusterInfo from '~/partialViews/cluster-info.vue'
 import NodeInfo from '~/partialViews/node-info.vue'
 import EtcdStorageInfo from '~/partialViews/etcd-storage-info.vue'
 import OpenstackInfo from '~/partialViews/openstack-info.vue'
+import ReviewInfo from '~/partialViews/review-info.vue'
 
 definePageMeta({ layout: 'default', title: 'Cloud Registration', public: true })
 
@@ -29,6 +30,7 @@ const steps = [
     { icon: 'fas fa-server', name: 'node', title: 'NODE 정보', subTitle: 'Node 구성 정보를 설정합니다', component: NodeInfo, completed: false },
     { icon: 'fas fa-database', name: 'etcdstorage', title: 'ETCD/STORAGE 정보', subTitle: 'ETCD 및 Storage 구성 정보를 설정합니다', component: EtcdStorageInfo, completed: false },
     { icon: 'fas fa-cubes-stacked', name: 'openstack', title: 'OPENSTACK 정보', subTitle: 'Openstack 구성 정보를 설정합니다', component: OpenstackInfo, completed: false },
+    { icon: 'fas fa-ballot-check', name: 'overview', title: 'Overview', subTitle: '구성 정보를 검증합니다.', component: ReviewInfo, completed: true },
 ]
 // const props = defineProps({}),
 // const emits = defineEmits(['eventname']),
