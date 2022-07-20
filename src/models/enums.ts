@@ -1,33 +1,3 @@
-// TODO: 서버 코드 관리와 연계
-export enum CloudTypes {
-    Baremetal = 1,
-    Openstack = 2,
-}
-export const CloudTypesMap = (addAll: boolean = false) => {
-    if (addAll) {
-        return [{ name: 'All', value: '' }, ...useAppHelper().UI.getEnumMap(CloudTypes, false)]
-    } else {
-        return useAppHelper().UI.getEnumMap(CloudTypes, false)
-    }
-}
-
-// TODO: 서버 코드 관리와 연계
-export enum CloudStatus {
-    Saved = 1,        // 임시저장
-    Registered = 2,   // 등록완료
-    Installing = 3,   // 설치중
-    Installed = 4,    // 설치완료
-    Deleting = 5,     // 삭제중
-    Deleted = 6       // 삭제완료
-}
-export const CloudStatusMap = (addAll: boolean = false) => {
-    if (addAll) {
-        return [{ name: 'All', value: '' }, ...useAppHelper().UI.getEnumMap(CloudStatus, false)]
-    } else {
-        return useAppHelper().UI.getEnumMap(CloudStatus, false)
-    }
-}
-
 export enum StateKeys {
     CONTEXT = "_CONTEXT_",
     CLUSTER = "_CLUSTER_",

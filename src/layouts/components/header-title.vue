@@ -5,7 +5,7 @@
            severity="success"
            :value="keyPath" />
     <!-- <K3Breadcrumb :home="home"
-                  :model="useAppHelper().Route.breadcrumbs()">
+                  :model="useAppHelper().Routing.breadcrumbs()">
     </K3Breadcrumb> -->
     <K3BreadCrumb v-if="breadcrumbs.length > 0"
                   :home="home"
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 const home = ref({ icon: 'pi pi-home', to: '/' })
 
-const breadcrumbs = computed(() => useAppHelper().Route.breadcrumbs())
+const breadcrumbs = computed(() => useAppHelper().Routing.breadcrumbs())
 const cloudName = computed(() => useCloudService().currentCloud.value)
 const clusterName = computed(() => useClusterService().currentCluster.value)
 const keyPath = computed(() => (cloudName.value && clusterName.value) ? `${cloudName.value} >> ${clusterName.value}` : '')

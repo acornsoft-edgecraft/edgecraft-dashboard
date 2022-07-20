@@ -10,21 +10,43 @@
     padding: 2rem;
 }
 
+.field {
+    margin-bottom: 0;
+
+    .p-divider {
+        .p-divider-content {
+            background-color: transparent;
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+    }
+}
+
 .field.grid {
     margin: 0.5rem;
 }
 
+.field-checkbox>label,
+.field-radiobutton>label {
+    line-height: 1;
+    margin-left: 0;
+}
+
 .grid>div {
     padding: 1rem;
-    text-align: center;
 
-    span {
-        display: block;
-    }
+    // span {
+    //     display: block;
+    // }
 
-    button {
-        position: relative;
-        display: inline-flex;
-        justify-content: center;
-    }
+    // button {
+    //     position: relative;
+    //     display: inline-flex;
+    //     justify-content: center;
+    // }
+}
+
+.iterator {
+    padding-bottom: 1.5rem;
+    border-bottom: 3px dotted darkgray;
 }
