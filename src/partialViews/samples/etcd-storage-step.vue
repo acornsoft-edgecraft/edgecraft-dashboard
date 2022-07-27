@@ -141,7 +141,7 @@
 
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core';
-import { defaultEtcdStorageInfoValidataion, defaultEndpointValidation } from '../models';
+import { defaultEtcdStorageInfoValidataion, defaultEndpointValidation } from '~/models';
 
 const props = defineProps({
     modelValue: { type: Object, required: true },

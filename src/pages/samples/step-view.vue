@@ -16,12 +16,12 @@
 </template>
 
 <script setup lang="ts">
-import PCloudInfo from '~/partialViews/cloud-step.vue'
-import PClusterInfo from '~/partialViews/cluster-step.vue'
-import PNodeInfo from '~/partialViews/node-step.vue'
-import PEtcdStorageInfo from '~/partialViews/etcd-storage-step.vue'
-import POpenstackInfo from '~/partialViews/openstack-step.vue'
-import PReviewInfo from '~/partialViews/review-step.vue'
+import PCloudInfo from '~/partialViews/samples/cloud-step.vue'
+import PClusterInfo from '~/partialViews/samples/cluster-step.vue'
+import PNodeInfo from '~/partialViews/samples/node-step.vue'
+import PEtcdStorageInfo from '~/partialViews/samples/etcd-storage-step.vue'
+import POpenstackInfo from '~/partialViews/samples/openstack-step.vue'
+import PReviewInfo from '~/partialViews/samples/review-step.vue'
 import { defaultCloudReg } from '~/models'
 
 definePageMeta({ layout: 'default', title: 'Cloud Registration', public: true })

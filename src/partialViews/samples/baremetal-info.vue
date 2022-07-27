@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core';
-import { defaultSecretInfoValidation, secretInfo } from '../models';
+import { defaultSecretInfoValidation, secretInfo } from '~/models';
 
 const props = defineProps({
     modelValue: { type: Object, required: true }

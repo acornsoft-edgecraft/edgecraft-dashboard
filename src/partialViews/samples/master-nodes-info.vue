@@ -127,7 +127,7 @@
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core';
 
-import { BootModesMap, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation, defaultNodeInfo, defaultNodeInfoValidation } from '../models';
+import { BootModesMap, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation, defaultNodeInfo, defaultNodeInfoValidation } from '~/models';
 
 const { Util } = useAppHelper()
 

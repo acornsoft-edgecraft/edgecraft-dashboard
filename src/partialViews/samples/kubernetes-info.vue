@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core';
-import { defaultKubernetesInfoValidation, kubernetesInfo } from '../models';
+import { defaultKubernetesInfoValidation, kubernetesInfo } from '~/models';
 
 const props = defineProps({
     modelValue: { type: Object, required: true }

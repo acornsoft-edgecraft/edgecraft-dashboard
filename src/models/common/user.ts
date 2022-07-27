@@ -58,6 +58,15 @@ export const defaultUser: IUser = {
             "href": "/management/user",
             "title": "User Mgmt",
             "icon": "fas fa-people-roof"
+        },
+        {
+            "header": "Samples",
+            "hiddenOnCollapse": true
+        },
+        {
+            "href": "/samples/step-view",
+            "title": "Stepper",
+            "icon": "fas fa-forward-step"
         }
     ]
 }

@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core';
 import MasterNodesInfo from './master-nodes-info.vue';
-import { nodesInfo, defaultNodesInfoValidation } from '../models';
+import { nodesInfo, defaultNodesInfoValidation } from '~/models';
 
 const props = defineProps({
     modelValue: { type: Object, required: true }

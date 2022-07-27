@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
-import { CloudTypesMap, cloudInfo, defaultCloudInfoValidation } from '../models';
+import { CloudTypesMap, cloudInfo, defaultCloudInfoValidation } from '~/models';
 
 const props = defineProps({
     modelValue: { type: Object, required: true }
