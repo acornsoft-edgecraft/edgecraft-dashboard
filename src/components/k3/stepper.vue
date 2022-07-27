@@ -37,7 +37,8 @@
                         mode="out-in">
                 <keep-alive v-if="keepAliveData">
                     <component ref="comp"
-                               :is="steps[currentStep.index].component"
+                               :is="stepComponent"
+                               v-model="modelValue"
                                :clickedNext="nextButton[currentStep.name]"
                                @can-continue="proceed"
                                @change-next="changeNextBtnValue"
@@ -45,7 +46,8 @@
                 </keep-alive>
                 <component v-else
                            ref="comp"
-                           :is="steps[currentStep.index].component"
+                           :is="stepComponent"
+                           v-model="modelValue"
                            :clickedNext="nextButton[currentStep.name]"
                            @can-continue="proceed"
                            @change-next="changeNextBtnValue"
@@ -70,6 +72,7 @@
 
 <script setup lang="ts">
 const props = defineProps({
+    modelValue: { type: Object, default: null },
     steps: { type: Array<any>, default: null },
     topButtons: { type: Boolean, default: false },
     keepAlive: { type: Boolean, default: true },
@@ -85,6 +88,7 @@ const canContinue = ref(false)
 const finalStep = ref(false)
 const keepAliveData = ref(props.keepAlive)
 
+const stepComponent = computed(() => props.steps[currentStep.value.index].component)
 const enterAnimation = computed(() => {
     if (currentStep.value.index < previousStep.value.index) {
         return "animated quick fadeInLeft";
@@ -125,7 +129,7 @@ const nextStepAction = () => {
 }
 const nextStep = () => {
     if (comp.value && canContinue.value) {
-        const next = comp.value.beforeNextStep()
+        const next = (comp.value as any).beforeNextStep()
         if (next) {
             nextStepAction()
         } else {

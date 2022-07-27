@@ -1,13 +1,12 @@
 <template>
-    <div class="partial-container m-0 p-0">
-        ETCD / STORAGE Info
+    <div class="p-card">
+        {{ modelValue }}
     </div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
-    modelValue: { type: Object, required: true },
-    v: { type: Object, required: true }
+    modelValue: { type: Object, required: true }
 })
 const emits = defineEmits(['can-continue'])
 
@@ -16,12 +15,11 @@ const beforeNextStep = (): boolean => {
 }
 
 onActivated(() => {
-    if (!props.v?.value.$invalid) {
-        emits('can-continue', { value: true })
-    }
+    emits('can-continue', { value: true })
 })
 
 onMounted(() => {
+    emits('can-continue', { value: true })
 });
 
 defineExpose({ beforeNextStep })

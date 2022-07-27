@@ -85,11 +85,11 @@ import Tree from 'primevue/tree';
 import TreeSelect from 'primevue/treeselect';
 import TreeTable from 'primevue/treetable';
 import TriStateCheckbox from 'primevue/tristatecheckbox';
+import { ValidateEach } from '@vuelidate/components'
 // directives
 import CodeHighlight from "~/scripts/directives/code-highlight";
 import Focus from "~/scripts/directives/focus"
 
-// import BlockViewer from './BlockViewer';
 
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.config.globalProperties.$appState = reactive({ theme: 'lara-light-indigo', darkTheme: false });
@@ -186,5 +186,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component('K3TreeSelect', TreeSelect);
     nuxtApp.vueApp.component('K3TreeTable', TreeTable);
     nuxtApp.vueApp.component('K3TriStateCheckbox', TriStateCheckbox);
+    nuxtApp.vueApp.component('K3ValidateEach', ValidateEach);
     //other components that you need
 });

@@ -57,6 +57,7 @@
                                            :key="subItem.id"
                                            :item="subItem"
                                            :level="level + 1">
+
                             <template #dropdown-icon="{ isOpen }">
                                 <slot name="dropdown-icon"
                                       v-bind="{ isOpen }" />
@@ -106,7 +107,7 @@ const {
     onExpandAfterLeave
 } = useMenuItem(props)
 
-let defaultLinkComponent = ref(null)
+let defaultLinkComponent = ref()
 
 onMounted(() => {
     defaultLinkComponent.value = markRaw(K3SidebarMenuLink)

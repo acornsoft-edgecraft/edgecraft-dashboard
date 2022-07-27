@@ -48,33 +48,27 @@
 
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
-import { required, minLength, maxLength } from '@vuelidate/validators'
-import { CloudTypesMap } from '../models';
+import { CloudTypesMap, cloudInfo, defaultCloudInfoValidation } from '../models';
 
-const state = reactive({
-    name: "",
-    type: 1,
-    desc: ""
+const props = defineProps({
+    modelValue: { type: Object, required: true }
 })
-const rules = {
-    name: { required, minLength: minLength(5), maxLength: maxLength(50) },
-    type: { required },
-    desc: { required, minLength: minLength(5) }
-}
-
-const v$ = useVuelidate(rules, state)
 
 const emits = defineEmits(['can-continue'])
+
+const v$ = useVuelidate(defaultCloudInfoValidation, ref(props.modelValue.cloud as cloudInfo))
 
 watch(() => v$.value, (val) => {
     console.log(`watch >>> ${val.$invalid}`)
     if (!val.$invalid) {
         emits('can-continue', { value: true })
+    } else {
+        emits('can-continue', { value: false })
     }
 })
 
 const beforeNextStep = (): boolean => {
-    console.log(`validation >>> ${JSON.stringify(state)}`)
+    console.log(`validation >>> ${JSON.stringify(props.modelValue)}`)
     if (v$.value.$invalid) {
         return false;
     }
@@ -84,6 +78,8 @@ const beforeNextStep = (): boolean => {
 onActivated(() => {
     if (!v$.value.$invalid) {
         emits('can-continue', { value: true })
+    } else {
+        emits('can-continue', { value: false })
     }
 })
 

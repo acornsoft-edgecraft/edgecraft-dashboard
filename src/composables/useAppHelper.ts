@@ -5,15 +5,15 @@ import { FilterMatchMode } from "primevue/api";
 import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
 import { MessageTypes, StateKeys, StoreTypes, APIResponse, defaultMessageType, IUser, defaultUser, IAuthType, defaultAuthType } from '~/models'
-import { Router as Routing } from 'vue-router'
+import { Router } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
+//import { required, email } from '@vuelidate/validators'
 
 const messageTimeout = 3000
 const authSync = ref(null)      // sync for SessionStorage
 let toast = null
 let confirm = null
-let router: Routing = null
+let router: Router = null
 
 const redirect = (path: object) => {
     return router.push(path)
@@ -163,14 +163,6 @@ const UI = {
         else
             element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
     },
-    formatNumber: (value: number, dec: number) => {
-        try {
-            return Number(dec ? Number.parseFloat(value.toFixed(dec)) : value).toLocaleString()
-        }
-        catch {
-            return "NaN"
-        }
-    },
     showToastMessage: (messageType: MessageTypes, title: string, message: string, fixed: boolean = false) => {
         if (fixed)
             toast.add({ severity: messageType, summary: title, detail: message, group: 'tr' })
@@ -192,98 +184,6 @@ const UI = {
         const msgs = useState(StateKeys.MESSAGE, () => defaultMessageType)
         msgs.value = { severity: messageType, title: title, content: message, display: true };
     },
-    /**
-     * Date/Time 관련
-     */
-    getElapsedTime: (timestamp) => {
-        const elapsedTime = Date.now() - Date.parse(timestamp)
-        const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
-        const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
-        const hours = Math.floor((elapsedTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const days = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
-        let str = "";
-
-        if (days > 0) {
-            str += `${days}d`;
-            if (days >= 10) return str;
-        }
-        if (hours > 0) {
-            str += `${hours}h`;
-            if (days < 10 && days > 0) return str;
-        }
-        if (minutes > 0) {
-            if (days > 0 || hours > 0) return str;
-            str += `${minutes}m`;
-        }
-        if (seconds > 0) {
-            if (hours > 0 || minutes > 9) return str;
-            str += `${seconds}s`;
-        }
-
-        return str;
-    },
-    getTimestampString: (timestamp) => {
-        const seconds = Math.floor((Date.now() - Date.parse(timestamp)) / 1000)
-
-        let interval = seconds / 31536000
-        if (interval > 1) return Math.floor(interval) + " years";
-
-        interval = seconds / 2592000
-        if (interval > 1) return Math.floor(interval) + " months"
-
-        interval = seconds / 86400
-        if (interval > 1) return Math.floor(interval) + " days"
-
-        interval = seconds / 3600
-        if (interval > 1) return Math.floor(interval) + " hours"
-
-        interval = seconds / 60
-        if (interval > 1) return Math.floor(interval) + " minutes"
-
-        return Math.floor(seconds) + " seconds"
-    },
-    copyToClipboard: (val) => {
-        const title = "CLIPBOARD";
-        if (!val) {
-            UI.showToastMessage(MessageTypes.WARN, title, "Clipboard로 복사할 값을 확인하십시오.")
-            return false
-        }
-        if (!usePermission('clipboard-write')) {
-            UI.showToastMessage(MessageTypes.WARN, title, "Clipboard 쓰기 권한이 없습니다.")
-            return false
-        }
-
-        const { copy, isSupported } = useClipboard()
-        if (!isSupported) {
-            UI.showToastMessage(MessageTypes.WARN, title, "현재 사용중인 브라우저에서는 Clipboard 쓰기를 처리할 수 잆습니다.")
-            return false
-        }
-
-        copy(val)
-        UI.showToastMessage(MessageTypes.WARN, title, "클립보드로 복사되었습니다.")
-        return true;
-    },
-    getEnumMap: (target, stringValues = true) => {
-        if (!stringValues) {
-            return Object.keys(target).map((key: string) => {
-                if (isNaN(Number(key))) {
-                    return { name: key, value: target[key as any] }
-                } else {
-                    return null
-                }
-            }).filter(m => m !== null)
-        } else {
-            return Object.keys(target).map((key: string) => {
-                return { name: key, value: target[key as any] }
-            })
-        }
-    },
-    getValidators: () => {
-        return { required }
-    },
-    configValidatior: (rules, state) => {
-        return useVuelidate(rules, state)
-    }
 }
 
 const Routing = {
@@ -401,6 +301,103 @@ const State = {
     state: <T>(key: StateKeys, init?: () => T) => useState<T>(key, init)
 }
 
+const Util = {
+    clone: (val): any => {
+        return JSON.parse(JSON.stringify(val))
+    },
+    getEnumMap: (target, stringValues = true) => {
+        if (!stringValues) {
+            return Object.keys(target).map((key: string) => {
+                if (isNaN(Number(key))) {
+                    return { name: key, value: target[key as any] }
+                } else {
+                    return null
+                }
+            }).filter(m => m !== null)
+        } else {
+            return Object.keys(target).map((key: string) => {
+                return { name: key, value: target[key as any] }
+            })
+        }
+    },
+    copyToClipboard: (val) => {
+        const title = "CLIPBOARD";
+        if (!val) {
+            UI.showToastMessage(MessageTypes.WARN, title, "Clipboard로 복사할 값을 확인하십시오.")
+            return false
+        }
+        if (!usePermission('clipboard-write')) {
+            UI.showToastMessage(MessageTypes.WARN, title, "Clipboard 쓰기 권한이 없습니다.")
+            return false
+        }
+
+        const { copy, isSupported } = useClipboard()
+        if (!isSupported) {
+            UI.showToastMessage(MessageTypes.WARN, title, "현재 사용중인 브라우저에서는 Clipboard 쓰기를 처리할 수 잆습니다.")
+            return false
+        }
+
+        copy(val)
+        UI.showToastMessage(MessageTypes.WARN, title, "클립보드로 복사되었습니다.")
+        return true;
+    },
+    formatNumber: (value: number, dec: number) => {
+        try {
+            return Number(dec ? Number.parseFloat(value.toFixed(dec)) : value).toLocaleString()
+        }
+        catch {
+            return "NaN"
+        }
+    },
+    getElapsedTime: (timestamp) => {
+        const elapsedTime = Date.now() - Date.parse(timestamp)
+        const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+        const minutes = Math.floor((elapsedTime % (1000 * 60 * 60)) / (1000 * 60));
+        const hours = Math.floor((elapsedTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const days = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
+        let str = "";
+
+        if (days > 0) {
+            str += `${days}d`;
+            if (days >= 10) return str;
+        }
+        if (hours > 0) {
+            str += `${hours}h`;
+            if (days < 10 && days > 0) return str;
+        }
+        if (minutes > 0) {
+            if (days > 0 || hours > 0) return str;
+            str += `${minutes}m`;
+        }
+        if (seconds > 0) {
+            if (hours > 0 || minutes > 9) return str;
+            str += `${seconds}s`;
+        }
+
+        return str;
+    },
+    getTimestampString: (timestamp) => {
+        const seconds = Math.floor((Date.now() - Date.parse(timestamp)) / 1000)
+
+        let interval = seconds / 31536000
+        if (interval > 1) return Math.floor(interval) + " years";
+
+        interval = seconds / 2592000
+        if (interval > 1) return Math.floor(interval) + " months"
+
+        interval = seconds / 86400
+        if (interval > 1) return Math.floor(interval) + " days"
+
+        interval = seconds / 3600
+        if (interval > 1) return Math.floor(interval) + " hours"
+
+        interval = seconds / 60
+        if (interval > 1) return Math.floor(interval) + " minutes"
+
+        return Math.floor(seconds) + " seconds"
+    }
+}
+
 export default function useAppHelper(opts: any = {}) {
     const options = opts
 
@@ -409,5 +406,5 @@ export default function useAppHelper(opts: any = {}) {
         UI.init()
     }
 
-    return { API, UI, Routing, State, initialize }
+    return { API, UI, Routing, State, Util, initialize }
 }
