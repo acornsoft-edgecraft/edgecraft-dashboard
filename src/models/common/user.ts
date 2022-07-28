@@ -26,11 +26,7 @@ export const defaultUser: IUser = {
             "href": "/cloud",
             "title": "Cloud Mgmt",
             "icon": "fas fa-cloud",
-            "child": [{
-                "href": "/cloud/step-view",
-                "title": "Step View",
-                "icon": "fas fa-square-plus"
-            }]
+            "child": []
         },
         {
             "separator": true
@@ -58,6 +54,9 @@ export const defaultUser: IUser = {
             "href": "/management/user",
             "title": "User Mgmt",
             "icon": "fas fa-people-roof"
+        },
+        {
+            "separator": true
         },
         {
             "header": "Samples",
