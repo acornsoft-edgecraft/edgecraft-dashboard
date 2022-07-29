@@ -7,7 +7,7 @@ export function useCloudService(options: any = {}) {
 
     const getClouds = () => {
         const url = "api/v1/clouds"
-        const clouds = ref([])
+        const clouds = ref([] as any)
         const isFetch = ref(false)
 
         const fetch = () => {

@@ -15,6 +15,7 @@
         "@fortawesome/free-solid-svg-icons": "^6.1.1",
         "@types/js-yaml": "^4.0.5",
         "@types/vuelidate": "^0.7.15",
+        "@vuelidate/components": "^1.2.0",
         "@vuelidate/core": "^2.0.0-alpha.42",
         "@vuelidate/validators": "^2.0.0-alpha.30",
         "@vueuse/nuxt": "^8.7.5",

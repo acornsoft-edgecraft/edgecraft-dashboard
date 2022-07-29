@@ -9,12 +9,12 @@
                            class="col-1">Secret Name</label>
                     <div class="col-11">
                         <K3InputText id="secret_name"
-                                     v-model="modelValue.secret_name"
+                                     v-model="v$.secret_name.$model"
                                      type="text"
                                      class="text-base text-color w-full"
-                                     :class="{ 'p-invalid': v.secret_name.$invalid }" />
-                        <small v-if="v.secret_name.$invalid"
-                               class="p-error">{{ v.secret_name.required.$message.replace('Value', 'Secret Name') }}</small>
+                                     :class="{ 'p-invalid': v$.secret_name.$invalid }" />
+                        <small v-if="v$.secret_name.$invalid"
+                               class="p-error">{{ v$.secret_name.required.$message.replace('Value', 'Secret Name') }}</small>
                     </div>
                 </div>
                 <div class="field grid">
@@ -22,12 +22,12 @@
                            class="col-1">User Name</label>
                     <div class="col-11">
                         <K3InputText id="user_name"
-                                     v-model="modelValue.user_name"
+                                     v-model="v$.user_name.$model"
                                      type="text"
                                      class="text-base text-color w-full"
-                                     :class="{ 'p-invalid': v.user_name.$invalid }" />
-                        <small v-if="v.user_name.$invalid"
-                               class="p-error">{{ v.user_name.required.$message.replace('Value', 'User Name') }}</small>
+                                     :class="{ 'p-invalid': v$.user_name.$invalid }" />
+                        <small v-if="v$.user_name.$invalid"
+                               class="p-error">{{ v$.user_name.required.$message.replace('Value', 'User Name') }}</small>
                     </div>
                 </div>
                 <div class="field grid">
@@ -35,12 +35,12 @@
                            class="col-1">Password</label>
                     <div class="col-11">
                         <K3InputText id="pwd"
-                                     v-model="modelValue.password"
+                                     v-model="v$.password.$model"
                                      type="text"
                                      class="text-base text-color w-full"
-                                     :class="{ 'p-invalid': v.password.$invalid }" />
-                        <small v-if="v.password.$invalid"
-                               class="p-error">{{ v.password.required.$message.replace('Value', 'Password') }}</small>
+                                     :class="{ 'p-invalid': v$.password.$invalid }" />
+                        <small v-if="v$.password.$invalid"
+                               class="p-error">{{ v$.password.required.$message.replace('Value', 'Password') }}</small>
                     </div>
                 </div>
             </div>
@@ -49,10 +49,14 @@
 </template>
 
 <script setup lang="ts">
+import useVuelidate from '@vuelidate/core';
+import { defaultSecretInfoValidation, secretInfo } from '~/models';
+
 const props = defineProps({
-    modelValue: { type: Object, required: true },
-    v: { type: Object, required: true }
+    modelValue: { type: Object, required: true }
 })
+
+const v$ = useVuelidate(defaultSecretInfoValidation, ref(props.modelValue as secretInfo))
 
 onMounted(() => { });
 </script>

@@ -109,7 +109,7 @@
 </template>
 <script setup lang="ts">
 import { FilterMatchMode } from 'primevue/api';
-import { CloudTypes, CloudTypesMap, CloudStatus, CloudStatusMap, MessageTypes } from '~/models/enums'
+import { CloudTypes, CloudTypesMap, CloudStatus, CloudStatusMap, MessageTypes } from '~/models'
 
 definePageMeta({ layout: "default", title: "Clouds List", public: true });
 

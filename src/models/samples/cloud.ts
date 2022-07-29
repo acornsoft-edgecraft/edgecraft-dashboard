@@ -1,6 +1,8 @@
 import { required } from "@vuelidate/validators"
 import { clusterInfo, defaultClusterInfo } from "./cluster"
 import { nodesInfo, defaultNodesInfo } from './nodes'
+import { etcdStorageInfo, defaultEtcdStorageInfo } from "./etcd-storage"
+import { openstackInfo, defaultOpenstackInfo } from './openstack'
 
 // TODO: 서버 코드 관리와 연계
 export enum CloudTypes {
@@ -10,9 +12,9 @@ export enum CloudTypes {
 
 export const CloudTypesMap = (addAll: boolean = false) => {
     if (addAll) {
-        return [{ name: 'All', value: '' }, ...useAppHelper().UI.getEnumMap(CloudTypes, false)]
+        return [{ name: 'All', value: '' }, ...useAppHelper().Util.getEnumMap(CloudTypes, false)]
     } else {
-        return useAppHelper().UI.getEnumMap(CloudTypes, false)
+        return useAppHelper().Util.getEnumMap(CloudTypes, false)
     }
 }
 
@@ -27,35 +29,35 @@ export enum CloudStatus {
 }
 export const CloudStatusMap = (addAll: boolean = false) => {
     if (addAll) {
-        return [{ name: 'All', value: '' }, ...useAppHelper().UI.getEnumMap(CloudStatus, false)]
+        return [{ name: 'All', value: '' }, ...useAppHelper().Util.getEnumMap(CloudStatus, false)]
     } else {
-        return useAppHelper().UI.getEnumMap(CloudStatus, false)
+        return useAppHelper().Util.getEnumMap(CloudStatus, false)
     }
 }
 
 export interface cloudInfo {
     name: String,
     type: Number,
-    desc: String,
-    validataions: Object
+    desc: String
 }
 
 export const defaultCloudInfo: cloudInfo = {
-    name: '',
+    name: 'ㅇㄴㄹㅁ',
     type: 1,
-    desc: '',
-    validataions: {
-        name: { required },
-        type: { required },
-        desc: { required }
-    }
+    desc: 'ㄴㅁㅇㄹ'
+}
+
+export const defaultCloudInfoValidation = {
+    name: { required },
+    type: { required },
+    desc: { required }
 }
 
 export interface cloud_reg {
     cloud: cloudInfo,
     cluster: clusterInfo,
     nodes: nodesInfo,
-    storage: storageInfo,
+    etcd_storage: etcdStorageInfo,
     openstack: openstackInfo
 }
 
@@ -63,6 +65,6 @@ export const defaultCloudReg: cloud_reg = {
     cloud: defaultCloudInfo,
     cluster: defaultClusterInfo,
     nodes: defaultNodesInfo,
-    storage: defaultStorageInfo,
+    etcd_storage: defaultEtcdStorageInfo,
     openstack: defaultOpenstackInfo
 }
