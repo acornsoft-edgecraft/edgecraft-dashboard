@@ -18,14 +18,17 @@
       </div>
     </div>
 
-    <MasterNodesInfo class="mt-5" v-model="modelValue.nodes.master_nodes" validate="v$.master_nodes" />
+    <!-- <MasterNodesInfo class="mt-5" v-model="modelValue.nodes.master_nodes" validate="v$.master_nodes" /> -->
+    <NodesInfo class="mt-5" :type="'Master'" v-model="modelValue.nodes.master_nodes" validate="v$.master_nodes" />
+    <NodesInfo class="mt-5" :type="'Worker'" v-model="modelValue.nodes.worker_nodes" validate="v$.worker_nodes" />
   </div>
 </template>
 
 <script setup lang="ts">
 import useVuelidate from "@vuelidate/core";
 import MasterNodesInfo from "./master-nodes-info.vue";
-import { nodesInfo, defaultNodesInfoValidation } from "~/models/samples";
+import NodesInfo from "./nodes-info.vue";
+import { nodesInfo, defaultNodesInfoValidation } from "~/models";
 
 const props = defineProps({
   modelValue: { type: Object, required: true },

@@ -73,7 +73,7 @@
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core';
 
-import { BootModesMap, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation, defaultNodeInfo, defaultNodeInfoValidation } from '~/models/samples';
+import { BootModesMap, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation, defaultNodeInfo, defaultNodeInfoValidation } from '~/models';
 
 const { Util } = useAppHelper()
 
@@ -97,6 +97,7 @@ const addNode = () => {
 const removeNode = (index) => {
     data.splice(index, 1)
 }
+
 onMounted(() => { });
 </script>
 

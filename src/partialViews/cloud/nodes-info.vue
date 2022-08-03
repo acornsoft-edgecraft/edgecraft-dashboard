@@ -1,6 +1,6 @@
 <template>
   <div calss="p-card">
-    <K3Panel header="Master Nodes" :toggleable="true">
+    <K3Panel :header="`${type} Nodes`" :toggleable="true">
       <template #icons>
         <K3Button icon="pi pi-plus" class="mr-2" @click="addNode" />
       </template>
@@ -73,14 +73,15 @@
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core';
 
-import { BootModesMap, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation, defaultNodeInfo, defaultNodeInfoValidation } from '~/models/samples';
+import { BootModesMap, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation, defaultNodeInfo, defaultNodeInfoValidation } from '~/models';
 
 const { Util } = useAppHelper()
 
 const v = useVuelidate()
 
 const props = defineProps({
-    modelValue: { type: Array<any>, default: [] }
+  modelValue: { type: Array<any>, default: [] },
+  type: { type: String, default: 'Master' },
 })
 
 const data = reactive(props.modelValue)
@@ -97,6 +98,7 @@ const addNode = () => {
 const removeNode = (index) => {
     data.splice(index, 1)
 }
+
 onMounted(() => { });
 </script>
 

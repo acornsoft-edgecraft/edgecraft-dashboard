@@ -4,7 +4,8 @@
     <div class="field grid">
       <label for="version" class="col-1">Version</label>
       <div class="col-11">
-        <K3InputText id="version" v-model="v$.version.$model" type="text" autofocus class="text-base text-color w-full" :class="{ 'p-invalid': v$.version.$invalid }" />
+        <K3Dropdown id="version" v-model="v$.version.$model" :options="K8sVersionMap()" :optionLabel="'name'" :optionValue="'value'" class="mr-2 w-2" />
+        <!-- <K3InputText id="version" v-model="v$.version.$model" type="text" autofocus class="text-base text-color w-full" :class="{ 'p-invalid': v$.version.$invalid }" /> -->
         <small v-if="v$.version.$invalid" class="p-error">{{ v$.version.required.$message.replace("Value", "Kubernetes Version") }}</small>
       </div>
     </div>
@@ -27,7 +28,7 @@
 
 <script setup lang="ts">
 import useVuelidate from "@vuelidate/core";
-import { defaultKubernetesInfoValidation, kubernetesInfo } from "~/models/samples";
+import { K8sVersionMap, defaultKubernetesInfoValidation, kubernetesInfo } from "~/models";
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
