@@ -1,4 +1,4 @@
-import { required } from "@vuelidate/validators"
+import { required, minLength } from "@vuelidate/validators"
 import { clusterInfo, defaultClusterInfo } from "./cluster"
 import { nodesInfo, defaultNodesInfo } from './nodes'
 import { etcdStorageInfo, defaultEtcdStorageInfo } from "./etcd-storage"
@@ -48,7 +48,7 @@ export const defaultCloudInfo: cloudInfo = {
 }
 
 export const defaultCloudInfoValidation = {
-    name: { required },
+    name: { required, minLength: minLength(4) },
     type: { required },
     desc: { required }
 }

@@ -66,6 +66,11 @@ export const defaultUser: IUser = {
             "href": "/samples/step-view",
             "title": "Stepper",
             "icon": "fas fa-forward-step"
+        },
+        {
+            "href": "/samples/form-tester",
+            "title": "Form Tester",
+            "icon": "fas fa-table-cells"
         }
     ]
 }

@@ -184,6 +184,12 @@ const UI = {
         const msgs = useState(StateKeys.MESSAGE, () => defaultMessageType)
         msgs.value = { severity: messageType, title: title, content: message, display: true };
     },
+    getValidate: (rules, state) => {
+        if (rules && state)
+            return useVuelidate(rules, state)
+        else
+            return useVuelidate()
+    }
 }
 
 const Routing = {
