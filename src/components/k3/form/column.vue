@@ -24,7 +24,8 @@ const props = defineProps({
 const columnClass = computed(() => [
     'form-column',
     `col-${props.size}`,
-    props.verticalLayout ? 'vertical' : 'horizontal'
+    props.verticalLayout ? 'vertical' : 'horizontal',
+    useAttrs().class
 ])
 const labelClass = computed(() => [
     'label',
@@ -45,36 +46,4 @@ const itemStyle = computed(() => [
 </script>
 
 <style scoped lang="scss">
-.form-column {
-    display: flex;
-    border: 1px solid #efefef;
-    padding: 0;
-    margin: 0;
-
-    .label {
-        display: flex;
-        padding: 0.6rem;
-    }
-
-    .item {
-        display: flex;
-        align-items: center;
-        //margin: 0.2rem;
-        flex-grow: 1;
-    }
-}
-
-.form-column.horizontal {
-    flex-direction: row;
-
-}
-
-.form-column.vertical {
-    flex-direction: column;
-
-    .label {
-        padding: 0.8rem;
-        width: 100% !important;
-    }
-}
 </style>

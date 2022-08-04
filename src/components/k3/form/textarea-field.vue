@@ -1,9 +1,11 @@
 <template>
     <div class="item-container">
         <div class="form-field">
-            <K3InputText v-model="modelValue.$model"
-                         :type="type"
-                         :class="itemClass" />
+            <K3Textarea v-model="modelValue.$model"
+                        :type="type"
+                        :rows="rows"
+                        :cols="cols"
+                        :class="itemClass" />
         </div>
         <div class="error-field basic label pointing error"
              v-if="modelValue.$invalid">{{ errorMessages }}</div>
@@ -12,9 +14,12 @@
 
 <script setup lang="ts">
 
+
 const props = defineProps({
     modelValue: { type: Object, default: () => { } },
     type: { type: String, default: 'text' },
+    rows: { type: String, default: '4' },
+    cols: { type: String, default: '20' },
     fieldName: { type: String, default: 'Field' }
 })
 

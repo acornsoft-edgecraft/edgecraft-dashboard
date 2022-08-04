@@ -1,3 +1,4 @@
+/* Form 컴포넌트를 사용하는 경우는 제거 대상 */
 .form-title {
     font-weight: 600;
     background-color: #324354;
@@ -49,4 +50,210 @@
 .iterator {
     padding-bottom: 1.5rem;
     border-bottom: 3px dotted darkgray;
+}
+
+/**
+ * Form Component 용 (Validation 포함)
+ * - Form Container
+ * - Form Row
+ * - Form Column
+ * - Form Fields
+ */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.25rem;
+    background-color: white;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.22);
+    margin: 0;
+    font-size: 1rem;
+
+    .top {
+        margin: 0.25rem;
+        padding: 0.25rem 1rem;
+        background-color: #324354;
+        display: flex;
+        align-items: center;
+        position: relative;
+        justify-content: center;
+        min-height: 3rem;
+        color: white;
+        font-weight: 600;
+        font-size: 1.25rem;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow: hidden;
+        margin: 0.25rem;
+        padding: 0.25rem;
+        border: 1px solid darkgrey;
+        background-color: whitesmoke;
+        justify-content: center;
+    }
+
+    .bottom {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0.25rem;
+        padding: 1rem;
+        border-top: 1px solid #cccccc;
+        justify-content: flex-end;
+    }
+
+    .form-row {
+        // empty
+    }
+
+    .form-column {
+        display: flex;
+        border: 1px solid #dedede;
+        padding: 0;
+        margin: 0;
+
+        .label {
+            display: flex;
+            padding: 0.6rem;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            margin: 0.2rem;
+            flex-grow: 1;
+        }
+    }
+
+    .form-column.horizontal {
+        flex-direction: row;
+    }
+
+    .form-column.vertical {
+        flex-direction: column;
+
+        .label {
+            padding: 0.8rem;
+            width: 100% !important;
+        }
+    }
+
+    .form-field {
+        width: 100%;
+    }
+
+    .error-field.basic.error.label {
+        background: none #fff !important;
+        color: #db2828 !important;
+        border-color: #db2828 !important;
+    }
+
+    .error-field.pointing.label,
+    .error-field[class*="pointing above"].label {
+        margin-top: 0.7em;
+    }
+
+    .error-field.pointing.label {
+        position: relative;
+    }
+
+    .error-field.basic.label {
+        background: none #fff;
+        border: 1px solid rgba(34, 36, 38, .15);
+        color: rgba(0, 0, 0, .87);
+        box-shadow: none;
+    }
+
+    .error-field.error.label,
+    .error-field.error.labels .label {
+        background-color: #db2828 !important;
+        border-color: #db2828 !important;
+        color: #fff !important;
+    }
+
+    .error-field.label:last-child {
+        margin-right: 0;
+    }
+
+    .error-field.label,
+    .error-field.labels .label {
+        font-size: .85714286rem;
+    }
+
+    .error-field.label {
+        display: inline-block;
+        line-height: 1;
+        vertical-align: baseline;
+        margin: 0 0.14285714em;
+        background-color: #e8e8e8;
+        background-image: none;
+        padding: 0.5833em 0.833em;
+        color: rgba(0, 0, 0, .6);
+        text-transform: none;
+        font-weight: 700;
+        border: 0 solid transparent;
+        border-radius: 0.28571429rem;
+        transition: background .1s ease;
+    }
+
+    .error-field.basic.pointing.label:before,
+    .error-field.basic[class*="pointing above"].label:before {
+        margin-top: -5px;
+    }
+
+    .error-field.basic.pointing.label:before {
+        border-color: inherit;
+    }
+
+    .error-field.pointing.label:before,
+    .error-field[class*="pointing above"].label:before {
+        border-width: 1px 0 0 1px;
+        transform: translateX(-50%) translateY(-50%) rotate(45deg);
+        top: 0;
+        left: 5%;
+    }
+
+    .error-field.pointing.label:before {
+        position: absolute;
+        content: '';
+        transform: rotate(45deg);
+        background-image: none;
+        z-index: 2;
+        width: 0.6666em;
+        height: 0.6666em;
+        transition: background .1s ease;
+    }
+
+    .error-field.pointing.label:before {
+        background-color: inherit;
+        background-image: inherit;
+        border-width: none;
+        border-style: solid;
+        border-color: inherit;
+    }
+}
+
+.form-container.no-style {
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    .content {
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-row {
+        padding: 0;
+        margin: 0;
+    }
+
+    .form-column {
+        padding: 0;
+        margin: 0;
+    }
 }

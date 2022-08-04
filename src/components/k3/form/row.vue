@@ -20,7 +20,4 @@ const rowClass = computed(() => [
 </script>
 
 <style scoped lang="scss">
-.form-row {
-    border: 1px solid #cccccc;
-}
 </style>

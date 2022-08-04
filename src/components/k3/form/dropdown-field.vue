@@ -1,9 +1,11 @@
 <template>
     <div class="item-container">
         <div class="form-field">
-            <K3InputText v-model="modelValue.$model"
-                         :type="type"
-                         :class="itemClass" />
+            <K3Dropdown v-model="modelValue.$model"
+                        :options="options"
+                        :option-label="'name'"
+                        :option-value="'value'"
+                        :class="itemClass" />
         </div>
         <div class="error-field basic label pointing error"
              v-if="modelValue.$invalid">{{ errorMessages }}</div>
@@ -14,7 +16,9 @@
 
 const props = defineProps({
     modelValue: { type: Object, default: () => { } },
-    type: { type: String, default: 'text' },
+    options: { type: Array<Object>, default: [] },
+    optionLabel: { type: String, default: 'name' },
+    optionValue: { type: String, default: 'value' },
     fieldName: { type: String, default: 'Field' }
 })
 

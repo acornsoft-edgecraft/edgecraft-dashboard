@@ -10,18 +10,70 @@
                     <K3FormColumn label="Cloud 명"
                                   label-align="right">
                         <K3FormInputField v-model="v.name"
-                                          class="w-full"
                                           field-name="Name" />
                     </K3FormColumn>
                 </K3FormRow>
                 <K3FormRow>
-                    <K3FormColumn>TEST</K3FormColumn>
+                    <K3FormColumn label="Cloud 유형"
+                                  label-align="right">
+                        <K3FormDropdownField v-model="v.type"
+                                             :options="CloudTypesMap()"
+                                             :option-label="'name'"
+                                             :option-value="'value'"
+                                             field-name="Type" />
+                    </K3FormColumn>
                 </K3FormRow>
                 <K3FormRow>
-                    <K3FormColumn>TEST</K3FormColumn>
+                    <K3FormColumn label="Cloud 설명"
+                                  label-align="right">
+                        <K3Textarea v-model="defaultCloudInfo.desc"
+                                    rows="4"
+                                    class="w-full" />
+                    </K3FormColumn>
                 </K3FormRow>
             </K3FormContainer>
-            <K3FormContainer>
+
+            <br />
+            Model Result: {{ defaultCloudInfo }}
+            <br />
+
+            <K3FormContainer class="mt-5 mb-5">
+                <template #header>Baremetal 설치 정보</template>
+                <K3FormRow>
+                    <K3FormColumn label="BMC Credential"
+                                  label-align="right">
+                        <K3FormContainer class="no-style w-full">
+                            <K3FormRow direction="vertical">
+                                <K3FormColumn label="Secret Name"
+                                              label-align="right">
+                                    <K3FormInputField v-model="v2.secret_name"
+                                                      field-name="Secret name" />
+                                </K3FormColumn>
+                                <K3FormColumn label="User Name"
+                                              label-align="right">
+                                    <K3FormInputField v-model="v2.user_name"
+                                                      field-name="User name" />
+                                </K3FormColumn>
+                                <K3FormColumn label="Password"
+                                              label-align="right">
+                                    <K3FormInputField v-model="v2.password"
+                                                      field-name="User password" />
+                                </K3FormColumn>
+                                <K3FormColumn label="Kubeadm Extra Config"
+                                              label-align="right">
+                                    <K3Accordion />
+                                </K3FormColumn>
+                            </K3FormRow>
+                        </K3FormContainer>
+                    </K3FormColumn>
+                </K3FormRow>
+            </K3FormContainer>
+
+            <br />
+            Model Result: {{ defaultBaremetalInfo }}
+            <br />
+
+            <K3FormContainer class="mt-5 mb-5">
                 <template #header>Form Header</template>
                 <template #footer>Footer</template>
                 <K3FormRow direction="horizontal"
@@ -55,11 +107,39 @@
 </template>
 
 <script setup lang="ts">
-import { CloudTypesMap, cloudInfo, defaultCloudReg, defaultCloudInfoValidation } from '~/models';
+import { CloudTypes, CloudTypesMap, cloudInfo } from '~/models';
 
 definePageMeta({ layout: 'default', title: 'Form Tester', public: true })
 
-const v = useAppHelper().UI.getValidate(defaultCloudInfoValidation, ref(defaultCloudReg.cloud as cloudInfo))
+const { required, minLength } = useAppHelper().UI.getValidators()
+
+const defaultCloudInfo = ref({
+    name: "ff",
+    type: CloudTypes.Baremetal,
+    desc: "",
+});
+
+const defaultCloudInfoValidation = {
+    name: { required, minLength: minLength(4) },
+    type: { required },
+    desc: { required }
+};
+
+const defaultBaremetalInfo = ref({
+    secret_name: "ㅁㅁ",
+    user_name: "ㅇㅇ",
+    password: "ㄹㄹ",
+});
+
+const defaultBaremetalInfoValidation = {
+    secret_name: { required },
+    user_name: { required },
+    password: { required },
+};
+
+const v = useAppHelper().UI.getValidate(defaultCloudInfoValidation, defaultCloudInfo)
+const v2 = useAppHelper().UI.getValidate(defaultBaremetalInfoValidation, defaultBaremetalInfo)
+
 </script>
 
 <style scoped lang="scss">
