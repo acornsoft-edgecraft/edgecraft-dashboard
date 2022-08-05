@@ -10,17 +10,17 @@
         </div>
       </div>
       <div class="field grid">
-        <label for="cloudtyep" class="col-1">Cloud 유형</label>
+        <label for="cloudtype" class="col-1">Cloud 유형</label>
         <div class="col-11">
-          <K3Dropdown id="cloudtype" v-model="v$.type.$model" :options="CloudTypesMap()" :optionLabel="'name'" :optionValue="'value'" class="mr-2" />
+          <K3Dropdown id="cloudtype" v-model="v$.type.$model" type="text" :options="CloudTypesMap()" :optionLabel="'name'" :optionValue="'value'" class="mr-2 w-2" @change="changeCloudType" />
           <small v-if="v$.type.$invalid" class="p-error">{{ v$.type.required.$message?.replace("Value", "Type") }}</small>
         </div>
       </div>
       <div class="field grid">
         <label for="clouddesc" class="col-1">Cloud 설명</label>
         <div class="col-11">
-          <K3Textarea id="clouddesc" v-model="v$.desc.$model" type="text" rows="4" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"></K3Textarea>
-          <small v-if="v$.desc.$invalid" class="p-error">{{ v$.desc.required?.$message?.replace("Value", "Desc") }}</small>
+          <K3Textarea id="clouddesc" v-model="modelValue.cloud.desc" type="text" rows="4" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+          <!-- <small v-if="v$.desc.$invalid" class="p-error">{{ v$.desc.required?.$message?.replace("Value", "Desc") }}</small> -->
         </div>
       </div>
     </div>
@@ -28,17 +28,33 @@
 </template>
 
 <script setup lang="ts">
-import { useVuelidate } from "@vuelidate/core";
-import { CloudTypesMap, cloudInfo, defaultCloudInfoValidation } from "~/models/samples";
+// imports
+import useVuelidate from "@vuelidate/core";
+import { CloudTypesMap, cloudInfo, defaultCloudInfoValidation } from "~/models";
 
+// Page meta
+// Props
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });
 
-const emits = defineEmits(["can-continue"]);
+// Emits
+const emits = defineEmits(["can-continue", "is-openstack"]);
 
+// Properties
 const v$ = useVuelidate(defaultCloudInfoValidation, ref(props.modelValue.cloud as cloudInfo));
 
+const changeCloudType = (event) => {
+  console.log("changeCloudType", event.value);
+  if (event.value == 2) {
+    emits("is-openstack", { value: true });
+  } else {
+    emits("is-openstack", { value: false });
+  }
+};
+
+// Compputed
+// Watcher
 watch(
   () => v$.value,
   (val) => {
@@ -50,14 +66,15 @@ watch(
     }
   }
 );
-
+// Methods
 const beforeNextStep = (): boolean => {
-  console.log(`validation >>> ${JSON.stringify(props.modelValue)}`);
+  console.log(`beforeNextStep validation >>> ${JSON.stringify(props.modelValue)}`);
   if (v$.value.$invalid) {
     return false;
   }
   return true;
 };
+// Events
 
 onActivated(() => {
   if (!v$.value.$invalid) {
@@ -67,13 +84,8 @@ onActivated(() => {
   }
 });
 
-onMounted(() => {});
-
 defineExpose({ beforeNextStep });
+// Logics (like api call, etc)
 </script>
 
-<style scoped lang="scss">
-.field > label {
-  justify-content: end;
-}
-</style>
+<style scoped lang="scss"></style>

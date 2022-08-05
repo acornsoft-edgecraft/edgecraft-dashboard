@@ -7,6 +7,7 @@ import { useConfirm } from 'primevue/useconfirm'
 import { MessageTypes, StateKeys, StoreTypes, APIResponse, defaultMessageType, IUser, defaultUser, IAuthType, defaultAuthType } from '~/models'
 import { Router } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
+import * as validators from '@vuelidate/validators'
 //import { required, email } from '@vuelidate/validators'
 
 const messageTimeout = 3000
@@ -184,6 +185,13 @@ const UI = {
         const msgs = useState(StateKeys.MESSAGE, () => defaultMessageType)
         msgs.value = { severity: messageType, title: title, content: message, display: true };
     },
+    getValidate: (rules, state) => {
+        if (rules && state)
+            return useVuelidate(rules, state)
+        else
+            return useVuelidate()
+    },
+    getValidators: () => validators
 }
 
 const Routing = {

@@ -1,1 +1,7 @@
 // Suggested location to add your overrides so that migration would be easy by just updating the SASS folder in the future
+
+.p-panel-header-icon.p-panel-toggler.p-link {
+    span.pi.pi-minus:before {
+        content: "\f0fe";
+    }
+}
