@@ -45,7 +45,6 @@ const emits = defineEmits(["can-continue", "is-openstack"]);
 const v$ = useVuelidate(defaultCloudInfoValidation, ref(props.modelValue.cloud as cloudInfo));
 
 const changeCloudType = (event) => {
-  console.log("changeCloudType", event.value);
   if (event.value == 2) {
     emits("is-openstack", { value: true });
   } else {

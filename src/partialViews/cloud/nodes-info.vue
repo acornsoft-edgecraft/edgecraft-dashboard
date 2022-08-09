@@ -57,8 +57,25 @@
             </div>
             <div class="field col-12">
               <label for="labels">Labels</label>
-              <K3InputText id="labels" v-model="v.node.label.$model" type="text" class="text-base text-color w-full" :class="{ 'p-invalid': v.node.label.$invalid }" />
-              <small v-if="v.node.label.$invalid" class="p-error">{{ v.node.label.required.$message?.replace("Value", "Type") }}</small>
+              <div class="col-12">
+                {{ item.node.labels }}
+                <K3Button icon="pi pi-plus" class="p-button-rounded p-button-outlined p-button-secondary mr-3" @click="addLabel(type, index)" />
+                <template v-for="(label, idx) in item.node.labels" :key="idx">
+                  <K3Chip :label="`${label.key}=${label.value}=${idx}/${index}`" removable class="mr-1 mt-1" @remove="removeLabel" />
+                </template>
+              </div>
+            </div>
+            <div class="field col-12">
+              <label for="labels">Labels</label>
+              <div class="col-12">
+                <K3Chips v-model="item.node.labels">
+                  <template #chip="slotProps">
+                    <div>
+                      <span>{{ slotProps.value }}</span>
+                    </div>
+                  </template>
+                </K3Chips>
+              </div>
             </div>
             <div class="field col-12 text-right mt-5" v-if="index > 0">
               <K3Button icon="pi pi-minus" @click="removeNode(index)" />
@@ -84,6 +101,8 @@ const props = defineProps({
   type: { type: String, default: 'Master' },
 })
 
+const emits = defineEmits(['dialog:label'])
+
 const data = reactive(props.modelValue)
 
 const vRules = {
@@ -99,7 +118,18 @@ const removeNode = (index) => {
     data.splice(index, 1)
 }
 
-onMounted(() => { });
+const addLabel = (type, index) => {
+  emits('dialog:label', { display: true, type: type, index: index })
+}
+
+const removeLabel = (event) => {
+  // console.log(labels.slice(index, index+1))
+  // labels.splice(index, 0)
+
+  console.log('labels', data)
+}
+onMounted(() => {
+});
 </script>
 
 <style scoped lang="scss">

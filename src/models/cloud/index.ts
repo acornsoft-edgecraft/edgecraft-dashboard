@@ -9,3 +9,4 @@ export * from "./etcd";
 export * from "./etcd-storage";
 export * from "./storage-class";
 export * from "./openstack";
+export * from "./label";

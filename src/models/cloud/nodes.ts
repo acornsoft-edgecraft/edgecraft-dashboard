@@ -2,6 +2,11 @@ import { helpers, required, requiredIf, ipAddress } from "@vuelidate/validators"
 import { baremetalHostInfo, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation } from "./baremetalhost";
 import { defaultNodeInfo, defaultNodeInfoValidation, nodeInfo } from "./node";
 
+export enum NodeType {
+  MASTER = "Master",
+  WORKER = "Worker",
+}
+
 export interface nodesInfo {
   use_loadbalancer: Boolean;
   loadbalancer_address: String;
