@@ -27,7 +27,6 @@
         </div>
       </div>
     </div>
-
     <div class="field grid">
       <label for="image_url" class="col-2">Image URL</label>
       <div class="col-10">
@@ -58,26 +57,25 @@
         <small v-if="v$.image_format.$invalid" class="p-error">{{ v$.image_format.required.$message.replace("Value", "Image Format") }}</small>
       </div>
     </div>
-  </div>
-
-  <div class="field grid">
-    <label for="cp_kubeadm_config" class="col-2">Control Plane Kubeadm Extra Config</label>
-    <div class="col-10">
-      <K3Accordion :multiple="true" v-for="(config, index) in configs" :key="index">
-        <K3AccordionTab :header="config.header">
-          <K3Textarea :id="setConfigId('cp', config.id)" type="text" rows="4" class="text-base text-color surface-overlay border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
-        </K3AccordionTab>
-      </K3Accordion>
+    <div class="field grid">
+      <label for="cp_kubeadm_config" class="col-2">Control Plane Kubeadm Extra Config</label>
+      <div class="col-10">
+        <K3Accordion :multiple="true" v-for="(config, index) in kubeadmConfigs" :key="index">
+          <K3AccordionTab :header="config.header">
+            <K3Textarea :id="setConfigId('cp', config.id)" type="text" rows="4" class="text-base text-color surface-overlay border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+          </K3AccordionTab>
+        </K3Accordion>
+      </div>
     </div>
-  </div>
-  <div class="field grid">
-    <label for="worker_kubeadm_config" class="col-2">Workers Kubeadm Extra Config</label>
-    <div class="col-10">
-      <K3Accordion :multiple="true" v-for="(config, index) in configs" :key="index">
-        <K3AccordionTab :header="config.header">
-          <K3Textarea :id="setConfigId('worker', config.id)" type="text" rows="4" class="text-base text-color surface-overlay border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
-        </K3AccordionTab>
-      </K3Accordion>
+    <div class="field grid">
+      <label for="worker_kubeadm_config" class="col-2">Workers Kubeadm Extra Config</label>
+      <div class="col-10">
+        <K3Accordion :multiple="true" v-for="(config, index) in kubeadmConfigs" :key="index">
+          <K3AccordionTab :header="config.header">
+            <K3Textarea :id="setConfigId('worker', config.id)" type="text" rows="4" class="text-base text-color surface-overlay border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+          </K3AccordionTab>
+        </K3Accordion>
+      </div>
     </div>
   </div>
 </template>
@@ -92,7 +90,7 @@ const props = defineProps({
 
 const v$ = useVuelidate(defaultBaremetalInfoValidation, ref(props.modelValue as baremetalInfo));
 
-const configs = [
+const kubeadmConfigs = [
   { header: "Pre Kubeadm Commands", id: "pre_commands" },
   { header: "Post Kubeadm Commands", id: "post_commands" },
   { header: "files", id: "files" },
@@ -105,9 +103,7 @@ const setConfigId = (prefix, id) => {
   return `${prefix}_${id}`;
 };
 
-onMounted(() => {
-  console.log("aaa", props.modelValue);
-});
+onMounted(() => {});
 </script>
 
 <style scoped lang="scss"></style>

@@ -18,24 +18,39 @@
       </div>
     </div>
 
-    <!-- <MasterNodesInfo class="mt-5" v-model="modelValue.nodes.master_nodes" validate="v$.master_nodes" /> -->
-    <NodesInfo class="mt-5" :type="'Master'" v-model="modelValue.nodes.master_nodes" validate="v$.master_nodes" />
-    <NodesInfo class="mt-5" :type="'Worker'" v-model="modelValue.nodes.worker_nodes" validate="v$.worker_nodes" />
+    <NodesInfo class="mt-5" :type="NodeType.MASTER" v-model="modelValue.nodes.master_nodes" @dialog:label="dialogLabel" validate="v$.master_nodes" />
+    <NodesInfo class="mt-5" :type="NodeType.WORKER" v-model="modelValue.nodes.worker_nodes" @dialog:label="dialogLabel" validate="v$.worker_nodes" />
+
+    <K3Dialog header="Labels 추가" v-model:visible="nodeLabel.display" :modal="true" :style="{ width: '50vw' }">
+      <div class="field col-12">
+        <label for="label_key" class="w-1">Key</label>
+        <K3InputText class="w-5" v-model="label.key" />
+        <label for="label_value" class="w-1">Value</label>
+        <K3InputText class="w-5" v-model="label.value" />
+      </div>
+      <template #footer>
+        <K3Button label="취소" icon="pi pi-times" @click="closeModal" class="p-button-text" />
+        <K3Button label="저장" icon="pi pi-check" @click="addLabel" autofocus />
+      </template>
+    </K3Dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import useVuelidate from "@vuelidate/core";
-import MasterNodesInfo from "./master-nodes-info.vue";
 import NodesInfo from "./nodes-info.vue";
-import { nodesInfo, defaultNodesInfoValidation } from "~/models";
+import { NodeType, nodesInfo, defaultNodesInfoValidation, defaultLabelInfo } from "~/models";
 
+const { Util } = useAppHelper();
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });
 const emits = defineEmits(["can-continue"]);
 
 const nodes = ref(props.modelValue.nodes);
+
+const nodeLabel = ref({ display: false, type: "", index: 0 });
+const label = defaultLabelInfo;
 
 console.log(`node step >>> model value: ${JSON.stringify(nodes.value)}`);
 
@@ -63,6 +78,27 @@ const beforeNextStep = (): boolean => {
     return false;
   }
   return true;
+};
+
+const dialogLabel = (payload) => {
+  nodeLabel.value = payload;
+};
+
+const closeModal = () => {
+  nodeLabel.value.display = false;
+};
+
+const addLabel = () => {
+  let target;
+  if (nodeLabel.value.type == NodeType.MASTER) {
+    target = nodes.value.master_nodes;
+  } else {
+    target = nodes.value.worker_nodes;
+  }
+
+  target[nodeLabel.value.index].node.labels.push(Util.clone(label));
+
+  closeModal();
 };
 
 onActivated(() => {
