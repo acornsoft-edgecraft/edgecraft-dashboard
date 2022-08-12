@@ -62,7 +62,7 @@
       <div class="col-10">
         <K3Accordion :multiple="true" v-for="(config, index) in kubeadmConfigs" :key="index">
           <K3AccordionTab :header="config.header">
-            <K3Textarea :id="setConfigId('cp', config.id)" type="text" rows="4" class="text-base text-color surface-overlay border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+            <K3Textarea :id="setConfigId('cp', config.id)" v-model="modelValue.cp_kubeadm_extra_config[config.id]" type="text" rows="4" class="text-base text-color surface-overlay border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
           </K3AccordionTab>
         </K3Accordion>
       </div>
@@ -72,7 +72,7 @@
       <div class="col-10">
         <K3Accordion :multiple="true" v-for="(config, index) in kubeadmConfigs" :key="index">
           <K3AccordionTab :header="config.header">
-            <K3Textarea :id="setConfigId('worker', config.id)" type="text" rows="4" class="text-base text-color surface-overlay border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+            <K3Textarea :id="setConfigId('worker', config.id)" v-model="modelValue.worker_kubeadm_extra_config[config.id]" type="text" rows="4" class="text-base text-color surface-overlay border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
           </K3AccordionTab>
         </K3Accordion>
       </div>
@@ -91,8 +91,8 @@ const props = defineProps({
 const v$ = useVuelidate(defaultBaremetalInfoValidation, ref(props.modelValue as baremetalInfo));
 
 const kubeadmConfigs = [
-  { header: "Pre Kubeadm Commands", id: "pre_commands" },
-  { header: "Post Kubeadm Commands", id: "post_commands" },
+  { header: "Pre Kubeadm Commands", id: "pre_kubeadm_commands" },
+  { header: "Post Kubeadm Commands", id: "post_kubeadm_commands" },
   { header: "files", id: "files" },
   { header: "users", id: "users" },
   { header: "ntp", id: "ntp" },

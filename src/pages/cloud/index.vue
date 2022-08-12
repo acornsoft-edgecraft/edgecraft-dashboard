@@ -54,7 +54,7 @@
         <K3Column v-for="(col, index) of selectedColumns" :class="col.class" :field="col.field" :header="col.header" :sortable="col.sortable" :key="`${col.field}_index`" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
             <span v-if="slotProps.field === 'type'">{{ CloudTypes[slotProps.data.type] }} </span>
-            <NuxtLink v-else-if="slotProps.field === 'name'" :to="`/cloud/${slotProps.data.id}`">{{ slotProps.data.name }}</NuxtLink>
+            <NuxtLink v-else-if="slotProps.field === 'name'" :to="`/cloud/register/${slotProps.data.id}`">{{ slotProps.data.name }}</NuxtLink>
             <span v-else-if="slotProps.field === 'status'">{{ CloudStatus[slotProps.data.status] }} </span>
             <span v-else-if="slotProps.field === 'nodeCount'">{{ slotProps.data.nodeCount }}</span>
             <span v-else-if="slotProps.field === 'created'">{{ slotProps.data.created }}</span>

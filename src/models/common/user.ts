@@ -1,76 +1,83 @@
 export interface IUser {
-    isAuthenticated: boolean,
-    menus: Array<any>,
+  isAuthenticated: boolean;
+  menus: Array<any>;
 }
 
 export const defaultUser: IUser = {
-    isAuthenticated: false,
-    menus: [
+  isAuthenticated: false,
+  menus: [
+    {
+      header: "Status",
+      hiddenOnCollapse: true,
+    },
+    {
+      href: "/dashboard",
+      title: "Dashboard",
+      icon: "fas fa-gauge",
+    },
+    {
+      separator: true,
+    },
+    {
+      header: "Cloud",
+      hiddenOnCollapse: true,
+    },
+    {
+      href: "/cloud",
+      title: "Cloud Mgmt",
+      icon: "fas fa-cloud",
+      child: [],
+    },
+    {
+      separator: true,
+    },
+    {
+      header: "Management",
+      hiddenOnCollapse: true,
+    },
+    {
+      href: "/management/image",
+      title: "Image Mgmt",
+      icon: "fas fa-box-archive",
+      child: [
         {
-            "header": "Status",
-            "hiddenOnCollapse": true
+          href: "/management/image/test",
+          title: "Image Test",
+          icon: "fas fa-face-grimace",
         },
-        {
-            "href": "/dashboard",
-            "title": "Dashboard",
-            "icon": "fas fa-gauge"
-        },
-        {
-            "separator": true
-        },
-        {
-            "header": "Cloud",
-            "hiddenOnCollapse": true
-        },
-        {
-            "href": "/cloud",
-            "title": "Cloud Mgmt",
-            "icon": "fas fa-cloud",
-            "child": []
-        },
-        {
-            "separator": true
-        },
-        {
-            "header": "Management",
-            "hiddenOnCollapse": true
-        },
-        {
-            "href": "/management/image",
-            "title": "Image Mgmt",
-            "icon": "fas fa-box-archive",
-            "child": [{
-                "href": "/management/image/test",
-                "title": "Image Test",
-                "icon": "fas fa-face-grimace"
-            }]
-        },
-        {
-            "href": "/management/security",
-            "title": "Security Mgmt",
-            "icon": "fas fa-shield-halved"
-        },
-        {
-            "href": "/management/user",
-            "title": "User Mgmt",
-            "icon": "fas fa-people-roof"
-        },
-        {
-            "separator": true
-        },
-        {
-            "header": "Samples",
-            "hiddenOnCollapse": true
-        },
-        {
-            "href": "/samples/step-view",
-            "title": "Stepper",
-            "icon": "fas fa-forward-step"
-        },
-        {
-            "href": "/samples/form-tester",
-            "title": "Form Tester",
-            "icon": "fas fa-table-cells"
-        }
-    ]
-}
+      ],
+    },
+    {
+      href: "/management/security",
+      title: "Security Mgmt",
+      icon: "fas fa-shield-halved",
+    },
+    {
+      href: "/management/user",
+      title: "User Mgmt",
+      icon: "fas fa-people-roof",
+    },
+    {
+      separator: true,
+    },
+    {
+      header: "Samples",
+      hiddenOnCollapse: true,
+    },
+    {
+      href: "/samples/step-view",
+      title: "Stepper",
+      icon: "fas fa-forward-step",
+    },
+    {
+      href: "/samples/form-tester",
+      title: "Form Tester",
+      icon: "fas fa-table-cells",
+    },
+    {
+      href: "/samples/node-label",
+      title: "Node Label",
+      icon: "fas fa-bookmark",
+    },
+  ],
+};

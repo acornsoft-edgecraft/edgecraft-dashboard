@@ -1,4 +1,6 @@
-import { required } from "@vuelidate/validators";
+import { required, helpers } from "@vuelidate/validators";
+
+export const cidrRegex = helpers.regex(/^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$/);
 
 export enum K8sVersions {
   "1.22.0",
@@ -20,12 +22,12 @@ export interface kubernetesInfo {
 
 export const defaultKubernetesInfo: kubernetesInfo = {
   version: K8sVersions["1.23.0"],
-  pod_cidr: "aa",
-  svc_cidr: "dd",
+  pod_cidr: "10.244.0.0/16",
+  svc_cidr: "10.244.0.0/1",
 };
 
 export const defaultKubernetesInfoValidation = {
   version: { required },
-  pod_cidr: { required },
-  svc_cidr: { required },
+  pod_cidr: { required, cidrRegex },
+  svc_cidr: { required, cidrRegex },
 };
