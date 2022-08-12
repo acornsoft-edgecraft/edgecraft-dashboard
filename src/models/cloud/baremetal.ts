@@ -1,9 +1,9 @@
-import { required } from "@vuelidate/validators";
+import { required, alphaNum, url } from "@vuelidate/validators";
 
 export enum ImageChecksumTypes {
-  md5 = "md5",
-  sha256 = "sha256",
-  sha512 = "sha512",
+  md5,
+  sha256,
+  sha512,
 }
 
 export const ImageChecksumTypesMap = (addAll: boolean = false) => {
@@ -15,11 +15,11 @@ export const ImageChecksumTypesMap = (addAll: boolean = false) => {
 };
 
 export enum ImageFormats {
-  raw = "raw",
-  qcow2 = "qcow2",
-  vdi = "vdi",
-  vmdk = "vmdk",
-  "live-iso" = "live-iso",
+  raw,
+  qcow2,
+  vdi,
+  vmdk,
+  "live-iso",
 }
 
 export const ImageFormatsMap = (addAll: boolean = false) => {
@@ -61,11 +61,11 @@ export interface baremetalInfo {
 }
 
 export const defaultBaremetalInfo: baremetalInfo = {
-  secret_name: "ㅁㅁ",
-  user_name: "ㅇㅇ",
-  password: "ㄹㄹ",
-  image_url: "ㅇㅇ",
-  image_checksum: "ff",
+  secret_name: "secret1",
+  user_name: "asdf",
+  password: "asdf",
+  image_url: "http://192.168.0.1/ubuntu.qcow2",
+  image_checksum: "http://192.168.0.1/ubuntu.qcow2.md5sum",
   image_checksum_type: ImageChecksumTypes.md5,
   image_format: ImageFormats.qcow2,
   cp_kubeadm_extra_config: defaultKubeadmExtraConfig,
@@ -73,10 +73,10 @@ export const defaultBaremetalInfo: baremetalInfo = {
 };
 
 export const defaultBaremetalInfoValidation = {
-  secret_name: { required },
-  user_name: { required },
-  password: { required },
-  image_url: { required },
+  secret_name: { required, alphaNum },
+  user_name: { required, alphaNum },
+  password: { required, alphaNum },
+  image_url: { required }, // url
   image_checksum: { required },
   image_checksum_type: { required },
   image_format: { required },

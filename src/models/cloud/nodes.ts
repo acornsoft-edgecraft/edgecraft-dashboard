@@ -1,6 +1,11 @@
-import { helpers, required, requiredIf, ipAddress } from "@vuelidate/validators";
+import { helpers, required, requiredIf, ipAddress, between } from "@vuelidate/validators";
 import { baremetalHostInfo, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation } from "./baremetalhost";
 import { defaultNodeInfo, defaultNodeInfoValidation, nodeInfo } from "./node";
+
+export enum NodeType {
+  MASTER = "Master",
+  WORKER = "Worker",
+}
 
 export interface nodesInfo {
   use_loadbalancer: Boolean;
@@ -27,5 +32,6 @@ export const defaultNodesInfoValidation = {
   loadbalancer_port: {
     // @ts-ignore:2345
     required: requiredIf((_, vm) => vm.use_loadbalancer),
+    between: between(0, 65536),
   },
 };

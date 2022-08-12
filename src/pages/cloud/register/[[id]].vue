@@ -13,7 +13,8 @@
 
 <script setup lang="ts">
 // imports
-import PCloudInfo from "~/partialViews/cloud/cloud-step.vue";
+// import PCloudInfo from "~/partialViews/cloud/cloud-step.vue";
+import PCloudInfo from "~~/src/partialViews/cloud/cloud-step-form.vue";
 import PClusterInfo from "~/partialViews/cloud/cluster-step.vue";
 import PNodeInfo from "~/partialViews/cloud/node-step.vue";
 import PEtcdStorageInfo from "~/partialViews/cloud/etcd-storage-step.vue";
@@ -28,7 +29,9 @@ definePageMeta({ layout: "default", title: "클라우드 등록", public: true }
 // Emits
 // const emits = defineEmits(['eventname']),
 // Properties
+const route = useRoute();
 const { Util } = useAppHelper();
+const { cloud, fetch } = useCloudService().getCloud(route.params.id);
 
 const cloudRegModel = Util.clone(defaultCloudReg);
 
@@ -57,6 +60,12 @@ const finished = (payload) => {
   alert("잘 했어... ^^");
 };
 // Events
+onMounted(() => {
+  if (route.params.id != "") {
+    fetch();
+  }
+  console.log("cloud", cloud);
+});
 // Logics (like api call, etc)
 </script>
 
