@@ -35,7 +35,8 @@ const props = defineProps({
 const emits = defineEmits(["can-continue", "is-openstack"]);
 
 // Properties
-const v$ = useAppHelper().UI.getValidate(defaultCloudInfoValidation, ref(props.modelValue.cloud as cloudInfo));
+const state = ref(props.modelValue.cloud);
+const v$ = useAppHelper().UI.getValidate(defaultCloudInfoValidation, state);
 
 const changeCloudType = (event) => {
   if (event.value == 2) {
@@ -56,6 +57,12 @@ watch(
     } else {
       emits("can-continue", { value: false });
     }
+  }
+);
+watch(
+  () => props.modelValue,
+  (val) => {
+    state.value = val.cloud;
   }
 );
 // Methods

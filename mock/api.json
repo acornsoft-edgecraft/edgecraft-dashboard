@@ -101,26 +101,26 @@
         "id": 1,
         "cloud": {
             "name": "testtesttest",
-            "type": 2,
+            "type": 1,
             "desc": ""
         },
         "cluster": {
             "k8s": {
                 "version": 1,
-                "pod_cidr": "10.244.0.0/16",
+                "pod_cidr": "10.244.0.0/24",
                 "svc_cidr": "10.244.0.0/1"
             },
             "baremetal": {
                 "secret_name": "secret1",
-                "user_name": "asdf",
-                "password": "asdf",
+                "user_name": "admin",
+                "password": "1234",
                 "image_url": "http://192.168.0.1/ubuntu.qcow2",
                 "image_checksum": "http://192.168.0.1/ubuntu.qcow2.md5sum",
                 "image_checksum_type": 0,
                 "image_format": 1,
                 "cp_kubeadm_extra_config": {
                     "pre_kubeadm_commands": "",
-                    "post_kubeadm_commands": "",
+                    "post_kubeadm_commands": "- hostname",
                     "files": "",
                     "users": "",
                     "ntp": "",
@@ -128,7 +128,7 @@
                 },
                 "worker_kubeadm_extra_config": {
                     "pre_kubeadm_commands": "",
-                    "post_kubeadm_commands": "",
+                    "post_kubeadm_commands": "- hostname",
                     "files": "",
                     "users": "",
                     "ntp": "",
@@ -137,12 +137,12 @@
             }
         },
         "nodes": {
-            "use_loadbalancer": false,
-            "loadbalancer_address": "",
-            "loadbalancer_port": "",
+            "use_loadbalancer": true,
+            "loadbalancer_address": "192.168.0.0",
+            "loadbalancer_port": "88",
             "master_nodes": [{
                 "baremetal": {
-                    "host_name": "sadf",
+                    "host_name": "master 1",
                     "bmc_address": "sadf",
                     "boot_mac_address": "00:b2:8c:ee:22:98",
                     "boot_mode": 0,
@@ -153,14 +153,14 @@
                     "node_name": "sadf",
                     "ip_address": "safd",
                     "labels": [{
-                        "key": "aaaa",
-                        "value": "bbbb"
+                        "key": "1111",
+                        "value": "2222"
                     }]
                 }
             }],
             "worker_nodes": [{
                 "baremetal": {
-                    "host_name": "sadf",
+                    "host_name": "worker 1",
                     "bmc_address": "sadf",
                     "boot_mac_address": "00:b2:8c:ee:22:98",
                     "boot_mode": 0,
@@ -168,7 +168,27 @@
                     "external_provisioning": false
                 },
                 "node": {
-                    "node_name": "sadf",
+                    "node_name": "worker 1",
+                    "ip_address": "safd",
+                    "labels": [{
+                        "key": "aaaa",
+                        "value": "aaaa"
+                    },{
+                        "key": "bbbb",
+                        "value": "bbbb"
+                    }]
+                }
+            },{
+                "baremetal": {
+                    "host_name": "worker 2",
+                    "bmc_address": "sadf",
+                    "boot_mac_address": "00:b2:8c:ee:22:98",
+                    "boot_mode": 0,
+                    "online_power": false,
+                    "external_provisioning": false
+                },
+                "node": {
+                    "node_name": "worker 2",
                     "ip_address": "safd",
                     "labels": [{
                         "key": "aaaa",
