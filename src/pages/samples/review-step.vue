@@ -142,6 +142,7 @@
               </K3FormContainer>
             </K3AccordionTab>
             <K3AccordionTab header="ETCD/Storage 정보">
+              {{ modelValue.etcd_storage }}
               <K3FormContainer>
                 <template #header>ETCD 설정</template>
                 <K3FormRow>
@@ -179,25 +180,142 @@
 <script setup lang="ts">
 import { CloudTypes, K8sVersions, ImageChecksumTypes, ImageFormats } from "~/models";
 
-const props = defineProps({
-  modelValue: { type: Object, required: true },
-});
-const emits = defineEmits(["can-continue"]);
+definePageMeta({ layout: "default", title: "Node Label", public: true });
 
-const beforeNextStep = (): boolean => {
-  return true;
+onActivated(() => {});
+
+onMounted(() => {});
+
+const modelValue = {
+  cloud: {
+    id: 1,
+    name: "fff",
+    type: 1,
+    desc: "",
+  },
+  cluster: {
+    k8s: {
+      version: 1,
+      pod_cidr: "10.244.0.0/16",
+      svc_cidr: "10.244.0.0/1",
+    },
+    baremetal: {
+      secret_name: "secret1",
+      user_name: "asdf",
+      password: "asdf",
+      image_url: "http://192.168.0.1/ubuntu.qcow2",
+      image_checksum: "http://192.168.0.1/ubuntu.qcow2.md5sum",
+      image_checksum_type: 0,
+      image_format: 1,
+      cp_kubeadm_extra_config: {
+        pre_kubeadm_commands: "",
+        post_kubeadm_commands: "",
+        files: "",
+        users: "",
+        ntp: "",
+        format: "",
+      },
+      worker_kubeadm_extra_config: {
+        pre_kubeadm_commands: "",
+        post_kubeadm_commands: "",
+        files: "",
+        users: "",
+        ntp: "",
+        format: "",
+      },
+    },
+  },
+  nodes: {
+    use_loadbalancer: false,
+    loadbalancer_address: "",
+    loadbalancer_port: "",
+    master_nodes: [
+      {
+        baremetal: {
+          host_name: "sadf",
+          bmc_address: "sadf",
+          boot_mac_address: "00:b2:8c:ee:22:98",
+          boot_mode: 0,
+          online_power: false,
+          external_provisioning: false,
+        },
+        node: {
+          node_name: "sadf",
+          ip_address: "safd",
+          labels: [
+            {
+              key: "aaaa",
+              value: "bbbb",
+            },
+          ],
+        },
+      },
+    ],
+    worker_nodes: [
+      {
+        baremetal: {
+          host_name: "sadf",
+          bmc_address: "sadf",
+          boot_mac_address: "00:b2:8c:ee:22:98",
+          boot_mode: 0,
+          online_power: false,
+          external_provisioning: false,
+        },
+        node: {
+          node_name: "sadf",
+          ip_address: "safd",
+          labels: [
+            {
+              key: "aaaa",
+              value: "bbbb",
+            },
+          ],
+        },
+      },
+      {
+        baremetal: {
+          host_name: "asdfasfsafs",
+          bmc_address: "sadf",
+          boot_mac_address: "00:b2:8c:ee:22:98",
+          boot_mode: 0,
+          online_power: false,
+          external_provisioning: false,
+        },
+        node: {
+          node_name: "sadsadfasdfsafasf",
+          ip_address: "safd",
+          labels: [
+            {
+              key: "aaaa",
+              value: "bbbb",
+            },
+          ],
+        },
+      },
+    ],
+  },
+  etcd_storage: {
+    etcd: {
+      use_external_etcd: false,
+      endpoints: [
+        {
+          ip_address: "",
+          port: "",
+        },
+      ],
+      ca_file: "",
+      cert_file: "",
+      key_file: "",
+    },
+    storage_class: {
+      use_ceph: false,
+      label1: "",
+      label2: "",
+      label3: "",
+    },
+  },
+  openstack: {},
 };
-
-onActivated(() => {
-  emits("can-continue", { value: true });
-});
-
-onMounted(() => {
-  emits("can-continue", { value: true });
-  console.log(props.modelValue);
-});
-
-defineExpose({ beforeNextStep });
 </script>
 
 <style scoped lang="scss"></style>

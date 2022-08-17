@@ -50,6 +50,7 @@ export const defaultCloudInfo: cloudInfo = {
 export const defaultCloudInfoValidation = {
   name: { required, minLength: minLength(3), maxLength: maxLength(20), alphaNum },
   type: { required },
+  desc: {},
 };
 
 export interface cloud_reg {
