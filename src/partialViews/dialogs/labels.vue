@@ -2,7 +2,8 @@
     <K3Dialog header="Labels 설정"
               v-model:visible="display"
               :modal="true"
-              :style="{ width: '50vw' }">
+              :style="{ width: '50vw' }"
+              @hide="onHide">
         <K3FormContainer class="no-style">
             <K3ValidateEach v-for="(item, index) in items"
                             :key="index"
@@ -102,6 +103,9 @@ const ok = () => {
     } else {
         emits('ok', Util.clone(items.value))
     }
+}
+const onHide = () => {
+    emits('close')
 }
 
 onMounted(() => {
