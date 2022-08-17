@@ -11,6 +11,8 @@
 </template>
 
 <script setup lang="ts">
+import { stringLiteral } from '@babel/types';
+
 const props = defineProps({
     size: { type: Number, default: 12 },
     verticalLayout: { type: Boolean, default: false },
@@ -19,6 +21,7 @@ const props = defineProps({
     labelAlign: { type: String, default: 'center' },
     labelBackgroundColor: { type: String, default: 'slategray' },
     labelColor: { type: String, default: 'white' },
+    itemAlign: { type: String, default: 'left' }
 })
 
 const columnClass = computed(() => [
@@ -40,6 +43,7 @@ const labelStyle = computed(() => [
 ])
 const itemClass = computed(() => [
     'item',
+    `justify-content-${props.itemAlign === 'left' ? 'start' : props.itemAlign === 'right' ? 'end' : 'center'}`
 ])
 const itemStyle = computed(() => [
 ])

@@ -5,7 +5,7 @@
               :modal="true">
       <i class="message-icon"
          :class="icon"></i>
-      <span class="m-0 p-confirm-dialog-message">
+      <span class="p-confirm-dialog-message">
         {{ msg.content }}
       </span>
       <template #footer>
@@ -33,13 +33,20 @@ const closeModal = () => {
 <style scoped lang="scss">
 .p-dialog-content {
   display: flex;
+  flex-direction: row;
   -webkit-box-align: center;
   align-items: center;
   justify-content: center;
 
+
   .message-icon {
-    padding-right: 20px;
+    padding-right: 10px;
     font-size: 2rem;
+  }
+
+  .p-confirm-dialog-message {
+    position: relative;
+    top: -0.5rem;
   }
 }
 </style>

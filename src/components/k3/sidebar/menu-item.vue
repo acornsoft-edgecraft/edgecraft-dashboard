@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
 import { useSidebar, useMenuItem } from '~/composables/_components';
-import { K3SidebarMenuLink } from '~~/.nuxt/components';
+import K3SidebarMenuLink from '~/components/k3/sidebar/menu-link.vue';
 
 const props = defineProps({
     item: { type: Object, required: true },

@@ -52,6 +52,8 @@
     border-bottom: 3px dotted darkgray;
 }
 
+/* Form 컴포넌트를 사용하는 경우는 제거 대상 */
+
 /**
  * Form Component 용 (Validation 포함)
  * - Form Container
@@ -105,9 +107,9 @@
         justify-content: flex-end;
     }
 
-    .form-row {
-        // empty
-    }
+    // .form-row {
+    //     // empty
+    // }
 
     .form-column {
         display: flex;
@@ -118,6 +120,8 @@
         .label {
             display: flex;
             padding: 0.6rem;
+            flex: 0 0 auto;
+            /* Width 뭉개지는것 방지용 */
         }
 
         .item {
@@ -143,6 +147,10 @@
 
     .form-field {
         width: 100%;
+    }
+
+    .p-accordion-content {
+        padding: 0.3rem;
     }
 
     .error-field.basic.error.label {

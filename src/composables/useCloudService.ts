@@ -45,7 +45,6 @@ export function useCloudService(options: any = {}) {
             UI.showToastMessage(MessageTypes.ERROR, "Fetch Cloud", res.message);
           } else {
             cloud.value = res.data;
-            console.log(res.data, cloud.value);
           }
           isFetch.value = false;
         })
