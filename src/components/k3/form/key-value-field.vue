@@ -1,5 +1,5 @@
 <template>
-    <div class="form-field key-value-field flex flex-row justify-content-start align-items-center">
+    <div class="key-value-field flex flex-row justify-content-start align-items-center">
         <div class="chips flex-grow-1 flex-wrap">
             <K3Chip v-for="(item, index) in modelValue.$model"
                     :key="index"

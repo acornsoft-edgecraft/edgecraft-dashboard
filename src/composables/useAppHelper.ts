@@ -186,7 +186,7 @@ const UI = {
     },
     getValidate: (rules = null, state = null) => {
         if (rules && state)
-            return useVuelidate(rules, state)
+            return useVuelidate(rules, state, { $lazy: true })
         else
             return useVuelidate()
     },

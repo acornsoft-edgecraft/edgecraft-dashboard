@@ -11,6 +11,8 @@
                                   label-align="right">
                         <K3FormInputField v-model="v.name"
                                           field-name="Name" />
+                        <K3Button label="test"
+                                  @click="onClick" />
                     </K3FormColumn>
                 </K3FormRow>
                 <K3FormRow>
@@ -115,7 +117,39 @@
                         <K3InputText class="w-full" />
                     </K3FormColumn>
                 </K3FormRow>
+                <K3FormRow direction="horizontal"
+                           :overflow-wrap="true">
+                    <K3FormColumn label="CheckBox"
+                                  label-align="right"
+                                  :size="3">
+                        <K3FormCheckField v-model="v3.checked"
+                                          id="check" />
+                    </K3FormColumn>
+                    <K3FormColumn label="Multi CheckBox"
+                                  label-align="right"
+                                  :size="9">
+                        <K3FormCheckGroupField v-model="v3.multiChecked"
+                                               :options="checkOptions"
+                                               label-align="left"
+                                               name="options" />
+                    </K3FormColumn>
+                </K3FormRow>
+                <K3FormRow direction="horizontal"
+                           :overflow-wrap="true">
+                    <K3FormColumn label="Radio Buttons"
+                                  label-align="right"
+                                  :size="12">
+                        <K3FormRadioField v-model="v3.multiChecked"
+                                          :options="checkOptions"
+                                          label-align="right"
+                                          name="options" />
+                    </K3FormColumn>
+                </K3FormRow>
             </K3FormContainer>
+
+            <br />
+            Model Result: {{ checkInfo }}
+            <br />
         </section>
     </div>
 </template>
@@ -149,9 +183,23 @@ const defaultBaremetalInfoValidation = {
     user_name: { required },
     password: { required },
 };
+const checkInfo = ref({
+    checked: false,
+    multiChecked: ['a']
+})
+const checkInfoValidation = {
+    checked: { required },
+    multiChecked: { required }
+}
+const checkOptions = [{ key: 'a', label: 'Option A', disabled: false }, { key: 'b', label: 'Option B', disabled: false }, { key: 'c', label: 'Option C', disabled: true }]
 
 const v = useAppHelper().UI.getValidate(defaultCloudInfoValidation, defaultCloudInfo)
 const v2 = useAppHelper().UI.getValidate(defaultBaremetalInfoValidation, defaultBaremetalInfo)
+const v3 = useAppHelper().UI.getValidate(checkInfoValidation, checkInfo)
+
+const onClick = () => {
+    defaultCloudInfo.value.name = 'Morris Chang'
+}
 </script>
 
 <style scoped lang="scss">

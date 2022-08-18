@@ -56,11 +56,13 @@ div#__nuxt {
 
 .layout-main {
   height: calc(100vh - ($headerHeight + $footerHeight));
+}
+
+.page-scroller {
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 .page-container {
-  margin: 0.7rem;
-  width: 100%;
+  padding: 0.5rem;
 }
