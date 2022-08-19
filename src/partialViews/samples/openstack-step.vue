@@ -6,8 +6,8 @@
 
 <script setup lang="ts">
 const props = defineProps({
-    modelValue: { type: Object, required: true },
-    v: { type: Object, required: true }
+    modelValue: { type: Object, default: () => { } },
+    v: { type: Object, default: () => { } }
 })
 const emits = defineEmits(['can-continue'])
 
@@ -16,12 +16,14 @@ const beforeNextStep = (): boolean => {
 }
 
 onActivated(() => {
-    if (!props.v?.value.$invalid) {
-        emits('can-continue', { value: true })
-    }
+    emits('can-continue', { value: true })
+    // if (!props.v?.value.$invalid) {
+    //     emits('can-continue', { value: true })
+    // }
 })
 
 onMounted(() => {
+    emits('can-continue', { value: true })
 });
 
 defineExpose({ beforeNextStep })
