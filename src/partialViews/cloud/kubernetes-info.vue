@@ -1,40 +1,34 @@
 <template>
-  <div calss="p-card">
-    <h5 class="form-title">Kubernetes 설치 정보</h5>
-    <div class="field grid">
-      <label for="version" class="col-1">Version</label>
-      <div class="col-11">
-        <K3Dropdown id="version" v-model="v$.version.$model" :options="K8sVersionMap()" :optionLabel="'name'" :optionValue="'value'" class="mr-2 w-2" />
-        <!-- <K3InputText id="version" v-model="v$.version.$model" type="text" autofocus class="text-base text-color w-full" :class="{ 'p-invalid': v$.version.$invalid }" /> -->
-        <small v-if="v$.version.$invalid" class="p-error">{{ v$.version.required.$message.replace("Value", "Kubernetes Version") }}</small>
-      </div>
-    </div>
-    <div class="field grid">
-      <label for="pod_cidr" class="col-1">POD CIDR</label>
-      <div class="col-11">
-        <K3InputText id="pod_cidr" v-model="v$.pod_cidr.$model" type="text" class="text-base text-color w-full" :class="{ 'p-invalid': v$.pod_cidr.$invalid }" />
-        <small v-if="v$.pod_cidr.$invalid" class="p-error">{{ v$.pod_cidr.required.$message.replace("Value", "POD CIDR") }}</small>
-      </div>
-    </div>
-    <div class="field grid">
-      <label for="svc_cidr" class="col-1">Service CIDR</label>
-      <div class="col-11">
-        <K3InputText id="svc_cidr" v-model="v$.svc_cidr.$model" type="text" class="text-base text-color w-full" :class="{ 'p-invalid': v$.svc_cidr.$invalid }" />
-        <small v-if="v$.svc_cidr.$invalid" class="p-error">{{ v$.svc_cidr.required.$message.replace("Value", "Service CIDR") }}</small>
-      </div>
-    </div>
+  <div class="partial-container m-0 p-0">
+    <K3FormContainer>
+      <template #header>Kubernetes 설치 정보</template>
+      <K3FormRow>
+        <K3FormColumn label="Kubernetes Version" label-align="right">
+          <K3FormDropdownField v-model="v$.version" :options="K8sVersionMap()" :optionLabel="'name'" :optionValue="'value'" field-name="Kubernetes Version" class="w-6" />
+        </K3FormColumn>
+      </K3FormRow>
+      <K3FormRow>
+        <K3FormColumn label="POD CIDR" label-align="right">
+          <K3FormInputField v-model="v$.pod_cidr" field-name="POD CIDR" class="w-6" />
+        </K3FormColumn>
+      </K3FormRow>
+      <K3FormRow>
+        <K3FormColumn label="Service CIDR" label-align="right">
+          <K3FormInputField v-model="v$.svc_cidr" field-name="Service CIDR" class="w-6" />
+        </K3FormColumn>
+      </K3FormRow>
+    </K3FormContainer>
   </div>
 </template>
 
 <script setup lang="ts">
-import useVuelidate from "@vuelidate/core";
 import { K8sVersionMap, defaultKubernetesInfoValidation, kubernetesInfo } from "~/models";
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });
 
-const v$ = useVuelidate(defaultKubernetesInfoValidation, ref(props.modelValue as kubernetesInfo));
+const v$ = useAppHelper().UI.getValidate(defaultKubernetesInfoValidation, ref(props.modelValue as kubernetesInfo));
 
 onMounted(() => {});
 </script>

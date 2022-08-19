@@ -5,7 +5,7 @@
         <K3PageTitle />
       </section>
       <section class="page-content">
-        <K3Stepper :steps="steps" v-model="cloudRegModel" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" :top-buttons="true" />
+        <K3Stepper :steps="steps" v-model="cloud" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" :top-buttons="true" />
       </section>
     </div>
   </div>
@@ -13,8 +13,7 @@
 
 <script setup lang="ts">
 // imports
-// import PCloudInfo from "~/partialViews/cloud/cloud-step.vue";
-import PCloudInfo from "~~/src/partialViews/cloud/cloud-step-form.vue";
+import PCloudInfo from "~~/src/partialViews/cloud/cloud-step.vue";
 import PClusterInfo from "~/partialViews/cloud/cluster-step.vue";
 import PNodeInfo from "~/partialViews/cloud/node-step.vue";
 import PEtcdStorageInfo from "~/partialViews/cloud/etcd-storage-step.vue";
@@ -35,6 +34,7 @@ const { cloud, fetch } = useCloudService().getCloud(route.params.id);
 
 const cloudRegModel = Util.clone(defaultCloudReg);
 
+console.log("setup cloud", cloud);
 const steps = [
   { icon: "fas fa-cloud", name: "cloud", title: "CLOUD 정보", subTitle: "Cloud 구성 정보를 설정합니다", component: PCloudInfo, completed: false },
   { icon: "fas fa-circle-nodes", name: "cluster", title: "CLUSTER 정보", subTitle: "Cluster 구성 정보를 설정합니다", component: PClusterInfo, completed: false },
@@ -59,13 +59,15 @@ const activeStep = (payload) => {
 const finished = (payload) => {
   alert("잘 했어... ^^");
 };
+
 // Events
 onMounted(() => {
-  if (route.params.id != "") {
-    fetch();
-  }
-  console.log("cloud", cloud);
+  // if (route.params.id != "") {
+  fetch(route.params.id);
+  console.log("onmounted cloud", cloud.value);
+  // }
 });
+
 // Logics (like api call, etc)
 </script>
 

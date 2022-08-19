@@ -11,6 +11,8 @@
                                   label-align="right">
                         <K3FormInputField v-model="v.name"
                                           field-name="Name" />
+                        <K3Button label="test"
+                                  @click="onClick" />
                     </K3FormColumn>
                 </K3FormRow>
                 <K3FormRow>
@@ -26,9 +28,16 @@
                 <K3FormRow>
                     <K3FormColumn label="Cloud 설명"
                                   label-align="right">
-                        <K3Textarea v-model="defaultCloudInfo.desc"
-                                    rows="4"
-                                    class="w-full" />
+                        <K3FormTextareaField v-model="v.desc"
+                                             rows="4"
+                                             class="w-full" />
+                    </K3FormColumn>
+                </K3FormRow>
+                <K3FormRow>
+                    <K3FormColumn label="Labels"
+                                  label-align="right">
+                        <K3FormKeyValueField v-model="v.labels"
+                                             caption="Labels 설정" />
                     </K3FormColumn>
                 </K3FormRow>
             </K3FormContainer>
@@ -61,7 +70,14 @@
                                 </K3FormColumn>
                                 <K3FormColumn label="Kubeadm Extra Config"
                                               label-align="right">
-                                    <K3Accordion />
+                                    <K3Accordion class="w-full"
+                                                 :activeIndex="0">
+                                        <K3AccordionTab header="Test">
+                                            <K3Textarea v-model="defaultCloudInfo.desc"
+                                                        rows="4"
+                                                        class="w-full" />
+                                        </K3AccordionTab>
+                                    </K3Accordion>
                                 </K3FormColumn>
                             </K3FormRow>
                         </K3FormContainer>
@@ -101,7 +117,39 @@
                         <K3InputText class="w-full" />
                     </K3FormColumn>
                 </K3FormRow>
+                <K3FormRow direction="horizontal"
+                           :overflow-wrap="true">
+                    <K3FormColumn label="CheckBox"
+                                  label-align="right"
+                                  :size="3">
+                        <K3FormCheckField v-model="v3.checked"
+                                          id="check" />
+                    </K3FormColumn>
+                    <K3FormColumn label="Multi CheckBox"
+                                  label-align="right"
+                                  :size="9">
+                        <K3FormCheckGroupField v-model="v3.multiChecked"
+                                               :options="checkOptions"
+                                               label-align="left"
+                                               name="options" />
+                    </K3FormColumn>
+                </K3FormRow>
+                <K3FormRow direction="horizontal"
+                           :overflow-wrap="true">
+                    <K3FormColumn label="Radio Buttons"
+                                  label-align="right"
+                                  :size="12">
+                        <K3FormRadioField v-model="v3.multiChecked"
+                                          :options="checkOptions"
+                                          label-align="right"
+                                          name="options" />
+                    </K3FormColumn>
+                </K3FormRow>
             </K3FormContainer>
+
+            <br />
+            Model Result: {{ checkInfo }}
+            <br />
         </section>
     </div>
 </template>
@@ -117,29 +165,41 @@ const defaultCloudInfo = ref({
     name: "ff",
     type: CloudTypes.Baremetal,
     desc: "",
+    labels: [{ key: '1', value: '1' }, { key: '2', value: '2' }, { key: '3', value: '3' }, { key: '4', value: '4' }, { key: '5', value: '5' }, { key: '6', value: '6' }, { key: '7', value: '7' }]
 });
-
 const defaultCloudInfoValidation = {
     name: { required, minLength: minLength(4) },
     type: { required },
-    desc: { required }
+    desc: { required },
+    labels: { required }
 };
-
 const defaultBaremetalInfo = ref({
     secret_name: "ㅁㅁ",
     user_name: "ㅇㅇ",
     password: "ㄹㄹ",
 });
-
 const defaultBaremetalInfoValidation = {
     secret_name: { required },
     user_name: { required },
     password: { required },
 };
+const checkInfo = ref({
+    checked: false,
+    multiChecked: ['a']
+})
+const checkInfoValidation = {
+    checked: { required },
+    multiChecked: { required }
+}
+const checkOptions = [{ key: 'a', label: 'Option A', disabled: false }, { key: 'b', label: 'Option B', disabled: false }, { key: 'c', label: 'Option C', disabled: true }]
 
 const v = useAppHelper().UI.getValidate(defaultCloudInfoValidation, defaultCloudInfo)
 const v2 = useAppHelper().UI.getValidate(defaultBaremetalInfoValidation, defaultBaremetalInfo)
+const v3 = useAppHelper().UI.getValidate(checkInfoValidation, checkInfo)
 
+const onClick = () => {
+    defaultCloudInfo.value.name = 'Morris Chang'
+}
 </script>
 
 <style scoped lang="scss">

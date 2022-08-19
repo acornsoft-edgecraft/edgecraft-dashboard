@@ -8,7 +8,6 @@ import { MessageTypes, StateKeys, StoreTypes, APIResponse, defaultMessageType, I
 import { Router } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import * as validators from '@vuelidate/validators'
-//import { required, email } from '@vuelidate/validators'
 
 const messageTimeout = 3000
 const authSync = ref(null)      // sync for SessionStorage
@@ -185,13 +184,13 @@ const UI = {
         const msgs = useState(StateKeys.MESSAGE, () => defaultMessageType)
         msgs.value = { severity: messageType, title: title, content: message, display: true };
     },
-    getValidate: (rules, state) => {
+    getValidate: (rules = null, state = null) => {
         if (rules && state)
-            return useVuelidate(rules, state)
+            return useVuelidate(rules, state, { $lazy: true })
         else
             return useVuelidate()
     },
-    getValidators: () => validators
+    getValidators: () => validators,
 }
 
 const Routing = {

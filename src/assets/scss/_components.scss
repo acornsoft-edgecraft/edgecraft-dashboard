@@ -3,11 +3,12 @@
   top: 7em;
 }
 
-.p-dialog-mask.p-component-overlay.p-component-overlay-enter {
-  z-index: 999999 !important;
-}
+// .p-dialog-mask.p-component-overlay.p-component-overlay-enter {
+//   z-index: 999999 !important;
+// }
 .p-confirm-dialog {
   min-width: 300px;
+
   .p-dialog-content {
     justify-content: center;
   }
@@ -21,6 +22,7 @@
   .p-sidebar-header {
     display: none;
   }
+
   .p-sidebar-content {
     height: 100vh;
     overflow-y: auto;

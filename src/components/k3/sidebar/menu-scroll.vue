@@ -21,27 +21,23 @@
 <script setup lang="ts">
 import { useSidebar } from '~/composables/_components/useSidebarMenu';
 
+const { getIsCollapsed: isCollapsed } = useSidebar()
+
 const scrollRef = ref(null)
 const scrollBarRef = ref(null)
 const scrollThumbRef = ref(null)
+
 const thumbYPerc = ref(0)
 const thumbHeightPerc = ref(0)
 
 let cursorY = 0
 let cursorDown = false
 
-const { getIsCollapsed: isCollapsed } = useSidebar()
-
-const thumbStyle = computed(() => ({ height: `${thumbHeightPerc.value}%`, transform: `translateY(${thumbYPerc}%)` }))
-
-const updateThumb = () => {
-    const heightPerc = scrollRef.value.clientHeight * 100 / scrollRef.value.scrollHeight
-    thumbHeightPerc.value = heightPerc < 100 ? heightPerc : 0
-    thumbYPerc.value = scrollRef.value.scrollTop * 100 / scrollRef.value.clientHeight
-}
-
-watch(() => isCollapsed.value, () => {
-    onScrollUpdate()
+const thumbStyle = computed(() => {
+    return {
+        height: `${thumbHeightPerc.value}%`,
+        transform: `translateY(${thumbYPerc.value}%)`
+    }
 })
 
 const onScrollUpdate = () => {
@@ -49,25 +45,6 @@ const onScrollUpdate = () => {
     nextTick(() => {
         updateThumb()
     })
-}
-
-const onMouseMove = (e) => {
-    if (!cursorDown) return
-    const offset = e.clientY - scrollBarRef.value.getBoundingClientRect().y
-    const thumbClickPosition = scrollThumbRef.value.offsetHeight - cursorY
-    updateScrollTop(offset - thumbClickPosition)
-}
-
-const onMouseUp = (e) => {
-    cursorDown = false
-    cursorY = 0
-    window.removeEventListener('mousemove', onMouseMove)
-    window.removeEventListener('mouseup', onMouseUp)
-}
-
-const updateScrollTop = (y) => {
-    const scrollPerc = y * 100 / scrollBarRef.value.offsetHeight
-    scrollRef.value.scrollTop = scrollPerc * scrollRef.value.scrollHeight / 100
 }
 
 const onScroll = () => {
@@ -88,6 +65,35 @@ const onMouseDown = (e) => {
     cursorY = scrollThumbRef.value.offsetHeight - (e.clientY - scrollThumbRef.value.getBoundingClientRect().y)
 }
 
+const onMouseMove = (e) => {
+    if (!cursorDown) return
+    const offset = e.clientY - scrollBarRef.value.getBoundingClientRect().y
+    const thumbClickPosition = scrollThumbRef.value.offsetHeight - cursorY
+    updateScrollTop(offset - thumbClickPosition)
+}
+
+const onMouseUp = (e) => {
+    cursorDown = false
+    cursorY = 0
+    window.removeEventListener('mousemove', onMouseMove)
+    window.removeEventListener('mouseup', onMouseUp)
+}
+
+const updateThumb = () => {
+    const heightPerc = scrollRef.value.clientHeight * 100 / scrollRef.value.scrollHeight
+    thumbHeightPerc.value = heightPerc < 100 ? heightPerc : 0
+    thumbYPerc.value = scrollRef.value.scrollTop * 100 / scrollRef.value.clientHeight
+}
+
+const updateScrollTop = (y) => {
+    const scrollPerc = y * 100 / scrollBarRef.value.offsetHeight
+    scrollRef.value.scrollTop = scrollPerc * scrollRef.value.scrollHeight / 100
+}
+
+watch(() => isCollapsed.value, () => {
+    onScrollUpdate()
+})
+
 onMounted(() => {
     onScrollUpdate()
     window.addEventListener('resize', onScrollUpdate)
@@ -97,7 +103,6 @@ onUnmounted(() => {
 })
 
 provide('emitScrollUpdate', onScrollUpdate)
-
 </script>
 
 <style scoped lang="scss">

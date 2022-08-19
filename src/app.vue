@@ -13,7 +13,6 @@
         <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>
-        <K3ScrollTop :threshold="100" />
     </div>
 </template>
 

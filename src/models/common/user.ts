@@ -74,10 +74,5 @@ export const defaultUser: IUser = {
       title: "Form Tester",
       icon: "fas fa-table-cells",
     },
-    {
-      href: "/samples/node-label",
-      title: "Node Label",
-      icon: "fas fa-bookmark",
-    },
   ],
 };

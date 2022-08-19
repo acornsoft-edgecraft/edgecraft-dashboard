@@ -7,8 +7,12 @@
                            :show-one-child="true"
                            @update:collapsed="onToggleCollapsed"
                            @item-click="onItemClicked" />
-            <div class="page-container">
-                <slot />
+            <div class="page-scroller flex-grow-1">
+                <div class="page-container w-full">
+                    <slot />
+                </div>
+                <K3ScrollTop target="parent"
+                             :threshold="100" />
             </div>
         </div>
         <Footer />
@@ -44,4 +48,11 @@ const onItemClicked = (event, item) => {
 </script>
 
 <style scoped lang="scss">
+:deep(.p-scrolltop) {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
 </style>
