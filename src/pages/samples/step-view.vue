@@ -15,8 +15,7 @@
                    :keep-alive="false"
                    :top-buttons="true" />
         <K3Overlay :active="isFetch"
-                   loader="bars"
-                   background-color="#830205" />
+                   loader="bars_bound" />
       </div>
       <K3FormContainer>
         <K3FormRow direction="horizontal">
@@ -86,7 +85,6 @@ const onVisibleChange = (val) => {
 
 const index = ref(1)
 const onClick = () => {
-  console.log('clicked')
   fetch(index.value)
 }
 </script>

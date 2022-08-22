@@ -70,7 +70,7 @@
 
 <script setup lang="ts">
 const props = defineProps({
-    color: { type: String, default: "#000" },
+    color: { type: String, default: "#FF7700" },
     height: { type: Number, default: 240 },
     width: { type: Number, default: 60 },
 });

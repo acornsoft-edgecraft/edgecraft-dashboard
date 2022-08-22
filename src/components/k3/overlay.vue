@@ -19,6 +19,18 @@
                                    :color="color"
                                    :width="width"
                                    :height="height" />
+                    <K3LoadersBarsEq v-if="loader === 'bars_eq'"
+                                     :color="color"
+                                     :width="width"
+                                     :height="height" />
+                    <K3LoadersBarsBound v-if="loader === 'bars_bound'"
+                                        :color="color"
+                                        :width="width"
+                                        :height="height" />
+                    <K3LoadersBarsTrans v-if="loader === 'bars_trans'"
+                                        :color="color"
+                                        :width="width"
+                                        :height="height" />
                     <K3LoadersDots v-if="loader === 'dots'"
                                    :color="color"
                                    :width="width"
@@ -58,7 +70,7 @@ const props = defineProps({
     width: Number,
     height: Number,
     zIndex: { type: Number, default: 9001, },
-    loader: { type: String, default: "spinner", },
+    loader: { type: String, default: "bars", },
 });
 const emits = defineEmits(['hide', 'update:active'])
 
@@ -73,9 +85,6 @@ const bgStyle = computed(() => {
 watch(() => props.active, () => { isActive.value = props.active })
 watch(isActive, () => {
     isActive.value ? disableScroll() : enableScroll()
-    nextTick(() => {
-        console.log(`overlay element >>> ${root.value}`)
-    })
 })
 
 const hide = () => {
@@ -108,7 +117,6 @@ const enableScroll = () => {
 }
 
 const onKeyUp = (event: KeyboardEvent) => {
-    console.log(`key up >>> ${event.key}`)
     if (event.key === 'Escape' || event.key === 'Esc') {
         cancel()
     }
@@ -119,10 +127,6 @@ onMounted(() => {
         isActive.value = true
         document.addEventListener("keyup", onKeyUp)
     }
-
-    nextTick(() => {
-        console.log(`overlay mounted >>> ${root.value?.parentElement.classList}`)
-    })
 })
 
 onUnmounted(() => {
@@ -165,8 +169,8 @@ onUnmounted(() => {
     left: 0;
     right: 0;
     top: 0;
-    background: #fff;
-    opacity: 0.5;
+    background: lightslategrey;
+    opacity: 0.3;
 }
 
 .comp-overlay .comp-icon .comp-parent {
