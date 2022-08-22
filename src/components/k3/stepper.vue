@@ -45,7 +45,7 @@
                      @change-next="changeNextBtnValue"
                      @visible-change="changeVisible"
                      :current-step="currentStep"
-                     :key="refreshCount" />
+                     :key="componentKey" />
         </keep-alive>
         <component v-else
                    ref="comp"
@@ -56,7 +56,7 @@
                    @change-next="changeNextBtnValue"
                    @visible-change="changeVisible"
                    :current-step="currentStep"
-                   :key="refreshCount" />
+                   :key="componentKey" />
       </transition>
     </div>
     <div :class="['bottom', currentStep.index > 0 ? '' : 'only-next']">
@@ -85,7 +85,6 @@ const props = defineProps({
 })
 const emits = defineEmits(['active-step', 'completed-step', 'stepper-finished', 'clicking-back', 'visible-change'])
 
-const refreshCount = ref(0)
 const comp = ref(undefined)
 const currentStep = ref({ name: '', index: 0 })
 const previousStep = ref({ name: '', index: -1 })
@@ -111,6 +110,9 @@ const leaveAnimation = computed(() => {
   } else {
     return "animated quick fadeOutRight";
   }
+})
+const componentKey = computed(() => {
+  return `${currentStep.value.name}_${steps.value[currentStep.value.index]}`
 })
 
 const isStepActive = (index) => currentStep.value.index === index ? 'activated' : 'deactivated'
@@ -172,13 +174,16 @@ const changeVisible = (val) => {
 }
 
 watch(() => props.modelValue, () => {
-  refreshCount.value++
+  steps.value[currentStep.value.index].index++
 })
 
 // initialize
 const init = () => {
   activateStep(0)
-  props.steps.forEach(s => nextButton[s.name] = false)
+  props.steps.forEach(s => {
+    nextButton[s.name] = false
+    s.index = 0               // 갱신 초기화
+  })
 }
 
 onMounted(() => { })

@@ -5,21 +5,33 @@
     </section>
     <section class="page-content">
       <!-- <K3StepView :steps="steps" /> -->
-      <K3Stepper :steps="steps"
-                 v-model="cloud"
-                 @completed-step="completedStep"
-                 @active-step="activeStep"
-                 @stepper-finished="finished"
-                 @visible-change="onVisibleChange"
-                 :keep-alive="false"
-                 :top-buttons="true" />
+      <div class="stepper-container">
+        <K3Stepper :steps="steps"
+                   v-model="cloud"
+                   @completed-step="completedStep"
+                   @active-step="activeStep"
+                   @stepper-finished="finished"
+                   @visible-change="onVisibleChange"
+                   :keep-alive="false"
+                   :top-buttons="true" />
+        <K3Overlay :active="isFetch"
+                   loader="bars"
+                   background-color="#830205" />
+      </div>
       <K3FormContainer>
         <K3FormRow direction="horizontal">
           <K3FormColumn label="Cloud 조회">
             <K3InputText class="mr-3"
                          v-model="index" />
-            <K3Button label="조회"
+            <K3Button class="mr-3"
+                      label="조회"
                       @click.prevent="onClick" />
+            <div class="field-checkbox">
+              <K3Checkbox inputId="binary"
+                          v-model="isFetch"
+                          :binary="true" />
+              <label for="binary">{{ `Overlay Test (isFetch: ${isFetch})` }}</label>
+            </div>
           </K3FormColumn>
         </K3FormRow>
       </K3FormContainer>
@@ -35,7 +47,6 @@ import PNodeInfo from "~/partialViews/samples/node-step.vue";
 import PEtcdStorageInfo from "~/partialViews/samples/etcd-storage-step.vue";
 import POpenstackInfo from "~/partialViews/samples/openstack-step.vue";
 import PReviewInfo from "~/partialViews/samples/review-step.vue";
-import { defaultCloudReg } from "~/models/samples";
 
 definePageMeta({ layout: "default", title: "Cloud Registration", public: true });
 
@@ -83,5 +94,9 @@ const onClick = () => {
 <style scoped lang="scss">
 .page-content {
   margin-top: 0.5rem;
+}
+
+.stepper-container {
+  position: relative;
 }
 </style>
