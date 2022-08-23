@@ -112,7 +112,7 @@ const leaveAnimation = computed(() => {
   }
 })
 const componentKey = computed(() => {
-  return `${currentStep.value.name}_${steps.value[currentStep.value.index]}`
+  return `${currentStep.value.name}_${steps.value[currentStep.value.index].index}`
 })
 
 const isStepActive = (index) => currentStep.value.index === index ? 'activated' : 'deactivated'
