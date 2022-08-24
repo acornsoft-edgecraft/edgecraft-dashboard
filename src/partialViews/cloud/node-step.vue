@@ -4,8 +4,7 @@
       <template #header>Node 정보</template>
       <K3FormRow class="h-3rem">
         <K3FormColumn>
-          <K3Checkbox inputId="use_loadbalancer" v-model="nodes.use_loadbalancer" :binary="true" class="mr-2" />
-          <label for="use_loadbalancer" class="pt-1">Loadbalancer</label>
+          <K3FormCheckField v-model="v$.use_loadbalancer" id="use_loadbalancer" label="Loadbalancer" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow direction="horizontal" v-if="nodes.use_loadbalancer">
@@ -28,7 +27,7 @@
 
 <script setup lang="ts">
 import NodesInfo from "./nodes-info.vue";
-import { NodeType, nodesInfo, defaultNodesInfoValidation } from "~/models";
+import { NodeType, defaultNodesInfoValidation } from "~/models";
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
@@ -39,7 +38,7 @@ const nodes = ref(props.modelValue.nodes);
 
 console.log(`node step >>> model value: ${JSON.stringify(nodes.value)}`);
 
-const v$ = useAppHelper().UI.getValidate(defaultNodesInfoValidation, nodes as nodesInfo);
+const v$ = useAppHelper().UI.getValidate(defaultNodesInfoValidation, nodes);
 
 watch(
   () => v$.value,

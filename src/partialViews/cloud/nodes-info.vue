@@ -1,86 +1,65 @@
 <template>
-  <div calss="p-card">
+  <div class="p-card w-full">
     <K3Panel :header="`${type} Nodes`" :toggleable="true">
       <template #icons>
         <K3Button icon="pi pi-plus" class="mr-2" @click="addNode" />
       </template>
       <K3ValidateEach v-for="(item, index) in data" :key="index" :state="item" :rules="vRules">
         <template #default="{ v }">
-          <div class="field grid iter">
-            <div class="field col-12">
-              <K3Divider align="left" type="solid">Baremetal Host</K3Divider>
-            </div>
-            <div class="field col-6">
-              <label for="host_name">Host Name</label>
-              <K3InputText id="host_name" v-model="v.baremetal.host_name.$model" type="text" autofocus class="text-base text-color w-full" :class="{ 'p-invalid': v.baremetal.host_name.$invalid }" />
-              <small v-if="v.baremetal.host_name.$invalid" class="p-error">{{ v.baremetal.host_name.required.$message?.replace("Value", "Host Name") }}</small>
-            </div>
-            <div class="field col-6">
-              <label for="bmc_address">BMC Address</label>
-              <K3InputText id="bmc_address" v-model="v.baremetal.bmc_address.$model" type="text" class="text-base text-color w-full" :class="{ 'p-invalid': v.baremetal.bmc_address.$invalid }" />
-              <small v-if="v.baremetal.bmc_address.$invalid" class="p-error">{{ v.baremetal.bmc_address.required.$message?.replace("Value", "BMC Address") }}</small>
-            </div>
-            <div class="field col-6">
-              <label for="boot_mac_address">Boot MAC Address</label>
-              <K3InputText id="boot_mac_address" v-model="v.baremetal.boot_mac_address.$model" type="text" autofocus class="text-base text-color w-full" :class="{ 'p-invalid': v.baremetal.boot_mac_address.$invalid }" />
-              <small v-if="v.baremetal.boot_mac_address.$invalid" class="p-error">{{ v.baremetal.boot_mac_address.required.$message?.replace("Value", "Boot MAC Address") }}</small>
-            </div>
-            <div class="field col-6">
-              <label for="boot_mode">Boot Mode</label>
-              <K3Dropdown id="boot_mode" v-model="v.baremetal.boot_mode.$model" :options="BootModesMap()" :optionLabel="'name'" :optionValue="'value'" class="mr-2 w-full" />
-              <small v-if="v.baremetal.boot_mode.$invalid" class="p-error">{{ v.baremetal.boot_mode.required.$message?.replace("Value", "Boot Mode") }}</small>
-            </div>
-            <div class="field col-6">
-              <div class="field-checkbox h-full">
-                <label for="online_power">Online (power)</label>
-                <K3Checkbox class="ml-3" id="online_power" v-model="item.baremetal.online_power" :binary="true" />
-              </div>
-            </div>
-            <div class="field col-6">
-              <div class="field-checkbox mt-2 mb-2">
-                <label for="external_provisioning">Externally Provisioning</label>
-                <K3Checkbox class="ml-3" id="external_provisioning" v-model="item.baremetal.external_provisioning" :binary="true" />
-              </div>
-            </div>
-            <div class="field col-12">
+          <K3FormContainer class="no-style iter">
+            <K3FormRow>
+              <K3Divider align="left">Baremetal Host</K3Divider>
+            </K3FormRow>
+            <K3FormRow direction="horizontal" :overflow-wrap="true">
+              <K3FormColumn label="Host Name" label-align="right" :size="6">
+                <K3FormInputField v-model="v.baremetal.host_name" field-name="Host Name" class="w-full" />
+              </K3FormColumn>
+              <K3FormColumn label="BMC Address" label-align="right" :size="6">
+                <K3FormInputField v-model="v.baremetal.bmc_address" field-name="BMC Address" class="w-full" />
+              </K3FormColumn>
+            </K3FormRow>
+            <K3FormRow direction="horizontal" :overflow-wrap="true">
+              <K3FormColumn label="Boot MAC Address" label-align="right" :size="6">
+                <K3FormInputField v-model="v.baremetal.boot_mac_address" field-name="Boot MAC Address" class="w-full" />
+              </K3FormColumn>
+              <K3FormColumn label="Boot Mode" label-align="right" :size="6">
+                <K3FormDropdownField v-model="v.baremetal.boot_mode" field-name="Boot Mode" :options="BootModesMap()" :optionLabel="'name'" :optionValue="'value'" class="w-8" />
+              </K3FormColumn>
+            </K3FormRow>
+            <K3FormRow direction="horizontal" :overflow-wrap="true">
+              <K3FormColumn label="Online (Power)" label-align="right" :size="6">
+                <K3FormCheckField v-model="v.baremetal.online_power" :id="`${type}_online_power_${index}`" label="사용" />
+                <!-- <K3Checkbox class="mx-2" inputId="online_power" v-model="v.baremetal.online_power" :binary="true" />
+                <label for="online_power">사용</label> -->
+              </K3FormColumn>
+              <K3FormColumn label="Externally Provisioning" label-align="right" :size="6">
+                <K3FormCheckField v-model="v.baremetal.external_provisioning" :id="`${type}_external_provisioning_${index}`" label="사용" />
+                <!-- <K3Checkbox class="mx-2" inputId="external_provisioning" v-model="v.baremetal.external_provisioning" :binary="true" />
+                <label for="external_provisioning">사용</label> -->
+              </K3FormColumn>
+            </K3FormRow>
+            <K3FormRow>
               <K3Divider align="left" type="solid">Node</K3Divider>
-            </div>
-            <div class="field col-6">
-              <label for="node_name">Node Name</label>
-              <K3InputText id="node_name" v-model="v.node.node_name.$model" type="text" class="text-base text-color w-full" :class="{ 'p-invalid': v.node.node_name.$invalid }" />
-              <small v-if="v.node.node_name.$invalid" class="p-error">{{ v.node.node_name.required.$message?.replace("Value", "Node Name") }}</small>
-            </div>
-            <div class="field col-6">
-              <label for="node_address">IP Address</label>
-              <K3InputText id="node_address" v-model="v.node.ip_address.$model" type="text" class="text-base text-color w-full" :class="{ 'p-invalid': v.node.ip_address.$invalid }" />
-              <small v-if="v.node.ip_address.$invalid" class="p-error">{{ v.node.ip_address.required.$message?.replace("Value", "IP Address") }}</small>
-            </div>
-            <div class="field col-12">
-              <label for="labels">Labels</label>
-              <div class="col-12">
-                {{ item.node.labels }}
-                <K3Button icon="pi pi-plus" class="p-button-rounded p-button-outlined p-button-secondary mr-3" @click="addLabel(type, index)" />
-                <template v-for="(label, idx) in item.node.labels" :key="idx">
-                  <K3Chip :label="`${label.key}=${label.value}=${idx}/${index}`" removable class="mr-1 mt-1" @remove="removeLabel" />
-                </template>
-              </div>
-            </div>
-            <div class="field col-12">
-              <label for="labels">Labels</label>
-              <div class="col-12">
-                <K3Chips v-model="item.node.labels">
-                  <template #chip="slotProps">
-                    <div>
-                      <span>{{ slotProps.value }}</span>
-                    </div>
-                  </template>
-                </K3Chips>
-              </div>
-            </div>
-            <div class="field col-12 text-right mt-5" v-if="index > 0">
-              <K3Button icon="pi pi-minus" @click="removeNode(index)" />
-            </div>
-          </div>
+            </K3FormRow>
+            <K3FormRow direction="horizontal" :overflow-wrap="true">
+              <K3FormColumn label="Node Name" label-align="right" :size="6">
+                <K3FormInputField v-model="v.node.node_name" field-name="Node Name" class="w-full" />
+              </K3FormColumn>
+              <K3FormColumn label="IP Address" label-align="right" :size="6">
+                <K3FormInputField v-model="v.node.ip_address" field-name="IP Address" class="w-full" />
+              </K3FormColumn>
+            </K3FormRow>
+            <K3FormRow>
+              <K3FormColumn label="Labels" label-align="right">
+                <K3FormKeyValueField v-model="v.node.labels" caption="Labels 설정" />
+              </K3FormColumn>
+            </K3FormRow>
+            <K3FormRow v-if="index > 0">
+              <K3FormColumn item-align="right">
+                <K3Button icon="pi pi-minus" class="mr-2" @click="removeNode(index)" />
+              </K3FormColumn>
+            </K3FormRow>
+          </K3FormContainer>
         </template>
       </K3ValidateEach>
     </K3Panel>
@@ -101,8 +80,6 @@ const props = defineProps({
   type: { type: String, default: 'Master' },
 })
 
-const emits = defineEmits(['dialog:label'])
-
 const data = reactive(props.modelValue)
 
 const vRules = {
@@ -118,16 +95,6 @@ const removeNode = (index) => {
     data.splice(index, 1)
 }
 
-const addLabel = (type, index) => {
-  emits('dialog:label', { display: true, type: type, index: index })
-}
-
-const removeLabel = (event) => {
-  // console.log(labels.slice(index, index+1))
-  // labels.splice(index, 0)
-
-  console.log('labels', data)
-}
 onMounted(() => {
 });
 </script>
@@ -136,5 +103,6 @@ onMounted(() => {
 .iter {
   padding-bottom: 1.5rem;
   border-bottom: 0.2rem dotted lightskyblue;
+  margin-top: 1.5rem;
 }
 </style>

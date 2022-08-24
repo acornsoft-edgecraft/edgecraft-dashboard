@@ -34,19 +34,22 @@ export function useCloudService(options: any = {}) {
     return { clouds, isFetch, fetch };
   };
 
-  const getCloud = (id) => {
-    // const url = `api/v1/clouds/${id}`;
-    const url = `api/v1/cloud/1`;
+  const getCloud = () => {
+    // const url = `api/v1/clouds`;
+    const url = `api/v1/cloud`;
     let cloud = ref(Util.clone(defaultCloudReg));
     const isFetch = ref(false);
 
     const fetch = (id) => {
+      if (id == 0) return;
+
       isFetch.value = true;
-      API.get("", url)
+      API.get("", `${url}/${id}`)
         .then((res) => {
           if (res.isError) {
             UI.showToastMessage(MessageTypes.ERROR, "Fetch Cloud", res.message);
           } else {
+            console.log("res.data", res.data);
             cloud.value = res.data;
           }
           isFetch.value = false;

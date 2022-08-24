@@ -1,29 +1,14 @@
 <template>
   <div class="partial-container m-0 p-0">
-    <K3FormContainer>
-      <template #header>CLOUD 정보</template>
-      <K3FormRow>
-        <K3FormColumn label="Cloud 명" label-align="right">
-          <K3FormInputField v-model="v$.name" field-name="Name" class="w-full" />
-        </K3FormColumn>
-      </K3FormRow>
-      <K3FormRow>
-        <K3FormColumn label="Cloud 유형" label-align="right">
-          <K3FormDropdownField v-model="v$.type" :options="CloudTypesMap()" :option-label="'name'" :option-value="'value'" field-name="Type" @change="changeCloudType" class="w-6" />
-        </K3FormColumn>
-      </K3FormRow>
-      <K3FormRow>
-        <K3FormColumn label="Cloud 설명" label-align="right">
-          <K3FormTextareaField v-model="v$.desc" rows="4" class="w-full" />
-        </K3FormColumn>
-      </K3FormRow>
-    </K3FormContainer>
+    <CloudInfo v-model="modelValue.cloud" @visible-change="onVisibleChange" />
   </div>
 </template>
 
 <script setup lang="ts">
 // imports
-import { CloudTypesMap, cloudInfo, defaultCloudInfoValidation } from "~/models";
+import CloudInfo from "./cloud-info.vue";
+
+const { UI } = useAppHelper();
 
 // Page meta
 // Props
@@ -32,26 +17,18 @@ const props = defineProps({
 });
 
 // Emits
-const emits = defineEmits(["can-continue", "is-openstack"]);
+const emits = defineEmits(["can-continue", "visible-change"]);
 
 // Properties
-const state = ref(props.modelValue.cloud);
-const v$ = useAppHelper().UI.getValidate(defaultCloudInfoValidation, state);
-
-const changeCloudType = (event) => {
-  if (event.value == 2) {
-    emits("is-openstack", { value: true });
-  } else {
-    emits("is-openstack", { value: false });
-  }
-};
+const v$ = UI.getValidate();
 
 // Compputed
 // Watcher
 watch(
   () => v$.value,
   (val) => {
-    console.log(`watch >>> ${val.$invalid}`);
+    v$.value.$touch();
+
     if (!val.$invalid) {
       emits("can-continue", { value: true });
     } else {
@@ -59,23 +36,24 @@ watch(
     }
   }
 );
-watch(
-  () => props.modelValue,
-  (val) => {
-    state.value = val.cloud;
-  }
-);
+
 // Methods
 const beforeNextStep = (): boolean => {
-  console.log(`beforeNextStep validation >>> ${JSON.stringify(props.modelValue)}`);
+  v$.value.$touch();
+
   if (v$.value.$invalid) {
     return false;
   }
   return true;
 };
-// Events
 
+const onVisibleChange = (val) => {
+  emits("visible-change", val);
+};
+// Events
 onActivated(() => {
+  v$.value.$touch();
+
   if (!v$.value.$invalid) {
     emits("can-continue", { value: true });
   } else {
@@ -87,4 +65,8 @@ defineExpose({ beforeNextStep });
 // Logics (like api call, etc)
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.field > label {
+  justify-content: end;
+}
+</style>

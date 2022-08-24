@@ -35,4 +35,6 @@ export const defaultBaremetalHostInfoValidation = {
   bmc_address: { required },
   boot_mac_address: { required, macAddress: macAddress() },
   boot_mode: { required },
+  online_power: {},
+  external_provisioning: {},
 };

@@ -5,12 +5,10 @@
         <K3PageTitle />
       </section>
       <section class="page-content">
-        <K3Stepper :steps="steps"
-                   v-model="cloud"
-                   @completed-step="completedStep"
-                   @active-step="activeStep"
-                   @stepper-finished="finished"
-                   :top-buttons="true" />
+        <div class="stepper-container">
+          <K3Stepper :steps="steps" v-model="cloud" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" @visible-change="onVisibleChange" :keep-alive="false" :top-buttons="true" />
+          <K3Overlay :active="isFetch" loader="bars" background-color="#830205" />
+        </div>
       </section>
     </div>
   </div>
@@ -24,7 +22,7 @@ import PNodeInfo from "~/partialViews/cloud/node-step.vue";
 import PEtcdStorageInfo from "~/partialViews/cloud/etcd-storage-step.vue";
 import POpenstackInfo from "~/partialViews/cloud/openstack-step.vue";
 import PReviewInfo from "~/partialViews/cloud/review-step.vue";
-import { defaultCloudReg } from "~/models";
+import { defaultCloudReg, CloudTypes } from "~/models";
 
 // Page meta
 definePageMeta({ layout: "default", title: "클라우드 등록", public: true });
@@ -34,12 +32,12 @@ definePageMeta({ layout: "default", title: "클라우드 등록", public: true }
 // const emits = defineEmits(['eventname']),
 // Properties
 const route = useRoute();
+const paramId = route.params.id || 0;
 const { Util } = useAppHelper();
-const { cloud, fetch } = useCloudService().getCloud(route.params.id);
+const { cloud, isFetch, fetch } = useCloudService().getCloud();
 
 const cloudRegModel = Util.clone(defaultCloudReg);
 
-console.log("setup cloud", cloud);
 const steps = [
   { icon: "fas fa-cloud", name: "cloud", title: "CLOUD 정보", subTitle: "Cloud 구성 정보를 설정합니다", component: PCloudInfo, completed: false, visible: true },
   { icon: "fas fa-circle-nodes", name: "cluster", title: "CLUSTER 정보", subTitle: "Cluster 구성 정보를 설정합니다", component: PClusterInfo, completed: false, visible: true },
@@ -50,6 +48,14 @@ const steps = [
 ];
 // Compputed
 // Watcher
+watch(
+  () => cloud.value.cloud?.type,
+  (val) => {
+    if (val == CloudTypes.Openstack) {
+      onVisibleChange({ name: "openstack", visible: true });
+    }
+  }
+);
 // Methods
 const completedStep = (payload) => {
   steps.forEach((s) => (s.completed = s.name === payload.name));
@@ -65,11 +71,21 @@ const finished = (payload) => {
   alert("잘 했어... ^^");
 };
 
+// Step Visible On/Off 처리
+const onVisibleChange = (val) => {
+  console.log("onVisibleChange", val);
+  steps.find((item) => {
+    if (item.name === val.name) item.visible = val.visible;
+  });
+};
+
 // Events
 onMounted(() => {
   // if (route.params.id != "") {
-  fetch(route.params.id);
-  console.log("onmounted cloud", cloud.value);
+
+  console.log("route.params.id", paramId);
+  fetch(paramId);
+  console.log("cloud", cloud);
   // }
 });
 
@@ -79,5 +95,9 @@ onMounted(() => {
 <style scoped lang="scss">
 .page-content {
   margin-top: 0.5rem;
+}
+
+.stepper-container {
+  position: relative;
 }
 </style>

@@ -24,6 +24,7 @@ export const defaultNodesInfo: nodesInfo = {
 };
 
 export const defaultNodesInfoValidation = {
+  use_loadbalancer: { required },
   loadbalancer_address: {
     // @ts-ignore:2345
     required: requiredIf((_, vm) => vm.use_loadbalancer),
