@@ -160,11 +160,28 @@ const toPage = (data) => {
   return `/cloud/${page}${data.id}`;
 };
 
+const setMenus = (to, disabled: boolean[]) => {
+  return [
+    { label: "클러스터 목록", icon: "pi pi-list", to: `${to}/cluster`, disabled: disabled[0], command: () => rowMenuProcessing("1") },
+    { separator: true },
+    { label: "어플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled[1], command: () => rowMenuProcessing("2") },
+    { separator: true },
+    { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled[2], command: () => rowMenuProcessing("3") },
+  ];
+};
 const menus = computed(() => {
-  console.log("aaaaaa", selectedItem?.value?.id);
   const to = `/cloud/${selectedItem?.value?.id}`;
-  return [{ label: "클러스터 목록", icon: "pi pi-list", to: `${to}/cluster`, command: () => rowMenuProcessing("1") }, { separator: true }, { label: "어플리케이션", icon: "fas fa-shapes", to: `${to}/app`, command: () => rowMenuProcessing("2") }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, command: () => rowMenuProcessing("3") }];
+  const disabled = [true, true, true];
+
+  if (selectedItem?.value?.status == CloudStatus.Installed) {
+    if (selectedItem?.value?.type == CloudTypes.Openstack) disabled[0] = false;
+    disabled[1] = false;
+    disabled[2] = false;
+  }
+
+  return setMenus(to, disabled);
 });
+
 onMounted(() => {
   fetch();
 });
