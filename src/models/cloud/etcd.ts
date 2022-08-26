@@ -17,6 +17,8 @@ export const defaultETCDInfo: etcdInfo = {
 };
 
 export const defaultETCDInfoValidation = {
+  use_external_etcd: {},
+  endpoints: [],
   // @ts-ignore
   ca_file: { required: requiredIf((_, vm) => vm.use_external_etcd) },
   // @ts-ignore

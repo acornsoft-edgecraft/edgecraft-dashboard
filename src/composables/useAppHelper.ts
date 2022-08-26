@@ -10,7 +10,7 @@ import { useVuelidate } from '@vuelidate/core'
 import * as validators from '@vuelidate/validators'
 
 const messageTimeout = 3000
-const authSync = ref(null)      // sync for SessionStorage
+//const authSync = ref(null)      // sync for SessionStorage
 let toast = null
 let confirm = null
 let router: Router = null
@@ -243,12 +243,12 @@ const Routing = {
 
         return crumbs.filter(c => c.to !== '/');
     },
-    checkAuth: () => {
-        if (!State.auth.get().value.isAuthenticated) {
-            UI.showToastMessage(MessageTypes.WARN, "미인증 사용자", "로그인 작업을 진행하십시오.")
-            router.replace("/login")
-        }
-    },
+    // checkAuth: () => {
+    //     if (!State.auth.get().value.isAuthenticated) {
+    //         UI.showToastMessage(MessageTypes.WARN, "미인증 사용자", "로그인 작업을 진행하십시오.")
+    //         router.replace("/login")
+    //     }
+    // },
     redirect: (path: string) => {
         if (path) redirect({ path: path })
     },
@@ -261,41 +261,39 @@ const State = {
     /**
      * User
      */
-    user: {
-        get: () => useState<IUser>(StateKeys.USER, () => defaultUser)
-    },
+    getUser: () => useState<IUser>(StateKeys.USER, () => defaultUser),
     /**
      * Authentication
      */
-    auth: {
-        // TODO: 화면에서 직접 Async로 처리하면서 Directive 사용하는 경우 pending걸리는 문제 검증 필요.
-        init: async () => {
-            const auth = State.auth.get()
-            if (!auth.value.schema) {
-                // 사용자 인증 형식 조회
-                await API.get("api/auth", "login")
-                    .then(res => {
-                        if (!res.isError) {
-                            const auth = res.data as IAuthType
-                            auth.isAuthenticated = false
-                            State.auth.set(auth as IAuthType)
-                        }
-                    })
-            }
-        },
-        check: (): boolean => {
-            const auth = State.auth.get()
-            return auth.value.isAuthenticated
-        },
-        get: () => {
-            const val = State.storage(StateKeys.AUTHTYPE, StoreTypes.SESSION)
-            authSync.value = val || defaultAuthType
-            return authSync
-        },
-        set: (newVal: IAuthType) => {
-            authSync.value = newVal
-        }
-    },
+    // auth: {
+    //     // TODO: 화면에서 직접 Async로 처리하면서 Directive 사용하는 경우 pending걸리는 문제 검증 필요.
+    //     init: async () => {
+    //         const auth = State.auth.get()
+    //         if (!auth.value.schema) {
+    //             // 사용자 인증 형식 조회
+    //             await API.get("api/auth", "login")
+    //                 .then(res => {
+    //                     if (!res.isError) {
+    //                         const auth = res.data as IAuthType
+    //                         auth.isAuthenticated = false
+    //                         State.auth.set(auth as IAuthType)
+    //                     }
+    //                 })
+    //         }
+    //     },
+    //     check: (): boolean => {
+    //         const auth = State.auth.get()
+    //         return auth.value.isAuthenticated
+    //     },
+    //     get: () => {
+    //         const val = State.storage(StateKeys.AUTHTYPE, StoreTypes.SESSION)
+    //         authSync.value = val || defaultAuthType
+    //         return authSync
+    //     },
+    //     set: (newVal: IAuthType) => {
+    //         authSync.value = newVal
+    //     }
+    // },
     /**
      * Web Storage (local or session)
      */
@@ -306,6 +304,19 @@ const State = {
             return useStorage<T>(key, initValue, sessionStorage, { serializer: StorageSerializers.object })
     },
     state: <T>(key: StateKeys, init?: () => T) => useState<T>(key, init)
+}
+
+const Auth = {
+    // isAuthenticated: () => {
+    //     const auth = State.storage<IAuthType>(StateKeys.AUTHTYPE, defaultAuthType, StoreTypes.SESSION)
+    //     return auth.value.isAuthenticated
+    // },
+    get: () => {
+        return State.storage<IAuthType>(StateKeys.AUTHTYPE, defaultAuthType, StoreTypes.SESSION)
+    },
+    set: (newVal: IAuthType) => {
+        Auth.get().value = newVal
+    }
 }
 
 const Util = {
@@ -413,5 +424,5 @@ export default function useAppHelper(opts: any = {}) {
         UI.init()
     }
 
-    return { API, UI, Routing, State, Util, initialize }
+    return { API, UI, Routing, State, Auth, Util, initialize }
 }

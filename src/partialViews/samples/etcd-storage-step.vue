@@ -163,7 +163,6 @@ watch(
   () => v$.value,
   (val) => {
     v$.value.$touch(); // 자식의 오류 여부 검증
-
     if (!val.$invalid) {
       emits("can-continue", { value: true });
     } else {
@@ -183,7 +182,6 @@ const beforeNextStep = (): boolean => {
 
 onActivated(() => {
   v$.value.$touch();
-
   if (!v$.value.$invalid) {
     emits("can-continue", { value: true });
   } else {
@@ -191,7 +189,14 @@ onActivated(() => {
   }
 });
 
-onMounted(() => { });
+onMounted(() => {
+  v$.value.$touch();
+  if (!v$.value.$invalid) {
+    emits("can-continue", { value: true });
+  } else {
+    emits("can-continue", { value: false });
+  }
+});
 
 defineExpose({ beforeNextStep });
 </script>

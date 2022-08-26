@@ -52,8 +52,7 @@ export default defineNuxtConfig({
         backendUrl: process.env.BACKEND_BASE_URL,                       // backend url
         backendPort: process.env.BACKEND_BASE_PORT,	                    // backend port
         version: JSON.stringify(require('./package.json').version),     // app version
-        refreshInterval: 5000,                                          // 갱신 timeout
-        deplyInterval: 30000,                                           // 실패시 반복 지연 timout
+        refreshInterval: 5000,                                          // Refresh timeout
         requestTimeout: 2000                                            // Request timeout
     },
     // Router
@@ -62,6 +61,7 @@ export default defineNuxtConfig({
     hooks: {
         'vite:extendConfig': (config, { isClient, isServer }) => {
             if (isClient) {
+                // @ts-ignore
                 config.resolve.alias.vue = 'vue/dist/vue.esm-bundler'
             }
         }

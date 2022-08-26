@@ -1,4 +1,5 @@
 {
+    "users": [],
     "clouds": [
         {
             "id": 1,
@@ -97,124 +98,140 @@
             }
         ]
     },
-    "cloud": [{
-        "id": 1,
-        "cloud": {
-            "name": "testtesttest",
-            "type": 1,
-            "desc": ""
-        },
-        "cluster": {
-            "k8s": {
-                "version": 1,
-                "pod_cidr": "10.244.0.0/24",
-                "svc_cidr": "10.244.0.0/1"
+    "cloud": [
+        {
+            "id": 2,
+            "cloud": {
+                "name": "testtesttest",
+                "type": 1,
+                "desc": ""
             },
-            "baremetal": {
-                "secret_name": "secret1",
-                "user_name": "admin",
-                "password": "1234",
-                "image_url": "http://192.168.0.1/ubuntu.qcow2",
-                "image_checksum": "http://192.168.0.1/ubuntu.qcow2.md5sum",
-                "image_checksum_type": 0,
-                "image_format": 1,
-                "cp_kubeadm_extra_config": {
-                    "pre_kubeadm_commands": "",
-                    "post_kubeadm_commands": "- hostname",
-                    "files": "",
-                    "users": "",
-                    "ntp": "",
-                    "format": ""
+            "cluster": {
+                "k8s": {
+                    "version": 1,
+                    "pod_cidr": "10.244.0.0/24",
+                    "svc_cidr": "10.244.0.0/1"
                 },
-                "worker_kubeadm_extra_config": {
-                    "pre_kubeadm_commands": "",
-                    "post_kubeadm_commands": "- hostname",
-                    "files": "",
-                    "users": "",
-                    "ntp": "",
-                    "format": ""
-                }
-            }
-        },
-        "nodes": {
-            "use_loadbalancer": true,
-            "loadbalancer_address": "192.168.0.0",
-            "loadbalancer_port": "88",
-            "master_nodes": [{
                 "baremetal": {
-                    "host_name": "master 1",
-                    "bmc_address": "sadf",
-                    "boot_mac_address": "00:b2:8c:ee:22:98",
-                    "boot_mode": 0,
-                    "online_power": false,
-                    "external_provisioning": false
-                },
-                "node": {
-                    "node_name": "sadf",
-                    "ip_address": "safd",
-                    "labels": [{
-                        "key": "1111",
-                        "value": "2222"
-                    }]
+                    "secret_name": "secret1",
+                    "user_name": "admin",
+                    "password": "1234",
+                    "image_url": "http://192.168.0.1/ubuntu.qcow2",
+                    "image_checksum": "http://192.168.0.1/ubuntu.qcow2.md5sum",
+                    "image_checksum_type": 0,
+                    "image_format": 1,
+                    "cp_kubeadm_extra_config": {
+                        "pre_kubeadm_commands": "",
+                        "post_kubeadm_commands": "- hostname",
+                        "files": "",
+                        "users": "",
+                        "ntp": "",
+                        "format": ""
+                    },
+                    "worker_kubeadm_extra_config": {
+                        "pre_kubeadm_commands": "",
+                        "post_kubeadm_commands": "- hostname",
+                        "files": "",
+                        "users": "",
+                        "ntp": "",
+                        "format": ""
+                    }
                 }
-            }],
-            "worker_nodes": [{
-                "baremetal": {
-                    "host_name": "worker 1",
-                    "bmc_address": "sadf",
-                    "boot_mac_address": "00:b2:8c:ee:22:98",
-                    "boot_mode": 0,
-                    "online_power": false,
-                    "external_provisioning": false
-                },
-                "node": {
-                    "node_name": "worker 1",
-                    "ip_address": "safd",
-                    "labels": [{
-                        "key": "aaaa",
-                        "value": "aaaa"
-                    },{
-                        "key": "bbbb",
-                        "value": "bbbb"
-                    }]
-                }
-            },{
-                "baremetal": {
-                    "host_name": "worker 2",
-                    "bmc_address": "sadf",
-                    "boot_mac_address": "00:b2:8c:ee:22:98",
-                    "boot_mode": 0,
-                    "online_power": false,
-                    "external_provisioning": false
-                },
-                "node": {
-                    "node_name": "worker 2",
-                    "ip_address": "safd",
-                    "labels": [{
-                        "key": "aaaa",
-                        "value": "bbbb"
-                    }]
-                }
-            }]
-        },
-        "etcd_storage": {
-            "etcd": {
-                "use_external_etcd": false,
-                "endpoints": [{
-                    "ip_address": "",
-                    "port": ""
-                }],
-                "ca_file": "",
-                "cert_file": "",
-                "key_file": ""
             },
-            "storage_class": {
-                "use_ceph": false,
-                "label1": "",
-                "label2": "",
-                "label3": ""
-            }
-        },
-        "openstack": {}
-    }]
+            "nodes": {
+                "use_loadbalancer": true,
+                "loadbalancer_address": "192.168.0.0",
+                "loadbalancer_port": "88",
+                "master_nodes": [
+                    {
+                        "baremetal": {
+                            "host_name": "master 1",
+                            "bmc_address": "sadf",
+                            "boot_mac_address": "00:b2:8c:ee:22:98",
+                            "boot_mode": 0,
+                            "online_power": false,
+                            "external_provisioning": false
+                        },
+                        "node": {
+                            "node_name": "sadf",
+                            "ip_address": "safd",
+                            "labels": [
+                                {
+                                    "key": "1111",
+                                    "value": "2222"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "worker_nodes": [
+                    {
+                        "baremetal": {
+                            "host_name": "worker 1",
+                            "bmc_address": "sadf",
+                            "boot_mac_address": "00:b2:8c:ee:22:98",
+                            "boot_mode": 0,
+                            "online_power": false,
+                            "external_provisioning": false
+                        },
+                        "node": {
+                            "node_name": "worker 1",
+                            "ip_address": "safd",
+                            "labels": [
+                                {
+                                    "key": "aaaa",
+                                    "value": "aaaa"
+                                },
+                                {
+                                    "key": "bbbb",
+                                    "value": "bbbb"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "baremetal": {
+                            "host_name": "worker 2",
+                            "bmc_address": "sadf",
+                            "boot_mac_address": "00:b2:8c:ee:22:98",
+                            "boot_mode": 0,
+                            "online_power": false,
+                            "external_provisioning": false
+                        },
+                        "node": {
+                            "node_name": "worker 2",
+                            "ip_address": "safd",
+                            "labels": [
+                                {
+                                    "key": "aaaa",
+                                    "value": "bbbb"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "etcd_storage": {
+                "etcd": {
+                    "use_external_etcd": false,
+                    "endpoints": [
+                        {
+                            "ip_address": "",
+                            "port": ""
+                        }
+                    ],
+                    "ca_file": "",
+                    "cert_file": "",
+                    "key_file": ""
+                },
+                "storage_class": {
+                    "use_ceph": false,
+                    "label1": "",
+                    "label2": "",
+                    "label3": ""
+                }
+            },
+            "openstack": {}
+        }
+    ]
 }

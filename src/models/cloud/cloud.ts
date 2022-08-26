@@ -10,9 +10,9 @@ export enum CloudTypes {
   Openstack = 2,
 }
 
-export const CloudTypesMap = (addAll: boolean = false) => {
+export const CloudTypesMap = (addAll: boolean = false, allValue: any = 0) => {
   if (addAll) {
-    return [{ name: "All", value: "" }, ...useAppHelper().Util.getEnumMap(CloudTypes, false)];
+    return [{ name: "All", value: allValue }, ...useAppHelper().Util.getEnumMap(CloudTypes, false)];
   } else {
     return useAppHelper().Util.getEnumMap(CloudTypes, false);
   }
@@ -27,9 +27,9 @@ export enum CloudStatus {
   Deleting = 5, // 삭제중
   Deleted = 6, // 삭제완료
 }
-export const CloudStatusMap = (addAll: boolean = false) => {
+export const CloudStatusMap = (addAll: boolean = false, allValue: any = 0) => {
   if (addAll) {
-    return [{ name: "All", value: "" }, ...useAppHelper().Util.getEnumMap(CloudStatus, false)];
+    return [{ name: "All", value: allValue }, ...useAppHelper().Util.getEnumMap(CloudStatus, false)];
   } else {
     return useAppHelper().Util.getEnumMap(CloudStatus, false);
   }

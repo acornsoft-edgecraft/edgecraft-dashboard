@@ -8,5 +8,5 @@
     "endOfLine": "lf",
     "useTabs": false,
     "bracketSameLine": true,
-    "singleAttributePerLine": false,
+    "singleAttributePerLine": false
 }

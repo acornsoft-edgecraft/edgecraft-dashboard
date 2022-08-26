@@ -16,5 +16,5 @@ export const defaultNodeInfo: nodeInfo = {
 export const defaultNodeInfoValidation = {
   node_name: { required },
   ip_address: { required },
-  label: {},
+  labels: [],
 };

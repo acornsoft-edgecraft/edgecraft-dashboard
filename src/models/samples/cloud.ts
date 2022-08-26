@@ -54,6 +54,7 @@ export const defaultCloudInfoValidation = {
 }
 
 export interface cloud_reg {
+    id: Number,
     cloud: cloudInfo,
     cluster: clusterInfo,
     nodes: nodesInfo,
@@ -62,6 +63,7 @@ export interface cloud_reg {
 }
 
 export const defaultCloudReg: cloud_reg = {
+    id: 0,
     cloud: defaultCloudInfo,
     cluster: defaultClusterInfo,
     nodes: defaultNodesInfo,

@@ -38,7 +38,9 @@
             </div>
             <div class="search-right toggle flex align-content-center">
               <K3MultiSelect class="flex mr-2" :modelValue="selectedColumns" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" style="width: 20em" />
-              <NuxtLink to="/cloud/register"><K3Button label="클라우드 등록" /></NuxtLink>
+              <NuxtLink to="/cloud/register">
+                <K3Button label="클라우드 등록" />
+              </NuxtLink>
             </div>
           </div>
         </template>
@@ -54,7 +56,7 @@
         <K3Column v-for="(col, index) of selectedColumns" :class="col.class" :field="col.field" :header="col.header" :sortable="col.sortable" :key="`${col.field}_index`" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
             <span v-if="slotProps.field === 'type'">{{ CloudTypes[slotProps.data.type] }} </span>
-            <NuxtLink v-else-if="slotProps.field === 'name'" :to="`/cloud/register/${slotProps.data.id}`">{{ slotProps.data.name }}</NuxtLink>
+            <NuxtLink v-else-if="slotProps.field === 'name'" :to="toPage(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
             <span v-else-if="slotProps.field === 'status'">{{ CloudStatus[slotProps.data.status] }} </span>
             <span v-else-if="slotProps.field === 'nodeCount'">{{ slotProps.data.nodeCount }}</span>
             <span v-else-if="slotProps.field === 'created'">{{ slotProps.data.created }}</span>
@@ -88,8 +90,8 @@ UI.tableSettings.initFilters({
 
 const menu = ref();
 const selectedItem = ref();
-const selectedCloud = ref("");
-const selectedStatus = ref("");
+const selectedCloud = ref(0);
+const selectedStatus = ref(0);
 const columns = ref([
   { field: "type", header: "Type", sortable: true },
   { field: "name", header: "Cloud Name", sortable: true },
@@ -99,7 +101,7 @@ const columns = ref([
   { field: "created", header: "Created", sortable: true },
 ]);
 const selectedColumns = ref(columns.value);
-const menus = [{ label: "클러스터 목록", icon: "pi pi-list", command: () => rowMenuProcessing("1") }, { separator: true }, { label: "어플리케이션", icon: "fas fa-shapes", command: () => rowMenuProcessing("2") }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", command: () => rowMenuProcessing("3") }];
+// const menus = [{ label: "클러스터 목록", icon: "pi pi-list", command: () => rowMenuProcessing("1") }, { separator: true }, { label: "어플리케이션", icon: "fas fa-shapes", command: () => rowMenuProcessing("2") }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", command: () => rowMenuProcessing("3") }];
 
 const columnSize = (field) => {
   let size = 0;
@@ -152,6 +154,33 @@ const showCommand = (id, event) => {
 const rowMenuProcessing = (menuId) => {
   UI.showToastMessage(MessageTypes.INFO, "Row Menu", `menum #${menuId} selected with ${JSON.stringify(selectedItem.value)}`);
 };
+
+const toPage = (data) => {
+  const page = data.status < 3 ? "register/" : "";
+  return `/cloud/${page}${data.id}`;
+};
+
+const setMenus = (to, disabled: boolean[]) => {
+  return [
+    { label: "클러스터 목록", icon: "pi pi-list", to: `${to}/cluster`, disabled: disabled[0], command: () => rowMenuProcessing("1") },
+    { separator: true },
+    { label: "어플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled[1], command: () => rowMenuProcessing("2") },
+    { separator: true },
+    { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled[2], command: () => rowMenuProcessing("3") },
+  ];
+};
+const menus = computed(() => {
+  const to = `/cloud/${selectedItem?.value?.id}`;
+  const disabled = [true, true, true];
+
+  if (selectedItem?.value?.status == CloudStatus.Installed) {
+    if (selectedItem?.value?.type == CloudTypes.Openstack) disabled[0] = false;
+    disabled[1] = false;
+    disabled[2] = false;
+  }
+
+  return setMenus(to, disabled);
+});
 
 onMounted(() => {
   fetch();

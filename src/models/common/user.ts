@@ -74,5 +74,10 @@ export const defaultUser: IUser = {
       title: "Form Tester",
       icon: "fas fa-table-cells",
     },
+    {
+      href: "/samples/auth-tester",
+      title: "Auth Tester",
+      icon: "fas fa-table-cells",
+    },
   ],
 };
