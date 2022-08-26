@@ -1,3 +1,10 @@
+## Auth 관련
+
+`email, passord` 기반의 JWT 미들웨어 적용 (JSON-SERVER-AUTH)
+
+- `/api/v1/auth/register` : 사용자 등록
+- `/api/v1/auth/login`    : 사용자 로그인
+  
 ## 사용자 메뉴 포맷
 
 - Header Menu Item

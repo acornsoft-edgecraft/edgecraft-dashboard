@@ -1,5 +1,7 @@
+const { Auth } = useAppHelper()
+
 export default defineNuxtRouteMiddleware((to, from) => {
-    const auth = useAppHelper().State.auth.get()
+    const auth = Auth.get()
 
     if (auth.value.isAuthenticated) {
         if (to.path === '/login') {
