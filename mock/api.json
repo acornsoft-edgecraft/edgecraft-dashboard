@@ -1,237 +1,237 @@
 {
-    "users": [],
-    "clouds": [
-        {
-            "id": 1,
-            "type": 1,
-            "name": "Non-profit charity...",
-            "status": 4,
-            "nodeCount": 6,
-            "version": "1.23.0",
-            "created": "2022-03-02 12:12:12"
-        },
-        {
-            "id": 2,
-            "type": 1,
-            "name": "Search for company logos and embed them in your project.",
-            "status": 1,
-            "nodeCount": 7,
-            "version": "1.23.0",
-            "created": "2022-03-03 15:33:04"
-        },
-        {
-            "id": 3,
-            "type": 2,
-            "name": "Registered Domain Names Search",
-            "status": 2,
-            "nodeCount": 3,
-            "version": "1.23.0",
-            "created": "2022-03-04 14:44:44"
-        },
-        {
-            "id": 4,
-            "type": 2,
-            "name": "Flexible, RESTful access to the user's inbox",
-            "status": 4,
-            "nodeCount": 6,
-            "version": "1.22.0",
-            "created": "2022-03-06 21:03:11"
-        },
-        {
-            "id": 5,
-            "type": 2,
-            "name": "Collect configure and analyze your data to reach the right audience",
-            "status": 3,
-            "nodeCount": 6,
-            "version": "1.23.0",
-            "created": "2022-03-08 11:11:55"
-        }
-    ],
-    "user": {
-        "userInfo": {
-            "name": "Morris Chang",
-            "role": "admin"
-        },
-        "menuInfo": [
-            {
-                "header": "Status",
-                "hiddenOnCollapse": true
-            },
-            {
-                "href": "/dashboard",
-                "title": "Dashboard",
-                "icon": "fas fa-gauge"
-            },
-            {
-                "separator": true
-            },
-            {
-                "header": "Cloud",
-                "hiddenOnCollapse": true
-            },
-            {
-                "href": "/cloud",
-                "title": "Cloud Mgmt",
-                "icon": "fas fa-cloud"
-            },
-            {
-                "separator": true
-            },
-            {
-                "header": "Management",
-                "hiddenOnCollapse": true
-            },
-            {
-                "href": "/management/image",
-                "title": "Image Mgmt",
-                "icon": "fas fa-box-archive"
-            },
-            {
-                "href": "/management/security",
-                "title": "Security Mgmt",
-                "icon": "fas fa-shield-halved"
-            },
-            {
-                "href": "/management/user",
-                "title": "User Mgmt",
-                "icon": "fas fa-people-roof"
-            }
-        ]
+  "users": [],
+  "clouds": [
+    {
+      "id": 1,
+      "type": 1,
+      "name": "Non-profit charity...",
+      "status": 4,
+      "nodeCount": 6,
+      "version": "1.23.0",
+      "created": "2022-03-02 12:12:12"
     },
-    "cloud": [
-        {
-            "id": 2,
-            "cloud": {
-                "name": "testtesttest",
-                "type": 1,
-                "desc": ""
-            },
-            "cluster": {
-                "k8s": {
-                    "version": 1,
-                    "pod_cidr": "10.244.0.0/24",
-                    "svc_cidr": "10.244.0.0/1"
-                },
-                "baremetal": {
-                    "secret_name": "secret1",
-                    "user_name": "admin",
-                    "password": "1234",
-                    "image_url": "http://192.168.0.1/ubuntu.qcow2",
-                    "image_checksum": "http://192.168.0.1/ubuntu.qcow2.md5sum",
-                    "image_checksum_type": 0,
-                    "image_format": 1,
-                    "cp_kubeadm_extra_config": {
-                        "pre_kubeadm_commands": "",
-                        "post_kubeadm_commands": "- hostname",
-                        "files": "",
-                        "users": "",
-                        "ntp": "",
-                        "format": ""
-                    },
-                    "worker_kubeadm_extra_config": {
-                        "pre_kubeadm_commands": "",
-                        "post_kubeadm_commands": "- hostname",
-                        "files": "",
-                        "users": "",
-                        "ntp": "",
-                        "format": ""
-                    }
-                }
-            },
-            "nodes": {
-                "use_loadbalancer": true,
-                "loadbalancer_address": "192.168.0.0",
-                "loadbalancer_port": "88",
-                "master_nodes": [
-                    {
-                        "baremetal": {
-                            "host_name": "master 1",
-                            "bmc_address": "sadf",
-                            "boot_mac_address": "00:b2:8c:ee:22:98",
-                            "boot_mode": 0,
-                            "online_power": false,
-                            "external_provisioning": false
-                        },
-                        "node": {
-                            "node_name": "sadf",
-                            "ip_address": "safd",
-                            "labels": [
-                                {
-                                    "key": "1111",
-                                    "value": "2222"
-                                }
-                            ]
-                        }
-                    }
-                ],
-                "worker_nodes": [
-                    {
-                        "baremetal": {
-                            "host_name": "worker 1",
-                            "bmc_address": "sadf",
-                            "boot_mac_address": "00:b2:8c:ee:22:98",
-                            "boot_mode": 0,
-                            "online_power": false,
-                            "external_provisioning": false
-                        },
-                        "node": {
-                            "node_name": "worker 1",
-                            "ip_address": "safd",
-                            "labels": [
-                                {
-                                    "key": "aaaa",
-                                    "value": "aaaa"
-                                },
-                                {
-                                    "key": "bbbb",
-                                    "value": "bbbb"
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "baremetal": {
-                            "host_name": "worker 2",
-                            "bmc_address": "sadf",
-                            "boot_mac_address": "00:b2:8c:ee:22:98",
-                            "boot_mode": 0,
-                            "online_power": false,
-                            "external_provisioning": false
-                        },
-                        "node": {
-                            "node_name": "worker 2",
-                            "ip_address": "safd",
-                            "labels": [
-                                {
-                                    "key": "aaaa",
-                                    "value": "bbbb"
-                                }
-                            ]
-                        }
-                    }
-                ]
-            },
-            "etcd_storage": {
-                "etcd": {
-                    "use_external_etcd": false,
-                    "endpoints": [
-                        {
-                            "ip_address": "",
-                            "port": ""
-                        }
-                    ],
-                    "ca_file": "",
-                    "cert_file": "",
-                    "key_file": ""
-                },
-                "storage_class": {
-                    "use_ceph": false,
-                    "label1": "",
-                    "label2": "",
-                    "label3": ""
-                }
-            },
-            "openstack": {}
-        }
+    {
+      "id": 2,
+      "type": 1,
+      "name": "Search for company logos and embed them in your project.",
+      "status": 1,
+      "nodeCount": 7,
+      "version": "1.23.0",
+      "created": "2022-03-03 15:33:04"
+    },
+    {
+      "id": 3,
+      "type": 2,
+      "name": "Registered Domain Names Search",
+      "status": 2,
+      "nodeCount": 3,
+      "version": "1.23.0",
+      "created": "2022-03-04 14:44:44"
+    },
+    {
+      "id": 4,
+      "type": 2,
+      "name": "Flexible, RESTful access to the user's inbox",
+      "status": 4,
+      "nodeCount": 6,
+      "version": "1.22.0",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 5,
+      "type": 2,
+      "name": "Collect configure and analyze your data to reach the right audience",
+      "status": 3,
+      "nodeCount": 6,
+      "version": "1.23.0",
+      "created": "2022-03-08 11:11:55"
+    }
+  ],
+  "user": {
+    "userInfo": {
+      "name": "Morris Chang",
+      "role": "admin"
+    },
+    "menuInfo": [
+      {
+        "header": "Status",
+        "hiddenOnCollapse": true
+      },
+      {
+        "href": "/dashboard",
+        "title": "Dashboard",
+        "icon": "fas fa-gauge"
+      },
+      {
+        "separator": true
+      },
+      {
+        "header": "Cloud",
+        "hiddenOnCollapse": true
+      },
+      {
+        "href": "/cloud",
+        "title": "Cloud Mgmt",
+        "icon": "fas fa-cloud"
+      },
+      {
+        "separator": true
+      },
+      {
+        "header": "Management",
+        "hiddenOnCollapse": true
+      },
+      {
+        "href": "/management/image",
+        "title": "Image Mgmt",
+        "icon": "fas fa-box-archive"
+      },
+      {
+        "href": "/management/security",
+        "title": "Security Mgmt",
+        "icon": "fas fa-shield-halved"
+      },
+      {
+        "href": "/management/user",
+        "title": "User Mgmt",
+        "icon": "fas fa-people-roof"
+      }
     ]
+  },
+  "cloud": [
+    {
+      "id": 2,
+      "cloud": {
+        "name": "testtesttest",
+        "type": 1,
+        "desc": ""
+      },
+      "cluster": {
+        "k8s": {
+          "version": 1,
+          "pod_cidr": "10.244.0.0/24",
+          "svc_cidr": "10.244.0.0/1"
+        },
+        "baremetal": {
+          "secret_name": "secret1",
+          "user_name": "admin",
+          "password": "1234",
+          "image_url": "http://192.168.0.1/ubuntu.qcow2",
+          "image_checksum": "http://192.168.0.1/ubuntu.qcow2.md5sum",
+          "image_checksum_type": 0,
+          "image_format": 1,
+          "cp_kubeadm_extra_config": {
+            "pre_kubeadm_commands": "",
+            "post_kubeadm_commands": "- hostname",
+            "files": "",
+            "users": "",
+            "ntp": "",
+            "format": ""
+          },
+          "worker_kubeadm_extra_config": {
+            "pre_kubeadm_commands": "",
+            "post_kubeadm_commands": "- hostname",
+            "files": "",
+            "users": "",
+            "ntp": "",
+            "format": ""
+          }
+        }
+      },
+      "nodes": {
+        "use_loadbalancer": true,
+        "loadbalancer_address": "192.168.0.0",
+        "loadbalancer_port": "88",
+        "master_nodes": [
+          {
+            "baremetal": {
+              "host_name": "master 1",
+              "bmc_address": "sadf",
+              "boot_mac_address": "00:b2:8c:ee:22:98",
+              "boot_mode": 0,
+              "online_power": false,
+              "external_provisioning": false
+            },
+            "node": {
+              "node_name": "sadf",
+              "ip_address": "safd",
+              "labels": [
+                {
+                  "key": "1111",
+                  "value": "2222"
+                }
+              ]
+            }
+          }
+        ],
+        "worker_nodes": [
+          {
+            "baremetal": {
+              "host_name": "worker 1",
+              "bmc_address": "sadf",
+              "boot_mac_address": "00:b2:8c:ee:22:98",
+              "boot_mode": 0,
+              "online_power": false,
+              "external_provisioning": false
+            },
+            "node": {
+              "node_name": "worker 1",
+              "ip_address": "safd",
+              "labels": [
+                {
+                  "key": "aaaa",
+                  "value": "aaaa"
+                },
+                {
+                  "key": "bbbb",
+                  "value": "bbbb"
+                }
+              ]
+            }
+          },
+          {
+            "baremetal": {
+              "host_name": "worker 2",
+              "bmc_address": "sadf",
+              "boot_mac_address": "00:b2:8c:ee:22:98",
+              "boot_mode": 0,
+              "online_power": false,
+              "external_provisioning": false
+            },
+            "node": {
+              "node_name": "worker 2",
+              "ip_address": "safd",
+              "labels": [
+                {
+                  "key": "aaaa",
+                  "value": "bbbb"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "etcd_storage": {
+        "etcd": {
+          "use_external_etcd": false,
+          "endpoints": [
+            {
+              "ip_address": "",
+              "port": ""
+            }
+          ],
+          "ca_file": "",
+          "cert_file": "",
+          "key_file": ""
+        },
+        "storage_class": {
+          "use_ceph": false,
+          "label1": "",
+          "label2": "",
+          "label3": ""
+        }
+      },
+      "openstack": {}
+    }
+  ]
 }

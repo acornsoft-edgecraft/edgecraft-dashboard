@@ -2,7 +2,7 @@ export enum StateKeys {
     CONTEXT = "_CONTEXT_",
     CLUSTER = "_CLUSTER_",
     NAMESPACE = "_NAMESPACE_",
-    AUTHTYPE = "_AUTH_TYPE_",
+    AUTH = "_AUTH_",
     USER = "_USER_",
     MESSAGE = "_MESSAGE_"
 }
