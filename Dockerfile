@@ -1,7 +1,7 @@
 #-------------------------------------------
 # STEP 1 : build executable binary
 #-------------------------------------------
-FROM node:14.14.0-alpine3.12 as builder
+FROM node:18.8.0-alpine3.16 as builder
 
 ADD . /usr/src/app
 
@@ -14,7 +14,7 @@ RUN npm run generate
 #-------------------------------------------
 # STEP 2 : build a image
 #-------------------------------------------
-FROM nginx:1.20.0-alpine
+FROM nginx:1.23.1-alpine
 
 RUN rm -rf /usr/share/nginx/html/connect /usr/share/nginx/html/device /usr/share/nginx/html/event /usr/share/nginx/html/system /usr/share/nginx/html/tag /usr/share/nginx/html/test /usr/share/nginx/html/user /usr/share/nginx/html/auth /usr/share/nginx/html/emit-prop /usr/share/nginx/html/monitoring /usr/share/nginx/html/dashboard
 
