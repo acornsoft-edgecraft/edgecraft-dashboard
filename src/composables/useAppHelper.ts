@@ -4,16 +4,16 @@ import { useFetch, useClipboard, usePermission, useStorage, StorageSerializers, 
 import { FilterMatchMode } from "primevue/api";
 import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
-import { MessageTypes, StateKeys, StoreTypes, APIResponse, defaultMessageType, IUser, defaultUser, IAuthType, defaultAuthType } from '~/models'
+import { MessageTypes, StateKeys, StoreTypes, APIResponse, defaultMessageType, IUser, defaultUser, IAuth, defaultAuth, ILogin, validators } from '~/models'
 import { Router } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
-import * as validators from '@vuelidate/validators'
 
 const messageTimeout = 3000
 //const authSync = ref(null)      // sync for SessionStorage
 let toast = null
 let confirm = null
 let router: Router = null
+let initialized = false
 
 const redirect = (path: object) => {
     return router.push(path)
@@ -65,7 +65,7 @@ const API = {
         return makeResponse(error, data, statusCode, showError)
     },
     post: async (group: string, path: string, body: object, showError: boolean = false, timeLimit: number = defaultRequestTimeout()) => {
-        const { error, data, statusCode } = await useFetch(getApiUrl(group, path), { method: 'POST', body: JSON.stringify(body) }, { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError }).json()
+        const { error, data, statusCode } = await useFetch(getApiUrl(group, path), { method: 'POST', body: JSON.stringify(body), headers: { "Content-Type": "application/json;charset=utf-8" } }, { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError }).json()
         return makeResponse(error, data, statusCode, showError)
     },
     put: async (group: string, path: string, body: object, showError: boolean = false, timeLimit: number = defaultRequestTimeout()) => {
@@ -75,6 +75,13 @@ const API = {
     delete: async (group: string, path: string = "", showError: boolean = false, timeLimit: number = defaultRequestTimeout()) => {
         const { error, data, statusCode } = await useFetch(getApiUrl(group, path), { method: 'DELETE' }, { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError })
         return makeResponse(error, data, statusCode, showError)
+    },
+    call: async (url: string, opts: any = {}, showError: boolean = false, timeLimit: number = defaultRequestTimeout()) => {
+        const { error, data, statusCode } = await useFetch(url, opts, { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError })
+        if (showError) {
+            UI.showToastMessage(MessageTypes.ERROR, "API 호출 오류", `${error.value.message}`)
+        }
+        return { error, data, statusCode }
     }
 }
 
@@ -312,10 +319,18 @@ const Auth = {
     //     return auth.value.isAuthenticated
     // },
     get: () => {
-        return State.storage<IAuthType>(StateKeys.AUTHTYPE, defaultAuthType, StoreTypes.SESSION)
+        return State.storage<IAuth>(StateKeys.AUTH, defaultAuth, StoreTypes.SESSION)
     },
-    set: (newVal: IAuthType) => {
+    set: (newVal: IAuth) => {
         Auth.get().value = newVal
+    },
+    login: async (userInfo: ILogin): Promise<string> => {
+        const res = await API.post('', 'api/v1/auth/login', userInfo)
+        if (res.isError) {
+            UI.showToastMessage(MessageTypes.WARN, "로그인", res.message)
+            return `서버가 동작하지 않거나 사용자를 인증할 수 없습니다. [${res.message}]`
+        }
+        return ''
     }
 }
 

@@ -22,13 +22,10 @@ import { StateKeys, defaultMessageType } from "./models";
 import { Chart } from "chart.js";
 import annotationPlugin from "chartjs-plugin-annotation";
 
-/**
- * 초기화
- */
-const { initialize, State } = useAppHelper()
-initialize()
+// 초기화
+useAppHelper().initialize()
 
-const msg = State.state(StateKeys.MESSAGE, () => defaultMessageType);
+const msg = useAppHelper().State.state(StateKeys.MESSAGE, () => defaultMessageType);
 
 // Chartjs 설정
 Chart.register(annotationPlugin);

@@ -1,7 +1,7 @@
 <template>
     <div class="item-container">
         <div class="form-field">
-            <K3Textarea v-model="modelValue.$model"
+            <K3Textarea :value="modelValue.$model"
                         :type="type"
                         :rows="rows"
                         :cols="cols"
