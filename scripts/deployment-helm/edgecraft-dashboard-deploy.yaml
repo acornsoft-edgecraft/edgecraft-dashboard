@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: edgecraft-dashboard
+  namespace: edgecraft
+  labels:
+    app: edgecraft-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: edgecraft-dashboard
+  template:
+    metadata:
+      labels:
+        app: edgecraft-dashboard
+    spec:
+      containers:
+      - name: edgecraft-dashboard
+        image: ghcr.io/acornsoft-edgecraft/edgecraft-dashboard:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
