@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh
 RUN npm install --no-optional
-RUN npm run build:frontend
+RUN npm run generate
 
 #-------------------------------------------
 # STEP 2 : build a image
