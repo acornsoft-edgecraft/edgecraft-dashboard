@@ -1,12 +1,13 @@
 #-------------------------------------------
 # STEP 1 : build executable binary
 #-------------------------------------------
-FROM node:18.8.0 as builder
+FROM node:18.8.0-alpine as builder
 
 ADD . /usr/src/app
 
 WORKDIR /usr/src/app
-RUN [/bin/sh -c apk update && apk upgrade && apk add --no-cache bash git openssh]
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git openssh
 RUN npm install --no-optional
 RUN npm run generate
 
