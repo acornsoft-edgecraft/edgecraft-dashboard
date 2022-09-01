@@ -1,5 +1,4 @@
-import { MessageTypes } from "../models";
-import { defaultCloudReg } from "~/models";
+import { MessageTypes, defaultCloudReg } from "~/models";
 
 const currentCloud = ref("");
 const { Util } = useAppHelper();

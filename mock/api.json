@@ -1,5 +1,19 @@
 {
-  "users": [],
+  "users": [
+    {
+      "email": "ccambo@acornsoft.io",
+      "password": "$2a$10$QkQnq7NNWRh7RRkn4DeOGO4qyE7ml35oANJ7XqhiEvmHfKtx3UrAO",
+      "id": 1
+    }
+  ],
+  "private": {
+    "messages": [
+      {
+        "id": 1,
+        "message": "test 1"
+      }
+    ]
+  },
   "clouds": [
     {
       "id": 1,

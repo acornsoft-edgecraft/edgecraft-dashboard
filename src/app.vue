@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 // imports
-import { StateKeys, defaultMessageType } from "./models";
+import { StateKeys, defaultMessageType } from "~/models";
 import { Chart } from "chart.js";
 import annotationPlugin from "chartjs-plugin-annotation";
 

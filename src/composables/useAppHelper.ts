@@ -8,7 +8,7 @@ import { MessageTypes, StateKeys, StoreTypes, APIResponse, defaultMessageType, I
 import { Router } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 
-const messageTimeout = 3000
+const messageTimeout = 5000
 //const authSync = ref(null)      // sync for SessionStorage
 let toast = null
 let confirm = null
@@ -171,10 +171,12 @@ const UI = {
             element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
     },
     showToastMessage: (messageType: MessageTypes, title: string, message: string, fixed: boolean = false) => {
-        if (fixed)
-            toast.add({ severity: messageType, summary: title, detail: message, group: 'tr' })
+        if (fixed) {
+            toast.add({ severity: messageType as string, summary: title, detail: message, group: 'tr' })
+            console.log(`messages: ${messageType as string}`)
+        }
         else
-            toast.add({ severity: messageType, summary: title, detail: message, group: 'tr', life: messageTimeout })
+            toast.add({ severity: messageType as string, summary: title, detail: message, group: 'tr', life: messageTimeout })
     },
     showConfirm: (messageType: MessageTypes, title: string, message: string, acceptCallback, rejectCallback) => {
         confirm.require({
@@ -319,18 +321,32 @@ const Auth = {
     //     return auth.value.isAuthenticated
     // },
     get: () => {
-        return State.storage<IAuth>(StateKeys.AUTH, defaultAuth, StoreTypes.SESSION)
+        return State.storage<IAuth>(StateKeys.AUTH, Util.clone(defaultAuth), StoreTypes.SESSION)
     },
     set: (newVal: IAuth) => {
         Auth.get().value = newVal
     },
-    login: async (userInfo: ILogin): Promise<string> => {
-        const res = await API.post('', 'api/v1/auth/login', userInfo)
+    login: async (loginInfo: ILogin): Promise<IAuth> => {
+        const res = await API.post('', 'api/v1/auth/login', loginInfo)
         if (res.isError) {
-            UI.showToastMessage(MessageTypes.WARN, "로그인", res.message)
-            return `서버가 동작하지 않거나 사용자를 인증할 수 없습니다. [${res.message}]`
+            UI.showToastMessage(MessageTypes.ERROR, "로그인", `서버가 동작하지 않거나 사용자를 인증할 수 없습니다. [${res.message}]`)
+        } else {
+            const auth: IAuth = {
+                isAuthenticated: true,
+                token: res.data.accessToken,
+                user: res.data.user
+            }
+            Auth.set(auth)
+            return auth
         }
-        return ''
+
+        return Util.clone(defaultAuth)
+    },
+    logout: async () => {
+        const auth = Auth.get()
+        if (auth.value.isAuthenticated) {
+
+        }
     }
 }
 

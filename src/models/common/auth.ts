@@ -1,4 +1,5 @@
 import { required, minLength, email, PasswordRequirement } from './validators'
+import { IUser } from './user'
 
 // export interface IAuthType {
 //     isAuthenticated: boolean,
@@ -36,14 +37,14 @@ export const defaultLoginValidation = {
     }
 }
 
-export interface IAuth extends ILogin {
+export interface IAuth {
     token?: string
     isAuthenticated: boolean
+    user: IUser
 }
 
 export const defaultAuth: IAuth = {
-    email: '',
-    password: '',
     token: '',
-    isAuthenticated: false
+    isAuthenticated: false,
+    user: null
 }
