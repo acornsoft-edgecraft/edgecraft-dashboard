@@ -1,7 +1,7 @@
 #-------------------------------------------
 # STEP 1 : build executable binary
 #-------------------------------------------
-FROM node:16.16.0-alpine as builder
+FROM node:18.8.0-alpine as builder
 
 ADD . /usr/src/app
 
