@@ -19,7 +19,7 @@
       "id": 1,
       "type": 1,
       "name": "Non-profit charity...",
-      "status": 4,
+      "status": 3,
       "nodeCount": 6,
       "version": "1.23.0",
       "created": "2022-03-02 12:12:12"
@@ -46,7 +46,7 @@
       "id": 4,
       "type": 2,
       "name": "Flexible, RESTful access to the user's inbox",
-      "status": 4,
+      "status": 3,
       "nodeCount": 6,
       "version": "1.22.0",
       "created": "2022-03-06 21:03:11"
@@ -55,7 +55,7 @@
       "id": 5,
       "type": 2,
       "name": "Collect configure and analyze your data to reach the right audience",
-      "status": 3,
+      "status": 1,
       "nodeCount": 6,
       "version": "1.23.0",
       "created": "2022-03-08 11:11:55"
@@ -114,11 +114,13 @@
   },
   "cloud": [
     {
-      "id": 2,
+      "id": 1,
       "cloud": {
         "name": "testtesttest",
         "type": 1,
-        "desc": ""
+        "status": 3,
+        "desc": "",
+        "created": "2022-03-02 12:12:12"
       },
       "cluster": {
         "k8s": {
@@ -160,7 +162,7 @@
           {
             "baremetal": {
               "host_name": "master 1",
-              "bmc_address": "sadf",
+              "bmc_address": "00:b2:8c:ee:22:98",
               "boot_mac_address": "00:b2:8c:ee:22:98",
               "boot_mode": 0,
               "online_power": false,
@@ -182,7 +184,7 @@
           {
             "baremetal": {
               "host_name": "worker 1",
-              "bmc_address": "sadf",
+              "bmc_address": "00:b2:8c:ee:22:98",
               "boot_mac_address": "00:b2:8c:ee:22:98",
               "boot_mode": 0,
               "online_power": false,
@@ -206,7 +208,7 @@
           {
             "baremetal": {
               "host_name": "worker 2",
-              "bmc_address": "sadf",
+              "bmc_address": "00:b2:8c:ee:22:98",
               "boot_mac_address": "00:b2:8c:ee:22:98",
               "boot_mode": 0,
               "online_power": false,
@@ -246,6 +248,145 @@
         }
       },
       "openstack": {}
+    }
+  ],
+  "clusters": [
+    {
+      "id": 1,
+      "name": "openstack cluster 1111",
+      "status": 3,
+      "nodeCount": 6,
+      "version": "1.23.0",
+      "created": "2022-03-02 12:12:12"
+    },
+    {
+      "id": 2,
+      "name": "openstack cluster 22222",
+      "status": 1,
+      "nodeCount": 7,
+      "version": "1.23.0",
+      "created": "2022-03-03 15:33:04"
+    },
+    {
+      "id": 3,
+      "name": "openstack cluster 33333",
+      "status": 2,
+      "nodeCount": 3,
+      "version": "1.23.0",
+      "created": "2022-03-04 14:44:44"
+    },
+    {
+      "id": 4,
+      "name": "openstack cluster 44444",
+      "status": 3,
+      "nodeCount": 6,
+      "version": "1.22.0",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 5,
+      "name": "openstack cluster 55555",
+      "status": 1,
+      "nodeCount": 6,
+      "version": "1.23.0",
+      "created": "2022-03-08 11:11:55"
+    }
+  ],
+  "cluster": [
+    {
+      "id": 1,
+      "cluster": {
+        "name": "openstack cluster 11111",
+        "desc": ""
+      },
+      "k8s": {
+        "version": 1,
+        "pod_cidr": "10.244.0.0/24",
+        "svc_cidr": "10.244.0.0/1"
+      },
+      "openstack": {
+        "openstack_cloud": "openstack",
+        "openstack_cloud_provider_conf_b64": "openstack",
+        "openstack_cloud_yaml_b64": "openstack",
+        "openstack_cloud_cacert_b64": "openstack",
+        "openstack_dns_nameservers": "168.126.63.1",
+        "openstack_failure_domain": "nova",
+        "openstack_image_name": "ubuntu-1804",
+        "openstack_ssh_key_name": "admin",
+        "openstack_external_network": "public",
+        "openstack_apiserver_floatingip": "192.168.0.4",
+        "use_bastion_host": true,          
+        "bastion_flavor": "m1.medium",
+        "bastion_image_name": "ubuntu-1804",
+        "bastion_ssh_key_name": "admin"
+      },
+      "nodes": {
+        "use_loadbalancer": true,
+        "master_set": {
+          "namespace": "default",
+          "name": "os-cluster-cp-0",
+          "node_count": 3,
+          "flavor": "m1.large",
+          "labels": [
+            {
+              "key": "1111"
+            }, 
+            {
+              "value": "2222"
+            }
+          ]
+        },
+        "worker_set": [
+          {
+            "namespace": "default" ,
+            "name": "os-cluster-wk-0",
+            "node_count": 3,
+            "flavor": "m1.medium",
+            "labels": [
+              {
+                "key": "1111"
+              }, 
+              {
+                "value": "2222"
+              }    
+            ]
+          },
+          {
+            "namespace": "default" ,
+            "name": "os-cluster-wk-1",
+            "node_count": 2,
+            "flavor": "m1.small",
+            "labels": [
+              {
+                "key": "3333"
+              }, 
+              {
+                "value": "4444"
+              }       
+            ]
+          }
+        ]
+      },
+      "etcd_storage": {
+        "etcd": {
+          "use_external_etcd": false,
+          "endpoints": [
+              {
+                  "ip_address": "",
+                  "port": ""
+              }
+          ],
+          "ca_file": "",
+          "cert_file": "",
+          "key_file": ""
+        },
+        "storage_class": {
+          "type": "nfs",
+          "label1": "",
+          "label2": "",
+          "label3": ""
+        }
+      }
     }
   ]
 }

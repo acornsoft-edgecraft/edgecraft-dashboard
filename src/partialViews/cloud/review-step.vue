@@ -86,7 +86,7 @@
                   <K3FormColumn label="Load Balancer Port" :size="6">{{ modelValue.nodes.loadbalancer_port }}</K3FormColumn>
                 </K3FormRow>
               </K3FormContainer>
-              <K3FormContainer class="no-style">
+              <K3FormContainer class="no-style mt-3">
                 <K3Fieldset legend="Master Nodes" :toggleable="true">
                   <template v-for="(node, index) in modelValue.nodes.master_nodes" :key="index">
                     <K3Divider type="dashed" v-if="index > 0" />
@@ -118,7 +118,7 @@
                   </template>
                 </K3Fieldset>
               </K3FormContainer>
-              <K3FormContainer class="no-style">
+              <K3FormContainer class="no-style mt-3">
                 <K3Fieldset legend="Worker Nodes" :toggleable="true">
                   <template v-for="(node, index) in modelValue.nodes.worker_nodes" :key="index">
                     <K3Divider type="dashed" v-if="index > 0" />

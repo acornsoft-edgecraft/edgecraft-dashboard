@@ -29,13 +29,9 @@
             <K3FormRow direction="horizontal" :overflow-wrap="true">
               <K3FormColumn label="Online (Power)" label-align="right" :size="6">
                 <K3FormCheckField v-model="v.baremetal.online_power" :id="`${type}_online_power_${index}`" label="사용" />
-                <!-- <K3Checkbox class="mx-2" inputId="online_power" v-model="v.baremetal.online_power" :binary="true" />
-                <label for="online_power">사용</label> -->
               </K3FormColumn>
               <K3FormColumn label="Externally Provisioning" label-align="right" :size="6">
                 <K3FormCheckField v-model="v.baremetal.external_provisioning" :id="`${type}_external_provisioning_${index}`" label="사용" />
-                <!-- <K3Checkbox class="mx-2" inputId="external_provisioning" v-model="v.baremetal.external_provisioning" :binary="true" />
-                <label for="external_provisioning">사용</label> -->
               </K3FormColumn>
             </K3FormRow>
             <K3FormRow>
@@ -67,36 +63,35 @@
 </template>
 
 <script setup lang="ts">
-import useVuelidate from '@vuelidate/core';
+import useVuelidate from "@vuelidate/core";
 
-import { BootModesMap, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation, defaultNodeInfo, defaultNodeInfoValidation } from '~/models';
+import { BootModesMap, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation, defaultNodeInfo, defaultNodeInfoValidation } from "~/models";
 
-const { Util } = useAppHelper()
+const { Util } = useAppHelper();
 
-const v = useVuelidate()
+const v = useVuelidate();
 
 const props = defineProps({
   modelValue: { type: Array<any>, default: [] },
-  type: { type: String, default: 'Master' },
-})
+  type: { type: String, default: "Master" },
+});
 
-const data = reactive(props.modelValue)
+const data = reactive(props.modelValue);
 
 const vRules = {
-    baremetal: { ...defaultBaremetalHostInfoValidation },
-    node: { ...defaultNodeInfoValidation }
-}
+  baremetal: { ...defaultBaremetalHostInfoValidation },
+  node: { ...defaultNodeInfoValidation },
+};
 
 const addNode = () => {
-    data.push({ baremetal: Util.clone(defaultBaremetalHostInfo), node: Util.clone(defaultNodeInfo) })
-}
+  data.push({ baremetal: Util.clone(defaultBaremetalHostInfo), node: Util.clone(defaultNodeInfo) });
+};
 
 const removeNode = (index) => {
-    data.splice(index, 1)
-}
+  data.splice(index, 1);
+};
 
-onMounted(() => {
-});
+onMounted(() => {});
 </script>
 
 <style scoped lang="scss">

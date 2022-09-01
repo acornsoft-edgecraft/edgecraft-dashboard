@@ -56,7 +56,7 @@
         <K3Column v-for="(col, index) of selectedColumns" :class="col.class" :field="col.field" :header="col.header" :sortable="col.sortable" :key="`${col.field}_index`" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
             <span v-if="slotProps.field === 'type'">{{ CloudTypes[slotProps.data.type] }} </span>
-            <NuxtLink v-else-if="slotProps.field === 'name'" :to="toPage(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
+            <NuxtLink v-else-if="slotProps.field === 'name'" :to="goPage(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
             <span v-else-if="slotProps.field === 'status'">{{ CloudStatus[slotProps.data.status] }} </span>
             <span v-else-if="slotProps.field === 'nodeCount'">{{ slotProps.data.nodeCount }}</span>
             <span v-else-if="slotProps.field === 'created'">{{ slotProps.data.created }}</span>
@@ -155,8 +155,8 @@ const rowMenuProcessing = (menuId) => {
   UI.showToastMessage(MessageTypes.INFO, "Row Menu", `menum #${menuId} selected with ${JSON.stringify(selectedItem.value)}`);
 };
 
-const toPage = (data) => {
-  const page = data.status < 3 ? "register/" : "";
+const goPage = (data) => {
+  const page = data.status == CloudStatus.Saved ? "register/" : "";
   return `/cloud/${page}${data.id}`;
 };
 
@@ -173,7 +173,7 @@ const menus = computed(() => {
   const to = `/cloud/${selectedItem?.value?.id}`;
   const disabled = [true, true, true];
 
-  if (selectedItem?.value?.status == CloudStatus.Installed) {
+  if (selectedItem?.value?.status == CloudStatus.Provisioned) {
     if (selectedItem?.value?.type == CloudTypes.Openstack) disabled[0] = false;
     disabled[1] = false;
     disabled[2] = false;

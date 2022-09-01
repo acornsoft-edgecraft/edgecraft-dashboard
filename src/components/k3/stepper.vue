@@ -1,21 +1,15 @@
 <template>
   <div class="stepper-box component-container">
     <div class="top">
-      <div class="divider-line"
-           :style="{ width: `${(100 / steps.length) * (steps.length - 1) - 10}%` }" />
+      <div class="divider-line" :style="{ width: `${(100 / steps.length) * (steps.length - 1) - 10}%` }" />
       <div class="steps-wrapper">
         <template v-if="topButtons">
-          <div v-if="currentStep.index > 0"
-               class="stepper-button-top previous"
-               @click="backStep()">
+          <div v-if="currentStep.index > 0" class="stepper-button-top previous" @click="backStep()">
             <i class="pi pi-arrow-left" />
           </div>
         </template>
-        <template v-for="(step, index) in steps"
-                  :key="index">
-          <div :class="['step', isStepActive(index)]"
-               :style="{ width: `${100 / steps.length}%` }"
-               v-if="step.visible">
+        <template v-for="(step, index) in steps" :key="index">
+          <div :class="['step', isStepActive(index)]" :style="{ width: `${100 / steps.length}%` }" v-if="step.visible">
             <div class="circle">
               <i :class="step.icon" />
             </div>
@@ -25,50 +19,26 @@
             </div>
           </div>
         </template>
-        <div v-if="topButtons"
-             :class="['stepper-button-top next', !canContinue ? 'deactivated' : '']"
-             @click="nextStep()">
+        <div v-if="topButtons" :class="['stepper-button-top next', !canContinue ? 'deactivated' : '']" @click="nextStep()">
           <i class="pi pi-arrow-right" />
         </div>
       </div>
     </div>
     <div class="content">
-      <transition :enter-active-class="enterAnimation"
-                  :leave-active-class="leaveAnimation"
-                  mode="out-in">
+      <transition :enter-active-class="enterAnimation" :leave-active-class="leaveAnimation" mode="out-in">
         <keep-alive v-if="keepAliveData">
-          <component ref="comp"
-                     :is="stepComponent"
-                     v-model="modelValue"
-                     :clickedNext="nextButton[currentStep.name]"
-                     @can-continue="proceed"
-                     @change-next="changeNextBtnValue"
-                     @visible-change="changeVisible"
-                     :current-step="currentStep"
-                     :key="componentKey" />
+          <component ref="comp" :is="stepComponent" v-model="modelValue" :clickedNext="nextButton[currentStep.name]" @can-continue="proceed" @change-next="changeNextBtnValue" @visible-change="changeVisible" :current-step="currentStep" :key="componentKey" />
         </keep-alive>
-        <component v-else
-                   ref="comp"
-                   :is="stepComponent"
-                   v-model="modelValue"
-                   :clickedNext="nextButton[currentStep.name]"
-                   @can-continue="proceed"
-                   @change-next="changeNextBtnValue"
-                   @visible-change="changeVisible"
-                   :current-step="currentStep"
-                   :key="componentKey" />
+        <component v-else ref="comp" :is="stepComponent" v-model="modelValue" :clickedNext="nextButton[currentStep.name]" @can-continue="proceed" @change-next="changeNextBtnValue" @visible-change="changeVisible" :current-step="currentStep" :key="componentKey" />
       </transition>
     </div>
     <div :class="['bottom', currentStep.index > 0 ? '' : 'only-next']">
-      <div v-if="currentStep.index > 0"
-           class="stepper-button previous"
-           @click="backStep()">
+      <div v-if="currentStep.index > 0" class="stepper-button previous" @click="backStep()">
         <i class="pi pi-arrow-left" />
-        <span class="ml-2">Back</span>
+        <span class="ml-2">이전</span>
       </div>
-      <div :class="['stepper-button next', !canContinue ? 'deactivated' : '']"
-           @click="nextStep()">
-        <span class="mr-2">{{ finalStep ? "Finish" : "Next" }}</span>
+      <div :class="['stepper-button next', !canContinue ? 'deactivated' : '']" @click="nextStep()">
+        <span class="mr-2">{{ finalStep ? "클라우드 생성" : "저장 후 이동" }}</span>
         <i class="pi pi-arrow-right" />
       </div>
     </div>
@@ -193,21 +163,13 @@ onMounted(() => { })
 @mixin shadow($level: 1) {
   @if $level==1 {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  }
-
-  @else if $level==2 {
+  } @else if $level==2 {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  }
-
-  @else if $level==3 {
+  } @else if $level==3 {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  }
-
-  @else if $level==4 {
+  } @else if $level==4 {
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-  }
-
-  @else if $level==5 {
+  } @else if $level==5 {
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   }
 }
@@ -217,27 +179,19 @@ onMounted(() => { })
     @media (max-width: 767px) {
       @content;
     }
-  }
-
-  @else if $class==sm {
+  } @else if $class==sm {
     @media (min-width: 768px) {
       @content;
     }
-  }
-
-  @else if $class==md {
+  } @else if $class==md {
     @media (min-width: 992px) {
       @content;
     }
-  }
-
-  @else if $class==lg {
+  } @else if $class==lg {
     @media (min-width: 1200px) {
       @content;
     }
-  }
-
-  @else {
+  } @else {
     @warn "Breakpoint mixin supports: xs, sm, md, lg";
   }
 }

@@ -9,6 +9,12 @@
           <K3Stepper :steps="steps" v-model="cloud" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" @visible-change="onVisibleChange" :keep-alive="false" :top-buttons="true" />
           <K3Overlay :active="isFetch" loader="bars" background-color="#830205" />
         </div>
+
+        <div class="flex justify-content-end mt-3">
+          <NuxtLink to="/cloud">
+            <K3Button label="목록" class="p-button-secondary" />
+          </NuxtLink>
+        </div>
       </section>
     </div>
   </div>
@@ -22,7 +28,7 @@ import PNodeInfo from "~/partialViews/cloud/node-step.vue";
 import PEtcdStorageInfo from "~/partialViews/cloud/etcd-storage-step.vue";
 import POpenstackInfo from "~/partialViews/cloud/openstack-step.vue";
 import PReviewInfo from "~/partialViews/cloud/review-step.vue";
-import { defaultCloudReg, CloudTypes } from "~/models";
+import { CloudTypes } from "~/models";
 
 // Page meta
 definePageMeta({ layout: "default", title: "클라우드 등록", public: true });
@@ -33,10 +39,7 @@ definePageMeta({ layout: "default", title: "클라우드 등록", public: true }
 // Properties
 const route = useRoute();
 const paramId = route.params.id || 0;
-const { Util } = useAppHelper();
 const { cloud, isFetch, fetch } = useCloudService().getCloud();
-
-const cloudRegModel = Util.clone(defaultCloudReg);
 
 const steps = [
   { icon: "fas fa-cloud", name: "cloud", title: "CLOUD 정보", subTitle: "Cloud 구성 정보를 설정합니다", component: PCloudInfo, completed: false, visible: true },
@@ -68,6 +71,7 @@ const activeStep = (payload) => {
   });
 };
 const finished = (payload) => {
+  // TODO: call api
   alert("잘 했어... ^^");
 };
 
@@ -81,12 +85,7 @@ const onVisibleChange = (val) => {
 
 // Events
 onMounted(() => {
-  // if (route.params.id != "") {
-
-  console.log("route.params.id", paramId);
   fetch(paramId);
-  console.log("cloud", cloud);
-  // }
 });
 
 // Logics (like api call, etc)

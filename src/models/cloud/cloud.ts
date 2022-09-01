@@ -20,10 +20,10 @@ export const CloudTypesMap = (addAll: boolean = false, allValue: any = 0) => {
 
 // TODO: 서버 코드 관리와 연계
 export enum CloudStatus {
-  Saved = 1, // 임시저장
-  Registered = 2, // 등록완료
-  Installing = 3, // 설치중
-  Installed = 4, // 설치완료
+  Saved = 1, // 저장
+  Provisioning = 2, // 설치중
+  Provisioned = 3, // 설치완료
+  Failed = 4, //설치 실패
   Deleting = 5, // 삭제중
   Deleted = 6, // 삭제완료
 }
