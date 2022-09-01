@@ -31,8 +31,8 @@
         "switch-ts": "^1.0.9"
     },
     "dependencies": {
+        "@vueuse/nuxt": "^8.7.5",
         "primeflex": "^3.2.1",
-        "primeicons": "^5.0.0",
-        "@vueuse/nuxt": "^8.7.5"
+        "primeicons": "^5.0.0"
     }
 }

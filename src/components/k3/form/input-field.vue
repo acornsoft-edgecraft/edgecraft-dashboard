@@ -3,8 +3,7 @@
         <div class="form-field">
             <K3InputText v-model="modelValue.$model"
                          :type="type"
-                         :class="itemClass"
-                         v-bind="useAttrs()" />
+                         :class="itemClass" />
         </div>
         <div class="error-field basic label pointing error"
              v-if="modelValue.$invalid">{{ errorMessages }}</div>
@@ -17,7 +16,6 @@ const props = defineProps({
     type: { type: String, default: "text" },
     fieldName: { type: String, default: "Field" },
 });
-
 const itemClass = computed(() => [useAttrs().class /*{ 'p-invalid': props.modelValue.$invalid } */]);
 const errorMessages = computed(() => {
     props.modelValue.$touch();
