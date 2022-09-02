@@ -41,11 +41,7 @@ const defaultRequestTimeout = () => {
  */
 function getApiUrl(group: string, path: string): string {
     const config = useRuntimeConfig()
-    if (config.nodeEnv === "development") {
-        return `${config.backendUrl}:${config.backendPort}/${join(group, path)}`
-    } else {
-        return `${location.protocol}//${location.hostname}:${config.backendPort}/${join(group, path)}`
-    }
+    return `${config.backendUrl}:${config.backendPort}/${join(group, path)}`
 }
 
 function makeResponse(error, data, statusCode, showError): APIResponse {
