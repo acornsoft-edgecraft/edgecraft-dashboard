@@ -30,7 +30,9 @@ export default defineNuxtConfig({
     //     dirs: ['~/components']
     // },
     // Modules
-    modules: [],
+    modules: [
+        '@vueuse/nuxt'
+    ],
     // Build
     build: {
         transpile: [

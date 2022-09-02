@@ -18,6 +18,7 @@
         "@vuelidate/components": "^1.2.0",
         "@vuelidate/core": "^2.0.0-alpha.42",
         "@vuelidate/validators": "^2.0.0-alpha.30",
+        "@vueuse/nuxt": "^9.1.1",
         "ace-builds": "^1.6.1",
         "chart.js": "^3.8.0",
         "chartjs-plugin-annotation": "^1.4.0",
@@ -31,7 +32,6 @@
         "switch-ts": "^1.0.9"
     },
     "dependencies": {
-        "@vueuse/nuxt": "^8.7.5",
         "primeflex": "^3.2.1",
         "primeicons": "^5.0.0"
     }
