@@ -3,8 +3,8 @@ import { required, helpers } from "@vuelidate/validators";
 export const cidrRegex = helpers.regex(/^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$/);
 
 export enum K8sVersions {
-  "1.22.0",
-  "1.23.0",
+  "1.22.0" = 1,
+  "1.23.0" = 2,
 }
 export const K8sVersionMap = (addAll: boolean = false) => {
   if (addAll) {

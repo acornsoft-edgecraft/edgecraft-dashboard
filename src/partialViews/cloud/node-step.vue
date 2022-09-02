@@ -16,10 +16,10 @@
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
-        <NodesInfo class="mt-5" :type="NodeType.MASTER" v-model="modelValue.nodes.master_nodes" validate="v$.master_nodes" />
+        <NodesInfo class="mt-5" :type="NodeTypes.MASTER" v-model="modelValue.nodes.master_nodes" validate="v$.master_nodes" />
       </K3FormRow>
       <K3FormRow>
-        <NodesInfo class="mt-5" :type="NodeType.WORKER" v-model="modelValue.nodes.worker_nodes" validate="v$.worker_nodes" />
+        <NodesInfo class="mt-5" :type="NodeTypes.WORKER" v-model="modelValue.nodes.worker_nodes" validate="v$.worker_nodes" />
       </K3FormRow>
     </K3FormContainer>
   </div>
@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import NodesInfo from "./nodes-info.vue";
-import { NodeType, defaultNodesInfoValidation } from "~/models";
+import { NodeTypes, defaultNodesInfoValidation } from "~/models";
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
