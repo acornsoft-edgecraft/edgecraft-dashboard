@@ -1,5 +1,11 @@
 {
-  "users": [],
+  "users": [
+    {
+      "email": "ccambo@acornsoft.io",
+      "password": "$2a$10$5bfT9ZFSAPIhurNis7S7nevBYuEJzRBgu8L/eg/Nns2HIUqJr7EdS",
+      "id": 1
+    }
+  ],
   "messages": [
     {
       "id": 1,
@@ -307,7 +313,7 @@
         "openstack_ssh_key_name": "admin",
         "openstack_external_network": "public",
         "openstack_apiserver_floatingip": "192.168.0.4",
-        "use_bastion_host": true,          
+        "use_bastion_host": true,
         "bastion_flavor": "m1.medium",
         "bastion_image_name": "ubuntu-1804",
         "bastion_ssh_key_name": "admin"
@@ -322,7 +328,7 @@
           "labels": [
             {
               "key": "1111"
-            }, 
+            },
             {
               "value": "2222"
             }
@@ -330,31 +336,31 @@
         },
         "worker_set": [
           {
-            "namespace": "default" ,
+            "namespace": "default",
             "name": "os-cluster-wk-0",
             "node_count": 3,
             "flavor": "m1.medium",
             "labels": [
               {
                 "key": "1111"
-              }, 
+              },
               {
                 "value": "2222"
-              }    
+              }
             ]
           },
           {
-            "namespace": "default" ,
+            "namespace": "default",
             "name": "os-cluster-wk-1",
             "node_count": 2,
             "flavor": "m1.small",
             "labels": [
               {
                 "key": "3333"
-              }, 
+              },
               {
                 "value": "4444"
-              }       
+              }
             ]
           }
         ]
@@ -363,10 +369,10 @@
         "etcd": {
           "use_external_etcd": false,
           "endpoints": [
-              {
-                  "ip_address": "",
-                  "port": ""
-              }
+            {
+              "ip_address": "",
+              "port": ""
+            }
           ],
           "ca_file": "",
           "cert_file": "",

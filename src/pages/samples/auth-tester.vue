@@ -135,7 +135,6 @@
 
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
-import { RouterLink } from 'vue-router';
 import { defaultLogin, defaultLoginValidation, MessageTypes } from '~/models'
 definePageMeta({ layout: 'default', title: 'Auth Tester', public: true })
 // const props = defineProps({}),
@@ -235,6 +234,7 @@ const onLogout = () => {
             } else {
                 UI.showToastMessage(MessageTypes.INFO, "로그아웃", "로그아웃 처리되었습니다.")
                 auth.value = logoutAuth
+                messages.value = []
             }
         })
     }, () => {
@@ -243,7 +243,6 @@ const onLogout = () => {
 }
 
 const onQueryMessages = async () => {
-    // TODO: check auth
     const res = await API.get('', 'api/v1/private/messages')
     if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "메시지 조회", `메시지를 조회할 수 없습니다. [${res.message}, ${res.data}]`)

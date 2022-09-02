@@ -3,49 +3,84 @@
     <K3FormContainer>
       <template #header>Baremetal 설치 정보</template>
       <K3FormRow>
-        <K3FormColumn label="BMC Credential" label-align="right">
+        <K3FormColumn label="BMC Credential"
+                      label-align="right">
           <K3FormContainer class="no-style w-full">
             <K3FormRow direction="vertical">
-              <K3FormColumn label="Secret Name" label-align="right">
-                <K3FormInputField v-model="v$.secret_name" field-name="Secret Name" class="w-7" />
+              <K3FormColumn label="Secret Name"
+                            label-align="right">
+                <K3FormInputField v-model="v$.secret_name"
+                                  field-name="Secret Name"
+                                  class="w-7" />
               </K3FormColumn>
-              <K3FormColumn label="User Name" label-align="right">
-                <K3FormInputField v-model="v$.user_name" field-name="User Name" class="w-7" />
+              <K3FormColumn label="User Name"
+                            label-align="right">
+                <K3FormInputField v-model="v$.user_name"
+                                  field-name="User Name"
+                                  class="w-7" />
               </K3FormColumn>
-              <K3FormColumn label="Password" label-align="right">
-                <K3FormInputField v-model="v$.password" field-name="Password" class="w-7" />
+              <K3FormColumn label="Password"
+                            label-align="right">
+                <K3FormInputField v-model="v$.password"
+                                  field-name="Password"
+                                  class="w-7" />
               </K3FormColumn>
             </K3FormRow>
           </K3FormContainer>
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
-        <K3FormColumn label="Image URL" label-align="right">
-          <K3FormInputField v-model="v$.image_url" field-name="Image URL" class="w-9" />
+        <K3FormColumn label="Image URL"
+                      label-align="right">
+          <K3FormInputField v-model="v$.image_url"
+                            field-name="Image URL"
+                            class="w-9" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
-        <K3FormColumn label="Image Checksum" label-align="right">
-          <K3FormInputField v-model="v$.image_checksum" field-name="Image Checksum" class="w-9" />
+        <K3FormColumn label="Image Checksum"
+                      label-align="right">
+          <K3FormInputField v-model="v$.image_checksum"
+                            field-name="Image Checksum"
+                            class="w-9" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
-        <K3FormColumn label="Image Checksum Type" label-align="right">
-          <K3FormDropdownField v-model="v$.image_checksum_type" field-name="Image Checksum Type" :options="ImageChecksumTypesMap()" :optionLabel="'name'" :optionValue="'value'" class="w-6" />
+        <K3FormColumn label="Image Checksum Type"
+                      label-align="right">
+          <K3FormDropdownField v-model="v$.image_checksum_type"
+                               field-name="Image Checksum Type"
+                               :options="ImageChecksumTypesMap()"
+                               :optionLabel="'name'"
+                               :optionValue="'value'"
+                               class="w-6" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
-        <K3FormColumn label="Image Format" label-align="right">
-          <K3FormDropdownField v-model="v$.image_format" field-name="Image Format" :options="ImageFormatsMap()" :optionLabel="'name'" :optionValue="'value'" class="w-6" />
+        <K3FormColumn label="Image Format"
+                      label-align="right">
+          <K3FormDropdownField v-model="v$.image_format"
+                               field-name="Image Format"
+                               :options="ImageFormatsMap()"
+                               :optionLabel="'name'"
+                               :optionValue="'value'"
+                               class="w-6" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
-        <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
+        <K3FormColumn label="Control Plane Kubeadm Extra Config"
+                      label-align="right">
           <K3FormContainer class="no-style w-full">
             <K3FormRow direction="vertical">
-              <K3Accordion :multiple="true" v-for="(config, index) in kubeadmConfigs" :key="index">
+              <K3Accordion :multiple="true"
+                           v-for="(config, index) in kubeadmConfigs"
+                           :key="index">
                 <K3AccordionTab :header="config.header">
-                  <K3Textarea :id="setConfigId('cp', config.id)" v-model="modelValue.cp_kubeadm_extra_config[config.id]" type="text" rows="4" class="w-full" />
+                  <K3Textarea :id="setConfigId('cp', config.id)"
+                              v-model="modelValue.cp_kubeadm_extra_config[config.id]"
+                              type="text"
+                              rows="4"
+                              class="w-full" />
                 </K3AccordionTab>
               </K3Accordion>
             </K3FormRow>
@@ -53,12 +88,19 @@
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
-        <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
+        <K3FormColumn label="Workers Kubeadm Extra Config"
+                      label-align="right">
           <K3FormContainer class="no-style w-full">
             <K3FormRow direction="vertical">
-              <K3Accordion :multiple="true" v-for="(config, index) in kubeadmConfigs" :key="index" class="w-full">
+              <K3Accordion :multiple="true"
+                           v-for="(config, index) in kubeadmConfigs"
+                           :key="index"
+                           class="w-full">
                 <K3AccordionTab :header="config.header">
-                  <K3Textarea :id="setConfigId('worker', config.id)" v-model="modelValue.worker_kubeadm_extra_config[config.id]" rows="4" class="w-full" />
+                  <K3Textarea :id="setConfigId('worker', config.id)"
+                              v-model="modelValue.worker_kubeadm_extra_config[config.id]"
+                              rows="4"
+                              class="w-full" />
                 </K3AccordionTab>
               </K3Accordion>
             </K3FormRow>
@@ -91,7 +133,8 @@ const setConfigId = (prefix, id) => {
   return `${prefix}_${id}`;
 };
 
-onMounted(() => {});
+onMounted(() => { });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

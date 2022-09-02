@@ -1,5 +1,9 @@
 <template>
-  <K3Dialog header="Kubernetes Cluster Upgrade" v-model:visible="modelValue.display" :modal="true" :style="{ width: '50vw' }" @hide="onHide">
+  <K3Dialog header="Kubernetes Cluster Upgrade"
+            v-model:visible="modelValue.display"
+            :modal="true"
+            :style="{ width: '50vw' }"
+            @hide="onHide">
     <div>
       현재 Kubernetes Cluster Version : <b>{{ K8sVersions[modelValue.current] }}</b>
     </div>
@@ -8,7 +12,12 @@
       <K3FormContainer class="no-style">
         <K3FormRow>
           <span class="py-2">업그레이드 할 Kubernetes Cluster Version을 선택하세요. </span>
-          <K3FormDropdownField v-model="v.version" :options="versions" :optionLabel="'name'" :optionValue="'value'" field-name="Kubernetes Version" class="ml-3" />
+          <K3FormDropdownField v-model="v.version"
+                               :options="versions"
+                               :optionLabel="'name'"
+                               :optionValue="'value'"
+                               field-name="Kubernetes Version"
+                               class="ml-3" />
         </K3FormRow>
       </K3FormContainer>
     </div>
@@ -16,11 +25,20 @@
 
     <template #footer>
       <template v-if="upgradable">
-        <K3Button label="Cancel" icon="pi pi-times" @click="close" class="p-button-text" />
-        <K3Button label="Upgrade" icon="pi pi-check" @click="upgrade" autofocus />
+        <K3Button label="Cancel"
+                  icon="pi pi-times"
+                  @click="close"
+                  class="p-button-text" />
+        <K3Button label="Upgrade"
+                  icon="pi pi-check"
+                  @click="upgrade"
+                  autofocus />
       </template>
       <template v-else>
-        <K3Button label="Close" icon="pi pi-times" @click="close" class="p-button-text" />
+        <K3Button label="Close"
+                  icon="pi pi-times"
+                  @click="close"
+                  class="p-button-text" />
       </template>
     </template>
   </K3Dialog>
@@ -56,7 +74,7 @@ const onHide = () => {
   emits("close");
 };
 
-onMounted(() => {});
+onMounted(() => { });
 </script>
 
 <style scoped lang="scss">

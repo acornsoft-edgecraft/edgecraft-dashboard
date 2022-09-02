@@ -4,7 +4,8 @@
       <h5 class="form-title">등록 정보 확인</h5>
       <div class="field grid">
         <div class="field col-12">
-          <K3Accordion :multiple="true" :activeIndex="[0, 1, 2, 3, 4]">
+          <K3Accordion :multiple="true"
+                       :activeIndex="[0, 1, 2, 3, 4]">
             <K3AccordionTab header="Cloud 정보">
               <K3FormContainer>
                 <K3FormRow>
@@ -80,31 +81,43 @@
                   <K3FormColumn label="Use LoadBalancer">{{ modelValue.nodes.use_loadbalancer }}</K3FormColumn>
                 </K3FormRow>
                 <K3FormRow v-if="modelValue.nodes.use_loadbalancer">
-                  <K3FormColumn label="Load Balancer IP" :size="6">{{ modelValue.nodes.loadbalancer_address }}</K3FormColumn>
-                  <K3FormColumn label="Load Balancer Port" :size="6">{{ modelValue.nodes.loadbalancer_port }}</K3FormColumn>
+                  <K3FormColumn label="Load Balancer IP"
+                                :size="6">{{ modelValue.nodes.loadbalancer_address }}</K3FormColumn>
+                  <K3FormColumn label="Load Balancer Port"
+                                :size="6">{{ modelValue.nodes.loadbalancer_port }}</K3FormColumn>
                 </K3FormRow>
               </K3FormContainer>
               <K3FormContainer>
                 <K3Fieldset legend="Master Nodes">
-                  <template v-for="(node, index) in modelValue.nodes.master_nodes" :key="index">
-                    <K3Divider type="dashed" v-if="index > 0" />
+                  <template v-for="(node, index) in modelValue.nodes.master_nodes"
+                            :key="index">
+                    <K3Divider type="dashed"
+                               v-if="index > 0" />
                     <K3Divider align="left">Baremetal Host</K3Divider>
                     <K3FormRow>
-                      <K3FormColumn label="Host Name" :size="6">{{ node.baremetal.host_name }}</K3FormColumn>
-                      <K3FormColumn label="BMC Address" :size="6">{{ node.baremetal.bmc_address }}</K3FormColumn>
+                      <K3FormColumn label="Host Name"
+                                    :size="6">{{ node.baremetal.host_name }}</K3FormColumn>
+                      <K3FormColumn label="BMC Address"
+                                    :size="6">{{ node.baremetal.bmc_address }}</K3FormColumn>
                     </K3FormRow>
                     <K3FormRow>
-                      <K3FormColumn label="Boot MAC Address" :size="6">{{ node.baremetal.boot_mac_address }}</K3FormColumn>
-                      <K3FormColumn label="Boot Mode" :size="6">{{ node.baremetal.boot_mode }}</K3FormColumn>
+                      <K3FormColumn label="Boot MAC Address"
+                                    :size="6">{{ node.baremetal.boot_mac_address }}</K3FormColumn>
+                      <K3FormColumn label="Boot Mode"
+                                    :size="6">{{ node.baremetal.boot_mode }}</K3FormColumn>
                     </K3FormRow>
                     <K3FormRow>
-                      <K3FormColumn label="Online (power)" :size="6">{{ node.baremetal.online_power }}</K3FormColumn>
-                      <K3FormColumn label="Externally Provisioning" :size="6">{{ node.baremetal.external_provisioning }}</K3FormColumn>
+                      <K3FormColumn label="Online (power)"
+                                    :size="6">{{ node.baremetal.online_power }}</K3FormColumn>
+                      <K3FormColumn label="Externally Provisioning"
+                                    :size="6">{{ node.baremetal.external_provisioning }}</K3FormColumn>
                     </K3FormRow>
                     <K3Divider align="left">Node</K3Divider>
                     <K3FormRow>
-                      <K3FormColumn label="Node Name" :size="6">{{ node.node.node_name }}</K3FormColumn>
-                      <K3FormColumn label="IP Address" :size="6">{{ node.node.ip_address }}</K3FormColumn>
+                      <K3FormColumn label="Node Name"
+                                    :size="6">{{ node.node.node_name }}</K3FormColumn>
+                      <K3FormColumn label="IP Address"
+                                    :size="6">{{ node.node.ip_address }}</K3FormColumn>
                     </K3FormRow>
                     <K3FormRow>
                       <K3FormColumn lable="Labels">{{ node.node.labels }}</K3FormColumn>
@@ -114,25 +127,35 @@
               </K3FormContainer>
               <K3FormContainer>
                 <K3Fieldset legend="Worker Nodes">
-                  <template v-for="(node, index) in modelValue.nodes.worker_nodes" :key="index">
-                    <K3Divider type="dashed" v-if="index > 0" />
+                  <template v-for="(node, index) in modelValue.nodes.worker_nodes"
+                            :key="index">
+                    <K3Divider type="dashed"
+                               v-if="index > 0" />
                     <K3Divider align="left">Baremetal Host</K3Divider>
                     <K3FormRow>
-                      <K3FormColumn label="Host Name" :size="6">{{ node.baremetal.host_name }}</K3FormColumn>
-                      <K3FormColumn label="BMC Address" :size="6">{{ node.baremetal.bmc_address }}</K3FormColumn>
+                      <K3FormColumn label="Host Name"
+                                    :size="6">{{ node.baremetal.host_name }}</K3FormColumn>
+                      <K3FormColumn label="BMC Address"
+                                    :size="6">{{ node.baremetal.bmc_address }}</K3FormColumn>
                     </K3FormRow>
                     <K3FormRow>
-                      <K3FormColumn label="Boot MAC Address" :size="6">{{ node.baremetal.boot_mac_address }}</K3FormColumn>
-                      <K3FormColumn label="Boot Mode" :size="6">{{ node.baremetal.boot_mode }}</K3FormColumn>
+                      <K3FormColumn label="Boot MAC Address"
+                                    :size="6">{{ node.baremetal.boot_mac_address }}</K3FormColumn>
+                      <K3FormColumn label="Boot Mode"
+                                    :size="6">{{ node.baremetal.boot_mode }}</K3FormColumn>
                     </K3FormRow>
                     <K3FormRow>
-                      <K3FormColumn label="Online (power)" :size="6">{{ node.baremetal.online_power }}</K3FormColumn>
-                      <K3FormColumn label="Externally Provisioning" :size="6">{{ node.baremetal.external_provisioning }}</K3FormColumn>
+                      <K3FormColumn label="Online (power)"
+                                    :size="6">{{ node.baremetal.online_power }}</K3FormColumn>
+                      <K3FormColumn label="Externally Provisioning"
+                                    :size="6">{{ node.baremetal.external_provisioning }}</K3FormColumn>
                     </K3FormRow>
                     <K3Divider align="left">Node</K3Divider>
                     <K3FormRow>
-                      <K3FormColumn label="Node Name" :size="6">{{ node.node.node_name }}</K3FormColumn>
-                      <K3FormColumn label="IP Address" :size="6">{{ node.node.ip_address }}</K3FormColumn>
+                      <K3FormColumn label="Node Name"
+                                    :size="6">{{ node.node.node_name }}</K3FormColumn>
+                      <K3FormColumn label="IP Address"
+                                    :size="6">{{ node.node.ip_address }}</K3FormColumn>
                     </K3FormRow>
                     <K3FormRow>
                       <K3FormColumn lable="Labels">{{ node.node.labels }}</K3FormColumn>
@@ -182,9 +205,9 @@ import { CloudTypes, K8sVersions, ImageChecksumTypes, ImageFormats } from "~/mod
 
 definePageMeta({ layout: "default", title: "Node Label", public: true });
 
-onActivated(() => {});
+onActivated(() => { });
 
-onMounted(() => {});
+onMounted(() => { });
 
 const modelValue = {
   cloud: {
@@ -318,4 +341,5 @@ const modelValue = {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

@@ -6,13 +6,23 @@
       </section>
       <section class="page-content">
         <div class="stepper-container">
-          <K3Stepper :steps="steps" v-model="cloud" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" @visible-change="onVisibleChange" :keep-alive="false" :top-buttons="true" />
-          <K3Overlay :active="isFetch" loader="bars" background-color="#830205" />
+          <K3Stepper :steps="steps"
+                     v-model="cloud"
+                     @completed-step="completedStep"
+                     @active-step="activeStep"
+                     @stepper-finished="finished"
+                     @visible-change="onVisibleChange"
+                     :keep-alive="false"
+                     :top-buttons="true" />
+          <K3Overlay :active="isFetch"
+                     loader="bars"
+                     background-color="#830205" />
         </div>
 
         <div class="flex justify-content-end mt-3">
           <NuxtLink to="/cloud">
-            <K3Button label="목록" class="p-button-secondary" />
+            <K3Button label="목록"
+                      class="p-button-secondary" />
           </NuxtLink>
         </div>
       </section>
@@ -22,7 +32,7 @@
 
 <script setup lang="ts">
 // imports
-import PCloudInfo from "~~/src/partialViews/cloud/cloud-step.vue";
+import PCloudInfo from "~/partialViews/cloud/cloud-step.vue";
 import PClusterInfo from "~/partialViews/cloud/cluster-step.vue";
 import PNodeInfo from "~/partialViews/cloud/node-step.vue";
 import PEtcdStorageInfo from "~/partialViews/cloud/etcd-storage-step.vue";
