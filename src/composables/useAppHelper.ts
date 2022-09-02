@@ -1,6 +1,6 @@
 import { useRuntimeConfig } from '#app'
 import { join } from 'pathe'
-import { useFetch, useClipboard, usePermission, useStorage, StorageSerializers } from '@VueUse/core'
+import { useFetch, useClipboard, usePermission, useStorage, StorageSerializers } from '@vueuse/core'
 import { FilterMatchMode } from "primevue/api";
 import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
