@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from 'nuxt'
+import pkg from './package.json'
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
@@ -51,11 +52,11 @@ export default defineNuxtConfig({
     // Public Runtime config (access client and server)
     publicRuntimeConfig: {
         nodeEnv: process.env.NODE_ENV,
-        backendUrl: process.env.BACKEND_BASE_URL,                       // backend url
-        backendPort: process.env.BACKEND_BASE_PORT,	                    // backend port
-        version: JSON.stringify(require('./package.json').version),     // app version
-        refreshInterval: 5000,                                          // Refresh timeout
-        requestTimeout: 2000                                            // Request timeout
+        backendUrl: process.env.BACKEND_BASE_URL,       // backend url
+        backendPort: process.env.BACKEND_BASE_PORT,	    // backend port
+        version: pkg.version,                           // app version
+        refreshInterval: 5000,                          // Refresh timeout
+        requestTimeout: 2000                            // Request timeout
     },
     // Router
     router: {},
