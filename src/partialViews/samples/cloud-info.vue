@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import { CloudTypesMap, cloudInfo, defaultCloudInfoValidation } from "~/models/samples";
-import { CloudTypes } from "~~/src/models";
+import { CloudTypes } from "~/models";
 
 const { UI } = useAppHelper()
 

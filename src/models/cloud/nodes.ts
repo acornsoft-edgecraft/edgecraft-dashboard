@@ -2,7 +2,7 @@ import { helpers, required, requiredIf, ipAddress, between } from "@vuelidate/va
 import { baremetalHostInfo, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation } from "./baremetalhost";
 import { defaultNodeInfo, defaultNodeInfoValidation, nodeInfo } from "./node";
 
-export enum NodeType {
+export enum NodeTypes {
   MASTER = "Master",
   WORKER = "Worker",
 }

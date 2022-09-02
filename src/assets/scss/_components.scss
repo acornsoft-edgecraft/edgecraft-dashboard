@@ -1,6 +1,15 @@
+.p-toast {
+  opacity: 0.9;
+}
+
 .p-toast.p-toast-top-right {
   z-index: 1000;
   top: 7em;
+}
+
+.p-toast .p-toast-message {
+  color: green;
+  border-width: 0 0 0 6px !important;
 }
 
 // .p-dialog-mask.p-component-overlay.p-component-overlay-enter {

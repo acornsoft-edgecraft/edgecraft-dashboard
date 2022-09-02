@@ -4,40 +4,58 @@
       <K3PageTitle />
     </section>
     <section class="page-content">
-      <K3DataTable
-        :value="clouds"
-        v-model:filters="UI.tableSettings.filters.value"
-        v-model:selection="selectedItem"
-        dataKey="id"
-        :autoLayout="true"
-        :scrollable="true"
-        :scrollHeight="UI.tableSettings.scrollHeight"
-        selectionMode="single"
-        removableSort
-        :rows="UI.tableSettings.rows"
-        :paginator="true"
-        :paginatorTemplate="UI.tableSettings.paginatorTemplate"
-        :rowsPerPageOptions="UI.tableSettings.rowPerPageOptions"
-        :currentPageReportTemplate="UI.tableSettings.pageReportTemplate"
-        :loading="isFetch"
-        @rowSelect="rowSelected"
-        @rowUnselect="rowUnselected"
-        stripedRows>
+      <K3DataTable :value="clouds"
+                   v-model:filters="UI.tableSettings.filters.value"
+                   v-model:selection="selectedItem"
+                   dataKey="id"
+                   :autoLayout="true"
+                   :scrollable="true"
+                   :scrollHeight="UI.tableSettings.scrollHeight"
+                   selectionMode="single"
+                   removableSort
+                   :rows="UI.tableSettings.rows"
+                   :paginator="true"
+                   :paginatorTemplate="UI.tableSettings.paginatorTemplate"
+                   :rowsPerPageOptions="UI.tableSettings.rowPerPageOptions"
+                   :currentPageReportTemplate="UI.tableSettings.pageReportTemplate"
+                   :loading="isFetch"
+                   @rowSelect="rowSelected"
+                   @rowUnselect="rowUnselected"
+                   stripedRows>
         <template #header>
           <div class="header flex justify-content-between">
             <div class="search-left">
               <span>Cloud Type: </span>
-              <K3Dropdown v-model="selectedCloud" :options="CloudTypesMap(true)" :optionLabel="'name'" :optionValue="'value'" class="mr-2" @change="typeSelected" />
+              <K3Dropdown v-model="selectedCloud"
+                          :options="CloudTypesMap(true)"
+                          :optionLabel="'name'"
+                          :optionValue="'value'"
+                          class="mr-2"
+                          @change="typeSelected" />
               <span>Status: </span>
-              <K3Dropdown v-model="selectedStatus" :options="CloudStatusMap(true)" :optionLabel="'name'" :optionValue="'value'" class="mr-2" @change="statusSelected" />
+              <K3Dropdown v-model="selectedStatus"
+                          :options="CloudStatusMap(true)"
+                          :optionLabel="'name'"
+                          :optionValue="'value'"
+                          class="mr-2"
+                          @change="statusSelected" />
               <span>Name: </span>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
-                <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" autofocus />
+                <K3InputText class="flex"
+                             v-model="(UI.tableSettings.filters.value as any).name.value"
+                             placeholder="Search"
+                             autofocus />
               </span>
             </div>
             <div class="search-right toggle flex align-content-center">
-              <K3MultiSelect class="flex mr-2" :modelValue="selectedColumns" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" style="width: 20em" />
+              <K3MultiSelect class="flex mr-2"
+                             :modelValue="selectedColumns"
+                             :options="columns"
+                             optionLabel="header"
+                             @update:modelValue="toggle"
+                             placeholder="Select Columns"
+                             style="width: 20em" />
               <NuxtLink to="/cloud/register">
                 <K3Button label="클라우드 등록" />
               </NuxtLink>
@@ -45,7 +63,10 @@
           </div>
         </template>
         <template #loading>
-          <K3ProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+          <K3ProgressSpinner style="width: 50px; height: 50px"
+                             strokeWidth="8"
+                             fill="var(--surface-ground)"
+                             animationDuration=".5s" />
         </template>
         <template #empty>
           <div class="w-full text-center">
@@ -53,23 +74,38 @@
           </div>
         </template>
         <!-- Columns -->
-        <K3Column v-for="(col, index) of selectedColumns" :class="col.class" :field="col.field" :header="col.header" :sortable="col.sortable" :key="`${col.field}_index`" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
+        <K3Column v-for="(col, index) of selectedColumns"
+                  :class="col.class"
+                  :field="col.field"
+                  :header="col.header"
+                  :sortable="col.sortable"
+                  :key="`${col.field}_index`"
+                  :headerStyle="columnSize(col.field)"
+                  :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
             <span v-if="slotProps.field === 'type'">{{ CloudTypes[slotProps.data.type] }} </span>
-            <NuxtLink v-else-if="slotProps.field === 'name'" :to="toPage(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
+            <NuxtLink v-else-if="slotProps.field === 'name'"
+                      :to="goPage(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
             <span v-else-if="slotProps.field === 'status'">{{ CloudStatus[slotProps.data.status] }} </span>
             <span v-else-if="slotProps.field === 'nodeCount'">{{ slotProps.data.nodeCount }}</span>
             <span v-else-if="slotProps.field === 'created'">{{ slotProps.data.created }}</span>
             <span v-else>{{ slotProps.data[slotProps.field] }}</span>
           </template>
         </K3Column>
-        <K3Column header="Commands" key="cmd" class="flex justify-content-center" headerStyle="min-width: 30px;" bodyStyle="min-width: 30px;">
+        <K3Column header="Commands"
+                  key="cmd"
+                  class="flex justify-content-center"
+                  headerStyle="min-width: 30px;"
+                  bodyStyle="min-width: 30px;">
           <template #body="slotProps">
-            <i class="fas fa-ellipsis-v" style="width: 10px" @click="showCommand(slotProps.data.id, $event)"></i>
+            <i class="fas fa-ellipsis-v"
+               style="width: 10px"
+               @click="showCommand(slotProps.data.id, $event)"></i>
           </template>
         </K3Column>
       </K3DataTable>
-      <K3ContextMenu ref="menu" :model="menus" />
+      <K3ContextMenu ref="menu"
+                     :model="menus" />
     </section>
   </div>
 </template>
@@ -155,8 +191,8 @@ const rowMenuProcessing = (menuId) => {
   UI.showToastMessage(MessageTypes.INFO, "Row Menu", `menum #${menuId} selected with ${JSON.stringify(selectedItem.value)}`);
 };
 
-const toPage = (data) => {
-  const page = data.status < 3 ? "register/" : "";
+const goPage = (data) => {
+  const page = data.status == CloudStatus.Saved ? "register/" : "";
   return `/cloud/${page}${data.id}`;
 };
 
@@ -173,7 +209,7 @@ const menus = computed(() => {
   const to = `/cloud/${selectedItem?.value?.id}`;
   const disabled = [true, true, true];
 
-  if (selectedItem?.value?.status == CloudStatus.Installed) {
+  if (selectedItem?.value?.status == CloudStatus.Provisioned) {
     if (selectedItem?.value?.type == CloudTypes.Openstack) disabled[0] = false;
     disabled[1] = false;
     disabled[2] = false;
