@@ -8,12 +8,11 @@ import { MessageTypes, StateKeys, StoreTypes, APIResponse, defaultMessageType, I
 import { Router } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 
+let auth = null
 const messageTimeout = 5000
-//const authSync = ref(null)      // sync for SessionStorage
 let toast = null
 let confirm = null
 let router: Router = null
-let initialized = false
 
 const redirect = (path: object) => {
     return router.push(path)
@@ -59,25 +58,36 @@ function makeResponse(error, data, statusCode, showError): APIResponse {
     }
 }
 
+function setAPIOptions(opts) {
+    if (auth.value.isAuthenticated) {
+        opts = Object.assign({}, opts, { headers: { Authorization: `Bearer ${auth.value.token}` } })
+    }
+    return opts
+}
+
 const API = {
     get: async (group: string, path: string, showError: boolean = false, timeLimit: number = defaultRequestTimeout()) => {
-        const { error, data, statusCode } = await useFetch(getApiUrl(group, path), { method: 'GET' }, { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError }).json()
+        const { error, data, statusCode } = await useFetch(getApiUrl(group, path), setAPIOptions({ method: 'GET' }), { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError }).json()
         return makeResponse(error, data, statusCode, showError)
     },
     post: async (group: string, path: string, body: object, showError: boolean = false, timeLimit: number = defaultRequestTimeout()) => {
-        const { error, data, statusCode } = await useFetch(getApiUrl(group, path), { method: 'POST', body: JSON.stringify(body), headers: { "Content-Type": "application/json;charset=utf-8" } }, { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError }).json()
+        const { error, data, statusCode } = await useFetch(getApiUrl(group, path), setAPIOptions({ method: 'POST', body: JSON.stringify(body), headers: { "Content-Type": "application/json;charset=utf-8" } }), { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError }).json()
         return makeResponse(error, data, statusCode, showError)
     },
     put: async (group: string, path: string, body: object, showError: boolean = false, timeLimit: number = defaultRequestTimeout()) => {
-        const { error, data, statusCode } = await useFetch(getApiUrl(group, path), { method: 'PUT', body: JSON.stringify(body) }, { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError }).json()
+        const { error, data, statusCode } = await useFetch(getApiUrl(group, path), setAPIOptions({ method: 'PUT', body: JSON.stringify(body), headers: { "Content-Type": "application/json;charset=utf-8" } }), { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError }).json()
         return makeResponse(error, data, statusCode, showError)
     },
     delete: async (group: string, path: string = "", showError: boolean = false, timeLimit: number = defaultRequestTimeout()) => {
-        const { error, data, statusCode } = await useFetch(getApiUrl(group, path), { method: 'DELETE' }, { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError })
+        const opts = { method: 'DELETE' } as any
+        if (auth.value.isAuthenticated) {
+            opts.Authorization = `Baarer ${auth.value.token}`
+        }
+        const { error, data, statusCode } = await useFetch(getApiUrl(group, path), setAPIOptions({ method: 'DELETE' }), { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError })
         return makeResponse(error, data, statusCode, showError)
     },
     call: async (url: string, opts: any = {}, showError: boolean = false, timeLimit: number = defaultRequestTimeout()) => {
-        const { error, data, statusCode } = await useFetch(url, opts, { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError })
+        const { error, data, statusCode } = await useFetch(url, setAPIOptions(opts), { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError })
         if (showError) {
             UI.showToastMessage(MessageTypes.ERROR, "API 호출 오류", `${error.value.message}`)
         }
@@ -316,37 +326,39 @@ const State = {
 }
 
 const Auth = {
-    // isAuthenticated: () => {
-    //     const auth = State.storage<IAuthType>(StateKeys.AUTHTYPE, defaultAuthType, StoreTypes.SESSION)
-    //     return auth.value.isAuthenticated
-    // },
+    init: () => {
+        auth = State.storage<IAuth>(StateKeys.AUTH, Util.clone(defaultAuth), StoreTypes.SESSION)
+    },
     get: () => {
-        return State.storage<IAuth>(StateKeys.AUTH, Util.clone(defaultAuth), StoreTypes.SESSION)
+        if (!auth || !auth.value) {
+            auth = State.storage<IAuth>(StateKeys.AUTH, Util.clone(defaultAuth), StoreTypes.SESSION)
+        }
+        return auth
     },
-    set: (newVal: IAuth) => {
-        Auth.get().value = newVal
-    },
+    set: (newVal: IAuth) => auth.value = newVal,
     login: async (loginInfo: ILogin): Promise<IAuth> => {
         const res = await API.post('', 'api/v1/auth/login', loginInfo)
         if (res.isError) {
             UI.showToastMessage(MessageTypes.ERROR, "로그인", `서버가 동작하지 않거나 사용자를 인증할 수 없습니다. [${res.message}]`)
         } else {
-            const auth: IAuth = {
+            const loggedInAuth: IAuth = {
                 isAuthenticated: true,
                 token: res.data.accessToken,
                 user: res.data.user
             }
-            Auth.set(auth)
-            return auth
+            Auth.set(loggedInAuth)
         }
 
-        return Util.clone(defaultAuth)
+        return auth.value
     },
-    logout: async () => {
-        const auth = Auth.get()
+    logout: async (moveToHome = true): Promise<IAuth> => {
         if (auth.value.isAuthenticated) {
-
+            const logoutAuth = Util.clone(defaultAuth)
+            Auth.set(logoutAuth)
+            if (moveToHome) Routing.moveTo("/")
         }
+
+        return auth.value
     }
 }
 
@@ -451,6 +463,7 @@ export default function useAppHelper(opts: any = {}) {
     const options = opts
 
     const initialize = () => {
+        Auth.init()
         Routing.init()
         UI.init()
     }

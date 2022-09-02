@@ -135,12 +135,13 @@
 
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
+import { RouterLink } from 'vue-router';
 import { defaultLogin, defaultLoginValidation, MessageTypes } from '~/models'
 definePageMeta({ layout: 'default', title: 'Auth Tester', public: true })
 // const props = defineProps({}),
 // const emits = defineEmits(['eventname']),
 
-const { Auth, API, UI } = useAppHelper()
+const { Auth, API, UI, Routing } = useAppHelper()
 
 const auth = Auth.get()
 const users = ref([])
@@ -177,19 +178,25 @@ const columnSize = (field) => {
     return `min-width: ${size}%`;
 };
 
+const errorMessages = computed(() => {
+    v$.value.$touch();
+    return v$.value.$errors.map((err) => err.$message).join(",");
+});
+
 const onUsers = async () => {
     const res = await API.get('', 'api/v1/users')
     if (res.isError) {
-        UI.showToastMessage(MessageTypes.ERROR, "사용자 조회", `사용자를 조회할 수 없습니다. [${res.message}]`)
+        UI.showToastMessage(MessageTypes.ERROR, "사용자 조회", `사용자를 조회할 수 없습니다. [${res.message}, ${res.data}]`)
     } else {
         users.value = res.data
+        UI.showToastMessage(MessageTypes.ERROR, "사용자 조회", `사용자 정보가 조회되었습니다.`)
     }
 }
 
 const onRegister = async () => {
     const res = await API.post('', 'api/v1/register', login.value)
     if (res.isError) {
-        UI.showToastMessage(MessageTypes.ERROR, "사용자 등록", `사용자 등록에 실패하였습니다. [${res.message}]`)
+        UI.showToastMessage(MessageTypes.ERROR, "사용자 등록", `사용자 등록에 실패하였습니다. [${res.message}, ${res.data}]`)
     } else {
         UI.showToastMessage(MessageTypes.INFO, "사용자 등록", `사용자 정보가 등록되었습니다.`)
         onUsers()
@@ -199,7 +206,7 @@ const onRegister = async () => {
 const onDelete = async (id) => {
     const res = await API.delete('', `api/v1/users/${id}`)
     if (res.isError) {
-        UI.showToastMessage(MessageTypes.ERROR, "사용자 삭제", `사용자 삭제에 실패하였습니다. [${res.message}]`)
+        UI.showToastMessage(MessageTypes.ERROR, "사용자 삭제", `사용자 삭제에 실패하였습니다. [${res.message}, ${res.data}]`)
         alert(`오륜데? -_- ==> [${res.message}, ${res.statusCode}]`)
     } else {
         UI.showToastMessage(MessageTypes.INFO, "사용자 삭제", `사용자 정보가 삭제되었습니다.`)
@@ -211,22 +218,35 @@ const onLogin = async () => {
     v$.value.$touch()
 
     if (!v$.value.$invalid) {
-        const result = await Auth.login(login.value)
-        if (!result) {
+        auth.value = await Auth.login(login.value)
+        if (auth.value.isAuthenticated) {
             UI.showToastMessage(MessageTypes.INFO, "로그인", `로그인 처리 되었습니다.`)
         }
+    } else {
+        UI.showToastMessage(MessageTypes.WARN, "로그인", `로그인에 문제가 있습니다. [${errorMessages}] `)
     }
 }
 
-const onLogout = async () => {
-
+const onLogout = () => {
+    UI.showConfirm(MessageTypes.INFO, "로그아웃", "로그아웃 하시겠습니까?", () => {
+        Auth.logout(false).then(logoutAuth => {
+            if (logoutAuth.isAuthenticated) {
+                UI.showToastMessage(MessageTypes.WARN, "로그아웃", "로그아웃 처리중 문제가 발생하였습니다.")
+            } else {
+                UI.showToastMessage(MessageTypes.INFO, "로그아웃", "로그아웃 처리되었습니다.")
+                auth.value = logoutAuth
+            }
+        })
+    }, () => {
+        UI.showToastMessage(MessageTypes.INFO, "로그아웃", "로그아웃이 취소되었습니다.")
+    })
 }
 
 const onQueryMessages = async () => {
     // TODO: check auth
     const res = await API.get('', 'api/v1/private/messages')
     if (res.isError) {
-        UI.showToastMessage(MessageTypes.ERROR, "메시지 조회", `메시지를 조회할 수 없습니다. [${res.message}]`)
+        UI.showToastMessage(MessageTypes.ERROR, "메시지 조회", `메시지를 조회할 수 없습니다. [${res.message}, ${res.data}]`)
     } else {
         messages.value = res.data
     }

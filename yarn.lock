@@ -1248,16 +1248,16 @@ bytes@3.1.2:
   integrity sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==
 
 c12@^0.2.8, c12@^0.2.9:
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/c12/-/c12-0.2.9.tgz#697328714b04e0b54cec299b48c55eb5a69bf9ef"
-  integrity sha512-6jYdexgAKr+3kYoTmvC5eDtDHUg7GmFQSdeQqZzAKiPlFAN1heGUoXDbAYYwUCfefZy+WgVJbmAej5TTQpp3jA==
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/c12/-/c12-0.2.10.tgz#c3117f3e213297cd661b94858ab9b8b977b3813b"
+  integrity sha512-9QcNp918N40QCLHymuzxlVSR/S5ef79vbuODSrIbOUQRGPqWivPf5UUbpL0KRvBn3S2wtszP37Ee8VMTO+s3cQ==
   dependencies:
     defu "^6.0.0"
     dotenv "^16.0.1"
     gittar "^0.1.1"
     jiti "^1.14.0"
-    mlly "^0.5.7"
-    pathe "^0.3.3"
+    mlly "^0.5.11"
+    pathe "^0.3.4"
     rc9 "^1.2.2"
 
 cacheable-request@^6.0.0:
@@ -1914,9 +1914,9 @@ ee-first@1.1.1:
   integrity sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==
 
 electron-to-chromium@^1.4.202:
-  version "1.4.239"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.239.tgz#5b04acb39c16b897a508980d1be95ba5f0201771"
-  integrity sha512-XbhfzxPIFzMjJm17T7yUGZEyYh5XuUjrA/FQ7JUy2bEd4qQ7MvFTaKpZ6zXZog1cfVttESo2Lx0ctnf7eQOaAQ==
+  version "1.4.240"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.240.tgz#b11fb838f2e79f34fbe8b57eec55e7e5d81ee6ea"
+  integrity sha512-r20dUOtZ4vUPTqAajDGonIM1uas5tf85Up+wPdtNBNvBSqGCfkpvMVvQ1T8YJzPV9/Y9g3FbUDcXb94Rafycow==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -1963,9 +1963,9 @@ entities@^2.0.0:
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
 entities@^4.3.0:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/entities/-/entities-4.3.1.tgz#c34062a94c865c322f9d67b4384e4169bcede6a4"
-  integrity sha512-o4q/dYJlmyjP2zfnaWDUC6A3BQFmVTX+tZPezK7k0GLSU9QYCauscf5Y+qcEPzKL+EixVouYDgLQK5H9GrLpkg==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/entities/-/entities-4.4.0.tgz#97bdaba170339446495e653cfd2db78962900174"
+  integrity sha512-oYp7156SP8LkeGD0GF85ad1X9Ai79WtRsZ2gxJqtBuzH+98YUV6jkHEKlZkMbcrjJjIVJNIDP/3WL9wQkoPbWA==
 
 errno@^0.1.3:
   version "0.1.8"
@@ -2669,9 +2669,9 @@ gzip-size@^7.0.0:
     duplexer "^0.1.2"
 
 h3@^0.7.12, h3@^0.7.15:
-  version "0.7.17"
-  resolved "https://registry.yarnpkg.com/h3/-/h3-0.7.17.tgz#a49d6f9fdc9d7eafb390e366d2584f8c993e0f8a"
-  integrity sha512-dX1JQOfu8MR0VV/j9/2ZB2IcdHTRc3dXZUBp0O82CVEtUysPjl8AdWx56uGVv/Pme9A6kGOjodFDk+9Wicft+Q==
+  version "0.7.19"
+  resolved "https://registry.yarnpkg.com/h3/-/h3-0.7.19.tgz#d95590defe9dae0190a4f1d6e35213e19b637594"
+  integrity sha512-jodrgP3BBGDnnKyrf2QPsboFOa1TOLVoQ1t30iGuyTTDRB0R/nOlfGYknhWZcmhOxMa9UVsrzgnvQ5F98YB6kw==
   dependencies:
     cookie-es "^0.5.0"
     destr "^1.1.1"
@@ -3545,7 +3545,7 @@ mkdirp@^1.0.3:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-mlly@^0.5.12, mlly@^0.5.13, mlly@^0.5.2, mlly@^0.5.4, mlly@^0.5.5, mlly@^0.5.7:
+mlly@^0.5.11, mlly@^0.5.12, mlly@^0.5.13, mlly@^0.5.2, mlly@^0.5.4, mlly@^0.5.5, mlly@^0.5.7:
   version "0.5.14"
   resolved "https://registry.yarnpkg.com/mlly/-/mlly-0.5.14.tgz#1aead555f8ffafd29f192676f4697805e25112c3"
   integrity sha512-DgRgNUSX9NIxxCxygX4Xeg9C7GX7OUx1wuQ8cXx9o9LE0e9wrH+OZ9fcnrlEedsC/rtqry3ZhUddC759XD/L0w==
@@ -5209,9 +5209,9 @@ untyped@^0.4.4, untyped@^0.4.5:
     scule "^0.3.2"
 
 update-browserslist-db@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.0.5.tgz#be06a5eedd62f107b7c19eb5bcefb194411abf38"
-  integrity sha512-dteFFpCyvuDdr9S/ff1ISkKt/9YZxKjI9WlRR99c180GaztJtRa/fn18FdxGVKVsnPY7/a/FDN68mcvUmP4U7Q==
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.0.6.tgz#044fddb5c26989628da5cff7a82ce1472152bce6"
+  integrity sha512-We7BqM9XFlcW94Op93uW8+2LXvGezs7QA0WY+f1H7RR1q46B06W6hZF6LbmOlpCS1HU22q/6NOGTGW5sCm7NJQ==
   dependencies:
     escalade "^3.1.1"
     picocolors "^1.0.0"
