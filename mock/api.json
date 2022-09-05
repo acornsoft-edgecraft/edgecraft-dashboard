@@ -297,7 +297,7 @@
         "name": "openstack cluster 11111",
         "desc": ""
       },
-      "k8s": {
+      "kubernetes": {
         "version": 1,
         "pod_cidr": "10.244.0.0/24",
         "svc_cidr": "10.244.0.0/1"
