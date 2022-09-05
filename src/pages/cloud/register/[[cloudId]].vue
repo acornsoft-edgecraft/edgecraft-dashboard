@@ -6,23 +6,13 @@
       </section>
       <section class="page-content">
         <div class="stepper-container">
-          <K3Stepper :steps="steps"
-                     v-model="cloud"
-                     @completed-step="completedStep"
-                     @active-step="activeStep"
-                     @stepper-finished="finished"
-                     @visible-change="onVisibleChange"
-                     :keep-alive="false"
-                     :top-buttons="true" />
-          <K3Overlay :active="isFetch"
-                     loader="bars"
-                     background-color="#830205" />
+          <K3Stepper :steps="steps" v-model="cloud" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" @visible-change="onVisibleChange" :keep-alive="false" :top-buttons="true" />
+          <K3Overlay :active="isFetch" loader="bars" background-color="#830205" />
         </div>
 
         <div class="flex justify-content-end mt-3">
           <NuxtLink to="/cloud">
-            <K3Button label="목록"
-                      class="p-button-secondary" />
+            <K3Button label="클라우드 목록" class="p-button-secondary" />
           </NuxtLink>
         </div>
       </section>
@@ -48,7 +38,7 @@ definePageMeta({ layout: "default", title: "클라우드 등록", public: true }
 // const emits = defineEmits(['eventname']),
 // Properties
 const route = useRoute();
-const paramId = route.params.id || 0;
+const cloudId = route.params.cloudId || 0;
 const { cloud, isFetch, fetch } = useCloudService().getCloud();
 
 const steps = [
@@ -95,7 +85,7 @@ const onVisibleChange = (val) => {
 
 // Events
 onMounted(() => {
-  fetch(paramId);
+  fetch(cloudId);
 });
 
 // Logics (like api call, etc)

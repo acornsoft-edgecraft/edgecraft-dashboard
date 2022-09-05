@@ -48,7 +48,7 @@ export const defaultCloudInfo: cloudInfo = {
 };
 
 export const defaultCloudInfoValidation = {
-  name: { required, minLength: minLength(3), maxLength: maxLength(20), alphaNum },
+  name: { required, minLength: minLength(3), maxLength: maxLength(100), alphaNum },
   type: { required },
   desc: {},
 };

@@ -4,7 +4,7 @@
       <section class="page-header">
         <K3PageTitle />
       </section>
-      <section class="page-content">route.params.id :: {{ route.params.id }}</section>
+      <section class="page-content">route.params :: {{ route.params }}</section>
     </div>
   </div>
 </template>
@@ -12,7 +12,7 @@
 <script setup lang="ts">
 // imports
 // Page meta
-definePageMeta({ layout: "default", title: "클라우드 클러스터", public: true });
+definePageMeta({ layout: "default", title: "클라우드 애플리케이션", public: true });
 // Props
 // const props = defineProps({}),
 // Emits
