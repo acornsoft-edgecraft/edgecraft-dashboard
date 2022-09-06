@@ -45,12 +45,19 @@ function getApiUrl(group: string, path: string): string {
 }
 
 function makeResponse(error, data, statusCode, showError): APIResponse {
+    // Check API resonse object
+    const isRawData = !Object.keys(data.value).some(key => key === 'error')
     if (error.value) {
         if (showError) UI.showToastMessage(MessageTypes.ERROR, "API 호출 오류", `${error.value.message}`)
-        return new APIResponse(data.value, error.value.message, true, statusCode.value || 200)
+        return isRawData ? new APIResponse(data.value, error.value.message, true, 20000, statusCode.value || 200) : new APIResponse(data.value.data, data.value.message, data.value.error, data.value.code, statusCode.value)
     }
     else {
-        return new APIResponse(data.value, "", false, statusCode.value || 200)
+        if (isRawData) {
+            return new APIResponse(data.value, "", false, 20000, statusCode.value || 200)
+        } else {
+            if (data.value.error && showError) UI.showToastMessage(MessageTypes.ERROR, "API 호출 오류", `${error.value.message}`)
+            return new APIResponse(data.value.data, data.value.message, data.value.error, data.value.code, statusCode.value)
+        }
     }
 }
 
