@@ -77,7 +77,6 @@ const finished = (payload) => {
 
 // Step Visible On/Off 처리
 const onVisibleChange = (val) => {
-  console.log("onVisibleChange", val);
   steps.find((item) => {
     if (item.name === val.name) item.visible = val.visible;
   });

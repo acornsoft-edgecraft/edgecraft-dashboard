@@ -1,23 +1,25 @@
 <template>
   <div class="partial-container m-0 p-0">
-    <EtcdInfo v-model="modelValue.etcd_storage.etcd" />
-    <StorageInfo v-model="modelValue.etcd_storage.storage_class" />
+    <OpenstackInfo v-model="modelValue.openstack" />
   </div>
 </template>
 
 <script setup lang="ts">
-import EtcdInfo from "./etcd-info.vue";
-import StorageInfo from "./storage-info.vue";
-
+import OpenstackInfo from "./openstack-info.vue";
+// imports
 const { UI } = useAppHelper();
-
+// Page meta
+// Props
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });
+// Emits
 const emits = defineEmits(["can-continue"]);
-
+// const emits = defineEmits(['eventname']),
+// Properties
 const v$ = UI.getValidate();
-
+// Compputed
+// Watcher
 watch(
   () => v$.value,
   (val) => {
@@ -33,6 +35,7 @@ watch(
   }
 );
 
+// Methods
 const beforeNextStep = (): boolean => {
   v$.value.$touch();
 
@@ -42,7 +45,7 @@ const beforeNextStep = (): boolean => {
   }
   return true;
 };
-
+// Events
 onActivated(() => {
   v$.value.$touch();
 
@@ -54,6 +57,7 @@ onActivated(() => {
 });
 
 defineExpose({ beforeNextStep });
+// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss"></style>

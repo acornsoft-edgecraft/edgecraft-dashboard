@@ -1,10 +1,5 @@
 import { required, alphaNum, url } from "@vuelidate/validators";
-
-export enum ImageChecksumTypes {
-  md5,
-  sha256,
-  sha512,
-}
+import { ImageChecksumTypes, ImageFormats } from "../common";
 
 export const ImageChecksumTypesMap = (addAll: boolean = false) => {
   if (addAll) {
@@ -13,14 +8,6 @@ export const ImageChecksumTypesMap = (addAll: boolean = false) => {
     return useAppHelper().Util.getEnumMap(ImageChecksumTypes, false);
   }
 };
-
-export enum ImageFormats {
-  raw,
-  qcow2,
-  vdi,
-  vmdk,
-  "live-iso",
-}
 
 export const ImageFormatsMap = (addAll: boolean = false) => {
   if (addAll) {
