@@ -1,10 +1,5 @@
 import { required, macAddress } from "@vuelidate/validators";
-
-export enum BootModes {
-  UEFI,
-  legacy,
-  UEFISecureBoot,
-}
+import { BootModes } from "../common";
 
 export const BootModesMap = (addAll: boolean = false) => {
   if (addAll) {
@@ -34,8 +29,8 @@ export const defaultBaremetalHostInfo = {
 
 export const defaultBaremetalHostInfoValidation = {
   host_name: { required },
-  bmc_address: { required, macAddress: macAddress() },
-  boot_mac_address: { required, macAddress: macAddress() },
+  bmc_address: { required, macAddress: macAddress(":") },
+  boot_mac_address: { required, macAddress: macAddress(":") },
   boot_mode: { required },
   online_power: {},
   external_provisioning: {},

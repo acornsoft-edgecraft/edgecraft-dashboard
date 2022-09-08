@@ -297,7 +297,7 @@
         "name": "openstack cluster 11111",
         "desc": ""
       },
-      "k8s": {
+      "kubernetes": {
         "version": 1,
         "pod_cidr": "10.244.0.0/24",
         "svc_cidr": "10.244.0.0/1"
@@ -307,12 +307,12 @@
         "openstack_cloud_provider_conf_b64": "openstack",
         "openstack_cloud_yaml_b64": "openstack",
         "openstack_cloud_cacert_b64": "openstack",
-        "openstack_dns_nameservers": "168.126.63.1",
-        "openstack_failure_domain": "nova",
-        "openstack_image_name": "ubuntu-1804",
-        "openstack_ssh_key_name": "admin",
-        "openstack_external_network": "public",
-        "openstack_apiserver_floatingip": "192.168.0.4",
+        "dns_nameservers": "168.126.63.1",
+        "failure_domain": "nova",
+        "image_name": "ubuntu-1804",
+        "ssh_key_name": "admin",
+        "external_network_id": "public",
+        "api_server_floating_ip": "192.168.0.4",
         "use_bastion_host": true,
         "bastion_flavor": "m1.medium",
         "bastion_image_name": "ubuntu-1804",
@@ -320,21 +320,21 @@
       },
       "nodes": {
         "use_loadbalancer": true,
-        "master_set": {
-          "namespace": "default",
-          "name": "os-cluster-cp-0",
-          "node_count": 3,
-          "flavor": "m1.large",
-          "labels": [
-            {
-              "key": "1111"
-            },
-            {
-              "value": "2222"
-            }
-          ]
-        },
-        "worker_set": [
+        "master_sets": [
+          {
+            "namespace": "default",
+            "name": "os-cluster-cp-0",
+            "node_count": 3,
+            "flavor": "m1.large",
+            "labels": [
+              {
+                "key": "aaaa",
+                "value": "bbbb"
+              }
+            ]
+          }
+        ],
+        "worker_sets": [
           {
             "namespace": "default",
             "name": "os-cluster-wk-0",
@@ -342,9 +342,7 @@
             "flavor": "m1.medium",
             "labels": [
               {
-                "key": "1111"
-              },
-              {
+                "key": "1111",
                 "value": "2222"
               }
             ]
@@ -356,9 +354,7 @@
             "flavor": "m1.small",
             "labels": [
               {
-                "key": "3333"
-              },
-              {
+                "key": "3333",
                 "value": "4444"
               }
             ]
@@ -379,12 +375,29 @@
           "key_file": ""
         },
         "storage_class": {
-          "type": "nfs",
+          "use_ceph": false,
           "label1": "",
           "label2": "",
           "label3": ""
         }
       }
+    }
+  ],
+  "tests": [
+    {
+      "id": 1,
+      "aaaa": "11111",
+      "bbbb": "11111"
+    },
+    {
+      "id": 2,
+      "aaaa": "22222",
+      "bbbb": "22222"
+    },
+    {
+      "id": 3,
+      "aaaa": 333,
+      "bbbb": 444
     }
   ]
 }

@@ -1,30 +1,34 @@
 <template>
   <div class="partial-container m-0 p-0">
-    <EtcdInfo v-model="modelValue.etcd_storage.etcd" />
-    <StorageInfo v-model="modelValue.etcd_storage.storage_class" />
+    <ClusterInfo v-model="modelValue.cluster" />
+    <KubernetesInfo v-model="modelValue.k8s" />
   </div>
 </template>
 
 <script setup lang="ts">
-import EtcdInfo from "./etcd-info.vue";
-import StorageInfo from "./storage-info.vue";
+// imports
+import ClusterInfo from "./cluster-info.vue";
+import KubernetesInfo from "~/partialViews/cloud/kubernetes-info.vue";
 
 const { UI } = useAppHelper();
-
+// Page meta
+// Props
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });
+// Emits
 const emits = defineEmits(["can-continue"]);
+// Properties
 
 const v$ = UI.getValidate();
-
+// const v$ = UI.getValidate();
+// Compputed
+// Watcher
 watch(
   () => v$.value,
   (val) => {
-    v$.value.$touch(); // 자식의 오류 여부 검증
+    v$.value.$touch();
 
-    console.log(`watch >>> ${val.$invalid}`);
-    console.log(`errors >>> ${JSON.stringify(val.$errors)}`);
     if (!val.$invalid) {
       emits("can-continue", { value: true });
     } else {
@@ -32,17 +36,16 @@ watch(
     }
   }
 );
-
+// Methods
 const beforeNextStep = (): boolean => {
   v$.value.$touch();
 
-  console.log(`validation >>> ${JSON.stringify(props.modelValue)}`);
   if (v$.value.$invalid) {
     return false;
   }
   return true;
 };
-
+// Events
 onActivated(() => {
   v$.value.$touch();
 
@@ -54,6 +57,7 @@ onActivated(() => {
 });
 
 defineExpose({ beforeNextStep });
+// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss"></style>

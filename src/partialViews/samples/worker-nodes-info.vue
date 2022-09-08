@@ -15,7 +15,7 @@
                 <K3FormInputField v-model="v.baremetal.host_name" field-name="Host Name" class="w-full" />
               </K3FormColumn>
               <K3FormColumn label="BMC Address" label-align="right" :size="6">
-                <K3FormInputFieldP v-model="v.baremetal.bmc_address" field-name="BMC Address" class="w-full" />
+                <K3FormInputField v-model="v.baremetal.bmc_address" field-name="BMC Address" class="w-full" />
               </K3FormColumn>
             </K3FormRow>
           </K3FormContainer>

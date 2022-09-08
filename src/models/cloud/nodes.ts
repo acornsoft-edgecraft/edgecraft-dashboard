@@ -1,11 +1,6 @@
-import { helpers, required, requiredIf, ipAddress, between } from "@vuelidate/validators";
-import { baremetalHostInfo, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation } from "./baremetalhost";
-import { defaultNodeInfo, defaultNodeInfoValidation, nodeInfo } from "./node";
-
-export enum NodeTypes {
-  MASTER = "Master",
-  WORKER = "Worker",
-}
+import { required, requiredIf, ipAddress, between } from "@vuelidate/validators";
+import { baremetalHostInfo, defaultBaremetalHostInfo } from "./baremetalhost";
+import { nodeInfo, defaultNodeInfo } from "./node";
 
 export interface nodesInfo {
   use_loadbalancer: Boolean;

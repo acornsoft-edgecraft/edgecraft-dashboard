@@ -5,7 +5,7 @@
     </section>
     <section class="page-content">
       <K3DataTable
-        :value="clouds"
+        :value="clusters"
         v-model:filters="UI.tableSettings.filters.value"
         v-model:selection="selectedItem"
         dataKey="id"
@@ -26,20 +26,18 @@
         <template #header>
           <div class="header flex justify-content-between">
             <div class="search-left">
-              <span>Cloud Type: </span>
-              <K3Dropdown v-model="selectedCloud" :options="CloudTypesMap(true)" :optionLabel="'name'" :optionValue="'value'" class="mr-2" @change="typeSelected" />
               <span>Status: </span>
-              <K3Dropdown v-model="selectedStatus" :options="CloudStatusMap(true)" :optionLabel="'name'" :optionValue="'value'" class="mr-2" @change="statusSelected" />
-              <span>Name: </span>
+              <K3Dropdown v-model="selectedStatus" :options="CloudStatusMap(true)" :optionLabel="'name'" :optionValue="'value'" @change="statusSelected" class="mr-2" />
+              <span>Cluster Name: </span>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
                 <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" autofocus />
               </span>
             </div>
             <div class="search-right toggle flex align-content-center">
-              <K3MultiSelect class="flex mr-2" :modelValue="selectedColumns" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" style="width: 20em" />
-              <NuxtLink to="/cloud/register">
-                <K3Button label="클라우드 등록" />
+              <K3MultiSelect :modelValue="selectedColumns" class="flex mr-2" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" style="width: 20em" />
+              <NuxtLink :to="`/cloud/${cloudId}/cluster/register`">
+                <K3Button label="클러스터 등록"></K3Button>
               </NuxtLink>
             </div>
           </div>
@@ -52,49 +50,59 @@
             <p class="text-orange-500">No records found.</p>
           </div>
         </template>
-        <!-- Columns -->
-        <K3Column v-for="(col, index) of selectedColumns" :class="col.class" :field="col.field" :header="col.header" :sortable="col.sortable" :key="`${col.field}_index`" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
+        <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :class="col.class" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
-            <span v-if="slotProps.field === 'type'">{{ CloudTypes[slotProps.data.type] }} </span>
-            <NuxtLink v-else-if="slotProps.field === 'name'" :to="goPage(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
-            <span v-else-if="slotProps.field === 'status'">{{ CloudStatus[slotProps.data.status] }} </span>
-            <span v-else-if="slotProps.field === 'nodeCount'">{{ slotProps.data.nodeCount }}</span>
-            <span v-else-if="slotProps.field === 'created'">{{ slotProps.data.created }}</span>
-            <span v-else>{{ slotProps.data[slotProps.field] }}</span>
+            <NuxtLink v-if="slotProps.field == 'name'" :to="goPage(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
+            <span v-if="slotProps.field == 'status'">{{ CloudStatus[slotProps.data.status] }}</span>
+            <span v-if="slotProps.field == 'nodeCount'">{{ slotProps.data.nodeCount }}</span>
+            <span v-if="slotProps.field == 'version'">{{ slotProps.data.version }}</span>
+            <span v-if="slotProps.field == 'created'">{{ slotProps.data.created }}</span>
           </template>
         </K3Column>
-        <K3Column header="Commands" key="cmd" class="flex justify-content-center" headerStyle="min-width: 30px;" bodyStyle="min-width: 30px;">
+        <K3Column header="Commands" key="cmd" class="flex justify-content-center" headerStyle="min-width: 30px" bodyStyle="min-width:30px">
           <template #body="slotProps">
             <i class="fas fa-ellipsis-v" style="width: 10px" @click="showCommand(slotProps.data.id, $event)"></i>
           </template>
         </K3Column>
       </K3DataTable>
       <K3ContextMenu ref="menu" :model="menus" />
+      <div class="flex justify-content-end mt-3">
+        <NuxtLink to="/cloud">
+          <K3Button label="클라우드 목록" class="p-button-secondary" />
+        </NuxtLink>
+      </div>
     </section>
   </div>
 </template>
+
 <script setup lang="ts">
+// imports
 import { FilterMatchMode } from "primevue/api";
-import { CloudTypes, CloudTypesMap, CloudStatus, CloudStatusMap, MessageTypes } from "~/models";
-
-definePageMeta({ layout: "default", title: "Clouds List", public: true });
-
+import { CloudStatus, CloudStatusMap } from "~/models";
+// Page meta
+definePageMeta({ layout: "default", title: "클라우드 클러스터", public: true });
+// Props
+// const props = defineProps({}),
+// Emits
+// const emits = defineEmits(['eventname']),
+// Properties
 const { UI } = useAppHelper();
-const { clouds, isFetch, fetch } = useCloudService().getClouds();
+const { clusters, isFetch, fetch } = useClusterService().getClusters();
+const route = useRoute();
+const cloudId = route.params.cloudId;
 
 UI.tableSettings.initFilters({
-  name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  type: { value: null, matchMode: FilterMatchMode.EQUALS },
   status: { value: null, matchMode: FilterMatchMode.EQUALS },
+  name: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
-
+// Compputed
+// Watcher
+// Methods
 const menu = ref();
 const selectedItem = ref();
-const selectedCloud = ref(0);
 const selectedStatus = ref(0);
 const columns = ref([
-  { field: "type", header: "Type", sortable: true },
-  { field: "name", header: "Cloud Name", sortable: true },
+  { field: "name", header: "Cluster Name", sortable: true },
   { field: "status", header: "Status", sortable: true },
   { field: "nodeCount", header: "Nodes", sortable: true, class: "flex justify-content-end" },
   { field: "version", header: "Version", sortable: true },
@@ -105,11 +113,8 @@ const selectedColumns = ref(columns.value);
 const columnSize = (field) => {
   let size = 0;
   switch (field) {
-    case "type":
-      size = 5;
-      break;
     case "name":
-      size = 60;
+      size = 50;
       break;
     case "status":
       size = 5;
@@ -128,10 +133,6 @@ const columnSize = (field) => {
   return `min-width: ${size}%`;
 };
 
-const typeSelected = (event) => {
-  if (event.value == 0) event.value = null;
-  (UI.tableSettings.filters.value as any).type.value = event.value;
-};
 const statusSelected = (event) => {
   if (event.value == 0) event.value = null;
   (UI.tableSettings.filters.value as any).status.value = event.value;
@@ -146,42 +147,28 @@ const rowUnselected = (event) => {
 const toggle = (val) => {
   selectedColumns.value = columns.value.filter((col) => val.includes(col));
 };
-
 const showCommand = (id, event) => {
-  selectedItem.value = clouds.value.find((c) => c.id === id);
+  selectedItem.value = clusters.value.find((c) => c.id === id);
   menu.value.show(event);
-};
-
-const rowMenuProcessing = (menuId) => {
-  UI.showToastMessage(MessageTypes.INFO, "Row Menu", `menum #${menuId} selected with ${JSON.stringify(selectedItem.value)}`);
 };
 
 const goPage = (data) => {
   const page = data.status == CloudStatus.Saved ? "register/" : "";
-  return `/cloud/${page}${data.id}`;
+  return `/cloud/${cloudId}/cluster/${page}${data.id}`;
 };
 
 const menus = computed(() => {
-  const to = `/cloud/${selectedItem?.value?.id}`;
-  const disabled = [true, true];
+  const to = `/cloud/${cloudId}/cluster/${selectedItem?.value?.id}`;
+  const disabled = !(selectedItem?.value?.status == CloudStatus.Provisioned);
 
-  if (selectedItem?.value?.status == CloudStatus.Provisioned) {
-    if (selectedItem?.value?.type == CloudTypes.Openstack) disabled[0] = false;
-    disabled[1] = false;
-  }
-
-  return [
-    { label: "클러스터 목록", icon: "pi pi-list", to: `${to}/cluster`, disabled: disabled[0], command: () => rowMenuProcessing("1") },
-    { separator: true },
-    { label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled[1], command: () => rowMenuProcessing("2") },
-    { separator: true },
-    { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled[1], command: () => rowMenuProcessing("3") },
-  ];
+  return [{ label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled }];
 });
 
+// Events
 onMounted(() => {
   fetch();
 });
+// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss">
