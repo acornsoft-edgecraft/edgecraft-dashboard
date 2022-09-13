@@ -1,22 +1,20 @@
 <template>
-  <div class="page-container">
-    <div class="page-wrapper">
-      <section class="page-header">
-        <K3PageTitle />
-      </section>
-      <section class="page-content">
-        <div class="stepper-container">
-          <K3Stepper :steps="steps" v-model="cloud" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" @visible-change="onVisibleChange" :keep-alive="false" :top-buttons="true" />
-          <K3Overlay :active="isFetch" loader="bars" background-color="#830205" />
-        </div>
+  <div class="page-wrapper">
+    <section class="page-header">
+      <K3PageTitle />
+    </section>
+    <section class="page-content">
+      <div class="stepper-container">
+        <K3Stepper :steps="steps" v-model="cloud" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" @visible-change="onVisibleChange" :keep-alive="false" :top-buttons="true" />
+        <K3Overlay :active="isFetch" loader="bars" background-color="#830205" />
+      </div>
 
-        <div class="flex justify-content-end mt-3">
-          <NuxtLink to="/cloud">
-            <K3Button label="클라우드 목록" class="p-button-secondary" />
-          </NuxtLink>
-        </div>
-      </section>
-    </div>
+      <div class="flex justify-content-end mt-3">
+        <NuxtLink to="/cloud">
+          <K3Button label="클라우드 목록" class="p-button-secondary" />
+        </NuxtLink>
+      </div>
+    </section>
   </div>
 </template>
 

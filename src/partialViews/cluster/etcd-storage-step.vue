@@ -1,6 +1,5 @@
 <template>
   <div class="partial-container m-0 p-0">
-    {{ modelValue.etcd_storage.etcd }}
     <EtcdInfo v-model="modelValue.etcd_storage.etcd" />
     <StorageInfo v-model="modelValue.etcd_storage.storage_class" />
   </div>

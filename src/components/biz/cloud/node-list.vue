@@ -44,14 +44,19 @@ const removable = (index) => !(props.type == NodeTypes.MASTER && index < 1);
 const addNode = () => {
   emits("add-node", { type: props.type, display: true });
 };
-const removeNodeAccept = () => {
-  console.log("accept");
-};
-const removeNodeReject = () => {
-  console.log("reject");
-};
+
 const removeNode = (data) => {
-  UI.showConfirm(MessageTypes.WARN, "노드 삭제", `<${data.node.node_name}> 노드를 삭제하시겠습니까?`, removeNodeAccept, removeNodeReject);
+  UI.showConfirm(
+    MessageTypes.WARN,
+    "노드 삭제",
+    `<${data.node.node_name}> 노드를 삭제하시겠습니까?`,
+    () => {
+      console.log("accept");
+    },
+    () => {
+      console.log("reject");
+    }
+  );
 };
 </script>
 <style scoped lang="scss"></style>

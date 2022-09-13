@@ -18,10 +18,10 @@
 </template>
 
 <script setup lang="ts">
+// imports
 import NodesetInfo from "./nodeset-info.vue";
 import { NodeTypes, defaultClusterNodesInfoValidation } from "~/models";
 
-// imports
 const { UI } = useAppHelper();
 // Page meta
 // Props
@@ -40,7 +40,6 @@ watch(
   (val) => {
     v$.value.$touch(); // 자식의 오류 여부 검증
 
-    console.log(v$.value.$errors);
     console.log(`watch >>> ${val.$invalid}`);
     if (!val.$invalid) {
       emits("can-continue", { value: true });
