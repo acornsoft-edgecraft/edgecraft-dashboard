@@ -66,7 +66,7 @@
           <K3Button label="클라우드 목록" class="p-button-secondary" />
         </NuxtLink>
       </div>
-      <K3Overlay :active="isFetch" loader="bars" background-color="#830205" />
+      <K3Overlay :active="isFetch || isDelFetch" loader="bars" background-color="#830205" />
     </section>
   </div>
 </template>
@@ -86,11 +86,13 @@ definePageMeta({ layout: "default", title: "클라우드 상세정보", public: 
 // const emits = defineEmits(['eventname']),
 // Properties
 const route = useRoute();
+const cloudId = route.params.cloudId;
 const { UI, Routing } = useAppHelper();
 const { cloud, isFetch, fetch } = useCloudService().getCloud();
-const provisioned = computed(() => cloud.value.cloud.status == CloudStatus.Provisioned);
+const { isDelFetch, delFetch } = useCloudService().deleteCloud();
 
 // Compputed
+const provisioned = computed(() => cloud.value.cloud.status == CloudStatus.Provisioned);
 
 // Watcher
 // Methods
@@ -115,6 +117,7 @@ const onDelete = () => {
     `<${cloud.value.cloud.name}> 클라우드를 삭제하시겠습니까?\n 관련된 모든 정보가 삭제됩니다.`,
     () => {
       // TODO: delete cloud
+      delFetch(cloudId);
       Routing.moveTo("/cloud");
     },
     () => {}
@@ -147,8 +150,7 @@ const close = () => {
 
 // Events
 onMounted(() => {
-  // fetch(route.params.cloudId);
-  fetch(1);
+  fetch(cloudId);
 });
 // Logics (like api call, etc)
 </script>

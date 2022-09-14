@@ -61,8 +61,6 @@ const emits = defineEmits(["add-nodeset"]);
 // Properties
 const { UI } = useAppHelper();
 
-UI.tableSettings.rows = 100;
-
 const showEditNodeCnt = ref([] as any);
 const originNodeCnt = ref([] as any);
 // Compputed

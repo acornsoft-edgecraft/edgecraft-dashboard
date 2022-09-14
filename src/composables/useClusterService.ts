@@ -62,10 +62,85 @@ export function useClusterService(options: any = {}) {
     return { cluster, isFetch, fetch };
   };
 
+  const insertCluster = () => {
+    const url = "api/v1/cluster";
+    const isInsFetch = ref(false);
+
+    const insFetch = (params) => {
+      isInsFetch.value = true;
+      API.post("", url, params)
+        .then((res) => {
+          console.log(res);
+          if (res.isError) {
+            UI.showToastMessage(MessageTypes.ERROR, "Fetch Cluster", res.message);
+          } else {
+            console.log(res.data);
+          }
+          isInsFetch.value = false;
+        })
+        .catch((err) => {
+          UI.showToastMessage(MessageTypes.ERROR, "Fetch Cluster", err);
+          isInsFetch.value = false;
+        });
+    };
+
+    return { isInsFetch, insFetch };
+  };
+
+  const updateCluster = () => {
+    const url = "api/v1/cluster";
+    const isUpFetch = ref(false);
+
+    const upFetch = (id, params) => {
+      isUpFetch.value = true;
+      API.put("", `${url}/${id}`, params)
+        .then((res) => {
+          console.log(res);
+          if (res.isError) {
+            UI.showToastMessage(MessageTypes.ERROR, "Fetch Cluster", res.message);
+          } else {
+            console.log(res.data);
+          }
+          isUpFetch.value = false;
+        })
+        .catch((err) => {
+          UI.showToastMessage(MessageTypes.ERROR, "Fetch Cluster", err);
+          isUpFetch.value = false;
+        });
+    };
+
+    return { isUpFetch, upFetch };
+  };
+
+  const deleteCluster = () => {
+    const url = "api/v1/clusters";
+    const isDelFetch = ref(false);
+
+    const delFetch = (id) => {
+      isDelFetch.value = true;
+      API.delete("", `${url}/${id}`)
+        .then((res) => {
+          if (res.isError) {
+            UI.showToastMessage(MessageTypes.ERROR, "Fetch Cluster", res.message);
+          }
+          isDelFetch.value = false;
+        })
+        .catch((err) => {
+          UI.showToastMessage(MessageTypes.ERROR, "Fetch Cluster", err);
+          isDelFetch.value = false;
+        });
+    };
+
+    return { isDelFetch, delFetch };
+  };
+
   return {
     currentCluster,
 
     getClusters,
     getCluster,
+    insertCluster,
+    updateCluster,
+    deleteCluster,
   };
 }

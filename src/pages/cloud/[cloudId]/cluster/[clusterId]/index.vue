@@ -62,7 +62,7 @@
           <K3Button label="클러스터 목록" class="p-button-secondary" />
         </NuxtLink>
       </div>
-      <K3Overlay :active="isFetch" loader="bars" background-color="#830205" />
+      <K3Overlay :active="isFetch || isDelFetch" loader="bars" background-color="#830205" />
     </section>
   </div>
 </template>
@@ -82,12 +82,14 @@ definePageMeta({ layout: "default", title: "클라우드 클러스터 상세", p
 // Properties
 const route = useRoute();
 const cloudId = route.params.cloudId;
+const clusterId = route.params.clusterId;
+const list = `/cloud/${cloudId}/cluster`;
 const { UI, Routing } = useAppHelper();
 const { cluster, isFetch, fetch } = useClusterService().getCluster();
-const provisioned = computed(() => cluster.value.cluster.status == CloudStatus.Provisioned);
-const list = `/cloud/${cloudId}/cluster`;
+const { isDelFetch, delFetch } = useClusterService().deleteCluster();
 
 // Compputed
+const provisioned = computed(() => cluster.value.cluster.status == CloudStatus.Provisioned);
 // Watcher
 // Methods
 const goKoreboard = () => {
@@ -111,6 +113,7 @@ const onDelete = () => {
     `<${cluster.value.cluster.name}> 클러스터를 삭제하시겠습니까?\n 관련된 모든 정보가 삭제됩니다.`,
     () => {
       // TODO: delete cluster
+      delFetch(clusterId);
       Routing.moveTo(list);
     },
     () => {}
@@ -122,7 +125,6 @@ const addNodeset = (data) => {
   clusterNodeset.value = data;
 };
 const ok = (val) => {
-  console.log("ok", val);
   clusterNodeset.value.display = false;
   cluster.value.nodes.worker_sets.push(val.item);
 };
@@ -133,7 +135,7 @@ const close = () => {
 
 // Events
 onMounted(() => {
-  fetch(1);
+  fetch(clusterId);
 });
 // Logics (like api call, etc)
 </script>
@@ -145,10 +147,6 @@ onMounted(() => {
   .p-fieldset,
   .ci-button {
     margin-top: 1rem;
-  }
-
-  .ci-button:last-child {
-    margin-bottom: 2rem;
   }
 }
 
