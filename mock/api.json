@@ -3,7 +3,41 @@
     {
       "email": "ccambo@acornsoft.io",
       "password": "$2a$10$5bfT9ZFSAPIhurNis7S7nevBYuEJzRBgu8L/eg/Nns2HIUqJr7EdS",
-      "id": 1
+      "id": 1,
+      "name": "ccambo",
+      "role": "Admin",
+      "created": "2022-03-03 15:33:04"
+    },
+    {
+      "email": "sunmi@acornsoft.io",
+      "password": "$2a$10$5bfT9ZFSAPIhurNis7S7nevBYuEJzRBgu8L/eg/Nns2HIUqJr7EdS",
+      "id": 2,
+      "name": "sunmi",
+      "role": "Admin",
+      "created": "2022-03-03 11:22:22"
+    },
+    {
+      "email": "test@acornsoft.io",
+      "password": "$2a$10$5bfT9ZFSAPIhurNis7S7nevBYuEJzRBgu8L/eg/Nns2HIUqJr7EdS",
+      "id": 3,
+      "name": "test",
+      "role": "User",
+      "created": "2022-03-03 15:33:04"
+    },
+    {
+      "email": "asdf@acornsoft.io",
+      "password": "$2a$10$5bfT9ZFSAPIhurNis7S7nevBYuEJzRBgu8L/eg/Nns2HIUqJr7EdS",
+      "id": 4,
+      "name": "asdf",
+      "role": "Manager",
+      "created": "2022-03-03 11:22:22"
+    },
+    {
+      "email": "111@aaa.com",
+      "password": "$2a$10$PiHFcFZxyUKYgPNPRkNSOOjPJyINegXFnFIIaGk1CVs8hhsCLbhD.",
+      "name": "asdfasf",
+      "role": "User",
+      "id": 5
     }
   ],
   "messages": [

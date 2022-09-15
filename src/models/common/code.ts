@@ -42,3 +42,9 @@ export enum NodeTypes {
   MASTER = "Master",
   WORKER = "Worker",
 }
+
+export enum UserRoles {
+  Admin = "Admin",
+  Manager = "Manager",
+  User = "User",
+}

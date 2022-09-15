@@ -3,8 +3,8 @@
     <section class="page-header">
       <K3PageTitle />
     </section>
-    <section class="page-content cluster-info-wrap">
-      <div class="flex justify-content-end ci-button">
+    <section class="page-content cluster-info-container">
+      <div class="flex justify-content-end button-wrapper">
         <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="provisioned" />
         <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="provisioned" />
         <K3Button label="클러스터 삭제" class="p-button-danger" @click="onDelete" />
@@ -57,7 +57,7 @@
 
       <DClusterNodeset v-model="clusterNodeset" @close="close" @ok="ok" />
       <DK8sUpgrade v-model="k8sUpgrade" @close="close" @upgrade="upgrade" />
-      <div class="flex justify-content-end ci-button">
+      <div class="flex justify-content-end button-wrapper">
         <NuxtLink :to="list">
           <K3Button label="클러스터 목록" class="p-button-secondary" />
         </NuxtLink>
@@ -141,11 +141,11 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.cluster-info-wrap {
+.cluster-info-container {
   .p-card,
   .p-tabview,
   .p-fieldset,
-  .ci-button {
+  .button-wrapper {
     margin-top: 1rem;
   }
 }

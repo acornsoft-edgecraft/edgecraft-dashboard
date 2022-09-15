@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-content-end button-wrap">
+  <div class="flex justify-content-end button-wrapper">
     <K3Button label="Add WorkerSet" @click="addNodeSet" v-if="type === NodeTypes.WORKER" />
   </div>
   <K3Panel :header="`${type}Set`" v-for="(item, index) in modelValue" :key="index" :toggleable="true">
@@ -117,7 +117,7 @@ onMounted(() => {
     content: "\e90f" !important;
   }
 }
-.button-wrap {
+.button-wrapper {
   margin-top: 1rem;
   margin-bottom: 0;
 }
