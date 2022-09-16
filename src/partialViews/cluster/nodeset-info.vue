@@ -8,22 +8,22 @@
         <template #default="{ v }">
           <K3FormContainer class="no-style iter">
             <K3FormRow>
-              <K3FormColumn label="네임스페이스" label-align="right">
+              <K3FormColumn label="Namespace" label-align="right">
                 <K3FormInputField v-model="v.namespace" field-name="Namespace" class="w-full" />
               </K3FormColumn>
             </K3FormRow>
             <K3FormRow>
-              <K3FormColumn label="노드 명" label-align="right">
-                <K3FormInputField v-model="v.name" field-name="Name" class="w-full" />
+              <K3FormColumn label="Node Name" label-align="right">
+                <K3FormInputField v-model="v.name" field-name="Node Name" class="w-full" />
               </K3FormColumn>
             </K3FormRow>
             <K3FormRow>
-              <K3FormColumn label="노드 개수" label-align="right">
+              <K3FormColumn label="Node Count" label-align="right">
                 <K3FormInputNumber v-model="v.node_count" :min="1" field-name="Node Count" input-id="node_count" />
               </K3FormColumn>
             </K3FormRow>
             <K3FormRow>
-              <K3FormColumn label="flavor" label-align="right">
+              <K3FormColumn label="Flavor" label-align="right">
                 <K3FormInputField v-model="v.flavor" field-name="Flavor" class="w-full" />
               </K3FormColumn>
             </K3FormRow>

@@ -6,11 +6,11 @@
     <section class="page-content">
       <div class="stepper-container">
         <K3Stepper :steps="steps" v-model="cluster" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" :keep-alive="false" :top-buttons="true" />
-        <K3Overlay :active="isFetch" loader="bars" background-color="#830205" />
+        <K3Overlay :active="isFetch || isInsFetch || isUpFetch" loader="bars" background-color="#830205" />
       </div>
 
       <div class="flex justify-content-end mt-3">
-        <NuxtLink :to="`/cloud/${cloudId}/cluster`">
+        <NuxtLink :to="list">
           <K3Button label="클러스터 목록" class="p-button-secondary" />
         </NuxtLink>
       </div>
@@ -33,10 +33,14 @@ definePageMeta({ layout: "default", title: "클라우드 클러스터 생성", p
 // Emits
 // const emits = defineEmits(['eventname']),
 // Properties
+const { Routing } = useAppHelper();
 const { cluster, isFetch, fetch } = useClusterService().getCluster();
+const { isInsFetch, insFetch } = useClusterService().insertCluster();
+const { isUpFetch, upFetch } = useClusterService().updateCluster();
 const route = useRoute();
 const cloudId = route.params.cloudId;
 const clusterId = route.params.clusterId || 0;
+const list = `/cloud/${cloudId}/cluster`;
 
 const steps = [
   { icon: "fas fa-circle-nodes", name: "cluster", title: "CLUSTER 정보", subTitle: "Cluster 구성 정보를 설정합니다", component: PClusterInfo, completed: false, visible: true },
@@ -59,9 +63,15 @@ const activeStep = (payload) => {
   });
 };
 const finished = (payload) => {
-  alert("finished");
+  alert("잘 했어... ^^");
 
   // TODO: call api
+  if (clusterId > 0) {
+    upFetch(clusterId, cluster.value);
+  } else {
+    insFetch(cluster.value);
+  }
+  Routing.moveTo(list);
 };
 // Events
 onMounted(() => {

@@ -38,7 +38,7 @@
         <span class="ml-2">이전</span>
       </div>
       <div :class="['stepper-button next', !canContinue ? 'deactivated' : '']" @click="nextStep()">
-        <span class="mr-2">{{ finalStep ? "클라우드 생성" : "저장 후 이동" }}</span>
+        <span class="mr-2">{{ finalStep ? `${pageType} 생성` : "저장 후 이동" }}</span>
         <i class="pi pi-arrow-right" />
       </div>
     </div>
@@ -46,117 +46,123 @@
 </template>
 
 <script setup lang="ts">
+const router = useRouter();
 const props = defineProps({
   modelValue: { type: Object, default: null },
   steps: { type: Array<any>, default: null },
   topButtons: { type: Boolean, default: false },
   keepAlive: { type: Boolean, default: true },
-  reset: { type: Boolean, default: false }
-})
-const emits = defineEmits(['active-step', 'completed-step', 'stepper-finished', 'clicking-back', 'visible-change'])
+  reset: { type: Boolean, default: false },
+});
+const emits = defineEmits(["active-step", "completed-step", "stepper-finished", "clicking-back", "visible-change"]);
 
-const comp = ref(undefined)
-const currentStep = ref({ name: '', index: 0 })
-const previousStep = ref({ name: '', index: -1 })
-const nextButton = ref({})
-const canContinue = ref(false)
-const finalStep = ref(false)
-const keepAliveData = ref(props.keepAlive)
+const comp = ref(undefined);
+const currentStep = ref({ name: "", index: 0 });
+const previousStep = ref({ name: "", index: -1 });
+const nextButton = ref({});
+const canContinue = ref(false);
+const finalStep = ref(false);
+const keepAliveData = ref(props.keepAlive);
 
 // 내부 사용 Steps 참조 구성
-const steps = ref(props.steps)
+const steps = ref(props.steps);
 
-const stepComponent = computed(() => props.steps[currentStep.value.index].component)
+const pageType = computed(() => (router.currentRoute.value.path.indexOf("/cluster") > -1 ? "클러스터" : "클라우드"));
+
+const stepComponent = computed(() => props.steps[currentStep.value.index].component);
 const enterAnimation = computed(() => {
   if (currentStep.value.index < previousStep.value.index) {
     return "animated quick fadeInLeft";
   } else {
     return "animated quick fadeInRight";
   }
-})
+});
 const leaveAnimation = computed(() => {
   if (currentStep.value.index > previousStep.value.index) {
     return "animated quick fadeOutLeft";
   } else {
     return "animated quick fadeOutRight";
   }
-})
+});
 const componentKey = computed(() => {
-  return `${currentStep.value.name}_${steps.value[currentStep.value.index].index}`
-})
+  return `${currentStep.value.name}_${steps.value[currentStep.value.index].index}`;
+});
 
-const isStepActive = (index) => currentStep.value.index === index ? 'activated' : 'deactivated'
+const isStepActive = (index) => (currentStep.value.index === index ? "activated" : "deactivated");
 const activateStep = (index, back = false) => {
   if (props.steps[index]) {
-    previousStep.value = currentStep.value
-    currentStep.value = { name: props.steps[index].name, index }
-    finalStep.value = (index + 1 === props.steps.length)
+    previousStep.value = currentStep.value;
+    currentStep.value = { name: props.steps[index].name, index };
+    finalStep.value = index + 1 === props.steps.length;
     if (!back) {
-      emits('completed-step', previousStep)
+      emits("completed-step", previousStep);
     }
   }
-  emits('active-step', currentStep)
-}
+  emits("active-step", currentStep);
+};
 const nextStepAction = () => {
-  nextButton[currentStep.value.name] = true
+  nextButton[currentStep.value.name] = true;
   if (canContinue.value) {
     if (finalStep.value) {
-      emits('stepper-finished', currentStep)
+      emits("stepper-finished", currentStep);
     } else {
-      const nextItem = steps.value.find((item, index) => index > currentStep.value.index && item.visible)
-      const currentIndex = steps.value.findIndex(item => item.name === nextItem.name)
-      activateStep(currentIndex)
+      const nextItem = steps.value.find((item, index) => index > currentStep.value.index && item.visible);
+      const currentIndex = steps.value.findIndex((item) => item.name === nextItem.name);
+      activateStep(currentIndex);
     }
   }
-}
+};
 const nextStep = () => {
   if (comp.value && canContinue.value) {
-    const next = (comp.value as any).beforeNextStep()
+    const next = (comp.value as any).beforeNextStep();
     if (next) {
-      nextStepAction()
+      nextStepAction();
     } else {
-      alert('잘 해라!! -_-')
+      alert("잘 해라!! -_-");
     }
   }
-}
+};
 const backStep = () => {
-  emits('clicking-back')
+  emits("clicking-back");
   //let currentIndex = currentStep.value.index - 1
-  let currentIndex = -1
+  let currentIndex = -1;
   for (let i = currentStep.value.index - 1; i >= 0; i--) {
     if (steps.value[i].visible) {
-      currentIndex = i
+      currentIndex = i;
       break;
     }
   }
-  if (currentIndex >= 0) activateStep(currentIndex, true)
-}
-const proceed = (payload) => canContinue.value = payload.value;
+  if (currentIndex >= 0) activateStep(currentIndex, true);
+};
+const proceed = (payload) => (canContinue.value = payload.value);
 const changeNextBtnValue = (payload) => {
-  nextButton[currentStep.value.name] = payload.nextBtnValue
-  getCurrentInstance()?.proxy?.$forceUpdate()
-}
+  nextButton[currentStep.value.name] = payload.nextBtnValue;
+  getCurrentInstance()?.proxy?.$forceUpdate();
+};
 const changeVisible = (val) => {
-  const item = steps.value.find(item => item.name === val.name)
+  const item = steps.value.find((item) => item.name === val.name);
   if (item) {
-    item.visible = val.visible
+    item.visible = val.visible;
   }
-}
+};
 
-watch(() => props.modelValue, () => {
-  steps.value[currentStep.value.index].index++
-})
+watch(
+  () => props.modelValue,
+  () => {
+    steps.value[currentStep.value.index].index++;
+  }
+);
 
 // initialize
 const init = () => {
-  activateStep(0)
-  props.steps.forEach(s => {
-    nextButton[s.name] = false
-    s.index = 0               // 갱신 초기화
-  })
-}
+  activateStep(0);
+  props.steps.forEach((s) => {
+    nextButton[s.name] = false;
+    s.index = 0; // 갱신 초기화
+  });
+};
 
-onMounted(() => { })
+onMounted(() => {});
 </script>
 
 <style scoped lang="scss">

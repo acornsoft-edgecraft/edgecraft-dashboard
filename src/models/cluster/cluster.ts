@@ -11,6 +11,6 @@ export const defaultClusterInfo: clusterInfo = {
 };
 
 export const defaultClusterInfoValidation = {
-  name: { required, minLength: minLength(3), maxLength: maxLength(100), alphaNum },
+  name: { required, minLength: minLength(3), maxLength: maxLength(100) },
   desc: {},
 };

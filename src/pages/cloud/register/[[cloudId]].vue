@@ -1,22 +1,20 @@
 <template>
-  <div class="page-container">
-    <div class="page-wrapper">
-      <section class="page-header">
-        <K3PageTitle />
-      </section>
-      <section class="page-content">
-        <div class="stepper-container">
-          <K3Stepper :steps="steps" v-model="cloud" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" @visible-change="onVisibleChange" :keep-alive="false" :top-buttons="true" />
-          <K3Overlay :active="isFetch" loader="bars" background-color="#830205" />
-        </div>
+  <div class="page-wrapper">
+    <section class="page-header">
+      <K3PageTitle />
+    </section>
+    <section class="page-content">
+      <div class="stepper-container">
+        <K3Stepper :steps="steps" v-model="cloud" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" @visible-change="onVisibleChange" :keep-alive="false" :top-buttons="true" />
+        <K3Overlay :active="isFetch || isInsFetch || isUpFetch" loader="bars" background-color="#830205" />
+      </div>
 
-        <div class="flex justify-content-end mt-3">
-          <NuxtLink to="/cloud">
-            <K3Button label="클라우드 목록" class="p-button-secondary" />
-          </NuxtLink>
-        </div>
-      </section>
-    </div>
+      <div class="flex justify-content-end mt-3">
+        <NuxtLink to="/cloud">
+          <K3Button label="클라우드 목록" class="p-button-secondary" />
+        </NuxtLink>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -37,9 +35,12 @@ definePageMeta({ layout: "default", title: "클라우드 등록", public: true }
 // Emits
 // const emits = defineEmits(['eventname']),
 // Properties
+const { Routing } = useAppHelper();
+const { cloud, isFetch, fetch } = useCloudService().getCloud();
+const { isInsFetch, insFetch } = useCloudService().insertCloud();
+const { isUpFetch, upFetch } = useCloudService().updateCloud();
 const route = useRoute();
 const cloudId = route.params.cloudId || 0;
-const { cloud, isFetch, fetch } = useCloudService().getCloud();
 
 const steps = [
   { icon: "fas fa-cloud", name: "cloud", title: "CLOUD 정보", subTitle: "Cloud 구성 정보를 설정합니다", component: PCloudInfo, completed: false, visible: true },
@@ -71,8 +72,15 @@ const activeStep = (payload) => {
   });
 };
 const finished = (payload) => {
-  // TODO: call api
   alert("잘 했어... ^^");
+
+  // TODO: call api
+  if (cloudId > 0) {
+    upFetch(cloudId, cloud.value);
+  } else {
+    insFetch(cloud.value);
+  }
+  Routing.moveTo("/cloud");
 };
 
 // Step Visible On/Off 처리

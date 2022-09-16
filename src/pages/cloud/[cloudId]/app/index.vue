@@ -1,11 +1,9 @@
 <template>
-  <div class="partial-container">
-    <div class="page-wrapper">
-      <section class="page-header">
-        <K3PageTitle />
-      </section>
-      <section class="page-content">route.params :: {{ route.params }}</section>
-    </div>
+  <div class="page-wrapper">
+    <section class="page-header">
+      <K3PageTitle />
+    </section>
+    <section class="page-content">route.params :: {{ route.params }}</section>
   </div>
 </template>
 

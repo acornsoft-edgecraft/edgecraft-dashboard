@@ -21,7 +21,15 @@ RUN rm -rf /usr/share/nginx/html/connect /usr/share/nginx/html/device /usr/share
 
 COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
 
+# mjs mime 추가
+RUN sed -i 's/js;/js mjs;/' /etc/nginx/mime.types
+
+
 ENV HOST 0.0.0.0
 ENV BACKEND_PORT 3001
 
 ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
+
+## docker build -t edgecraft .
+## docker run --rm --name edgecraft -p 80:80 edgecraft
+## docker exec -it edgecraft /bin/sh
