@@ -5,7 +5,7 @@ export interface userInfo {
   email: String;
   name: String;
   password: String;
-  role: String;
+  role: UserRoles;
 }
 
 export const defaultUserInfo: userInfo = {

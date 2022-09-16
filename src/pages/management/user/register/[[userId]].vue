@@ -5,19 +5,27 @@
     </section>
     <section class="page-content">
       <K3FormContainer>
-        <K3FormColumn label="Email" label-align="right">
-          <K3FormInputField v-model="v$.email" field-name="Email" class="w-30rem" :disabled="existsEmail" />
-          <K3Button label="이메일 중복체크" @click="onCheckEmail" :disabled="existsEmail" />
-        </K3FormColumn>
-        <K3FormColumn label="Name" label-align="right">
-          <K3FormInputField v-model="v$.name" field-name="Name" class="w-30rem" />
-        </K3FormColumn>
-        <K3FormColumn label="Password" label-align="right">
-          <K3FormPasswordField v-model="v$.password" field-name="Password" :toggle-mask="true" inputClass="w-30rem" />
-        </K3FormColumn>
-        <K3FormColumn label="Role" label-align="right">
-          <K3FormDropdownField v-model="v$.role" :options="UserRolesMap()" :option-label="'name'" :option-value="'value'" field-name="Role" class="w-15rem" />
-        </K3FormColumn>
+        <K3FormRow>
+          <K3FormColumn label="Email" label-align="right">
+            <K3FormInputField v-model="v$.email" field-name="Email" class="w-30rem" :disabled="existsEmail" />
+            <K3Button label="이메일 중복체크" @click="onCheckEmail" :disabled="existsEmail" />
+          </K3FormColumn>
+        </K3FormRow>
+        <K3FormRow>
+          <K3FormColumn label="Name" label-align="right">
+            <K3FormInputField v-model="v$.name" field-name="Name" class="w-30rem" />
+          </K3FormColumn>
+        </K3FormRow>
+        <K3FormRow>
+          <K3FormColumn label="Password" label-align="right">
+            <K3FormPasswordField v-model="v$.password" field-name="Password" :toggle-mask="true" inputClass="w-30rem" />
+          </K3FormColumn>
+        </K3FormRow>
+        <K3FormRow>
+          <K3FormColumn label="Role" label-align="right">
+            <K3FormDropdownField v-model="v$.role" :options="UserRolesMap()" :option-label="'name'" :option-value="'value'" field-name="Role" class="w-15rem" />
+          </K3FormColumn>
+        </K3FormRow>
       </K3FormContainer>
 
       <div class="flex button-wrapper">
