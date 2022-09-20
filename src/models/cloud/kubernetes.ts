@@ -1,7 +1,5 @@
-import { required, helpers } from "@vuelidate/validators";
-import { K8sVersions, validators } from "../common";
-
-const cidr = helpers.withMessage("This field type is mismatched. (e.g. 10.244.0.0/16)", validators.CIDR);
+import { required, CIDR } from "~/models/common/validators";
+import { K8sVersions } from "~/models";
 
 export const K8sVersionMap = (addAll: boolean = false) => {
   if (addAll) {
@@ -25,6 +23,6 @@ export const defaultKubernetesInfo: kubernetesInfo = {
 
 export const defaultKubernetesInfoValidation = {
   version: { required },
-  pod_cidr: { required, cidr },
-  svc_cidr: { required, cidr },
+  pod_cidr: { required, CIDR },
+  svc_cidr: { required, CIDR },
 };

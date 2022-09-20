@@ -1,7 +1,7 @@
 <template>
   <div class="item-container">
     <div class="form-field">
-      <K3Password v-model="modelValue.$model" :inputIid="inputId" :class="itemClass" :toggleMask="toggleMask" :inputClass="inputClass" />
+      <K3Password v-model="modelValue.$model" :inputIid="inputId" :class="itemClass" :toggleMask="toggleMask" :inputClass="inputClass" :placeholder="placeholder" />
     </div>
     <div class="error-field basic label pointing error" v-if="modelValue.$invalid">{{ errorMessages }}</div>
   </div>
@@ -14,6 +14,7 @@ const props = defineProps({
   inputClass: { type: String, default: null },
   fieldName: { type: String, default: "Field" },
   toggleMask: { type: Boolean, default: false },
+  placeholder: { type: String },
 });
 
 const itemClass = computed(() => [useAttrs().class /*{ 'p-invalid': props.modelValue.$invalid } */]);
