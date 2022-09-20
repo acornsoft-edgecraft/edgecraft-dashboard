@@ -1,6 +1,6 @@
 <template>
   <div class="partial-container m-0 p-0">
-    <K3FormContainer>
+    <K3FormContainer class="no-bg">
       <template #header>Node 정보</template>
       <K3FormRow class="h-3rem">
         <K3FormColumn>

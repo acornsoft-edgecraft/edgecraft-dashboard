@@ -1,5 +1,5 @@
 <template>
-  <K3FormContainer>
+  <K3FormContainer class="no-bg">
     <template #header>OPENSTACK 정보</template>
     <K3FormRow>
       <K3FormColumn label="Openstack Cloud" label-align="right">

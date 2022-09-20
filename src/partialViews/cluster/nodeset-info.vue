@@ -6,7 +6,7 @@
       </template>
       <K3ValidateEach v-for="(item, index) in data" :key="index" :state="item" :rules="vRules">
         <template #default="{ v }">
-          <K3FormContainer class="no-style iter">
+          <K3FormContainer class="no-style">
             <K3FormRow>
               <K3FormColumn label="Namespace" label-align="right">
                 <K3FormInputField v-model="v.namespace" field-name="Namespace" class="w-full" />
@@ -32,7 +32,7 @@
                 <K3FormKeyValueField v-model="v.labels" caption="Labels 설정" />
               </K3FormColumn>
             </K3FormRow>
-            <K3FormRow v-if="index > 0 && type === NodeTypes.WORKER">
+            <K3FormRow v-if="index > 0 && type === NodeTypes.WORKER" class="no-bg-row">
               <K3FormColumn item-align="right">
                 <K3Button icon="pi pi-minus" class="mr-2" @click="removeNodeSet(index)" />
               </K3FormColumn>
@@ -82,9 +82,15 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.iter {
-  padding-bottom: 1.5rem;
-  // border-bottom: 0.2rem dotted lightskyblue;
-  margin-top: 1.5rem;
+.form-container.no-style {
+  box-shadow: none;
+  border: 1px solid #dee2e6;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  .no-bg-row {
+    background-color: var(--surface-0);
+  }
 }
 </style>
