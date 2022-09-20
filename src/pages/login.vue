@@ -34,7 +34,7 @@
 <script setup lang="ts">
 // imports
 import Logo from "~/layouts/components/logo.vue";
-import { defaultLoginValidation, defaultLogin, MessageTypes } from "../models";
+import { defaultLoginValidation, defaultLogin, MessageTypes } from "~/models";
 
 // Page meta
 definePageMeta({ layout: "empty", title: "Login", public: true });
@@ -95,7 +95,7 @@ onMounted(() => {
       width: 100%;
       height: 100%;
       border-radius: 33px;
-      background: #fff;
+      background: var(--surface-0);
       padding: 2rem 1.5rem 2rem 1.5rem;
 
       .logo {

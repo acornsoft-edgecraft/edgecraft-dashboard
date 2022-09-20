@@ -1,7 +1,5 @@
-import { clusterInfo, defaultClusterInfo } from "./cluster";
-import { openstackConfInfo, defaultOpenstackConfInfo } from "./openstack";
-import { clusterNodesInfo, defaultClusterNodesInfo } from "./nodes";
-import { kubernetesInfo, defaultKubernetesInfo, etcdInfo, defaultETCDInfo, storageClassInfo, defaultStorageClassInfo } from "../cloud";
+import { clusterInfo, defaultClusterInfo, openstackConfInfo, defaultOpenstackConfInfo, clusterNodesInfo, defaultClusterNodesInfo } from "~/models";
+import { kubernetesInfo, defaultKubernetesInfo, etcdInfo, defaultETCDInfo, storageClassInfo, defaultStorageClassInfo } from "~/models";
 
 export interface cluster_reg {
   cluster: clusterInfo;

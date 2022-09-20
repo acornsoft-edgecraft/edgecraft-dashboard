@@ -164,9 +164,9 @@ onMounted(() => {
     margin-top: 1rem;
   }
 }
-::v-deep(.dark-demo-terminal) {
-  background-color: #212121;
-  color: #ffffff;
+:deep(.dark-demo-terminal) {
+  background-color: var(--surface-900);
+  color: var(--surface-0);
   min-height: 200px;
 }
 </style>

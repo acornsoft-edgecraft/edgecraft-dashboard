@@ -1,5 +1,5 @@
 import { required, macAddress } from "@vuelidate/validators";
-import { BootModes } from "../common";
+import { BootModes } from "~/models";
 
 export const BootModesMap = (addAll: boolean = false) => {
   if (addAll) {

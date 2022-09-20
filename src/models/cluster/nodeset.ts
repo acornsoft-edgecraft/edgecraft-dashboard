@@ -1,5 +1,5 @@
 import { required, integer, between } from "@vuelidate/validators";
-import { labelInfo, defaultLabelInfo } from "../cloud";
+import { labelInfo, defaultLabelInfo } from "~/models";
 
 export interface nodesetInfo {
   namespace: String;

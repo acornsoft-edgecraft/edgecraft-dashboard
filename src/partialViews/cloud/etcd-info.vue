@@ -1,5 +1,5 @@
 <template>
-  <K3FormContainer>
+  <K3FormContainer class="no-bg">
     <template #header>ETCD 설정</template>
     <K3FormRow class="h-3rem">
       <K3FormColumn>
@@ -64,4 +64,8 @@ const removeEndpoint = (index) => {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.form-container.no-style {
+  box-shadow: none;
+}
+</style>
