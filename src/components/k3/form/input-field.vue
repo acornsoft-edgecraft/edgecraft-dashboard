@@ -20,7 +20,7 @@ const props = defineProps({
 const itemClass = computed(() => [useAttrs().class /*{ 'p-invalid': props.modelValue.$invalid } */]);
 const errorMessages = computed(() => {
   props.modelValue.$touch();
-  return props.modelValue.$errors.map((err) => err.$message.replace("Value", props.fieldName)).join(",");
+  return props.modelValue.$errors.map((err) => err.$message.replace(/Value|The value|This field/g, props.fieldName)).join(",");
 });
 
 const changeValue = (e) => {
@@ -29,3 +29,4 @@ const changeValue = (e) => {
 </script>
 
 <style scoped lang="scss"></style>
+<!-- replace(/name | age | city/g , '') -->
