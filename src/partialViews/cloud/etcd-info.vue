@@ -14,11 +14,11 @@
               <template #default="{ v }">
                 <K3FormRow direction="horizontal" :overflow-wrap="true">
                   <K3FormColumn>
-                    <K3FormInputField v-model="v.ip_address" field-name="IP Address" placeholder="IP Address" />
-                    <span class="mx-2">:</span>
-                    <K3FormInputField v-model="v.port" field-name="Port" placeholder="Port" />
-                    <K3Button icon="pi pi-plus" class="ml-3" v-if="index === 0" @click="addEndpoint" />
-                    <K3Button icon="pi pi-minus" class="ml-3" v-else @click="removeEndpoint(index)" />
+                    <K3FormInputField v-model="v.ip_address" field-name="IP Address" placeholder="IP Address" class="w-17rem align-self-start" />
+                    <span>:</span>
+                    <K3FormInputField v-model="v.port" field-name="Port" placeholder="Port" class="w-17rem align-self-start" />
+                    <K3Button icon="pi pi-plus" v-if="index === 0" @click="addEndpoint" />
+                    <K3Button icon="pi pi-minus" v-else @click="removeEndpoint(index)" />
                   </K3FormColumn>
                 </K3FormRow>
               </template>
@@ -66,6 +66,16 @@ const removeEndpoint = (index) => {
 
 <style scoped lang="scss">
 .form-container.no-style {
+  width: 100%;
   box-shadow: none;
+
+  span {
+    align-self: flex-start;
+    margin: 0.5rem;
+  }
+  .p-button {
+    margin: 0 1rem;
+    align-self: flex-start;
+  }
 }
 </style>

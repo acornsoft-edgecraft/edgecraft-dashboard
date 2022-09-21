@@ -52,7 +52,7 @@
             </K3FormRow>
             <K3FormRow v-if="index > 0" class="no-bg-row">
               <K3FormColumn item-align="right">
-                <K3Button icon="pi pi-minus" class="mr-2" @click="removeNode(index)" />
+                <K3Button icon="pi pi-minus" @click="removeNode(index)" />
               </K3FormColumn>
             </K3FormRow>
           </K3FormContainer>
@@ -105,6 +105,11 @@ onMounted(() => {});
 
   .no-bg-row {
     background-color: var(--surface-0);
+
+    .form-column {
+      border: 0;
+      padding-top: 0.5rem;
+    }
   }
 }
 </style>

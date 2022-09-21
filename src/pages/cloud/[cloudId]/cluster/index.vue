@@ -27,7 +27,7 @@
           <div class="header flex justify-content-between">
             <div class="search-left">
               <span>Status: </span>
-              <K3Dropdown v-model="selectedStatus" :options="CloudStatusMap(true)" :optionLabel="'name'" :optionValue="'value'" @change="statusSelected" class="mr-2" />
+              <K3Dropdown v-model="selectedStatus" :options="CloudStatusMap(true)" :optionLabel="'name'" :optionValue="'value'" @change="statusSelected" class="w-10rem" />
               <span>Cluster Name: </span>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
@@ -35,7 +35,7 @@
               </span>
             </div>
             <div class="search-right toggle flex align-content-center">
-              <K3MultiSelect :modelValue="selectedColumns" class="flex mr-2" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" style="width: 20em" />
+              <K3MultiSelect :modelValue="selectedColumns" class="flex w-20rem" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" />
               <NuxtLink :to="`/cloud/${cloudId}/cluster/register`">
                 <K3Button label="클러스터 등록"></K3Button>
               </NuxtLink>
@@ -183,6 +183,16 @@ onMounted(() => {
     .p-datatable-header {
       border-top: none;
     }
+  }
+}
+.search-left {
+  span:not(:first-child) {
+    margin-left: 0.5rem;
+  }
+}
+.search-right {
+  .p-button {
+    margin-left: 0.5rem;
   }
 }
 </style>

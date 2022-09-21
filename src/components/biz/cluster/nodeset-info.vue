@@ -1,10 +1,10 @@
 <template>
-  <div class="flex justify-content-end button-wrapper">
-    <K3Button label="Add WorkerSet" @click="addNodeSet" v-if="type === NodeTypes.WORKER" />
+  <div class="flex justify-content-end button-wrapper" v-if="type === NodeTypes.WORKER">
+    <K3Button label="Add WorkerSet" @click="addNodeSet" />
   </div>
   <K3Panel :header="`${type}Set`" v-for="(item, index) in modelValue" :key="index" :toggleable="true">
     <template #icons v-if="type === NodeTypes.WORKER">
-      <K3Button class="p-panel-header-icon p-link" @click="removeNodeset(index, item)">
+      <K3Button class="p-panel-header-icon p-link text-danger" @click="removeNodeset(index, item)">
         <span class="pi pi-trash"></span>
       </K3Button>
     </template>
@@ -17,13 +17,13 @@
         <K3FormColumn label="Flavor" label-align="right" :size="6">{{ item.flavor }}</K3FormColumn>
         <K3FormColumn label="Node Count" label-align="right" :size="6">
           <template v-if="!showEditNodeCnt[index]">
-            <span class="w-2rem">{{ item.node_count }}</span>
-            <K3Button label="변경" class="ml-2" @click="changeNodeCount(index, item)" />
+            <span class="w-4rem">{{ item.node_count }}</span>
+            <K3Button label="변경" @click="changeNodeCount(index, item)" />
           </template>
           <template v-if="showEditNodeCnt[index]">
             <K3InputNumber v-model="item.node_count" @input="changeValue" :min="1" :max="100" show-buttons mode="decimal" field-name="Node Count" input-id="node_count" :allowEmpty="false" />
-            <K3Button label="수정" icon="pi pi-check" class="ml-2" @click="saveNodeCount(index)" />
-            <K3Button label="취소" icon="pi pi-times" class="p-button-secondary ml-2" @click="cancelNodeCount(index, item)" />
+            <K3Button label="수정" icon="pi pi-check" @click="saveNodeCount(index)" />
+            <K3Button label="취소" icon="pi pi-times" class="p-button-secondary" @click="cancelNodeCount(index, item)" />
           </template>
         </K3FormColumn>
       </K3FormRow>
@@ -109,7 +109,12 @@ onMounted(() => {
 // Logics (like api call, etc)
 </script>
 <style scoped lang="scss">
-.p-panel {
+.form-container.no-style {
+  .p-button {
+    margin-left: 0.5rem;
+  }
+}
+.p-panel:not(:first-child) {
   margin-top: 1rem;
 }
 .p-panel-header-icon.p-panel-toggler.p-link {
@@ -118,8 +123,7 @@ onMounted(() => {
   }
 }
 .button-wrapper {
-  margin-top: 1rem;
-  margin-bottom: 0;
+  margin: 1.5rem 0 0 0;
 }
 
 .p-chip {

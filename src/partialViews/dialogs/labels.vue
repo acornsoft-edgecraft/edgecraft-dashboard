@@ -11,7 +11,7 @@
               <K3FormInputField class="w-full" v-model="v.value" field-name="Value" />
             </K3FormColumn>
             <K3FormColumn :size="1" item-align="center">
-              <K3Button icon="pi pi-times" class="p-button-rounded p-button-outlined" @click="removeItem(index)" />
+              <K3Button icon="pi pi-trash" class="p-button-text p-button-outlined p-button-secondary" @click="removeItem(index)" />
             </K3FormColumn>
           </K3FormRow>
         </template>
@@ -19,7 +19,7 @@
       <K3FormRow direction="horizontal">
         <K3FormColumn :size="12" item-align="right">
           <K3Button v-if="items.length > 0" class="mr-2" label="Clear All" @click="clearItems" />
-          <K3Button label="Add" @click="addItem" />
+          <K3Button label="Add" icon="pi pi-plus" @click="addItem" />
         </K3FormColumn>
       </K3FormRow>
     </K3FormContainer>

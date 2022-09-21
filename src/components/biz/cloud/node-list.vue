@@ -1,7 +1,7 @@
 <template>
-  <K3Panel :header="`${type} Nodes`" class="mt-3">
+  <K3Panel :header="`${type} Nodes`">
     <template #icons>
-      <K3Button icon="pi pi-plus" class="mr-2" @click="addNode" />
+      <K3Button icon="pi pi-plus" @click="addNode" />
     </template>
     <template #empty>
       <div class="w-full text-center">
@@ -59,4 +59,8 @@ const removeNode = (data) => {
   );
 };
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.p-panel:not(:first-child) {
+  margin-top: 1rem;
+}
+</style>

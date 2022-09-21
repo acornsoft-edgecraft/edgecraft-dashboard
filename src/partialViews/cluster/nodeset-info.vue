@@ -91,6 +91,10 @@ onMounted(() => {
   margin-bottom: 1rem;
   .no-bg-row {
     background-color: var(--surface-0);
+
+    .p-button {
+      margin: 0.5rem 0;
+    }
   }
 }
 </style>

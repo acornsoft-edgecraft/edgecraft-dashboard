@@ -27,9 +27,9 @@
           <div class="header flex justify-content-between">
             <div class="search-left">
               <span>Cloud Type: </span>
-              <K3Dropdown v-model="selectedCloud" :options="CloudTypesMap(true)" :optionLabel="'name'" :optionValue="'value'" class="mr-2" @change="typeSelected" />
+              <K3Dropdown v-model="selectedCloud" :options="CloudTypesMap(true)" :optionLabel="'name'" :optionValue="'value'" class="w-10rem" @change="typeSelected" />
               <span>Status: </span>
-              <K3Dropdown v-model="selectedStatus" :options="CloudStatusMap(true)" :optionLabel="'name'" :optionValue="'value'" class="mr-2" @change="statusSelected" />
+              <K3Dropdown v-model="selectedStatus" :options="CloudStatusMap(true)" :optionLabel="'name'" :optionValue="'value'" class="w-10rem" @change="statusSelected" />
               <span>Name: </span>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
@@ -37,7 +37,7 @@
               </span>
             </div>
             <div class="search-right toggle flex align-content-center">
-              <K3MultiSelect class="flex mr-2" :modelValue="selectedColumns" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" style="width: 20em" />
+              <K3MultiSelect class="flex w-20rem" :modelValue="selectedColumns" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" />
               <NuxtLink to="/cloud/register">
                 <K3Button label="클라우드 등록" />
               </NuxtLink>
@@ -196,6 +196,17 @@ onMounted(() => {
     .p-datatable-header {
       border-top: none;
     }
+  }
+}
+
+.search-left {
+  span:not(:first-child) {
+    margin-left: 0.5rem;
+  }
+}
+.search-right {
+  .p-button {
+    margin-left: 0.5rem;
   }
 }
 </style>

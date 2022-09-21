@@ -28,17 +28,17 @@
                 <i class="pi pi-search" />
                 <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" autofocus />
               </span>
-              <span class="ml-2">Type: </span>
-              <K3Dropdown v-model="selectedType" :options="ImageTypesMap(true)" :optionLabel="'name'" :optionValue="'value'" @change="typeSelected" class="w-10rem" />
-              <span class="ml-2">OS: </span>
+              <span>Type: </span>
+              <K3Dropdown v-model="selectedType" :options="ImageTypesMap(true)" :optionLabel="'name'" :optionValue="'value'" @change="typeSelected" class="w-12rem" />
+              <span>OS: </span>
               <K3Dropdown v-model="selectedOs" :options="ImageOsTypesMap(true)" :optionLabel="'name'" :optionValue="'value'" @change="osSelected" class="w-10rem" />
             </div>
             <div class="search-right toggle flex align-content-center">
               <K3MultiSelect :modelValue="selectedColumns" class="flex" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" style="width: 20em" />
               <NuxtLink to="/management/image/register">
-                <K3Button label="이미지 등록" class="ml-2" />
+                <K3Button label="이미지 등록" />
               </NuxtLink>
-              <K3Button label="이미지 삭제" class="p-button-danger ml-2" @click="onDelete" />
+              <K3Button label="이미지 삭제" class="p-button-danger" @click="onDelete" />
             </div>
           </div>
         </template>
@@ -158,4 +158,28 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.page-content {
+  :deep(.p-progressbar-value) {
+    overflow: visible;
+    justify-content: start;
+    background-color: #17a2b8;
+  }
+
+  :deep(.p-datatable) {
+    .p-datatable-header {
+      border-top: none;
+    }
+  }
+}
+.search-left {
+  span:not(:first-child) {
+    margin-left: 0.5rem;
+  }
+}
+.search-right {
+  .p-button {
+    margin-left: 0.5rem;
+  }
+}
+</style>

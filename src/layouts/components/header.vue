@@ -2,7 +2,7 @@
   <div class="layout-header flex flex-row p-2">
     <Logo />
     <HeaderTitle />
-    <ul class="menu hidden lg:flex origin-top">
+    <ul class="menu hidden lg:flex origin-top" v-if="auth.isAuthenticated">
       <li>
         <K3Button class="p-link button">
           <i class="pi pi-calendar"></i>
@@ -28,6 +28,14 @@
         </K3Button>
       </li>
     </ul>
+    <ul class="menu hidden lg:flex origin-top" v-else>
+      <li>
+        <K3Button class="p-link button" @click="onLogin">
+          <i class="pi pi-sign-in"></i>
+          <span>Login</span>
+        </K3Button>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -48,6 +56,9 @@ const messages = ref([]);
 // Compputed
 // Watcher
 // Methods
+const onLogin = () => {
+  Routing.moveTo("/login");
+};
 const onLogout = () => {
   UI.showConfirm(
     MessageTypes.INFO,

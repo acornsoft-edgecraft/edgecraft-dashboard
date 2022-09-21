@@ -28,20 +28,20 @@
                 <i class="pi pi-search" />
                 <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).email.value" placeholder="Search" autofocus />
               </span>
-              <span class="ml-2">Name: </span>
+              <span>Name: </span>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
                 <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" autofocus />
               </span>
-              <span class="ml-2">Role: </span>
-              <K3Dropdown v-model="selectedUserRole" :options="UserRolesMap(true)" :optionLabel="'name'" :optionValue="'value'" @change="userRoleSelected" />
+              <span>Role: </span>
+              <K3Dropdown v-model="selectedUserRole" :options="UserRolesMap(true)" :optionLabel="'name'" :optionValue="'value'" @change="userRoleSelected" class="w-10rem" />
             </div>
             <div class="search-right toggle flex align-content-center">
-              <K3MultiSelect :modelValue="selectedColumns" class="flex" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" style="width: 20em" />
+              <K3MultiSelect :modelValue="selectedColumns" class="flex w-18rem" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" />
               <NuxtLink to="/management/user/register">
-                <K3Button label="사용자 등록" class="ml-2" />
+                <K3Button label="사용자 등록" />
               </NuxtLink>
-              <K3Button label="사용자 삭제" class="p-button-danger ml-2" @click="onDelete" />
+              <K3Button label="사용자 삭제" class="p-button-danger" @click="onDelete" />
             </div>
           </div>
         </template>
@@ -156,6 +156,16 @@ onMounted(() => {
     .p-datatable-header {
       border-top: none;
     }
+  }
+}
+.search-left {
+  span:not(:first-child) {
+    margin-left: 0.5rem;
+  }
+}
+.search-right {
+  .p-button {
+    margin-left: 0.5rem;
   }
 }
 </style>
