@@ -1,5 +1,5 @@
 <template>
-  <K3FormContainer>
+  <K3FormContainer class="no-bg">
     <template #header>STORAGE Class 설정</template>
     <K3FormRow class="h-3rem">
       <K3FormColumn>

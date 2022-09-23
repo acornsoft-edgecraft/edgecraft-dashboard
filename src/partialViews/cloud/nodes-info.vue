@@ -6,8 +6,8 @@
       </template>
       <K3ValidateEach v-for="(item, index) in data" :key="index" :state="item" :rules="vRules">
         <template #default="{ v }">
-          <K3FormContainer class="no-style iter">
-            <K3FormRow>
+          <K3FormContainer class="no-style">
+            <K3FormRow class="no-bg-row">
               <K3Divider align="left">Baremetal Host</K3Divider>
             </K3FormRow>
             <K3FormRow direction="horizontal" :overflow-wrap="true">
@@ -34,7 +34,7 @@
                 <K3FormCheckField v-model="v.baremetal.external_provisioning" :id="`${type}_external_provisioning_${index}`" label="사용" />
               </K3FormColumn>
             </K3FormRow>
-            <K3FormRow>
+            <K3FormRow class="no-bg-row">
               <K3Divider align="left" type="solid">Node</K3Divider>
             </K3FormRow>
             <K3FormRow direction="horizontal" :overflow-wrap="true">
@@ -50,9 +50,9 @@
                 <K3FormKeyValueField v-model="v.node.labels" caption="Labels 설정" />
               </K3FormColumn>
             </K3FormRow>
-            <K3FormRow v-if="index > 0">
+            <K3FormRow v-if="index > 0" class="no-bg-row">
               <K3FormColumn item-align="right">
-                <K3Button icon="pi pi-minus" class="mr-2" @click="removeNode(index)" />
+                <K3Button icon="pi pi-minus" @click="removeNode(index)" />
               </K3FormColumn>
             </K3FormRow>
           </K3FormContainer>
@@ -95,9 +95,21 @@ onMounted(() => {});
 </script>
 
 <style scoped lang="scss">
-.iter {
-  padding-bottom: 1.5rem;
-  border-bottom: 0.2rem dotted lightskyblue;
-  margin-top: 1.5rem;
+.form-container.no-style {
+  box-shadow: none;
+  border: 1px solid #dee2e6;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+
+  .no-bg-row {
+    background-color: var(--surface-0);
+
+    .form-column {
+      border: 0;
+      padding-top: 0.5rem;
+    }
+  }
 }
 </style>

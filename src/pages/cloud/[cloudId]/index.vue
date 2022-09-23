@@ -53,13 +53,13 @@
       <K3Card v-if="provisioned">
         <template #title>노드 정보</template>
         <template #content>
-          <NodeList :type="NodeTypes.MASTER" v-model="cloud.nodes.master_nodes" @add-node="addNode" />
-          <NodeList :type="NodeTypes.WORKER" v-model="cloud.nodes.worker_nodes" @add-node="addNode" />
+          <BizCloudNodeList :type="NodeTypes.MASTER" v-model="cloud.nodes.master_nodes" @add-node="addNode" />
+          <BizCloudNodeList :type="NodeTypes.WORKER" v-model="cloud.nodes.worker_nodes" @add-node="addNode" />
         </template>
       </K3Card>
 
-      <DCloudNode v-model="cloudNode" @close="close" @ok="ok" />
-      <DK8sUpgrade v-model="k8sUpgrade" @close="close" @upgrade="upgrade" />
+      <BizDialogsCloudNode v-model="cloudNode" @close="close" @ok="ok" />
+      <BizDialogsK8sUpgrade v-model="k8sUpgrade" @close="close" @upgrade="upgrade" />
 
       <div class="flex justify-content-end button-wrapper">
         <NuxtLink to="/cloud">
@@ -73,9 +73,6 @@
 
 <script setup lang="ts">
 // imports
-import NodeList from "~/components/biz/cloud/node-list.vue";
-import DCloudNode from "~/components/biz/dialogs/cloud-node.vue";
-import DK8sUpgrade from "~/components/biz/dialogs/k8s-upgrade.vue";
 import { CloudTypes, CloudStatus, K8sVersions, MessageTypes, NodeTypes } from "~/models";
 
 // Page meta
@@ -164,9 +161,10 @@ onMounted(() => {
     margin-top: 1rem;
   }
 }
-::v-deep(.dark-demo-terminal) {
-  background-color: #212121;
-  color: #ffffff;
+// :deep(.dark-demo-terminal) {
+.dark-demo-terminal {
+  background-color: var(--surface-900);
+  color: var(--surface-0);
   min-height: 200px;
 }
 </style>

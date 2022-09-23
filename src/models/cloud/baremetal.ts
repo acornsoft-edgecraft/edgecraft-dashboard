@@ -1,5 +1,5 @@
 import { required, alphaNum, url } from "@vuelidate/validators";
-import { ImageChecksumTypes, ImageFormats } from "../common";
+import { ImageChecksumTypes, ImageFormats } from "~/models";
 
 export const ImageChecksumTypesMap = (addAll: boolean = false) => {
   if (addAll) {

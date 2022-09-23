@@ -581,21 +581,46 @@
       }
     }
   ],
-  "tests": [
+  "images": [
     {
       "id": 1,
-      "aaaa": "11111",
-      "bbbb": "11111"
+      "name": "Ubuntu20.04-baremetal",
+      "type": 1,
+      "format": 1,
+      "size": "330M",
+      "os": 1,
+      "file": "/aaa/bbbb/cccc/ubuntu20.04.baremetal",
+      "created": "2022-03-06 21:03:11"
     },
     {
       "id": 2,
-      "aaaa": "22222",
-      "bbbb": "22222"
+      "name": "Ubuntu20.04-openstack",
+      "type": 2,
+      "format": 2,
+      "size": "330M",
+      "os": 1,
+      "file": "/aaa/bbbb/cccc/ubuntu20.04.openstack",
+      "created": "2022-03-06 21:03:11"
     },
     {
       "id": 3,
-      "aaaa": 333,
-      "bbbb": 444
+      "name": "Ubuntu18.04-baremetal",
+      "type": 1,
+      "format": 3,
+      "size": 52536,
+      "os": 2,
+      "file": "blob:http://localhost:3000/c918e282-4386-45cf-9e6b-1d4dd5a0b92c",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 4,
+      "name": "Ubuntu18.04-opentstack",
+      "type": 2,
+      "format": 4,
+      "size": "330M",
+      "os": 2,
+      "file": "/aaa/bbbb/cccc/ubuntu18.04.openstack",
+      "created": "2022-03-06 21:03:11"
     }
   ]
 }

@@ -23,7 +23,7 @@ const props = defineProps({
 const itemClass = computed(() => [useAttrs().class /*{ 'p-invalid': props.modelValue.$invalid } */]);
 const errorMessages = computed(() => {
   props.modelValue.$touch();
-  return props.modelValue.$errors.map((err) => err.$message.replace("Value", props.fieldName)).join(",");
+  return props.modelValue.$errors.map((err) => err.$message.replace(/Value|The value|This field/g, props.fieldName)).join(",");
 });
 </script>
 

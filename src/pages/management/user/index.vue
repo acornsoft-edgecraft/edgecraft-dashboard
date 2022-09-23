@@ -26,22 +26,22 @@
               <span>Email: </span>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
-                <K3InputText class="flex mr-2" v-model="(UI.tableSettings.filters.value as any).email.value" placeholder="Search" autofocus />
+                <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).email.value" placeholder="Search" autofocus />
               </span>
               <span>Name: </span>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
-                <K3InputText class="flex mr-2" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" autofocus />
+                <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" autofocus />
               </span>
               <span>Role: </span>
-              <K3Dropdown v-model="selectedUserRole" :options="UserRolesMap(true)" :optionLabel="'name'" :optionValue="'value'" @change="statusSelected" />
+              <K3Dropdown v-model="selectedUserRole" :options="UserRolesMap(true)" :optionLabel="'name'" :optionValue="'value'" @change="userRoleSelected" class="w-10rem" />
             </div>
             <div class="search-right toggle flex align-content-center">
-              <K3MultiSelect :modelValue="selectedColumns" class="flex mr-2" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" style="width: 20em" />
-              <NuxtLink :to="`/management/user/register`">
-                <K3Button label="사용자 등록"></K3Button>
+              <K3MultiSelect :modelValue="selectedColumns" class="flex w-18rem" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" />
+              <NuxtLink to="/management/user/register">
+                <K3Button label="사용자 등록" />
               </NuxtLink>
-              <K3Button label="사용자 삭제" class="p-button-danger ml-2" @click="onDelete" />
+              <K3Button label="사용자 삭제" class="p-button-danger" @click="onDelete" />
             </div>
           </div>
         </template>
@@ -54,7 +54,7 @@
           </div>
         </template>
         <K3Column selection-mode="multiple" header-style="min-width: 5%" body-style="min-width: 5%"></K3Column>
-        <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
+        <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
             <NuxtLink v-if="slotProps.field == 'email'" :to="`/management/user/register/${slotProps.data.id}`">{{ slotProps.data.email }}</NuxtLink>
             <span v-if="slotProps.field == 'name'">{{ slotProps.data.name }}</span>
@@ -111,7 +111,7 @@ UI.tableSettings.initFilters({
   role: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
-const statusSelected = (event) => {
+const userRoleSelected = (event) => {
   if (event.value == 0) event.value = null;
   (UI.tableSettings.filters.value as any).role.value = event.value;
 };
@@ -130,7 +130,7 @@ const onDelete = () => {
   UI.showConfirm(
     MessageTypes.ERROR,
     "사용자 삭제",
-    `총 ${item.length} 명의 선택한 사용자를 삭제하시겠습니까?`,
+    `총 ${item.length} 명의 사용자를 삭제하시겠습니까?`,
     () => {
       // TODO: call api
       const selected = item.map((i) => i.id);
@@ -156,6 +156,16 @@ onMounted(() => {
     .p-datatable-header {
       border-top: none;
     }
+  }
+}
+.search-left {
+  span:not(:first-child) {
+    margin-left: 0.5rem;
+  }
+}
+.search-right {
+  .p-button {
+    margin-left: 0.5rem;
   }
 }
 </style>

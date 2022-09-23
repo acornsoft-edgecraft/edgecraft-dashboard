@@ -7,8 +7,8 @@
 
 <script setup lang="ts">
 // imports
-import EtcdInfo from "../cloud/etcd-info.vue";
-import StorageInfo from "../cloud/storage-info.vue";
+import EtcdInfo from "~/partialViews/cloud/etcd-info.vue";
+import StorageInfo from "~/partialViews/cloud/storage-info.vue";
 
 const { UI } = useAppHelper();
 // Page meta

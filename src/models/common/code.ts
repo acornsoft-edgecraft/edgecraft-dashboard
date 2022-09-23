@@ -48,3 +48,13 @@ export enum UserRoles {
   Manager = "Manager",
   User = "User",
 }
+
+export enum ImageTypes {
+  "Baremetal Cloud" = 1,
+  "Openstack Cluster" = 2,
+}
+
+export enum ImageOsTypes {
+  "Ubuntu 20.04" = 1,
+  "Ubuntu 18.04" = 2,
+}

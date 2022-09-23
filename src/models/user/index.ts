@@ -1,11 +1,11 @@
-import { required, email, minLength, maxLength, alphaNum } from "@vuelidate/validators";
+import { required, email, minLength, maxLength, alphaNum, PasswordRequirement } from "~/models/common/validators";
 import { UserRoles } from "~/models";
 
 export interface userInfo {
   email: String;
   name: String;
   password: String;
-  role: String;
+  role: UserRoles;
 }
 
 export const defaultUserInfo: userInfo = {
@@ -18,7 +18,7 @@ export const defaultUserInfo: userInfo = {
 export const defaultUserInfoValidation = {
   email: { required, email, maxLength: maxLength(100) },
   name: { required, minLength: minLength(3), maxLength: maxLength(100), alphaNum },
-  password: { required, minLength: minLength(8), maxLength: maxLength(100) },
+  password: { required, minLength: minLength(8), maxLength: maxLength(100), PasswordRequirement },
   role: { required },
 };
 

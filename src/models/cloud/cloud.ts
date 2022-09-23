@@ -1,5 +1,5 @@
 import { required, minLength, maxLength, alphaNum } from "@vuelidate/validators";
-import { CloudTypes, CloudStatus } from "../common";
+import { CloudTypes, CloudStatus } from "~/models";
 
 export const CloudTypesMap = (addAll: boolean = false, allValue: any = 0) => {
   if (addAll) {
@@ -24,7 +24,7 @@ export interface cloudInfo {
 }
 
 export const defaultCloudInfo: cloudInfo = {
-  name: "ff",
+  name: "",
   type: CloudTypes.Baremetal,
   desc: "",
 };

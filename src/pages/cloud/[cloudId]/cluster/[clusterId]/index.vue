@@ -50,13 +50,13 @@
       <K3Card>
         <template #title>노드 정보</template>
         <template #content>
-          <NodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.MASTER" @add-nodeset="addNodeset" />
-          <NodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.WORKER" @add-nodeset="addNodeset" />
+          <BizClusterNodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.MASTER" @add-nodeset="addNodeset" />
+          <BizClusterNodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.WORKER" @add-nodeset="addNodeset" />
         </template>
       </K3Card>
 
-      <DClusterNodeset v-model="clusterNodeset" @close="close" @ok="ok" />
-      <DK8sUpgrade v-model="k8sUpgrade" @close="close" @upgrade="upgrade" />
+      <BizDialogsClusterNodeset v-model="clusterNodeset" @close="close" @ok="ok" />
+      <BizDialogsK8sUpgrade v-model="k8sUpgrade" @close="close" @upgrade="upgrade" />
       <div class="flex justify-content-end button-wrapper">
         <NuxtLink :to="list">
           <K3Button label="클러스터 목록" class="p-button-secondary" />
@@ -69,9 +69,6 @@
 
 <script setup lang="ts">
 // imports
-import NodesetInfo from "~/components/biz/cluster/nodeset-info.vue";
-import DClusterNodeset from "~/components/biz/dialogs/cluster-nodeset.vue";
-import DK8sUpgrade from "~/components/biz/dialogs/k8s-upgrade.vue";
 import { CloudStatus, K8sVersions, NodeTypes, MessageTypes } from "~/models";
 // Page meta
 definePageMeta({ layout: "default", title: "클라우드 클러스터 상세", public: true });
@@ -150,7 +147,7 @@ onMounted(() => {
   }
 }
 
-::v-deep(.dark-demo-terminal) {
+.dark-demo-terminal {
   background-color: #212121;
   color: #ffffff;
   min-height: 200px;
