@@ -1,9 +1,9 @@
 <template>
-  <div class="flex justify-content-end button-wrapper" v-if="type === NodeTypes.WORKER">
+  <div class="flex justify-content-end button-wrapper" v-if="type === NodeTypes.Worker">
     <K3Button label="Add WorkerSet" @click="addNodeSet" />
   </div>
   <K3Panel :header="`${type}Set`" v-for="(item, index) in modelValue" :key="index" :toggleable="true">
-    <template #icons v-if="type === NodeTypes.WORKER">
+    <template #icons v-if="type === NodeTypes.Worker">
       <K3Button class="p-panel-header-icon p-link text-danger" @click="removeNodeset(index, item)">
         <span class="pi pi-trash"></span>
       </K3Button>
@@ -54,7 +54,7 @@ import { MessageTypes, NodeTypes } from "~/models";
 // Props
 const props = defineProps({
   modelValue: { type: Object, required: true },
-  type: { type: String, default: NodeTypes.MASTER },
+  type: { type: Number, default: NodeTypes.Master },
 });
 // Emits
 const emits = defineEmits(["add-nodeset"]);

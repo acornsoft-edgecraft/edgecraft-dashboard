@@ -50,8 +50,8 @@
       <K3Card>
         <template #title>노드 정보</template>
         <template #content>
-          <BizClusterNodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.MASTER" @add-nodeset="addNodeset" />
-          <BizClusterNodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.WORKER" @add-nodeset="addNodeset" />
+          <BizClusterNodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" @add-nodeset="addNodeset" />
+          <BizClusterNodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" @add-nodeset="addNodeset" />
         </template>
       </K3Card>
 

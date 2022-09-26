@@ -35,11 +35,11 @@ import { MessageTypes, NodeTypes } from "~/models";
 const { UI } = useAppHelper();
 const props = defineProps({
   modelValue: { type: Object, default: {} },
-  type: { type: String, default: NodeTypes.MASTER },
+  type: { type: Number, default: NodeTypes.Master },
 });
 const emits = defineEmits(["add-node"]);
 
-const removable = (index) => !(props.type == NodeTypes.MASTER && index < 1);
+const removable = (index) => !(props.type == NodeTypes.Master && index < 1);
 
 const addNode = () => {
   emits("add-node", { type: props.type, display: true });

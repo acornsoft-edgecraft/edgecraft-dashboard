@@ -5,7 +5,7 @@
       "password": "$2a$10$5bfT9ZFSAPIhurNis7S7nevBYuEJzRBgu8L/eg/Nns2HIUqJr7EdS",
       "id": 1,
       "name": "ccambo",
-      "role": "Admin",
+      "role": 1,
       "created": "2022-03-03 15:33:04"
     },
     {
@@ -13,7 +13,7 @@
       "password": "$2a$10$5bfT9ZFSAPIhurNis7S7nevBYuEJzRBgu8L/eg/Nns2HIUqJr7EdS",
       "id": 2,
       "name": "sunmi",
-      "role": "Admin",
+      "role": 1,
       "created": "2022-03-03 11:22:22"
     },
     {
@@ -21,7 +21,7 @@
       "password": "$2a$10$5bfT9ZFSAPIhurNis7S7nevBYuEJzRBgu8L/eg/Nns2HIUqJr7EdS",
       "id": 3,
       "name": "test",
-      "role": "User",
+      "role": 3,
       "created": "2022-03-03 15:33:04"
     },
     {
@@ -29,14 +29,14 @@
       "password": "$2a$10$5bfT9ZFSAPIhurNis7S7nevBYuEJzRBgu8L/eg/Nns2HIUqJr7EdS",
       "id": 4,
       "name": "asdf",
-      "role": "Manager",
+      "role": 2,
       "created": "2022-03-03 11:22:22"
     },
     {
       "email": "111@aaa.com",
       "password": "$2a$10$PiHFcFZxyUKYgPNPRkNSOOjPJyINegXFnFIIaGk1CVs8hhsCLbhD.",
       "name": "asdfasf",
-      "role": "User",
+      "role": 3,
       "id": 5
     }
   ],
@@ -53,7 +53,7 @@
       "name": "Non-profit charity...",
       "status": 3,
       "nodeCount": 6,
-      "version": "1.23.0",
+      "version": 2,
       "created": "2022-03-02 12:12:12"
     },
     {
@@ -62,7 +62,7 @@
       "name": "Search for company logos and embed them in your project.",
       "status": 1,
       "nodeCount": 7,
-      "version": "1.23.0",
+      "version": 2,
       "created": "2022-03-03 15:33:04"
     },
     {
@@ -71,7 +71,7 @@
       "name": "Registered Domain Names Search",
       "status": 2,
       "nodeCount": 3,
-      "version": "1.23.0",
+      "version": 2,
       "created": "2022-03-04 14:44:44"
     },
     {
@@ -80,7 +80,7 @@
       "name": "Flexible, RESTful access to the user's inbox",
       "status": 3,
       "nodeCount": 6,
-      "version": "1.22.0",
+      "version": 1,
       "created": "2022-03-06 21:03:11"
     },
     {
@@ -89,14 +89,14 @@
       "name": "Collect configure and analyze your data to reach the right audience",
       "status": 1,
       "nodeCount": 6,
-      "version": "1.23.0",
+      "version": 2,
       "created": "2022-03-08 11:11:55"
     }
   ],
   "user": {
     "userInfo": {
       "name": "Morris Chang",
-      "role": "admin"
+      "role": 1
     },
     "menuInfo": [
       {
@@ -146,7 +146,7 @@
   },
   "cloud": [
     {
-      "id": 1,
+      "id": 4,
       "cloud": {
         "name": "testtesttest",
         "type": 1,
@@ -288,7 +288,7 @@
       "name": "openstack cluster 1111",
       "status": 3,
       "nodeCount": 6,
-      "version": "1.23.0",
+      "version": 2,
       "created": "2022-03-02 12:12:12"
     },
     {
@@ -296,7 +296,7 @@
       "name": "openstack cluster 22222",
       "status": 1,
       "nodeCount": 7,
-      "version": "1.23.0",
+      "version": 2,
       "created": "2022-03-03 15:33:04"
     },
     {
@@ -304,7 +304,7 @@
       "name": "openstack cluster 33333",
       "status": 2,
       "nodeCount": 3,
-      "version": "1.23.0",
+      "version": 2,
       "created": "2022-03-04 14:44:44"
     },
     {
@@ -312,7 +312,7 @@
       "name": "openstack cluster 44444",
       "status": 3,
       "nodeCount": 6,
-      "version": "1.22.0",
+      "version": 1,
       "created": "2022-03-06 21:03:11"
     },
     {
@@ -320,7 +320,7 @@
       "name": "openstack cluster 55555",
       "status": 1,
       "nodeCount": 6,
-      "version": "1.23.0",
+      "version": 2,
       "created": "2022-03-08 11:11:55"
     }
   ],
@@ -372,21 +372,21 @@
               {
                 "name": "os-cluster-cp-0-jdkwf",
                 "status": "",
-                "version": "1.23.0",
+                "version": 2,
                 "os_image": "ubuntu 20.04",
                 "container_runtime": "containerd://1.4.3"
               },
               {
                 "name": "os-cluster-cp-0-29djf",
                 "status": "",
-                "version": "1.23.0",
+                "version": 2,
                 "os_image": "ubuntu 20.04",
                 "container_runtime": "containerd://1.4.3"
               },
               {
                 "name": "os-cluster-cp-0-dsdfas",
                 "status": "",
-                "version": "1.23.0",
+                "version": 2,
                 "os_image": "ubuntu 20.04",
                 "container_runtime": "containerd://1.4.3"
               }
@@ -409,21 +409,21 @@
               {
                 "name": "os-cluster-wk-0-fewet",
                 "status": "",
-                "version": "1.23.0",
+                "version": 2,
                 "os_image": "ubuntu 20.04",
                 "container_runtime": "containerd://1.4.3"
               },
               {
                 "name": "os-cluster-wk-0-7dfew",
                 "status": "",
-                "version": "1.23.0",
+                "version": 2,
                 "os_image": "ubuntu 20.04",
                 "container_runtime": "containerd://1.4.3"
               },
               {
                 "name": "os-cluster-wk-0-f2efs",
                 "status": "",
-                "version": "1.23.0",
+                "version": 2,
                 "os_image": "ubuntu 20.04",
                 "container_runtime": "containerd://1.4.3"
               }
@@ -444,21 +444,21 @@
               {
                 "name": "os-cluster-wk-1-kuwiw",
                 "status": "",
-                "version": "1.23.0",
+                "version": 2,
                 "os_image": "ubuntu 20.04",
                 "container_runtime": "containerd://1.4.3"
               },
               {
                 "name": "os-cluster-wk-1-k729d",
                 "status": "",
-                "version": "1.23.0",
+                "version": 2,
                 "os_image": "ubuntu 20.04",
                 "container_runtime": "containerd://1.4.3"
               },
               {
                 "name": "os-cluster-wk-1-mqod0",
                 "status": "",
-                "version": "1.23.0",
+                "version": 2,
                 "os_image": "ubuntu 20.04",
                 "container_runtime": "containerd://1.4.3"
               }
@@ -623,4 +623,3 @@
       "created": "2022-03-06 21:03:11"
     }
   ]
-}

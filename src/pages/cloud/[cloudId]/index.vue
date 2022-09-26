@@ -53,8 +53,8 @@
       <K3Card v-if="provisioned">
         <template #title>노드 정보</template>
         <template #content>
-          <BizCloudNodeList :type="NodeTypes.MASTER" v-model="cloud.nodes.master_nodes" @add-node="addNode" />
-          <BizCloudNodeList :type="NodeTypes.WORKER" v-model="cloud.nodes.worker_nodes" @add-node="addNode" />
+          <BizCloudNodeList :type="NodeTypes.Master" v-model="cloud.nodes.master_nodes" @add-node="addNode" />
+          <BizCloudNodeList :type="NodeTypes.Worker" v-model="cloud.nodes.worker_nodes" @add-node="addNode" />
         </template>
       </K3Card>
 
@@ -129,9 +129,9 @@ const ok = (val) => {
   cloudNode.value.display = false;
 
   let nodes;
-  if (val.type == NodeTypes.MASTER) {
+  if (val.type == NodeTypes.Master) {
     nodes = cloud.value.nodes.master_nodes;
-  } else if (val.type == NodeTypes.WORKER) {
+  } else if (val.type == NodeTypes.Worker) {
     nodes = cloud.value.nodes.worker_nodes;
   }
   nodes.push(val.item);
