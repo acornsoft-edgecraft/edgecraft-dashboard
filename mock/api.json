@@ -622,4 +622,47 @@
       "file": "/aaa/bbbb/cccc/ubuntu18.04.openstack",
       "created": "2022-03-06 21:03:11"
     }
+  ],
+  "securities": [
+    {
+      "id": 1,
+      "status": 2,
+      "result": "65 / 65 / 0",
+      "executed": "2022-09-03T12:12:12Z",
+      "cloud_name": "cloud1111",
+      "items": {}
+    },
+    {
+      "id": 2,
+      "status": 3,
+      "result": "65 / 65 / 2",
+      "executed": "2022-09-04T12:12:12Z",
+      "cloud_name": "cloud2222",
+      "items": {}
+    },
+    {
+      "id": 3,
+      "status": 2,
+      "result": "65 / 65 / 0",
+      "executed": "2022-09-05T12:12:12Z",
+      "cloud_name": "cloud3333",
+      "items": {}
+    },
+    {
+      "id": 4,
+      "status": 1,
+      "result": "65 / 65 / 0",
+      "executed": "2022-09-06T12:12:12Z",
+      "cloud_name": "cloud4444",
+      "items": {}
+    },
+    {
+      "id": 5,
+      "status": 2,
+      "result": "65 / 65 / 0",
+      "executed": "2022-09-07T12:12:12Z",
+      "cloud_name": "cloud5555",
+      "items": {}
+    }
   ]
+}
