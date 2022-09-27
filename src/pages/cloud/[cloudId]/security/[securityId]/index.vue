@@ -26,7 +26,9 @@
       <K3Card>
         <template #title>보안검증 세부항목</template>
         <template #content>
-          <BizSecurityTreeTable :items="security.items" :columns="columns" :expand-btns="true" :showExpandAll="true" :scrollable="true" scrollHeight="600px" />
+          <BizSecurityTreeTable :items="security.items" :columns="columns" :expand-btns="true" :showExpandAll="true" :scrollable="true" scrollHeight="600px">
+            <template #result="slotProps"> {{ SecurityItemStatus[slotProps.item] }} </template>
+          </BizSecurityTreeTable>
         </template>
       </K3Card>
 
@@ -35,6 +37,7 @@
           <K3Button label="보안검증결과 목록" class="p-button-secondary" />
         </NuxtLink>
       </div>
+      <K3Overlay :active="isFetch" loader="bars" background-color="#830205" />
     </section>
   </div>
 </template>
@@ -57,7 +60,7 @@ const { security, isFetch, fetch } = useSecurityService().getSecurity();
 const columns = ref([
   { field: "cis_id", header: "CIS ID", expander: true, headerStyle: { "min-width": "12%" } },
   { field: "recommendation", header: "Recommendation description", headerStyle: { "min-width": "80%" } },
-  { field: "result", header: "Result", headerStyle: { "min-width": "8%" } },
+  { field: "result", header: "Result", headerStyle: { "min-width": "8%" }, hasSlot: true },
 ]);
 
 // Compputed

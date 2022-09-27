@@ -45,7 +45,6 @@
         </template>
         <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
-            <span v-if="slotProps.field == 'id'">{{ slotProps.data.id }}</span>
             <NuxtLink v-if="slotProps.field == 'executed'" :to="`/cloud/${cloudId}/security/${slotProps.data.id}`">{{ slotProps.data.executed }}</NuxtLink>
             <span v-if="slotProps.field == 'status'">{{ SecurityStatus[slotProps.data.status] }}</span>
             <span v-if="slotProps.field == 'result'">{{ slotProps.data.result }}</span>
@@ -85,7 +84,6 @@ const selectedItem = ref();
 const selectedStatus = ref(0);
 const selectedExecuted = ref({ startDate: null, endDate: null });
 const columns = ref([
-  { field: "id", header: "id", sortable: true },
   { field: "executed", header: "실행일", sortable: true },
   { field: "status", header: "상태", sortable: true },
   { field: "result", header: "결과", sortable: true },

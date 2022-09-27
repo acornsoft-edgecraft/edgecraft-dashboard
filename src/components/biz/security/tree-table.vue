@@ -9,7 +9,12 @@
         <p class="text-orange-500">No records found.</p>
       </div>
     </template>
-    <K3Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" :expander="col.expander" :style="col.headerStyle" />
+
+    <K3Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header" :expander="col.expander" :style="col.headerStyle">
+      <template #body="slotProps" v-if="col.hasSlot">
+        <slot :name="col.field" :item="slotProps.node.data[col.field]" />
+      </template>
+    </K3Column>
   </K3TreeTable>
 </template>
 <script setup lang="ts">
