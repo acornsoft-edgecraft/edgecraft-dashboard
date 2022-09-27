@@ -2,7 +2,7 @@
   <div class="flex justify-content-end button-wrapper" v-if="type === NodeTypes.Worker">
     <K3Button label="Add WorkerSet" @click="addNodeSet" />
   </div>
-  <K3Panel :header="`${type}Set`" v-for="(item, index) in modelValue" :key="index" :toggleable="true">
+  <K3Panel :header="`${NodeTypes[type]}Set`" v-for="(item, index) in modelValue" :key="index" :toggleable="true">
     <template #icons v-if="type === NodeTypes.Worker">
       <K3Button class="p-panel-header-icon p-link text-danger" @click="removeNodeset(index, item)">
         <span class="pi pi-trash"></span>
@@ -35,7 +35,7 @@
         </K3FormColumn>
       </K3FormRow>
     </K3FormContainer>
-    <K3Divider align="left">{{ type }} Nodes</K3Divider>
+    <K3Divider align="left">{{ NodeTypes[type] }} Nodes</K3Divider>
     <K3DataTable :value="item.nodes">
       <K3Column field="name" header="Node Name"></K3Column>
       <K3Column field="status" header="Status"></K3Column>

@@ -1,5 +1,5 @@
 <template>
-  <K3Dialog :header="`Cloud ${modelValue.type} Node 등록`" v-model:visible="modelValue.display" :modal="true" :style="{ width: '50vw' }" @hide="onHide">
+  <K3Dialog :header="`Cloud ${NodeTypes[modelValue.type]} Node 등록`" v-model:visible="modelValue.display" :modal="true" :style="{ width: '50vw' }" @hide="onHide">
     <K3FormContainer class="no-style">
       <K3FormRow class="no-bg-row">
         <K3Divider align="left">Baremetal Host</K3Divider>
@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { MessageTypes, BootModesMap, defaultBaremetalHostInfoValidation, defaultNodeInfoValidation, defaultBaremetalHostInfo, defaultNodeInfo } from "~/models";
+import { NodeTypes, MessageTypes, BootModesMap, defaultBaremetalHostInfoValidation, defaultNodeInfoValidation, defaultBaremetalHostInfo, defaultNodeInfo } from "~/models";
 
 const { UI, Util } = useAppHelper();
 

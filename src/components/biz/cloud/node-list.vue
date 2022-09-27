@@ -1,5 +1,5 @@
 <template>
-  <K3Panel :header="`${type} Nodes`">
+  <K3Panel :header="`${NodeTypes[type]} Nodes`">
     <template #icons>
       <K3Button icon="pi pi-plus" @click="addNode" />
     </template>

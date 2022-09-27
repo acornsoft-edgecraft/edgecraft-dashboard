@@ -16,10 +16,10 @@
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
-        <NodesInfo class="mt-5" :type="NodeTypes.MASTER" v-model="modelValue.nodes.master_nodes" validate="v$.master_nodes" />
+        <NodesInfo class="mt-5" :type="NodeTypes.Master" v-model="modelValue.nodes.master_nodes" validate="v$.master_nodes" />
       </K3FormRow>
       <K3FormRow>
-        <NodesInfo class="mt-5" :type="NodeTypes.WORKER" v-model="modelValue.nodes.worker_nodes" validate="v$.worker_nodes" />
+        <NodesInfo class="mt-5" :type="NodeTypes.Worker" v-model="modelValue.nodes.worker_nodes" validate="v$.worker_nodes" />
       </K3FormRow>
     </K3FormContainer>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="p-card w-full">
-    <K3Panel :header="`${type} Nodes`" :toggleable="true">
+    <K3Panel :header="`${NodeTypes[type]} Nodes`" :toggleable="true">
       <template #icons>
         <K3Button icon="pi pi-plus" class="mr-2" @click="addNode" />
       </template>
@@ -15,12 +15,12 @@
                 <K3FormInputField v-model="v.baremetal.host_name" field-name="Host Name" class="w-full" />
               </K3FormColumn>
               <K3FormColumn label="BMC Address" label-align="right" :size="6">
-                <K3FormInputField v-model="v.baremetal.bmc_address" field-name="BMC Address" class="w-full" />
+                <K3FormInputField v-model="v.baremetal.bmc_address" field-name="BMC Address" class="w-full" placeholder="예) 98:03:9b:61:80:48" />
               </K3FormColumn>
             </K3FormRow>
             <K3FormRow direction="horizontal" :overflow-wrap="true">
               <K3FormColumn label="Boot MAC Address" label-align="right" :size="6">
-                <K3FormInputField v-model="v.baremetal.boot_mac_address" field-name="Boot MAC Address" class="w-full" />
+                <K3FormInputField v-model="v.baremetal.boot_mac_address" field-name="Boot MAC Address" class="w-full" placeholder="예) 00:b2:8c:ee:22:98" />
               </K3FormColumn>
               <K3FormColumn label="Boot Mode" label-align="right" :size="6">
                 <K3FormDropdownField v-model="v.baremetal.boot_mode" field-name="Boot Mode" :options="BootModesMap()" :optionLabel="'name'" :optionValue="'value'" class="w-8" />
@@ -65,7 +65,7 @@
 <script setup lang="ts">
 import useVuelidate from "@vuelidate/core";
 
-import { BootModesMap, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation, defaultNodeInfo, defaultNodeInfoValidation } from "~/models";
+import { NodeTypes, BootModesMap, defaultBaremetalHostInfo, defaultBaremetalHostInfoValidation, defaultNodeInfo, defaultNodeInfoValidation } from "~/models";
 
 const { Util } = useAppHelper();
 
@@ -73,7 +73,7 @@ const v = useVuelidate();
 
 const props = defineProps({
   modelValue: { type: Array<any>, default: [] },
-  type: { type: String, default: "Master" },
+  type: { type: Number, default: NodeTypes.Master },
 });
 
 const data = reactive(props.modelValue);

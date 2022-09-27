@@ -1,6 +1,6 @@
 <template>
   <div class="p-card w-full mt-3">
-    <K3Panel :header="`${type}Set`">
+    <K3Panel :header="`${NodeTypes[type]}Set`">
       <template #icons v-if="type === NodeTypes.Worker">
         <K3Button icon="pi pi-plus" class="mr-2" @click="addNodeSet" />
       </template>
