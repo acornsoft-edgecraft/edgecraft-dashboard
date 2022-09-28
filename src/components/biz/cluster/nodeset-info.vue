@@ -21,7 +21,7 @@
             <K3Button label="변경" @click="changeNodeCount(index, item)" />
           </template>
           <template v-if="showEditNodeCnt[index]">
-            <K3InputNumber v-model="item.node_count" @input="changeValue" :min="1" :max="100" show-buttons mode="decimal" field-name="Node Count" input-id="node_count" :allowEmpty="false" />
+            <K3InputNumber v-model="item.node_count" @input="changeValue" :min="1" :max="100" show-buttons mode="decimal" field-name="Node Count" input-id="node_count" :allowEmpty="false" input-class="w-6rem" />
             <K3Button label="수정" icon="pi pi-check" @click="saveNodeCount(index)" />
             <K3Button label="취소" icon="pi pi-times" class="p-button-secondary" @click="cancelNodeCount(index, item)" />
           </template>
@@ -30,7 +30,7 @@
       <K3FormRow>
         <K3FormColumn label="Labels" label-align="right">
           <template v-for="(label, i) in item.labels" :key="i">
-            <K3Chip :label="`${label.key}=${label.value}`" />
+            <K3Chip :label="Util.getLabel(label)" />
           </template>
         </K3FormColumn>
       </K3FormRow>
@@ -59,7 +59,7 @@ const props = defineProps({
 // Emits
 const emits = defineEmits(["add-nodeset"]);
 // Properties
-const { UI } = useAppHelper();
+const { UI, Util } = useAppHelper();
 
 const showEditNodeCnt = ref([] as any);
 const originNodeCnt = ref([] as any);

@@ -9,12 +9,12 @@
       </K3FormRow>
       <K3FormRow>
         <K3FormColumn label="POD CIDR" label-align="right">
-          <K3FormInputField v-model="v$.pod_cidr" field-name="POD CIDR" class="w-6" />
+          <K3FormInputField v-model="v$.pod_cidr" field-name="POD CIDR" class="w-6" placeholder="예) 192.168.0.0/16" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
         <K3FormColumn label="Service CIDR" label-align="right">
-          <K3FormInputField v-model="v$.svc_cidr" field-name="Service CIDR" class="w-6" />
+          <K3FormInputField v-model="v$.svc_cidr" field-name="Service CIDR" class="w-6" placeholder="예) 192.168.0.0/16" />
         </K3FormColumn>
       </K3FormRow>
     </K3FormContainer>

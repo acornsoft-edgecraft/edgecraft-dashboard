@@ -95,7 +95,7 @@
               <K3FormRow>
                 <K3FormColumn label="Labels" label-align="right">
                   <template v-for="(item, i) in node.labels" :key="i">
-                    <K3Chip :label="`${item.key}=${item.value}`" />
+                    <K3Chip :label="Util.getLabel(item)" />
                   </template>
                 </K3FormColumn>
               </K3FormRow>
@@ -120,7 +120,7 @@
               <K3FormRow>
                 <K3FormColumn label="Labels" label-align="right">
                   <template v-for="(item, i) in node.labels" :key="i">
-                    <K3Chip :label="`${item.key}=${item.value}`" />
+                    <K3Chip :label="Util.getLabel(item)" />
                   </template>
                 </K3FormColumn>
               </K3FormRow>
@@ -169,6 +169,8 @@
 <script setup lang="ts">
 // imports
 import { K8sVersions } from "~/models";
+
+const { Util } = useAppHelper();
 // Page meta
 
 // Props

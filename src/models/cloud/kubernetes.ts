@@ -17,8 +17,8 @@ export interface kubernetesInfo {
 
 export const defaultKubernetesInfo: kubernetesInfo = {
   version: K8sVersions["1.23.0"],
-  pod_cidr: "10.244.0.0/16",
-  svc_cidr: "10.244.0.0/16",
+  pod_cidr: "",
+  svc_cidr: "",
 };
 
 export const defaultKubernetesInfoValidation = {

@@ -77,21 +77,21 @@ const ok = () => {
   v.value.$touch();
 
   if (v.value.$invalid) {
-    UI.showMessage(MessageTypes.WARN, "필수항목 검증", "필수 항목을 모두 입력하셔야 합니다.");
+    // UI.showMessage(MessageTypes.WARN, "필수항목 검증", "필수 항목을 모두 입력하셔야 합니다.");
   } else {
     emits("ok", { item: Util.clone(data.value), type: props.modelValue.type });
   }
 };
 const onHide = () => {
-  console.log("onHide");
   emits("close");
-  clearItem();
+  init();
 };
-const clearItem = () => {};
+const init = () => {
+  data.value = { baremetal: Util.clone(defaultBaremetalHostInfo), node: Util.clone(defaultNodeInfo) };
+};
 
 onMounted(() => {
-  console.log("onMounted");
-  data.value = { baremetal: Util.clone(defaultBaremetalHostInfo), node: Util.clone(defaultNodeInfo) };
+  init();
 });
 </script>
 

@@ -19,9 +19,9 @@ export interface baremetalHostInfo {
 }
 
 export const defaultBaremetalHostInfo = {
-  host_name: "sadf",
-  bmc_address: "98:03:9b:61:80:48",
-  boot_mac_address: "00:b2:8c:ee:22:98",
+  host_name: "",
+  bmc_address: "",
+  boot_mac_address: "",
   boot_mode: BootModes.UEFI,
   online_power: false,
   external_provisioning: false,

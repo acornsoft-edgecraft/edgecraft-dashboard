@@ -48,11 +48,11 @@ export interface baremetalInfo {
 }
 
 export const defaultBaremetalInfo: baremetalInfo = {
-  secret_name: "secret1",
-  user_name: "asdf",
-  password: "asdf",
-  image_url: "http://192.168.0.1/ubuntu.qcow2",
-  image_checksum: "http://192.168.0.1/ubuntu.qcow2.md5sum",
+  secret_name: "",
+  user_name: "",
+  password: "",
+  image_url: "",
+  image_checksum: "",
   image_checksum_type: ImageChecksumTypes.md5,
   image_format: ImageFormats.qcow2,
   cp_kubeadm_extra_config: defaultKubeadmExtraConfig,
