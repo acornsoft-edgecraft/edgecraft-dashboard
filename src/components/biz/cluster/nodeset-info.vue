@@ -1,8 +1,8 @@
 <template>
   <div class="flex justify-content-end button-wrapper" v-if="type === NodeTypes.Worker">
-    <K3Button label="Add WorkerSet" @click="addNodeSet" />
+    <K3Button label="Add WorkerSet" icon="pi pi-plus" @click="addNodeSet" />
   </div>
-  <K3Panel :header="`${NodeTypes[type]}Set`" v-for="(item, index) in modelValue" :key="index" :toggleable="true">
+  <K3Panel :header="`${NodeTypes[type]}Set`" v-for="(item, index) in modelValue" :key="index">
     <template #icons v-if="type === NodeTypes.Worker">
       <K3Button class="p-panel-header-icon p-link text-danger" @click="removeNodeset(index, item)">
         <span class="pi pi-trash"></span>
@@ -21,7 +21,7 @@
             <K3Button label="변경" @click="changeNodeCount(index, item)" />
           </template>
           <template v-if="showEditNodeCnt[index]">
-            <K3InputNumber v-model="item.node_count" @input="changeValue" :min="1" :max="100" show-buttons mode="decimal" field-name="Node Count" input-id="node_count" :allowEmpty="false" input-class="w-6rem" />
+            <K3InputNumber v-model="item.node_count" :min="1" :max="100" show-buttons mode="decimal" field-name="Node Count" input-id="node_count" :allowEmpty="false" input-class="w-6rem" />
             <K3Button label="수정" icon="pi pi-check" @click="saveNodeCount(index)" />
             <K3Button label="취소" icon="pi pi-times" class="p-button-secondary" @click="cancelNodeCount(index, item)" />
           </template>
@@ -78,9 +78,6 @@ const removeNodeset = (index, item) => {
   );
 };
 
-const changeValue = (event) => {
-  console.log("changeValue", event);
-};
 const addNodeSet = () => {
   emits("add-nodeset", { display: true });
 };
@@ -114,14 +111,18 @@ onMounted(() => {
     margin-left: 0.5rem;
   }
 }
-.p-panel:not(:first-child) {
-  margin-top: 1rem;
-}
-.p-panel-header-icon.p-panel-toggler.p-link {
-  span.pi.pi-minus:before {
-    content: "\e90f" !important;
+.p-panel {
+  :deep(.p-panel-header) {
+    padding: 1.25rem;
   }
 }
+.p-panel:not(:first-child) {
+  margin-top: 1rem;
+  :deep(.p-panel-header) {
+    padding: 0.75rem 1.25rem;
+  }
+}
+
 .button-wrapper {
   margin: 1.5rem 0 0 0;
 }

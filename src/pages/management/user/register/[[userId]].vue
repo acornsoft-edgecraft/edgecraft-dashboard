@@ -8,7 +8,7 @@
         <K3FormRow>
           <K3FormColumn label="Email" label-align="right">
             <K3FormInputField v-model="v$.email" field-name="Email" class="w-30rem" :disabled="existsEmail" />
-            <K3Button label="이메일 중복체크" @click="onCheckEmail" :disabled="existsEmail" />
+            <K3Button label="이메일 중복체크" @click="onCheckEmail" :disabled="existsEmail" class="align-self-start" />
           </K3FormColumn>
         </K3FormRow>
         <K3FormRow>

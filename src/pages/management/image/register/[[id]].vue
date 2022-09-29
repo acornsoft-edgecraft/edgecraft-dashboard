@@ -23,13 +23,17 @@
                 <K3Button label="변경" class="p-button-outlined" @click="onChangeImage" />
                 <K3Button label="취소" class="p-button-outlined p-button-secondary" @click="cancelChangeImage" v-if="editImage" />
               </div>
-              <div class="flex align-items-center w-full" v-if="imageId == 0 || editImage">
-                <K3FileUpload name="file[]" accept="image/*" :max-file-size="1000000000" :file-limit="1" @select="selectFile">
-                  <template #empty>
-                    <p>Drag and drop files to here to upload.</p>
-                  </template>
-                </K3FileUpload>
-                <span class="error-field basic label pointing error" v-if="v$.file.$invalid">Image File is required</span>
+              <div class="flex flex-column align-items-center w-full" v-if="imageId == 0 || editImage">
+                <div class="flex align-items-start w-full">
+                  <K3FileUpload name="file[]" accept="image/*" :max-file-size="1000000000" :file-limit="1" @select="selectFile">
+                    <template #empty>
+                      <p>Drag and drop files to here to upload.</p>
+                    </template>
+                  </K3FileUpload>
+                </div>
+                <div class="flex align-items-start w-full">
+                  <div class="error-field basic label pointing error" v-if="v$.file.$invalid">Image File is required</div>
+                </div>
               </div>
             </div>
           </K3FormColumn>

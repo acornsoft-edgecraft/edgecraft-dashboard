@@ -1,6 +1,6 @@
 <template>
   <div class="p-card w-full">
-    <K3Panel :header="`${NodeTypes[type]} Nodes`" :toggleable="true">
+    <K3Panel :header="`${NodeTypes[type]} Nodes`">
       <template #icons>
         <K3Button icon="pi pi-plus" class="mr-2" @click="addNode" />
       </template>

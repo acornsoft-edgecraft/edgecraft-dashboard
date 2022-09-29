@@ -26,10 +26,18 @@
               <K3FormColumn label="Cloud Desc" label-align="right">{{ cloud.cloud.desc }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
+              <K3FormColumn label="Created" label-align="right">{{ cloud.cloud.created }}</K3FormColumn>
+            </K3FormRow>
+          </K3FormContainer>
+          <K3FormContainer class="mt-2">
+            <K3FormRow>
               <K3FormColumn label="Kubernetes Version" label-align="right">{{ K8sVersions[cloud.cluster.k8s.version] }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
-              <K3FormColumn label="Created" label-align="right">{{ cloud.cloud.created }}</K3FormColumn>
+              <K3FormColumn label="POD CIDR" label-align="right">{{ cloud.cluster.k8s.pod_cidr }}</K3FormColumn>
+            </K3FormRow>
+            <K3FormRow>
+              <K3FormColumn label="Service CIDR" label-align="right">{{ cloud.cluster.k8s.svc_cidr }}</K3FormColumn>
             </K3FormRow>
           </K3FormContainer>
         </template>

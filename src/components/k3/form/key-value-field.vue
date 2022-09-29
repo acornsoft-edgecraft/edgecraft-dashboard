@@ -1,7 +1,9 @@
 <template>
   <div class="key-value-field flex flex-row justify-content-start align-items-center">
     <div class="chips flex-grow-1 flex-wrap">
-      <K3Chip v-for="(item, index) in modelValue.$model" :key="index" class="chip" :label="Util.getLabel(item)" />
+      <template v-for="(item, index) in modelValue.$model">
+        <K3Chip :label="Util.getLabel(item)" class="chip" v-if="item.key" />
+      </template>
     </div>
     <div class="flex-none">
       <K3Button :label="caption" @click="display = true" />
