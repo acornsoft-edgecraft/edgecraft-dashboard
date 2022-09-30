@@ -95,7 +95,7 @@
               </K3FormRow>
               <K3FormRow>
                 <K3FormColumn label="Boot MAC Address" label-align="right" :size="6">{{ node.baremetal.boot_mac_address }}</K3FormColumn>
-                <K3FormColumn label="Boot Mode" label-align="right" :size="6">{{ node.baremetal.boot_mode }}</K3FormColumn>
+                <K3FormColumn label="Boot Mode" label-align="right" :size="6">{{ BootModes[node.baremetal.boot_mode] }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
                 <K3FormColumn label="Online (power)" label-align="right" :size="6">{{ node.baremetal.online_power }}</K3FormColumn>
@@ -111,7 +111,7 @@
               <K3FormRow>
                 <K3FormColumn label="Labels" label-align="right">
                   <template v-for="(item, i) in node.node.labels" :key="i">
-                    <K3Chip :label="`${item.key}=${item.value}`" />
+                    <K3Chip :label="Util.getLabel(item)" />
                   </template>
                 </K3FormColumn>
               </K3FormRow>
@@ -130,7 +130,7 @@
               </K3FormRow>
               <K3FormRow>
                 <K3FormColumn label="Boot MAC Address" label-align="right" :size="6">{{ node.baremetal.boot_mac_address }}</K3FormColumn>
-                <K3FormColumn label="Boot Mode" label-align="right" :size="6">{{ node.baremetal.boot_mode }}</K3FormColumn>
+                <K3FormColumn label="Boot Mode" label-align="right" :size="6">{{ BootModes[node.baremetal.boot_mode] }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
                 <K3FormColumn label="Online (power)" label-align="right" :size="6">{{ node.baremetal.online_power }}</K3FormColumn>
@@ -146,7 +146,7 @@
               <K3FormRow>
                 <K3FormColumn label="Labels" label-align="right">
                   <template v-for="(item, i) in node.node.labels" :key="i">
-                    <K3Chip :label="`${item.key}=${item.value}`" class="mr-2" />
+                    <K3Chip :label="Util.getLabel(item)" />
                   </template>
                 </K3FormColumn>
               </K3FormRow>
@@ -196,8 +196,9 @@
 </template>
 
 <script setup lang="ts">
-import { CloudTypes, K8sVersions, ImageChecksumTypes, ImageFormats } from "~/models";
+import { CloudTypes, K8sVersions, ImageChecksumTypes, ImageFormats, BootModes } from "~/models";
 
+const { Util } = useAppHelper();
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });

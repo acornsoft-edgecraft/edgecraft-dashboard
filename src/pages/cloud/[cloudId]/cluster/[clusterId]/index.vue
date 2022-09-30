@@ -23,10 +23,18 @@
               <K3FormColumn label="Cluster Desc" label-align="right">{{ cluster.cluster.desc }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
+              <K3FormColumn label="Created" label-align="right">{{ cluster.cluster.created }}</K3FormColumn>
+            </K3FormRow>
+          </K3FormContainer>
+          <K3FormContainer class="mt-2">
+            <K3FormRow>
               <K3FormColumn label="Kubernetes Version" label-align="right">{{ K8sVersions[cluster.k8s.version] }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
-              <K3FormColumn label="Created" label-align="right">{{ cluster.cluster.created }}</K3FormColumn>
+              <K3FormColumn label="POD CIDR" label-align="right">{{ cluster.k8s.pod_cidr }}</K3FormColumn>
+            </K3FormRow>
+            <K3FormRow>
+              <K3FormColumn label="Service CIDR" label-align="right">{{ cluster.k8s.svc_cidr }}</K3FormColumn>
             </K3FormRow>
           </K3FormContainer>
         </template>
@@ -50,8 +58,8 @@
       <K3Card>
         <template #title>노드 정보</template>
         <template #content>
-          <BizClusterNodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.MASTER" @add-nodeset="addNodeset" />
-          <BizClusterNodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.WORKER" @add-nodeset="addNodeset" />
+          <BizClusterNodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" @add-nodeset="addNodeset" />
+          <BizClusterNodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" @add-nodeset="addNodeset" />
         </template>
       </K3Card>
 

@@ -1,0 +1,1450 @@
+[
+  {
+    "key": "1",
+    "data": {
+      "cis_id": "1",
+      "recommendation": "Control Plane Components",
+      "scoring_type": "",
+      "level": "",
+      "status": ""
+    },
+    "children": [
+      {
+        "key": "1.1",
+        "data": {
+          "cis_id": "1.1",
+          "recommendation": "Control Plane Node Configuration Files",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "1.1.1",
+            "data": {
+              "cis_id": "1.1.1",
+              "recommendation": "Ensure that the API server pod specification file permissions are set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.2",
+            "data": {
+              "cis_id": "1.1.2",
+              "recommendation": "Ensure that the API server pod specification file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.3",
+            "data": {
+              "cis_id": "1.1.3",
+              "recommendation": "Ensure that the controller manager pod specification file permissions are set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.4",
+            "data": {
+              "cis_id": "1.1.4",
+              "recommendation": "Ensure that the controller manager pod specification file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.5",
+            "data": {
+              "cis_id": "1.1.5",
+              "recommendation": "Ensure that the scheduler pod specification file permissions are set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.6",
+            "data": {
+              "cis_id": "1.1.6",
+              "recommendation": "Ensure that the scheduler pod specification file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.7",
+            "data": {
+              "cis_id": "1.1.7",
+              "recommendation": "Ensure that the etcd pod specification file permissions are set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.8",
+            "data": {
+              "cis_id": "1.1.8",
+              "recommendation": "Ensure that the etcd pod specification file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.9",
+            "data": {
+              "cis_id": "1.1.9",
+              "recommendation": "Ensure that the Container Network Interface file permissions are set to 644 or more restrictive",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.10",
+            "data": {
+              "cis_id": "1.1.10",
+              "recommendation": "Ensure that the Container Network Interface file ownership is set to root:root",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.11",
+            "data": {
+              "cis_id": "1.1.11",
+              "recommendation": "Ensure that the etcd data directory permissions are set to 700 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.12",
+            "data": {
+              "cis_id": "1.1.12",
+              "recommendation": "Ensure that the etcd data directory ownership is set to etcd:etcd",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.13",
+            "data": {
+              "cis_id": "1.1.13",
+              "recommendation": "Ensure that the admin.conf file permissions are set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.14",
+            "data": {
+              "cis_id": "1.1.14",
+              "recommendation": "Ensure that the admin.conf file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.15",
+            "data": {
+              "cis_id": "1.1.15",
+              "recommendation": "Ensure that the scheduler.conf file permissions are set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.16",
+            "data": {
+              "cis_id": "1.1.16",
+              "recommendation": "Ensure that the scheduler.conf file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.17",
+            "data": {
+              "cis_id": "1.1.17",
+              "recommendation": "Ensure that the controller-manager.conf file permissions are set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.18",
+            "data": {
+              "cis_id": "1.1.18",
+              "recommendation": "Ensure that the controller-manager.conf file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.19",
+            "data": {
+              "cis_id": "1.1.19",
+              "recommendation": "Ensure that the Kubernetes PKI directory and file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.20",
+            "data": {
+              "cis_id": "1.1.20",
+              "recommendation": "Ensure that the Kubernetes PKI certificate file permissions are set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          },
+          {
+            "key": "1.1.21",
+            "data": {
+              "cis_id": "1.1.21",
+              "recommendation": "Ensure that the Kubernetes PKI key file permissions are set to 600",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "N/A"
+            }
+          }
+        ]
+      },
+      {
+        "key": "1.2",
+        "data": {
+          "cis_id": "1.2",
+          "recommendation": "API Server",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "1.2.1",
+            "data": {
+              "cis_id": "1.2.1",
+              "recommendation": "Ensure that the --anonymous-auth argument is set to false",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.2",
+            "data": {
+              "cis_id": "1.2.2",
+              "recommendation": "Ensure that the --basic-auth-file argument is not set",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.3",
+            "data": {
+              "cis_id": "1.2.3",
+              "recommendation": "Ensure that the --token-auth-file parameter is not set",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Fail"
+            }
+          },
+          {
+            "key": "1.2.4",
+            "data": {
+              "cis_id": "1.2.4",
+              "recommendation": "Ensure that the --kubelet-https argument is set to true",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Equivalent Control"
+            }
+          },
+          {
+            "key": "1.2.5",
+            "data": {
+              "cis_id": "1.2.5",
+              "recommendation": "Ensure that the --kubelet-client-certificate and --kubelet-client-key arguments are set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.6",
+            "data": {
+              "cis_id": "1.2.6",
+              "recommendation": "Ensure that the --kubelet-certificate-authority argument is set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Equivalent Control"
+            }
+          },
+          {
+            "key": "1.2.7",
+            "data": {
+              "cis_id": "1.2.7",
+              "recommendation": "Ensure that the --authorization-mode argument is not set to AlwaysAllow",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.8",
+            "data": {
+              "cis_id": "1.2.8",
+              "recommendation": "Ensure that the --authorization-mode argument includes Node",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.9",
+            "data": {
+              "cis_id": "1.2.9",
+              "recommendation": "Ensure that the --authorization-mode argument includes RBAC",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.10",
+            "data": {
+              "cis_id": "1.2.10",
+              "recommendation": "Ensure that the admission control plugin EventRateLimit is set",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Fail"
+            }
+          },
+          {
+            "key": "1.2.11",
+            "data": {
+              "cis_id": "1.2.11",
+              "recommendation": "Ensure that the admission control plugin AlwaysAdmit is not set",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.12",
+            "data": {
+              "cis_id": "1.2.12",
+              "recommendation": "Ensure that the admission control plugin AlwaysPullImages is set",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Fail"
+            }
+          },
+          {
+            "key": "1.2.13",
+            "data": {
+              "cis_id": "1.2.13",
+              "recommendation": "Ensure that the admission control plugin SecurityContextDeny is set if PodSecurityPolicy is not used",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Fail"
+            }
+          },
+          {
+            "key": "1.2.14",
+            "data": {
+              "cis_id": "1.2.14",
+              "recommendation": "Ensure that the admission control plugin ServiceAccount is set",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.15",
+            "data": {
+              "cis_id": "1.2.15",
+              "recommendation": "Ensure that the admission control plugin NamespaceLifecycle is set",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.16",
+            "data": {
+              "cis_id": "1.2.16",
+              "recommendation": "Ensure that the admission control plugin PodSecurityPolicy is set",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Fail"
+            }
+          },
+          {
+            "key": "1.2.17",
+            "data": {
+              "cis_id": "1.2.17",
+              "recommendation": "Ensure that the admission control plugin NodeRestriction is set",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Fail"
+            }
+          },
+          {
+            "key": "1.2.18",
+            "data": {
+              "cis_id": "1.2.18",
+              "recommendation": "Ensure that the --insecure-bind-address argument is not set",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Fail"
+            }
+          },
+          {
+            "key": "1.2.19",
+            "data": {
+              "cis_id": "1.2.19",
+              "recommendation": "Ensure that the --insecure-port argument is set to 0",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.20",
+            "data": {
+              "cis_id": "1.2.20",
+              "recommendation": "Ensure that the --secure-port argument is not set to 0",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.21",
+            "data": {
+              "cis_id": "1.2.21",
+              "recommendation": "Ensure that the --profiling argument is set to false",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.22",
+            "data": {
+              "cis_id": "1.2.22",
+              "recommendation": "Ensure that the --audit-log-path argument is set",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.23",
+            "data": {
+              "cis_id": "1.2.23",
+              "recommendation": "Ensure that the --audit-log-maxage argument is set to 30 or as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Equivalent Control"
+            }
+          },
+          {
+            "key": "1.2.24",
+            "data": {
+              "cis_id": "1.2.24",
+              "recommendation": "Ensure that the --audit-log-maxbackup argument is set to 10 or as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Equivalent Control"
+            }
+          },
+          {
+            "key": "1.2.25",
+            "data": {
+              "cis_id": "1.2.25",
+              "recommendation": "Ensure that the --audit-log-maxsize argument is set to 100 or as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.26",
+            "data": {
+              "cis_id": "1.2.26",
+              "recommendation": "Ensure that the --request-timeout argument is set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.27",
+            "data": {
+              "cis_id": "1.2.27",
+              "recommendation": "Ensure that the --service-account-lookup argument is set to true",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.28",
+            "data": {
+              "cis_id": "1.2.28",
+              "recommendation": "Ensure that the --service-account-key-file argument is set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.29",
+            "data": {
+              "cis_id": "1.2.29",
+              "recommendation": "Ensure that the --etcd-certfile and --etcd-keyfile arguments are set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.30",
+            "data": {
+              "cis_id": "1.2.30",
+              "recommendation": "Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.31",
+            "data": {
+              "cis_id": "1.2.31",
+              "recommendation": "Ensure that the --client-ca-file argument is set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.32",
+            "data": {
+              "cis_id": "1.2.32",
+              "recommendation": "Ensure that the --etcd-cafile argument is set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.2.33",
+            "data": {
+              "cis_id": "1.2.33",
+              "recommendation": "Ensure that the --encryption-provider-config argument is set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Fail"
+            }
+          },
+          {
+            "key": "1.2.34",
+            "data": {
+              "cis_id": "1.2.34",
+              "recommendation": "Ensure that encryption providers are appropriately configured",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Fail"
+            }
+          },
+          {
+            "key": "1.2.35",
+            "data": {
+              "cis_id": "1.2.35",
+              "recommendation": "Ensure that the API Server only makes use of Strong Cryptographic Ciphers",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          }
+        ]
+      },
+      {
+        "key": "1.3",
+        "data": {
+          "cis_id": "1.3",
+          "recommendation": "Controller Manager",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "1.3.1",
+            "data": {
+              "cis_id": "1.3.1",
+              "recommendation": "Ensure that the --terminated-pod-gc-threshold argument is set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.3.2",
+            "data": {
+              "cis_id": "1.3.2",
+              "recommendation": "Ensure that the --profiling argument is set to false",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.3.3",
+            "data": {
+              "cis_id": "1.3.3",
+              "recommendation": "Ensure that the --use-service-account-credentials argument is set to true",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.3.4",
+            "data": {
+              "cis_id": "1.3.4",
+              "recommendation": "Ensure that the --service-account-private-key-file argument is set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.3.5",
+            "data": {
+              "cis_id": "1.3.5",
+              "recommendation": "Ensure that the --root-ca-file argument is set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.3.6",
+            "data": {
+              "cis_id": "1.3.6",
+              "recommendation": "Ensure that the RotateKubeletServerCertificate argument is set to true",
+              "scoring_type": "Scored",
+              "level": "L2",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.3.7",
+            "data": {
+              "cis_id": "1.3.7",
+              "recommendation": "Ensure that the --bind-address argument is set to 127.0.0.1",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Fail"
+            }
+          }
+        ]
+      },
+      {
+        "key": "1.4",
+        "data": {
+          "cis_id": "1.4",
+          "recommendation": "Scheduler",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "1.4.1",
+            "data": {
+              "cis_id": "1.4.1",
+              "recommendation": "Ensure that the --profiling argument is set to false",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "1.4.2",
+            "data": {
+              "cis_id": "1.4.2",
+              "recommendation": "Ensure that the --bind-address argument is set to 127.0.0.1",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Fail"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "2",
+    "data": {
+      "cis_id": "2",
+      "recommendation": "etcd",
+      "scoring_type": "",
+      "level": "",
+      "status": ""
+    },
+    "children": [
+      {
+        "key": "2.1",
+        "data": {
+          "cis_id": "2.1",
+          "recommendation": "Ensure that the --cert-file and --key-file arguments are set as appropriate",
+          "scoring_type": "Scored",
+          "level": "L1",
+          "status": "Pass"
+        }
+      },
+      {
+        "key": "2.2",
+        "data": {
+          "cis_id": "2.2",
+          "recommendation": "Ensure that the --client-cert-auth argument is set to true",
+          "scoring_type": "Scored",
+          "level": "L1",
+          "status": "Pass"
+        }
+      },
+      {
+        "key": "2.3",
+        "data": {
+          "cis_id": "2.3",
+          "recommendation": "Ensure that the --auto-tls argument is not set to true",
+          "scoring_type": "Scored",
+          "level": "L1",
+          "status": "Pass"
+        }
+      },
+      {
+        "key": "2.4",
+        "data": {
+          "cis_id": "2.4",
+          "recommendation": "Ensure that the --peer-cert-file and --peer-key-file arguments are set as appropriate",
+          "scoring_type": "Scored",
+          "level": "L1",
+          "status": "Pass"
+        }
+      },
+      {
+        "key": "2.5",
+        "data": {
+          "cis_id": "2.5",
+          "recommendation": "Ensure that the --peer-client-cert-auth argument is set to true",
+          "scoring_type": "Scored",
+          "level": "L1",
+          "status": "Pass"
+        }
+      },
+      {
+        "key": "2.6",
+        "data": {
+          "cis_id": "2.6",
+          "recommendation": "Ensure that the --peer-auto-tls argument is not set to true",
+          "scoring_type": "Scored",
+          "level": "L1",
+          "status": "Pass"
+        }
+      },
+      {
+        "key": "2.7",
+        "data": {
+          "cis_id": "2.7",
+          "recommendation": "Ensure that a unique Certificate Authority is used for etcd",
+          "scoring_type": "Not Scored",
+          "level": "L2",
+          "status": "Pass"
+        }
+      }
+    ]
+  },
+  {
+    "key": "3",
+    "data": {
+      "cis_id": "3",
+      "recommendation": "Control Plane Configuration",
+      "scoring_type": "",
+      "level": "",
+      "status": ""
+    },
+    "children": [
+      {
+        "key": "3.1",
+        "data": {
+          "cis_id": "3.1",
+          "recommendation": "Authentication and Authorization",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "3.1.1",
+            "data": {
+              "cis_id": "3.1.1",
+              "recommendation": "Client certificate authentication should not be used for users",
+              "scoring_type": "Not Scored",
+              "level": "L2",
+              "status": "Pass"
+            }
+          }
+        ]
+      },
+      {
+        "key": "3.2",
+        "data": {
+          "cis_id": "3.2",
+          "recommendation": "Logging",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "3.2.1",
+            "data": {
+              "cis_id": "3.2.1",
+              "recommendation": "Ensure that a minimal audit policy is created",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "3.2.2",
+            "data": {
+              "cis_id": "3.2.2",
+              "recommendation": "Ensure that the audit policy covers key security concerns",
+              "scoring_type": "Not Scored",
+              "level": "L2",
+              "status": "Pass"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "4",
+    "data": {
+      "cis_id": "4",
+      "recommendation": "Worker Nodes",
+      "scoring_type": "",
+      "level": "",
+      "status": ""
+    },
+    "children": [
+      {
+        "key": "4.1",
+        "data": {
+          "cis_id": "4.1",
+          "recommendation": "Worker Node Configuration Files",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "4.1.1",
+            "data": {
+              "cis_id": "4.1.1",
+              "recommendation": "Ensure that the kubelet service file permissions are set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.1.2",
+            "data": {
+              "cis_id": "4.1.2",
+              "recommendation": "Ensure that the kubelet service file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.1.3",
+            "data": {
+              "cis_id": "4.1.3",
+              "recommendation": "Ensure that the proxy kubeconfig file permissions are set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.1.4",
+            "data": {
+              "cis_id": "4.1.4",
+              "recommendation": "Ensure that the proxy kubeconfig file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.1.5",
+            "data": {
+              "cis_id": "4.1.5",
+              "recommendation": "Ensure that the kubelet.conf file permissions are set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.1.6",
+            "data": {
+              "cis_id": "4.1.6",
+              "recommendation": "Ensure that the kubelet.conf file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.1.7",
+            "data": {
+              "cis_id": "4.1.7",
+              "recommendation": "Ensure that the certificate authorities file permissions are set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.1.8",
+            "data": {
+              "cis_id": "4.1.8",
+              "recommendation": "Ensure that the client certificate authorities file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.1.9",
+            "data": {
+              "cis_id": "4.1.9",
+              "recommendation": "Ensure that the kubelet configuration file has permissions set to 644 or more restrictive",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.1.10",
+            "data": {
+              "cis_id": "4.1.10",
+              "recommendation": "Ensure that the kubelet configuration file ownership is set to root:root",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          }
+        ]
+      },
+      {
+        "key": "4.2",
+        "data": {
+          "cis_id": "4.2",
+          "recommendation": "Kubelet",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "4.2.1",
+            "data": {
+              "cis_id": "4.2.1",
+              "recommendation": "Ensure that the --anonymous-auth argument is set to false",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.2.2",
+            "data": {
+              "cis_id": "4.2.2",
+              "recommendation": "Ensure that the --authorization-mode argument is not set to AlwaysAllow",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.2.3",
+            "data": {
+              "cis_id": "4.2.3",
+              "recommendation": "Ensure that the --client-ca-file argument is set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.2.4",
+            "data": {
+              "cis_id": "4.2.4",
+              "recommendation": "Ensure that the --read-only-port argument is set to 0",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.2.5",
+            "data": {
+              "cis_id": "4.2.5",
+              "recommendation": "Ensure that the --streaming-connection-idle-timeout argument is not set to 0",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.2.6",
+            "data": {
+              "cis_id": "4.2.6",
+              "recommendation": "Ensure that the --protect-kernel-defaults argument is set to true",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.2.7",
+            "data": {
+              "cis_id": "4.2.7",
+              "recommendation": "Ensure that the --make-iptables-util-chains argument is set to true",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.2.8",
+            "data": {
+              "cis_id": "4.2.8",
+              "recommendation": "Ensure that the --hostname-override argument is not set",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.2.9",
+            "data": {
+              "cis_id": "4.2.9",
+              "recommendation": "Ensure that the --event-qps argument is set to 0 or a level which ensures appropriate event capture",
+              "scoring_type": "Not Scored",
+              "level": "L2",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.2.10",
+            "data": {
+              "cis_id": "4.2.10",
+              "recommendation": "Ensure that the --tls-cert-fileand --tls-private-key-file arguments are set as appropriate",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Equivalent Control"
+            }
+          },
+          {
+            "key": "4.2.11",
+            "data": {
+              "cis_id": "4.2.11",
+              "recommendation": "Ensure that the --rotate-certificates argument is not set to false",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.2.12",
+            "data": {
+              "cis_id": "4.2.12",
+              "recommendation": "Ensure that the RotateKubeletServerCertificate argument is set to true",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "4.2.13",
+            "data": {
+              "cis_id": "4.2.13",
+              "recommendation": "Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "5",
+    "data": {
+      "cis_id": "5",
+      "recommendation": "Policies",
+      "scoring_type": "",
+      "level": "",
+      "status": ""
+    },
+    "children": [
+      {
+        "key": "5.1",
+        "data": {
+          "cis_id": "5.1",
+          "recommendation": "RBAC and Service Accounts",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "5.1.1",
+            "data": {
+              "cis_id": "5.1.1",
+              "recommendation": "Ensure that the cluster-admin role is only used where required",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.1.2",
+            "data": {
+              "cis_id": "5.1.2",
+              "recommendation": "Minimize access to secrets",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.1.3",
+            "data": {
+              "cis_id": "5.1.3",
+              "recommendation": "Minimize wildcard use in Roles and ClusterRoles",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.1.4",
+            "data": {
+              "cis_id": "5.1.4",
+              "recommendation": "Minimize access to create pods",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.1.5",
+            "data": {
+              "cis_id": "5.1.5",
+              "recommendation": "Ensure that default service accounts are not actively used",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.1.6",
+            "data": {
+              "cis_id": "5.1.6",
+              "recommendation": "Ensure that Service Account Tokens are only mounted where necessary",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          }
+        ]
+      },
+      {
+        "key": "5.2",
+        "data": {
+          "cis_id": "5.2",
+          "recommendation": "Pod Security Policies",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "5.2.1",
+            "data": {
+              "cis_id": "5.2.1",
+              "recommendation": "Minimize the admission of privileged containers",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.2.2",
+            "data": {
+              "cis_id": "5.2.2",
+              "recommendation": "Minimize the admission of containers wishing to share the host process ID namespace",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.2.3",
+            "data": {
+              "cis_id": "5.2.3",
+              "recommendation": "Minimize the admission of containers wishing to share the host IPC namespace",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.2.4",
+            "data": {
+              "cis_id": "5.2.4",
+              "recommendation": "Minimize the admission of containers wishing to share the host network namespace",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.2.5",
+            "data": {
+              "cis_id": "5.2.5",
+              "recommendation": "Minimize the admission of containers with allowPrivilegeEscalation",
+              "scoring_type": "Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.2.6",
+            "data": {
+              "cis_id": "5.2.6",
+              "recommendation": "Minimize the admission of root containers",
+              "scoring_type": "Not Scored",
+              "level": "L2",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.2.7",
+            "data": {
+              "cis_id": "5.2.7",
+              "recommendation": "Minimize the admission of containers with the NET_RAW capability",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.2.8",
+            "data": {
+              "cis_id": "5.2.8",
+              "recommendation": "Minimize the admission of containers with added capabilities",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.2.9",
+            "data": {
+              "cis_id": "5.2.9",
+              "recommendation": "Minimize the admission of containers with capabilities assigned",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          }
+        ]
+      },
+      {
+        "key": "5.3",
+        "data": {
+          "cis_id": "5.3",
+          "recommendation": "Network Policies and CNI",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "5.3.1",
+            "data": {
+              "cis_id": "5.3.1",
+              "recommendation": "Ensure that the CNI in use supports Network Policies",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Pass"
+            }
+          },
+          {
+            "key": "5.3.2",
+            "data": {
+              "cis_id": "5.3.2",
+              "recommendation": "Ensure that all Namespaces have Network Policies defined",
+              "scoring_type": "Scored",
+              "level": "L2",
+              "status": "Depends on Environment"
+            }
+          }
+        ]
+      },
+      {
+        "key": "5.4",
+        "data": {
+          "cis_id": "5.4",
+          "recommendation": "Secrets Management",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "5.4.1",
+            "data": {
+              "cis_id": "5.4.1",
+              "recommendation": "Prefer using secrets as files over secrets as environment variables",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.4.2",
+            "data": {
+              "cis_id": "5.4.2",
+              "recommendation": "Consider external secret storage",
+              "scoring_type": "Not Scored",
+              "level": "L2",
+              "status": "Depends on Environment"
+            }
+          }
+        ]
+      },
+      {
+        "key": "5.5",
+        "data": {
+          "cis_id": "5.5",
+          "recommendation": "Extensible Admission Control",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "5.5.1",
+            "data": {
+              "cis_id": "5.5.1",
+              "recommendation": "Configure Image Provenance using ImagePolicyWebhook admission controller",
+              "scoring_type": "Not Scored",
+              "level": "L2",
+              "status": "Depends on Environment"
+            }
+          }
+        ]
+      },
+      {
+        "key": "5.6",
+        "data": {
+          "cis_id": "5.6",
+          "recommendation": "General Policies",
+          "scoring_type": "",
+          "level": "",
+          "status": ""
+        },
+        "children": [
+          {
+            "key": "5.6.1",
+            "data": {
+              "cis_id": "5.6.1",
+              "recommendation": "Create administrative boundaries between resources using namespaces",
+              "scoring_type": "Not Scored",
+              "level": "L1",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.6.2",
+            "data": {
+              "cis_id": "5.6.2",
+              "recommendation": "Ensure that the seccomp profile is set to docker/default in your pod definitions",
+              "scoring_type": "Not Scored",
+              "level": "L2",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.6.3",
+            "data": {
+              "cis_id": "5.6.3",
+              "recommendation": "Apply Security Context to Your Pods and Containers",
+              "scoring_type": "Not Scored",
+              "level": "L2",
+              "status": "Depends on Environment"
+            }
+          },
+          {
+            "key": "5.6.4",
+            "data": {
+              "cis_id": "5.6.4",
+              "recommendation": "The default namespace should not be used",
+              "scoring_type": "Scored",
+              "level": "L2",
+              "status": "Depends on Environment"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

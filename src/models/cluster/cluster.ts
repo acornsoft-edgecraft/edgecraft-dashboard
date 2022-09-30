@@ -6,7 +6,7 @@ export interface clusterInfo {
 }
 
 export const defaultClusterInfo: clusterInfo = {
-  name: "1111",
+  name: "",
   desc: "",
 };
 

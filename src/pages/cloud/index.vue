@@ -59,6 +59,7 @@
             <NuxtLink v-else-if="slotProps.field === 'name'" :to="goPage(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
             <span v-else-if="slotProps.field === 'status'">{{ CloudStatus[slotProps.data.status] }} </span>
             <span v-else-if="slotProps.field === 'nodeCount'">{{ slotProps.data.nodeCount }}</span>
+            <span v-else-if="slotProps.field === 'version'">{{ K8sVersions[slotProps.data.version] }}</span>
             <span v-else-if="slotProps.field === 'created'">{{ slotProps.data.created }}</span>
             <span v-else>{{ slotProps.data[slotProps.field] }}</span>
           </template>
@@ -75,7 +76,7 @@
 </template>
 <script setup lang="ts">
 import { FilterMatchMode } from "primevue/api";
-import { CloudTypes, CloudTypesMap, CloudStatus, CloudStatusMap, MessageTypes } from "~/models";
+import { CloudTypes, CloudTypesMap, CloudStatus, K8sVersions, CloudStatusMap, MessageTypes } from "~/models";
 
 definePageMeta({ layout: "default", title: "Clouds List", public: true });
 
@@ -109,10 +110,10 @@ const columnSize = (field) => {
       size = 5;
       break;
     case "name":
-      size = 60;
+      size = 55;
       break;
     case "status":
-      size = 5;
+      size = 10;
       break;
     case "nodeCount":
       size = 5;

@@ -8,8 +8,8 @@ export interface nodeInfo {
 }
 
 export const defaultNodeInfo: nodeInfo = {
-  node_name: "sadf",
-  ip_address: "safd",
+  node_name: "",
+  ip_address: "",
   labels: [defaultLabelInfo],
 };
 

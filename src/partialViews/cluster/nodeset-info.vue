@@ -1,7 +1,7 @@
 <template>
   <div class="p-card w-full mt-3">
-    <K3Panel :header="`${type}Set`">
-      <template #icons v-if="type === NodeTypes.WORKER">
+    <K3Panel :header="`${NodeTypes[type]}Set`">
+      <template #icons v-if="type === NodeTypes.Worker">
         <K3Button icon="pi pi-plus" class="mr-2" @click="addNodeSet" />
       </template>
       <K3ValidateEach v-for="(item, index) in data" :key="index" :state="item" :rules="vRules">
@@ -32,7 +32,7 @@
                 <K3FormKeyValueField v-model="v.labels" caption="Labels 설정" />
               </K3FormColumn>
             </K3FormRow>
-            <K3FormRow v-if="index > 0 && type === NodeTypes.WORKER" class="no-bg-row">
+            <K3FormRow v-if="index > 0 && type === NodeTypes.Worker" class="no-bg-row">
               <K3FormColumn item-align="right">
                 <K3Button icon="pi pi-minus" class="mr-2" @click="removeNodeSet(index)" />
               </K3FormColumn>
@@ -57,7 +57,7 @@ const v = useVuelidate();
 // Props
 const props = defineProps({
   modelValue: { type: Array<any>, default: [] },
-  type: { type: String, default: NodeTypes.MASTER },
+  type: { type: Number, default: NodeTypes.Master },
 });
 // Emits
 // Properties

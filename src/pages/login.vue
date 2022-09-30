@@ -1,9 +1,6 @@
 <template>
   <div class="page-container">
     <div class="page-wrapper">
-      <!-- <section class="page-header">
-        <K3PageTitle />
-      </section> -->
       <section class="page-content">
         <div class="login-container">
           <div class="content grid">
@@ -52,11 +49,6 @@ const v$ = UI.getValidate(defaultLoginValidation, login);
 // Watcher
 
 // Methods
-const hasAuth = () => {
-  const auth = unref(Auth.get());
-
-  return auth.isAuthenticated;
-};
 const onSignIn = async () => {
   v$.value.$touch();
 
@@ -70,9 +62,9 @@ const onSignIn = async () => {
 };
 
 onMounted(() => {
-  if (auth.value.isAuthenticated) {
-    Routing.moveTo("/dashboard");
-  }
+  // TEST DATA
+  login.value.email = "sunmi@acornsoft.io";
+  login.value.password = "Passw0rd!!";
 });
 // Logics (like api call, etc)
 </script>
@@ -124,6 +116,7 @@ onMounted(() => {
 
       .button-wrapper {
         margin-top: 1rem;
+        margin-bottom: 1rem;
         :deep(.p-button) {
           padding: 1rem;
         }

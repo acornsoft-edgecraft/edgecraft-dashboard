@@ -1,9 +1,9 @@
 <template>
-  <div class="flex justify-content-end button-wrapper" v-if="type === NodeTypes.WORKER">
-    <K3Button label="Add WorkerSet" @click="addNodeSet" />
+  <div class="flex justify-content-end button-wrapper" v-if="type === NodeTypes.Worker">
+    <K3Button label="Add WorkerSet" icon="pi pi-plus" @click="addNodeSet" />
   </div>
-  <K3Panel :header="`${type}Set`" v-for="(item, index) in modelValue" :key="index" :toggleable="true">
-    <template #icons v-if="type === NodeTypes.WORKER">
+  <K3Panel :header="`${NodeTypes[type]}Set`" v-for="(item, index) in modelValue" :key="index">
+    <template #icons v-if="type === NodeTypes.Worker">
       <K3Button class="p-panel-header-icon p-link text-danger" @click="removeNodeset(index, item)">
         <span class="pi pi-trash"></span>
       </K3Button>
@@ -21,7 +21,7 @@
             <K3Button label="변경" @click="changeNodeCount(index, item)" />
           </template>
           <template v-if="showEditNodeCnt[index]">
-            <K3InputNumber v-model="item.node_count" @input="changeValue" :min="1" :max="100" show-buttons mode="decimal" field-name="Node Count" input-id="node_count" :allowEmpty="false" />
+            <K3InputNumber v-model="item.node_count" :min="1" :max="100" show-buttons mode="decimal" field-name="Node Count" input-id="node_count" :allowEmpty="false" input-class="w-6rem" />
             <K3Button label="수정" icon="pi pi-check" @click="saveNodeCount(index)" />
             <K3Button label="취소" icon="pi pi-times" class="p-button-secondary" @click="cancelNodeCount(index, item)" />
           </template>
@@ -30,12 +30,12 @@
       <K3FormRow>
         <K3FormColumn label="Labels" label-align="right">
           <template v-for="(label, i) in item.labels" :key="i">
-            <K3Chip :label="`${label.key}=${label.value}`" />
+            <K3Chip :label="Util.getLabel(label)" />
           </template>
         </K3FormColumn>
       </K3FormRow>
     </K3FormContainer>
-    <K3Divider align="left">{{ type }} Nodes</K3Divider>
+    <K3Divider align="left">{{ NodeTypes[type] }} Nodes</K3Divider>
     <K3DataTable :value="item.nodes">
       <K3Column field="name" header="Node Name"></K3Column>
       <K3Column field="status" header="Status"></K3Column>
@@ -54,12 +54,12 @@ import { MessageTypes, NodeTypes } from "~/models";
 // Props
 const props = defineProps({
   modelValue: { type: Object, required: true },
-  type: { type: String, default: NodeTypes.MASTER },
+  type: { type: Number, default: NodeTypes.Master },
 });
 // Emits
 const emits = defineEmits(["add-nodeset"]);
 // Properties
-const { UI } = useAppHelper();
+const { UI, Util } = useAppHelper();
 
 const showEditNodeCnt = ref([] as any);
 const originNodeCnt = ref([] as any);
@@ -78,9 +78,6 @@ const removeNodeset = (index, item) => {
   );
 };
 
-const changeValue = (event) => {
-  console.log("changeValue", event);
-};
 const addNodeSet = () => {
   emits("add-nodeset", { display: true });
 };
@@ -114,14 +111,18 @@ onMounted(() => {
     margin-left: 0.5rem;
   }
 }
-.p-panel:not(:first-child) {
-  margin-top: 1rem;
-}
-.p-panel-header-icon.p-panel-toggler.p-link {
-  span.pi.pi-minus:before {
-    content: "\e90f" !important;
+.p-panel {
+  :deep(.p-panel-header) {
+    padding: 1.25rem;
   }
 }
+.p-panel:not(:first-child) {
+  margin-top: 1rem;
+  :deep(.p-panel-header) {
+    padding: 0.75rem 1.25rem;
+  }
+}
+
 .button-wrapper {
   margin: 1.5rem 0 0 0;
 }

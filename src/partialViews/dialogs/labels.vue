@@ -5,13 +5,13 @@
         <template #default="{ v }">
           <K3FormRow direction="horizontal">
             <K3FormColumn label="Key" label-align="right" label-width="100px" :size="5">
-              <K3FormInputField class="w-full" v-model="v.key" field-name="Key" />
+              <K3FormInputField v-model="v.key" field-name="Key" class="w-full align-self-start" />
             </K3FormColumn>
             <K3FormColumn label="Value" label-align="right" label-width="100px" :size="6">
-              <K3FormInputField class="w-full" v-model="v.value" field-name="Value" />
+              <K3FormInputField v-model="v.value" field-name="Value" class="w-full align-self-start" />
             </K3FormColumn>
             <K3FormColumn :size="1" item-align="center">
-              <K3Button icon="pi pi-trash" class="p-button-text p-button-outlined p-button-secondary" @click="removeItem(index)" />
+              <K3Button icon="pi pi-trash" class="p-button-text p-button-outlined p-button-danger" @click="removeItem(index)" />
             </K3FormColumn>
           </K3FormRow>
         </template>
@@ -31,10 +31,9 @@
 </template>
 
 <script setup lang="ts">
-import { MessageTypes } from "~/models";
+import { MessageTypes, defaultLabelInfoValidation } from "~/models";
 
 const { UI, Util } = useAppHelper();
-const { required } = UI.getValidators();
 
 const props = defineProps({
   modelValue: { type: Array<Object>, default: () => {} },
@@ -46,11 +45,8 @@ const emits = defineEmits(["close", "ok"]);
 
 const items = ref([]);
 const v = UI.getValidate();
+const vRules = defaultLabelInfoValidation;
 
-const vRules = {
-  key: { required },
-  value: { required },
-};
 const addItem = () => {
   items.value.push({ key: "", value: "" });
 };
@@ -68,7 +64,7 @@ const close = () => {
 const ok = () => {
   v.value.$touch();
   if (v.value.$invalid) {
-    UI.showMessage(MessageTypes.WARN, "필수항목 검증", "Key/Value를 모두 입력하셔야 합니다.");
+    UI.showMessage(MessageTypes.WARN, "필수항목 검증", "Key는 필수 항목입니다.");
   } else {
     emits("ok", Util.clone(items.value));
   }

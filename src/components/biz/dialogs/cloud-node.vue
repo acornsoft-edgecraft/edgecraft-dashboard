@@ -1,5 +1,5 @@
 <template>
-  <K3Dialog :header="`Cloud ${modelValue.type} Node 등록`" v-model:visible="modelValue.display" :modal="true" :style="{ width: '50vw' }" @hide="onHide">
+  <K3Dialog :header="`Cloud ${NodeTypes[modelValue.type]} Node 등록`" v-model:visible="modelValue.display" :modal="true" :style="{ width: '50vw' }" @hide="onHide">
     <K3FormContainer class="no-style">
       <K3FormRow class="no-bg-row">
         <K3Divider align="left">Baremetal Host</K3Divider>
@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { MessageTypes, BootModesMap, defaultBaremetalHostInfoValidation, defaultNodeInfoValidation, defaultBaremetalHostInfo, defaultNodeInfo } from "~/models";
+import { NodeTypes, MessageTypes, BootModesMap, defaultBaremetalHostInfoValidation, defaultNodeInfoValidation, defaultBaremetalHostInfo, defaultNodeInfo } from "~/models";
 
 const { UI, Util } = useAppHelper();
 
@@ -77,21 +77,21 @@ const ok = () => {
   v.value.$touch();
 
   if (v.value.$invalid) {
-    UI.showMessage(MessageTypes.WARN, "필수항목 검증", "필수 항목을 모두 입력하셔야 합니다.");
+    // UI.showMessage(MessageTypes.WARN, "필수항목 검증", "필수 항목을 모두 입력하셔야 합니다.");
   } else {
     emits("ok", { item: Util.clone(data.value), type: props.modelValue.type });
   }
 };
 const onHide = () => {
-  console.log("onHide");
   emits("close");
-  clearItem();
+  init();
 };
-const clearItem = () => {};
+const init = () => {
+  data.value = { baremetal: Util.clone(defaultBaremetalHostInfo), node: Util.clone(defaultNodeInfo) };
+};
 
 onMounted(() => {
-  console.log("onMounted");
-  data.value = { baremetal: Util.clone(defaultBaremetalHostInfo), node: Util.clone(defaultNodeInfo) };
+  init();
 });
 </script>
 

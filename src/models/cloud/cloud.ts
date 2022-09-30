@@ -1,4 +1,4 @@
-import { required, minLength, maxLength, alphaNum } from "@vuelidate/validators";
+import { required, minLength, maxLength } from "@vuelidate/validators";
 import { CloudTypes, CloudStatus } from "~/models";
 
 export const CloudTypesMap = (addAll: boolean = false, allValue: any = 0) => {
@@ -30,7 +30,7 @@ export const defaultCloudInfo: cloudInfo = {
 };
 
 export const defaultCloudInfoValidation = {
-  name: { required, minLength: minLength(3), maxLength: maxLength(100), alphaNum },
+  name: { required, minLength: minLength(3), maxLength: maxLength(100) },
   type: { required },
   desc: {},
 };

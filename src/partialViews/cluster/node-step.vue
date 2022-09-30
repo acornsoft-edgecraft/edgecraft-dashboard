@@ -8,10 +8,10 @@
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
-        <NodesetInfo v-model="modelValue.nodes.master_sets" :type="NodeTypes.MASTER" />
+        <NodesetInfo v-model="modelValue.nodes.master_sets" :type="NodeTypes.Master" />
       </K3FormRow>
       <K3FormRow>
-        <NodesetInfo v-model="modelValue.nodes.worker_sets" :type="NodeTypes.WORKER" />
+        <NodesetInfo v-model="modelValue.nodes.worker_sets" :type="NodeTypes.Worker" />
       </K3FormRow>
     </K3FormContainer>
   </div>

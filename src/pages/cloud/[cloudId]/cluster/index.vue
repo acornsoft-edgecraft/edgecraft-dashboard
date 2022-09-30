@@ -55,7 +55,7 @@
             <NuxtLink v-if="slotProps.field == 'name'" :to="goPage(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
             <span v-if="slotProps.field == 'status'">{{ CloudStatus[slotProps.data.status] }}</span>
             <span v-if="slotProps.field == 'nodeCount'">{{ slotProps.data.nodeCount }}</span>
-            <span v-if="slotProps.field == 'version'">{{ slotProps.data.version }}</span>
+            <span v-if="slotProps.field == 'version'">{{ K8sVersions[slotProps.data.version] }}</span>
             <span v-if="slotProps.field == 'created'">{{ slotProps.data.created }}</span>
           </template>
         </K3Column>
@@ -78,7 +78,7 @@
 <script setup lang="ts">
 // imports
 import { FilterMatchMode } from "primevue/api";
-import { CloudStatus, CloudStatusMap } from "~/models";
+import { CloudStatus, CloudStatusMap, K8sVersions } from "~/models";
 // Page meta
 definePageMeta({ layout: "default", title: "클라우드 클러스터", public: true });
 // Props
@@ -114,10 +114,10 @@ const columnSize = (field) => {
   let size = 0;
   switch (field) {
     case "name":
-      size = 50;
+      size = 60;
       break;
     case "status":
-      size = 5;
+      size = 10;
       break;
     case "nodeCount":
       size = 5;

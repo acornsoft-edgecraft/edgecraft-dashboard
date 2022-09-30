@@ -21,12 +21,12 @@
       </K3FormRow>
       <K3FormRow>
         <K3FormColumn label="Image URL" label-align="right">
-          <K3FormInputField v-model="v$.image_url" field-name="Image URL" class="w-9" />
+          <K3FormInputField v-model="v$.image_url" field-name="Image URL" class="w-9" placeholder="예) http://192.168.0.1/ubuntu.qcow2" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
         <K3FormColumn label="Image Checksum" label-align="right">
-          <K3FormInputField v-model="v$.image_checksum" field-name="Image Checksum" class="w-9" />
+          <K3FormInputField v-model="v$.image_checksum" field-name="Image Checksum" class="w-9" placeholder="예) http://192.168.0.1/ubuntu.qcow2.md5sum" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
@@ -43,8 +43,8 @@
         <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
           <K3FormContainer class="no-style w-full">
             <K3FormRow direction="vertical">
-              <K3Accordion :multiple="true" v-for="(config, index) in kubeadmConfigs" :key="index">
-                <K3AccordionTab :header="config.header">
+              <K3Accordion :multiple="true" :activeIndex="[0]">
+                <K3AccordionTab v-for="(config, index) in kubeadmConfigs" :key="index" :header="config.header">
                   <K3Textarea :id="setConfigId('cp', config.id)" v-model="modelValue.cp_kubeadm_extra_config[config.id]" type="text" rows="4" class="w-full" />
                 </K3AccordionTab>
               </K3Accordion>
@@ -56,8 +56,8 @@
         <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
           <K3FormContainer class="no-style w-full">
             <K3FormRow direction="vertical">
-              <K3Accordion :multiple="true" v-for="(config, index) in kubeadmConfigs" :key="index" class="w-full">
-                <K3AccordionTab :header="config.header">
+              <K3Accordion :multiple="true" :activeIndex="[0]">
+                <K3AccordionTab v-for="(config, index) in kubeadmConfigs" :key="index" :header="config.header">
                   <K3Textarea :id="setConfigId('worker', config.id)" v-model="modelValue.worker_kubeadm_extra_config[config.id]" rows="4" class="w-full" />
                 </K3AccordionTab>
               </K3Accordion>

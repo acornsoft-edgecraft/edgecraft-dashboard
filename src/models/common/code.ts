@@ -19,34 +19,34 @@ export enum K8sVersions {
 }
 
 export enum ImageChecksumTypes {
-  md5,
-  sha256,
-  sha512,
+  md5 = 1,
+  sha256 = 2,
+  sha512 = 3,
 }
 
 export enum ImageFormats {
-  raw,
-  qcow2,
-  vdi,
-  vmdk,
-  "live-iso",
+  raw = 1,
+  qcow2 = 2,
+  vdi = 3,
+  vmdk = 4,
+  "live-iso" = 5,
 }
 
 export enum BootModes {
-  UEFI,
-  legacy,
-  UEFISecureBoot,
+  UEFI = 1,
+  legacy = 2,
+  UEFISecureBoot = 3,
 }
 
 export enum NodeTypes {
-  MASTER = "Master",
-  WORKER = "Worker",
+  "Master" = 1,
+  "Worker" = 2,
 }
 
 export enum UserRoles {
-  Admin = "Admin",
-  Manager = "Manager",
-  User = "User",
+  "Admin" = 1,
+  "Manager" = 2,
+  "User" = 3,
 }
 
 export enum ImageTypes {
@@ -57,4 +57,15 @@ export enum ImageTypes {
 export enum ImageOsTypes {
   "Ubuntu 20.04" = 1,
   "Ubuntu 18.04" = 2,
+}
+
+export enum SecurityStatus {
+  "In Progress" = 1,
+  Completed = 2,
+  Failed = 3,
+}
+
+export enum SecurityItemStatus {
+  Pass = 1,
+  Failed = 2,
 }

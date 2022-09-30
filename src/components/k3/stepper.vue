@@ -324,7 +324,7 @@ onMounted(() => {});
 
           .step-subtitle {
             font-weight: lighter;
-            font-size: 1rem;
+            font-size: 0.9rem;
             margin: 0;
             color: blueviolet;
           }
