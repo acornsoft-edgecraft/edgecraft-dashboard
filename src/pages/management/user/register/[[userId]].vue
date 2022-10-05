@@ -33,7 +33,7 @@
           <K3Button label="삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" v-if="userId > 0" />
         </div>
         <div class="flex-grow-1 flex-shrink-1 flex align-items-end justify-content-end">
-          <NuxtLink to="/management/user">
+          <NuxtLink :to="list">
             <K3Button label="취소" icon="pi pi-times" class="p-button-secondary" />
           </NuxtLink>
           <K3Button label="등록" icon="pi pi-check" @click="onSubmit" />
@@ -56,6 +56,7 @@ const { UI, Routing } = useAppHelper();
 const route = useRoute();
 const userId = route.params.userId || 0;
 const existsEmail = ref(false);
+const list = "/management/user";
 
 definePageMeta({ layout: "default", title: "User Management", public: true });
 // const props = defineProps({}),
@@ -90,7 +91,7 @@ const onSubmit = () => {
   } else {
     insFetch(user.value);
   }
-  Routing.moveTo("/management/user");
+  Routing.moveTo(list);
 };
 const onDelete = () => {
   UI.showConfirm(
@@ -100,11 +101,12 @@ const onDelete = () => {
     () => {
       // TODO: call api
       delFetch(userId);
-      Routing.moveTo("/management/user");
+      Routing.moveTo(list);
     },
     () => {}
   );
 };
+
 onMounted(() => {
   fetch(userId);
 
