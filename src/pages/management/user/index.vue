@@ -26,15 +26,16 @@
               <span>Email: </span>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
-                <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).email.value" placeholder="Search" autofocus />
+                <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).email.value" placeholder="Search" />
               </span>
               <span>Name: </span>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
-                <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" autofocus />
+                <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" />
               </span>
               <span>Role: </span>
-              <K3Dropdown v-model="selectedUserRole" :options="UserRolesMap(true)" :optionLabel="'name'" :optionValue="'value'" @change="userRoleSelected" class="w-10rem" />
+              <K3Dropdown v-model="(UI.tableSettings.filters.value as any).role.value" :options="UserRolesMap()" :optionLabel="'name'" :optionValue="'value'" @change="userRoleSelected" placeholder="선택" :showClear="true" class="w-10rem" />
+              <K3Button label="초기화" class="p-button-outlined p-button-plain" @click="onReset" />
             </div>
             <div class="search-right toggle flex align-content-center">
               <K3MultiSelect :modelValue="selectedColumns" class="flex w-18rem" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" />
@@ -56,7 +57,7 @@
         <K3Column selection-mode="multiple" header-style="min-width: 5%" body-style="min-width: 5%"></K3Column>
         <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
-            <NuxtLink v-if="slotProps.field == 'email'" :to="`/management/user/register/${slotProps.data.id}`">{{ slotProps.data.email }}</NuxtLink>
+            <NuxtLink v-if="slotProps.field == 'email'" :to="`/management/user/register/${slotProps.data.id}`" @click="goList()">{{ slotProps.data.email }}</NuxtLink>
             <span v-if="slotProps.field == 'name'">{{ slotProps.data.name }}</span>
             <span v-if="slotProps.field == 'role'">{{ UserRoles[slotProps.data.role] }}</span>
             <span v-if="slotProps.field == 'created'">{{ slotProps.data.created }}</span>
@@ -69,16 +70,18 @@
 
 <script setup lang="ts">
 import { FilterMatchMode } from "primevue/api";
-import { MessageTypes, UserRoles, UserRolesMap } from "~/models";
+import { MessageTypes, StateKeys, UserRoles, UserRolesMap } from "~/models";
 
 definePageMeta({ layout: "default", title: "User Management", public: true });
 // const props = defineProps({}),
 // const emits = defineEmits(['eventname']),
-const { UI } = useAppHelper();
+const { UI, State } = useAppHelper();
 const { users, isFetch, fetch } = useUserService().getUsers();
 
+const defaultSearch = { email: null, name: null, role: null };
+const search = State.state(StateKeys.SEARCH, () => defaultSearch);
+
 const selectedItem = ref();
-const selectedUserRole = ref(0);
 const columns = ref([
   { field: "email", header: "Email", sortable: true },
   { field: "name", header: "Name", sortable: true },
@@ -112,7 +115,6 @@ UI.tableSettings.initFilters({
 });
 
 const userRoleSelected = (event) => {
-  if (event.value == 0) event.value = null;
   (UI.tableSettings.filters.value as any).role.value = event.value;
 };
 
@@ -139,8 +141,31 @@ const onDelete = () => {
   );
 };
 
+const goList = () => {
+  for (const val in UI.tableSettings.filters.value) {
+    if (val === "global") continue;
+    Object.assign(search.value, { [val]: UI.tableSettings.filters.value[val].value });
+  }
+};
+const onReset = () => {
+  for (const val in UI.tableSettings.filters.value) {
+    UI.tableSettings.filters.value[val].value = null;
+  }
+  search.value = defaultSearch;
+};
+
 onMounted(() => {
   fetch();
+
+  for (const val in search.value) {
+    (UI.tableSettings.filters.value as any)[val].value = search.value[val];
+  }
+});
+
+onUnmounted(() => {
+  if (!useRouter().currentRoute.value.path.includes(useRoute().path)) {
+    search.value = undefined;
+  }
 });
 </script>
 
@@ -161,6 +186,10 @@ onMounted(() => {
 .search-left {
   span:not(:first-child) {
     margin-left: 0.5rem;
+  }
+
+  .p-button {
+    margin-left: 1rem;
   }
 }
 .search-right {
