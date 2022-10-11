@@ -5,7 +5,12 @@ export enum StateKeys {
   AUTH = "_AUTH_",
   USER = "_USER_",
   MESSAGE = "_MESSAGE_",
-  SEARCH = "_SEARCH_",
+  SEARCH_CLOUD = "_SEARCH_CLOUD_",
+  SEARCH_CLOUD_SC = "_SEARCH_CLOUD_SC+",
+  SEARCH_CLUSTER = "_SEARCH_CLUSTER_",
+  SEARCH_CLUSTER_SC = "_SEARCH_CLUSTER_SC_",
+  SEARCH_IMAGE = "_SEARCH_IMAGE_",
+  SEARCH_USER = "_SEARCH_USER_",
 }
 
 export enum MessageTypes {

@@ -97,19 +97,21 @@ const API = {
   },
 };
 
+const defaultFilter = { global: { value: null, matchMode: FilterMatchMode.CONTAINS } };
 const UI = {
   init: () => {
     toast = useToast();
     confirm = useConfirm();
   },
   tableSettings: {
-    filters: ref({ global: { value: null, matchMode: FilterMatchMode.CONTAINS } }),
+    filters: ref({ ...defaultFilter }),
     scrollHeight: "calc(100vh - 150px)",
     rows: 10,
     paginatorTemplate: "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
     rowPerPageOptions: [5, 10, 20, 50],
     pageReportTemplate: "({first}~{last}) of {totalRecords}",
     initFilters: (pageFilters) => {
+      UI.tableSettings.filters.value = { ...defaultFilter };
       Object.assign(UI.tableSettings.filters.value, pageFilters);
     },
   },
@@ -462,6 +464,32 @@ const Util = {
   },
 };
 
+const Search = {
+  init: (key, params) => {
+    return State.state(key, () => params);
+  },
+  set: (search, filters) => {
+    for (const val in filters.value) {
+      if (val === "global") continue;
+      Object.assign(search.value, { [val]: filters.value[val].value });
+    }
+  },
+  get: (search, filters) => {
+    for (const val in search.value) {
+      filters.value[val].value = search.value[val];
+    }
+  },
+  reset: (search, filters) => {
+    Search.destroy(search);
+    Search.get(search, filters);
+  },
+  destroy: (search) => {
+    for (const val in search.value) {
+      search.value[val] = null;
+    }
+  },
+};
+
 export default function useAppHelper(opts: any = {}) {
   const options = opts;
 
@@ -471,5 +499,5 @@ export default function useAppHelper(opts: any = {}) {
     UI.init();
   };
 
-  return { API, UI, Routing, State, Auth, Util, initialize };
+  return { API, UI, Routing, State, Auth, Util, Search, initialize };
 }

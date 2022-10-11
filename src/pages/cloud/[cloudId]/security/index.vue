@@ -24,9 +24,10 @@
           <div class="header flex justify-content-between">
             <div class="search-left">
               <span>상태: </span>
-              <K3Dropdown v-model="selectedStatus" :options="SecurityStatusMap(true)" :optionLabel="`name`" :optionValue="`value`" @change="statusSelected" class="w-10rem" />
+              <K3Dropdown v-model="(UI.tableSettings.filters.value as any).status.value" :options="SecurityStatusMap()" :optionLabel="`name`" :optionValue="`value`" placeholder="선택" :showClear="true" @change="statusSelected" class="w-11rem" />
               <span>실행일: </span>
               <BizCommonCalendarRange v-model="selectedExecuted" @start-dt="setStartDate" @end-dt="setEndDate" />
+              <K3Button label="초기화" class="p-button-outlined p-button-plain" @click="onReset" />
             </div>
             <div class="search-right toggle flex align-content-center">
               <K3MultiSelect :modelValue="selectedColumns" class="flex" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" style="width: 20rem" />
@@ -66,7 +67,7 @@
 <script setup lang="ts">
 // imports
 import { FilterMatchMode } from "primevue/api";
-import { MessageTypes, SecurityStatus, SecurityStatusMap } from "~/models";
+import { MessageTypes, SecurityStatus, SecurityStatusMap, StateKeys } from "~/models";
 
 // Page meta
 definePageMeta({ layout: "default", title: "클라우드 보안검증 결과", public: true });
@@ -75,10 +76,12 @@ definePageMeta({ layout: "default", title: "클라우드 보안검증 결과", p
 // Emits
 // const emits = defineEmits(['eventname']),
 // Properties
+const { UI, Search } = useAppHelper();
+const { securites, isFetch, fetch } = useSecurityService().getSecurites();
+
+const search = Search.init(StateKeys.SEARCH_CLOUD_SC, { status: null, startDate: null, endDate: null });
 const route = useRoute();
 const cloudId = route.params.cloudId;
-const { UI } = useAppHelper();
-const { securites, isFetch, fetch } = useSecurityService().getSecurites();
 
 const selectedItem = ref();
 const selectedStatus = ref(0);
@@ -114,13 +117,11 @@ UI.tableSettings.initFilters({
 });
 
 // Compputed
-// Watcher
+
 // Methods
 const statusSelected = (event) => {
-  if (event.value == 0) event.value = null;
   (UI.tableSettings.filters.value as any).status.value = event.value;
 };
-
 const setStartDate = (event) => {
   console.log("setStartDate", event, new Date(event));
   (UI.tableSettings.filters.value as any).startDate.value = event;
@@ -156,9 +157,29 @@ const onExecute = () => {
   );
 };
 
+const onReset = () => {
+  Search.reset(search, UI.tableSettings.filters);
+};
+
+// Watcher
+watch(
+  () => [(UI.tableSettings.filters.value as any).status.value, (UI.tableSettings.filters.value as any).startDate.value, (UI.tableSettings.filters.value as any).endDate.value],
+  () => {
+    Search.set(search, UI.tableSettings.filters);
+  }
+);
+
 // Events
 onMounted(() => {
   fetch();
+
+  Search.get(search, UI.tableSettings.filters);
+});
+
+onUnmounted(() => {
+  if (!useRouter().currentRoute.value.path.includes(useRoute().path)) {
+    Search.destroy(search);
+  }
 });
 // Logics (like api call, etc)
 </script>
@@ -180,6 +201,9 @@ onMounted(() => {
 .search-left {
   span:not(:first-child) {
     margin-left: 0.5rem;
+  }
+  .p-button {
+    margin-left: 1rem;
   }
 }
 .search-right {
