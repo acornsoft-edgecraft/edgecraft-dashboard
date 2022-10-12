@@ -46,16 +46,16 @@ function getApiUrl(group: string, path: string): string {
 
 function makeResponse(error, data, statusCode, showError): APIResponse {
   // Check API resonse object
-  const isRawData = !Object.keys(data.value).some((key) => key === "error");
+  const isRawData = !Object.keys(data.value).some((key) => key === "isError");
   if (error.value) {
     if (showError) UI.showToastMessage(MessageTypes.ERROR, "API 호출 오류", `${error.value.message}`);
-    return isRawData ? new APIResponse(data.value, error.value.message, true, 20000, statusCode.value || 200) : new APIResponse(data.value.data, data.value.message, data.value.error, data.value.code, statusCode.value);
+    return isRawData ? new APIResponse(data.value, error.value.message, true, 20000, statusCode.value || 200) : new APIResponse(data.value.data, data.value.message, data.value.isError, data.value.code, statusCode.value);
   } else {
     if (isRawData) {
       return new APIResponse(data.value, "", false, 20000, statusCode.value || 200);
     } else {
-      if (data.value.error && showError) UI.showToastMessage(MessageTypes.ERROR, "API 호출 오류", `${error.value.message}`);
-      return new APIResponse(data.value.data, data.value.message, data.value.error, data.value.code, statusCode.value);
+      if (data.value.isError && showError) UI.showToastMessage(MessageTypes.ERROR, "API 호출 오류", `${error.value.message}`);
+      return new APIResponse(data.value.data, data.value.message, data.value.isError, data.value.code, statusCode.value);
     }
   }
 }
@@ -461,6 +461,10 @@ const Util = {
     if (label.key && label.value) return `${label.key}${separator}${label.value}`;
     else if (label.key) return label.key;
     else return "";
+  },
+  getDateLocaleString(date) {
+    if (!date) return "";
+    return new Date(date).toLocaleString();
   },
 };
 

@@ -72,13 +72,11 @@ const activeStep = (payload) => {
   });
 };
 const finished = (payload) => {
-  alert("잘 했어... ^^");
-
   // TODO: call api
-  if (cloudId > 0) {
-    upFetch(cloudId, cloud.value);
-  } else {
+  if (cloudId == 0) {
     insFetch(cloud.value);
+  } else {
+    upFetch(cloudId, cloud.value);
   }
   Routing.moveTo("/cloud");
 };

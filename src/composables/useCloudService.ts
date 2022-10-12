@@ -1,13 +1,12 @@
 import { MessageTypes, defaultCloudReg } from "~/models";
 
+const url = "api/v1/clouds";
 const currentCloud = ref("");
-const { Util } = useAppHelper();
 
 export function useCloudService(options: any = {}) {
-  const { API, UI } = useAppHelper();
+  const { API, UI, Util } = useAppHelper();
 
   const getClouds = () => {
-    const url = "api/v1/clouds";
     const clouds = ref([] as any);
     const isFetch = ref(false);
 
@@ -34,8 +33,6 @@ export function useCloudService(options: any = {}) {
   };
 
   const getCloud = () => {
-    // const url = `api/v1/clouds`;
-    const url = `api/v1/cloud`;
     const cloud = ref(Util.clone(defaultCloudReg));
     const isFetch = ref(false);
 
@@ -62,7 +59,6 @@ export function useCloudService(options: any = {}) {
   };
 
   const insertCloud = () => {
-    const url = "api/v1/clouds";
     const isInsFetch = ref(false);
 
     const insFetch = (params) => {
@@ -84,7 +80,6 @@ export function useCloudService(options: any = {}) {
   };
 
   const updateCloud = () => {
-    const url = "api/v1/cloud";
     const isUpFetch = ref(false);
 
     const upFetch = (id, params) => {
@@ -109,7 +104,6 @@ export function useCloudService(options: any = {}) {
   };
 
   const deleteCloud = () => {
-    const url = "api/v1/clouds";
     const isDelFetch = ref(false);
 
     const delFetch = (id) => {

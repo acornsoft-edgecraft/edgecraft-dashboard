@@ -9,17 +9,22 @@
       </div>
     </template>
 
-    <K3DataTable :value="nodes">
-      <K3Column field="node.node_name" header="Node Name"></K3Column>
+    <K3DataTable :value="modelValue">
+      <template #empty>
+        <div class="w-full text-center">
+          <p class="text-orange-500">No nodes found.</p>
+        </div>
+      </template>
+      <K3Column field="Node.node_name" header="Node Name"></K3Column>
       <K3Column header="Status">
         <template #body>
           <i class="pi pi-check text-success"></i>
           <i class="pi pi-times text-danger"></i>
         </template>
       </K3Column>
-      <K3Column field="node.ip_address" header="IP Address"></K3Column>
-      <K3Column field="baremetal.host_name" header="Baremetal Host Name"></K3Column>
-      <K3Column field="baremetal.bmc_address" header="BMC Address"></K3Column>
+      <K3Column field="Node.ip_address" header="IP Address"></K3Column>
+      <K3Column field="BaremetalHost.host_name" header="Baremetal Host Name"></K3Column>
+      <K3Column field="BaremetalHost.bmc_address" header="BMC Address"></K3Column>
       <K3Column :style="{ width: '100px' }">
         <template #body="slotProps">
           <K3Button icon="pi pi-trash" class="p-button-danger p-button-text" @click="removeNode(slotProps)" v-if="removable(slotProps.index)"></K3Button>
@@ -34,12 +39,11 @@ import { MessageTypes, NodeTypes } from "~/models";
 
 const { UI } = useAppHelper();
 const props = defineProps({
-  modelValue: { type: Object, default: {} },
+  modelValue: { type: Array, required: true },
   type: { type: Number, default: NodeTypes.Master },
 });
 const emits = defineEmits(["add-node"]);
 
-const nodes = ref(props.modelValue);
 const removable = (index) => !(props.type == NodeTypes.Master && index < 1);
 
 const addNode = () => {
@@ -50,11 +54,11 @@ const removeNode = (node) => {
   UI.showConfirm(
     MessageTypes.WARN,
     "노드 삭제",
-    `<${node.data.node.node_name}> 노드를 삭제하시겠습니까?`,
+    `<${node.data.Node.node_name}> 노드를 삭제하시겠습니까?`,
     () => {
       console.log("accept");
       // TODO: call api
-      nodes.value.splice(node.index, 1);
+      props.modelValue.splice(node.index, 1);
     },
     () => {
       console.log("reject");

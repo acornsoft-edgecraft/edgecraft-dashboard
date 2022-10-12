@@ -6,16 +6,16 @@ export interface nodesInfo {
   use_loadbalancer: Boolean;
   loadbalancer_address: String;
   loadbalancer_port: String;
-  master_nodes: Array<{ baremetal: baremetalHostInfo; node: nodeInfo }>;
-  worker_nodes: Array<{ baremetal: baremetalHostInfo; node: nodeInfo }>;
+  master_nodes: Array<{ BaremetalHost: baremetalHostInfo; Node: nodeInfo }>;
+  worker_nodes: Array<{ BaremetalHost: baremetalHostInfo; Node: nodeInfo }>;
 }
 
 export const defaultNodesInfo: nodesInfo = {
   use_loadbalancer: false,
   loadbalancer_address: "",
   loadbalancer_port: "",
-  master_nodes: [{ baremetal: defaultBaremetalHostInfo, node: defaultNodeInfo }],
-  worker_nodes: [{ baremetal: defaultBaremetalHostInfo, node: defaultNodeInfo }],
+  master_nodes: [{ BaremetalHost: defaultBaremetalHostInfo, Node: defaultNodeInfo }],
+  worker_nodes: [{ BaremetalHost: defaultBaremetalHostInfo, Node: defaultNodeInfo }],
 };
 
 export const defaultNodesInfoValidation = {
