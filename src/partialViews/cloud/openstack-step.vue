@@ -1,16 +1,18 @@
 <template>
   <div class="partial-container m-0 p-0">
-    <div calss="p-card">
-      <h5 class="form-title">OpenStack 정보</h5>
-      <div class="field grid">OpenStack Info</div>
-    </div>
+    <K3FormContainer class="no-bg">
+      <template #header>OpenStack 정보</template>
+      <K3FormRow>
+        <K3FormColumn>OpenStack Info</K3FormColumn>
+      </K3FormRow>
+    </K3FormContainer>
   </div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
   modelValue: { type: Object, required: true },
-  v: { type: Object, required: true },
+  // v: { type: Object, required: true },
 });
 const emits = defineEmits(["can-continue"]);
 
@@ -19,9 +21,9 @@ const beforeNextStep = (): boolean => {
 };
 
 onActivated(() => {
-  if (!props.v?.value.$invalid) {
-    emits("can-continue", { value: true });
-  }
+  // if (!props.v?.value.$invalid) {
+  emits("can-continue", { value: true });
+  // }
 });
 
 onMounted(() => {});

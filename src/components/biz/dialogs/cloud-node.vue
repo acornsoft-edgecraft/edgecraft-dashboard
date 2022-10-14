@@ -6,26 +6,26 @@
       </K3FormRow>
       <K3FormRow direction="horizontal" :overflow-wrap="true">
         <K3FormColumn label="Host Name" label-align="right" :size="6">
-          <K3FormInputField v-model="v.baremetal.host_name" field-name="Host Name" class="w-full" />
+          <K3FormInputField v-model="v.BaremetalHost.host_name" field-name="Host Name" class="w-full" />
         </K3FormColumn>
         <K3FormColumn label="BMC Address" label-align="right" :size="6">
-          <K3FormInputField v-model="v.baremetal.bmc_address" field-name="BMC Address" class="w-full" />
+          <K3FormInputField v-model="v.BaremetalHost.bmc_address" field-name="BMC Address" class="w-full" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow direction="horizontal" :overflow-wrap="true">
         <K3FormColumn label="Boot MAC Address" label-align="right" :size="6">
-          <K3FormInputField v-model="v.baremetal.boot_mac_address" field-name="Boot MAC Address" class="w-full" />
+          <K3FormInputField v-model="v.BaremetalHost.boot_mac_address" field-name="Boot MAC Address" class="w-full" />
         </K3FormColumn>
         <K3FormColumn label="Boot Mode" label-align="right" :size="6">
-          <K3FormDropdownField v-model="v.baremetal.boot_mode" field-name="Boot Mode" :options="BootModesMap()" :optionLabel="'name'" :optionValue="'value'" class="w-8" />
+          <K3FormDropdownField v-model="v.BaremetalHost.boot_mode" field-name="Boot Mode" :options="BootModesMap()" :optionLabel="'name'" :optionValue="'value'" class="w-8" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow direction="horizontal" :overflow-wrap="true">
         <K3FormColumn label="Online (Power)" label-align="right" :size="6">
-          <K3FormCheckField v-model="v.baremetal.online_power" :id="`${modelValue.type}_online_power`" label="사용" />
+          <K3FormCheckField v-model="v.BaremetalHost.online_power" :id="`${modelValue.type}_online_power`" label="사용" />
         </K3FormColumn>
         <K3FormColumn label="Externally Provisioning" label-align="right" :size="6">
-          <K3FormCheckField v-model="v.baremetal.external_provisioning" :id="`${modelValue.type}_external_provisioning`" label="사용" />
+          <K3FormCheckField v-model="v.BaremetalHost.external_provisioning" :id="`${modelValue.type}_external_provisioning`" label="사용" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow class="no-bg-row">
@@ -33,15 +33,15 @@
       </K3FormRow>
       <K3FormRow direction="horizontal" :overflow-wrap="true">
         <K3FormColumn label="Node Name" label-align="right" :size="6">
-          <K3FormInputField v-model="v.node.node_name" field-name="Node Name" class="w-full" />
+          <K3FormInputField v-model="v.Node.node_name" field-name="Node Name" class="w-full" />
         </K3FormColumn>
         <K3FormColumn label="IP Address" label-align="right" :size="6">
-          <K3FormInputField v-model="v.node.ip_address" field-name="IP Address" class="w-full" />
+          <K3FormInputField v-model="v.Node.ip_address" field-name="IP Address" class="w-full" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
         <K3FormColumn label="Labels" label-align="right">
-          <K3FormKeyValueField v-model="v.node.labels" caption="Labels 설정" />
+          <K3FormKeyValueField v-model="v.Node.labels" caption="Labels 설정" />
         </K3FormColumn>
       </K3FormRow>
     </K3FormContainer>
@@ -63,8 +63,8 @@ const props = defineProps({
 const emits = defineEmits(["close", "ok"]);
 
 const vRules = {
-  baremetal: { ...defaultBaremetalHostInfoValidation },
-  node: { ...defaultNodeInfoValidation },
+  BaremetalHost: { ...defaultBaremetalHostInfoValidation },
+  Node: { ...defaultNodeInfoValidation },
 };
 
 const data = ref();
@@ -87,7 +87,7 @@ const onHide = () => {
   init();
 };
 const init = () => {
-  data.value = { baremetal: Util.clone(defaultBaremetalHostInfo), node: Util.clone(defaultNodeInfo) };
+  data.value = { BaremetalHost: Util.clone(defaultBaremetalHostInfo), Node: Util.clone(defaultNodeInfo) };
 };
 
 onMounted(() => {

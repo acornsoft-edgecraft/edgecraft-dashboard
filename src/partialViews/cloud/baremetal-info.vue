@@ -31,19 +31,19 @@
       </K3FormRow>
       <K3FormRow>
         <K3FormColumn label="Image Checksum Type" label-align="right">
-          <K3FormDropdownField v-model="v$.image_checksum_type" field-name="Image Checksum Type" :options="ImageChecksumTypesMap()" :optionLabel="'name'" :optionValue="'value'" class="w-6" />
+          <K3FormDropdownField v-model="v$.image_checksum_type" field-name="Image Checksum Type" :options="ImageChecksumTypesMap()" class="w-6" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
         <K3FormColumn label="Image Format" label-align="right">
-          <K3FormDropdownField v-model="v$.image_format" field-name="Image Format" :options="ImageFormatsMap()" :optionLabel="'name'" :optionValue="'value'" class="w-6" />
+          <K3FormDropdownField v-model="v$.image_format" field-name="Image Format" :options="ImageFormatsMap()" class="w-6" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
         <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
           <K3FormContainer class="no-style w-full">
             <K3FormRow direction="vertical">
-              <K3Accordion :multiple="true" :activeIndex="[0]">
+              <K3Accordion :multiple="true" :activeIndex="activeIndex(modelValue.cp_kubeadm_extra_config)">
                 <K3AccordionTab v-for="(config, index) in kubeadmConfigs" :key="index" :header="config.header">
                   <K3Textarea :id="setConfigId('cp', config.id)" v-model="modelValue.cp_kubeadm_extra_config[config.id]" type="text" rows="4" class="w-full" />
                 </K3AccordionTab>
@@ -56,7 +56,7 @@
         <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
           <K3FormContainer class="no-style w-full">
             <K3FormRow direction="vertical">
-              <K3Accordion :multiple="true" :activeIndex="[0]">
+              <K3Accordion :multiple="true" :activeIndex="activeIndex(modelValue.worker_kubeadm_extra_config)">
                 <K3AccordionTab v-for="(config, index) in kubeadmConfigs" :key="index" :header="config.header">
                   <K3Textarea :id="setConfigId('worker', config.id)" v-model="modelValue.worker_kubeadm_extra_config[config.id]" rows="4" class="w-full" />
                 </K3AccordionTab>
@@ -89,6 +89,14 @@ const kubeadmConfigs = [
 
 const setConfigId = (prefix, id) => {
   return `${prefix}_${id}`;
+};
+
+const activeIndex = (configs) => {
+  const idx = [];
+  Object.keys(configs).map((c, i) => {
+    if (configs[c] != "") idx.push(i);
+  });
+  return idx.length > 0 ? idx : [0];
 };
 
 onMounted(() => {});

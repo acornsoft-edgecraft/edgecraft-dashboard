@@ -27,12 +27,13 @@
           <div class="header flex justify-content-between">
             <div class="search-left">
               <span>Status: </span>
-              <K3Dropdown v-model="selectedStatus" :options="CloudStatusMap(true)" :optionLabel="'name'" :optionValue="'value'" @change="statusSelected" class="w-10rem" />
+              <K3Dropdown v-model="(UI.tableSettings.filters.value as any).status.value" :options="CloudStatusMap()" :optionLabel="'name'" :optionValue="'value'" placeholder="선택" :showClear="true" @change="statusSelected" class="w-12rem" />
               <span>Cluster Name: </span>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
                 <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" autofocus />
               </span>
+              <K3Button label="초기화" class="p-button-outlined p-button-plain" @click="onReset" />
             </div>
             <div class="search-right toggle flex align-content-center">
               <K3MultiSelect :modelValue="selectedColumns" class="flex w-20rem" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" />
@@ -52,7 +53,7 @@
         </template>
         <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :class="col.class" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
-            <NuxtLink v-if="slotProps.field == 'name'" :to="goPage(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
+            <NuxtLink v-if="slotProps.field == 'name'" :to="page(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
             <span v-if="slotProps.field == 'status'">{{ CloudStatus[slotProps.data.status] }}</span>
             <span v-if="slotProps.field == 'nodeCount'">{{ slotProps.data.nodeCount }}</span>
             <span v-if="slotProps.field == 'version'">{{ K8sVersions[slotProps.data.version] }}</span>
@@ -78,29 +79,24 @@
 <script setup lang="ts">
 // imports
 import { FilterMatchMode } from "primevue/api";
-import { CloudStatus, CloudStatusMap, K8sVersions } from "~/models";
+import { CloudStatus, CloudStatusMap, K8sVersions, StateKeys } from "~/models";
 // Page meta
 definePageMeta({ layout: "default", title: "클라우드 클러스터", public: true });
 // Props
-// const props = defineProps({}),
 // Emits
-// const emits = defineEmits(['eventname']),
 // Properties
-const { UI } = useAppHelper();
+const { UI, Search } = useAppHelper();
 const { clusters, isFetch, fetch } = useClusterService().getClusters();
+
+const search = Search.init(StateKeys.SEARCH_CLUSTER, { status: null, name: null });
 const route = useRoute();
 const cloudId = route.params.cloudId;
 
-UI.tableSettings.initFilters({
-  status: { value: null, matchMode: FilterMatchMode.EQUALS },
-  name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-});
 // Compputed
 // Watcher
 // Methods
 const menu = ref();
 const selectedItem = ref();
-const selectedStatus = ref(0);
 const columns = ref([
   { field: "name", header: "Cluster Name", sortable: true },
   { field: "status", header: "Status", sortable: true },
@@ -109,7 +105,6 @@ const columns = ref([
   { field: "created", header: "Created", sortable: true },
 ]);
 const selectedColumns = ref(columns.value);
-
 const columnSize = (field) => {
   let size = 0;
   switch (field) {
@@ -132,9 +127,13 @@ const columnSize = (field) => {
 
   return `min-width: ${size}%`;
 };
+UI.tableSettings.initFilters({
+  status: { value: null, matchMode: FilterMatchMode.EQUALS },
+  name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+});
 
+const page = (data) => `/cloud/${cloudId}/cluster/${data.status == CloudStatus.Saved ? "register/" : ""}${data.id}`;
 const statusSelected = (event) => {
-  if (event.value == 0) event.value = null;
   (UI.tableSettings.filters.value as any).status.value = event.value;
 };
 const rowSelected = (event) => {
@@ -152,11 +151,6 @@ const showCommand = (id, event) => {
   menu.value.show(event);
 };
 
-const goPage = (data) => {
-  const page = data.status == CloudStatus.Saved ? "register/" : "";
-  return `/cloud/${cloudId}/cluster/${page}${data.id}`;
-};
-
 const menus = computed(() => {
   const to = `/cloud/${cloudId}/cluster/${selectedItem?.value?.id}`;
   const disabled = !(selectedItem?.value?.status == CloudStatus.Provisioned);
@@ -164,9 +158,28 @@ const menus = computed(() => {
   return [{ label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled }];
 });
 
+const onReset = () => {
+  Search.reset(search, UI.tableSettings.filters);
+};
+
+watch(
+  () => [(UI.tableSettings.filters.value as any).name.value, (UI.tableSettings.filters.value as any).status.value],
+  () => {
+    Search.set(search, UI.tableSettings.filters);
+  }
+);
+
 // Events
 onMounted(() => {
   fetch();
+
+  Search.get(search, UI.tableSettings.filters);
+});
+
+onUnmounted(() => {
+  if (!useRouter().currentRoute.value.path.includes(useRoute().path)) {
+    Search.destroy(search);
+  }
 });
 // Logics (like api call, etc)
 </script>
@@ -188,6 +201,9 @@ onMounted(() => {
 .search-left {
   span:not(:first-child) {
     margin-left: 0.5rem;
+  }
+  .p-button {
+    margin-left: 1rem;
   }
 }
 .search-right {

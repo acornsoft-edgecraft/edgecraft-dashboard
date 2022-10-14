@@ -8,7 +8,7 @@
         :value="clouds"
         v-model:filters="UI.tableSettings.filters.value"
         v-model:selection="selectedItem"
-        dataKey="id"
+        dataKey="cloud_uid"
         :autoLayout="true"
         :scrollable="true"
         :scrollHeight="UI.tableSettings.scrollHeight"
@@ -27,14 +27,15 @@
           <div class="header flex justify-content-between">
             <div class="search-left">
               <span>Cloud Type: </span>
-              <K3Dropdown v-model="selectedCloud" :options="CloudTypesMap(true)" :optionLabel="'name'" :optionValue="'value'" class="w-10rem" @change="typeSelected" />
+              <K3Dropdown v-model="(UI.tableSettings.filters.value as any).type.value" :options="CloudTypesMap()" :optionLabel="'name'" :optionValue="'value'" class="w-11rem" placeholder="선택" :showClear="true" @change="typeSelected" />
               <span>Status: </span>
-              <K3Dropdown v-model="selectedStatus" :options="CloudStatusMap(true)" :optionLabel="'name'" :optionValue="'value'" class="w-10rem" @change="statusSelected" />
+              <K3Dropdown v-model="(UI.tableSettings.filters.value as any).status.value" :options="CloudStatusMap()" :optionLabel="'name'" :optionValue="'value'" class="w-12rem" placeholder="선택" :showClear="true" @change="statusSelected" />
               <span>Name: </span>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
                 <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" autofocus />
               </span>
+              <K3Button label="초기화" class="p-button-outlined p-button-plain" @click="onReset" />
             </div>
             <div class="search-right toggle flex align-content-center">
               <K3MultiSelect class="flex w-20rem" :modelValue="selectedColumns" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" />
@@ -53,20 +54,20 @@
           </div>
         </template>
         <!-- Columns -->
-        <K3Column v-for="(col, index) of selectedColumns" :class="col.class" :field="col.field" :header="col.header" :sortable="col.sortable" :key="`${col.field}_index`" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
+        <K3Column v-for="(col, index) of selectedColumns" :class="col.class" :field="col.field" :header="col.header" :sortable="col.sortable" :key="`${col.field}_${index}`" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
             <span v-if="slotProps.field === 'type'">{{ CloudTypes[slotProps.data.type] }} </span>
-            <NuxtLink v-else-if="slotProps.field === 'name'" :to="goPage(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
+            <NuxtLink v-else-if="slotProps.field === 'name'" :to="page(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
             <span v-else-if="slotProps.field === 'status'">{{ CloudStatus[slotProps.data.status] }} </span>
             <span v-else-if="slotProps.field === 'nodeCount'">{{ slotProps.data.nodeCount }}</span>
             <span v-else-if="slotProps.field === 'version'">{{ K8sVersions[slotProps.data.version] }}</span>
-            <span v-else-if="slotProps.field === 'created'">{{ slotProps.data.created }}</span>
+            <span v-else-if="slotProps.field === 'created'">{{ Util.getDateLocaleString(slotProps.data.created) }}</span>
             <span v-else>{{ slotProps.data[slotProps.field] }}</span>
           </template>
         </K3Column>
         <K3Column header="Commands" key="cmd" class="flex justify-content-center" headerStyle="min-width: 30px;" bodyStyle="min-width: 30px;">
           <template #body="slotProps">
-            <i class="fas fa-ellipsis-v" style="width: 10px" @click="showCommand(slotProps.data.id, $event)"></i>
+            <i class="fas fa-ellipsis-v" style="width: 10px" @click="showCommand(slotProps.data.cloud_uid, $event)"></i>
           </template>
         </K3Column>
       </K3DataTable>
@@ -76,33 +77,26 @@
 </template>
 <script setup lang="ts">
 import { FilterMatchMode } from "primevue/api";
-import { CloudTypes, CloudTypesMap, CloudStatus, K8sVersions, CloudStatusMap, MessageTypes } from "~/models";
+import { CloudTypes, CloudTypesMap, CloudStatus, K8sVersions, CloudStatusMap, MessageTypes, StateKeys } from "~/models";
 
 definePageMeta({ layout: "default", title: "Clouds List", public: true });
 
-const { UI } = useAppHelper();
+const { UI, Util, Search } = useAppHelper();
 const { clouds, isFetch, fetch } = useCloudService().getClouds();
 
-UI.tableSettings.initFilters({
-  name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  type: { value: null, matchMode: FilterMatchMode.EQUALS },
-  status: { value: null, matchMode: FilterMatchMode.EQUALS },
-});
+const search = Search.init(StateKeys.SEARCH_CLOUD, { name: null, type: null, status: null });
 
 const menu = ref();
 const selectedItem = ref();
-const selectedCloud = ref(0);
-const selectedStatus = ref(0);
 const columns = ref([
   { field: "type", header: "Type", sortable: true },
   { field: "name", header: "Cloud Name", sortable: true },
   { field: "status", header: "Status", sortable: true },
-  { field: "nodeCount", header: "Nodes", sortable: true, class: "flex justify-content-end" },
+  { field: "nodeCount", header: "Node Count", sortable: true, class: "flex justify-content-end" },
   { field: "version", header: "Version", sortable: true },
   { field: "created", header: "Created", sortable: true },
 ]);
 const selectedColumns = ref(columns.value);
-
 const columnSize = (field) => {
   let size = 0;
   switch (field) {
@@ -110,31 +104,35 @@ const columnSize = (field) => {
       size = 5;
       break;
     case "name":
-      size = 55;
+      size = 45;
       break;
     case "status":
       size = 10;
       break;
     case "nodeCount":
-      size = 5;
-      break;
     case "version":
       size = 5;
       break;
     case "created":
-      size = 12;
+      size = 15;
       break;
   }
 
   return `min-width: ${size}%`;
 };
 
+UI.tableSettings.initFilters({
+  name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  type: { value: null, matchMode: FilterMatchMode.EQUALS },
+  status: { value: null, matchMode: FilterMatchMode.EQUALS },
+});
+
+const page = (data) => `/cloud/${data.status == CloudStatus.Saved ? "register/" : ""}${data.cloud_uid}`;
+
 const typeSelected = (event) => {
-  if (event.value == 0) event.value = null;
   (UI.tableSettings.filters.value as any).type.value = event.value;
 };
 const statusSelected = (event) => {
-  if (event.value == 0) event.value = null;
   (UI.tableSettings.filters.value as any).status.value = event.value;
 };
 const rowSelected = (event) => {
@@ -149,7 +147,7 @@ const toggle = (val) => {
 };
 
 const showCommand = (id, event) => {
-  selectedItem.value = clouds.value.find((c) => c.id === id);
+  selectedItem.value = clouds.value.find((c) => c.cloud_uid === id);
   menu.value.show(event);
 };
 
@@ -157,13 +155,8 @@ const rowMenuProcessing = (menuId) => {
   UI.showToastMessage(MessageTypes.INFO, "Row Menu", `menum #${menuId} selected with ${JSON.stringify(selectedItem.value)}`);
 };
 
-const goPage = (data) => {
-  const page = data.status == CloudStatus.Saved ? "register/" : "";
-  return `/cloud/${page}${data.id}`;
-};
-
 const menus = computed(() => {
-  const to = `/cloud/${selectedItem?.value?.id}`;
+  const to = `/cloud/${selectedItem?.value?.cloud_uid}`;
   const disabled = [true, true];
 
   if (selectedItem?.value?.status == CloudStatus.Provisioned) {
@@ -180,8 +173,27 @@ const menus = computed(() => {
   ];
 });
 
+const onReset = () => {
+  Search.reset(search, UI.tableSettings.filters);
+};
+
+watch(
+  () => [(UI.tableSettings.filters.value as any).type.value, (UI.tableSettings.filters.value as any).status.value, (UI.tableSettings.filters.value as any).name.value],
+  () => {
+    Search.set(search, UI.tableSettings.filters);
+  }
+);
+
 onMounted(() => {
   fetch();
+
+  Search.get(search, UI.tableSettings.filters);
+});
+
+onUnmounted(() => {
+  if (!useRouter().currentRoute.value.path.includes(useRoute().path)) {
+    Search.destroy(search);
+  }
 });
 </script>
 
@@ -203,6 +215,10 @@ onMounted(() => {
 .search-left {
   span:not(:first-child) {
     margin-left: 0.5rem;
+  }
+
+  .p-button {
+    margin-left: 1rem;
   }
 }
 .search-right {

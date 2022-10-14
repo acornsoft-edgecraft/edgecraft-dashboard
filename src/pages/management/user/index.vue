@@ -57,7 +57,7 @@
         <K3Column selection-mode="multiple" header-style="min-width: 5%" body-style="min-width: 5%"></K3Column>
         <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
-            <NuxtLink v-if="slotProps.field == 'email'" :to="`/management/user/register/${slotProps.data.id}`" @click="goList()">{{ slotProps.data.email }}</NuxtLink>
+            <NuxtLink v-if="slotProps.field == 'email'" :to="`/management/user/register/${slotProps.data.id}`">{{ slotProps.data.email }}</NuxtLink>
             <span v-if="slotProps.field == 'name'">{{ slotProps.data.name }}</span>
             <span v-if="slotProps.field == 'role'">{{ UserRoles[slotProps.data.role] }}</span>
             <span v-if="slotProps.field == 'created'">{{ slotProps.data.created }}</span>
@@ -73,13 +73,11 @@ import { FilterMatchMode } from "primevue/api";
 import { MessageTypes, StateKeys, UserRoles, UserRolesMap } from "~/models";
 
 definePageMeta({ layout: "default", title: "User Management", public: true });
-// const props = defineProps({}),
-// const emits = defineEmits(['eventname']),
-const { UI, State } = useAppHelper();
+
+const { UI, Search } = useAppHelper();
 const { users, isFetch, fetch } = useUserService().getUsers();
 
-const defaultSearch = { email: null, name: null, role: null };
-const search = State.state(StateKeys.SEARCH, () => defaultSearch);
+const search = Search.init(StateKeys.SEARCH_USER, { email: null, name: null, role: null });
 
 const selectedItem = ref();
 const columns = ref([
@@ -141,30 +139,26 @@ const onDelete = () => {
   );
 };
 
-const goList = () => {
-  for (const val in UI.tableSettings.filters.value) {
-    if (val === "global") continue;
-    Object.assign(search.value, { [val]: UI.tableSettings.filters.value[val].value });
-  }
-};
 const onReset = () => {
-  for (const val in UI.tableSettings.filters.value) {
-    UI.tableSettings.filters.value[val].value = null;
-  }
-  search.value = defaultSearch;
+  Search.reset(search, UI.tableSettings.filters);
 };
+
+watch(
+  () => [(UI.tableSettings.filters.value as any).email.value, (UI.tableSettings.filters.value as any).name.value, (UI.tableSettings.filters.value as any).role.value],
+  () => {
+    Search.set(search, UI.tableSettings.filters);
+  }
+);
 
 onMounted(() => {
   fetch();
 
-  for (const val in search.value) {
-    (UI.tableSettings.filters.value as any)[val].value = search.value[val];
-  }
+  Search.get(search, UI.tableSettings.filters);
 });
 
 onUnmounted(() => {
   if (!useRouter().currentRoute.value.path.includes(useRoute().path)) {
-    search.value = undefined;
+    Search.destroy(search);
   }
 });
 </script>

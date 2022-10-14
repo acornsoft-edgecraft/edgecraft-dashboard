@@ -48,7 +48,7 @@
   ],
   "clouds": [
     {
-      "id": 1,
+      "cloud_uid": 1,
       "type": 1,
       "name": "Non-profit charity...",
       "status": 3,
@@ -57,7 +57,7 @@
       "created": "2022-03-02 12:12:12"
     },
     {
-      "id": 2,
+      "cloud_uid": 2,
       "type": 1,
       "name": "Search for company logos and embed them in your project.",
       "status": 1,
@@ -66,7 +66,7 @@
       "created": "2022-03-03 15:33:04"
     },
     {
-      "id": 3,
+      "cloud_uid": 3,
       "type": 2,
       "name": "Registered Domain Names Search",
       "status": 2,
@@ -75,7 +75,7 @@
       "created": "2022-03-04 14:44:44"
     },
     {
-      "id": 4,
+      "cloud_uid": 4,
       "type": 2,
       "name": "Flexible, RESTful access to the user's inbox",
       "status": 3,
@@ -84,7 +84,7 @@
       "created": "2022-03-06 21:03:11"
     },
     {
-      "id": 5,
+      "cloud_uid": 5,
       "type": 2,
       "name": "Collect configure and analyze your data to reach the right audience",
       "status": 1,
@@ -192,7 +192,7 @@
         "loadbalancer_port": "88",
         "master_nodes": [
           {
-            "baremetal": {
+            "BaremetalHost": {
               "host_name": "master 1",
               "bmc_address": "00:b2:8c:ee:22:98",
               "boot_mac_address": "00:b2:8c:ee:22:98",
@@ -200,7 +200,7 @@
               "online_power": false,
               "external_provisioning": false
             },
-            "node": {
+            "Node": {
               "node_name": "sadf",
               "ip_address": "safd",
               "labels": [
@@ -214,7 +214,7 @@
         ],
         "worker_nodes": [
           {
-            "baremetal": {
+            "BaremetalHost": {
               "host_name": "worker 1",
               "bmc_address": "00:b2:8c:ee:22:98",
               "boot_mac_address": "00:b2:8c:ee:22:98",
@@ -222,7 +222,7 @@
               "online_power": false,
               "external_provisioning": false
             },
-            "node": {
+            "Node": {
               "node_name": "worker 1",
               "ip_address": "safd",
               "labels": [
@@ -238,7 +238,7 @@
             }
           },
           {
-            "baremetal": {
+            "BaremetalHost": {
               "host_name": "worker 2",
               "bmc_address": "00:b2:8c:ee:22:98",
               "boot_mac_address": "00:b2:8c:ee:22:98",
@@ -246,7 +246,7 @@
               "online_power": false,
               "external_provisioning": false
             },
-            "node": {
+            "Node": {
               "node_name": "worker 2",
               "ip_address": "safd",
               "labels": [
