@@ -462,10 +462,11 @@ const Util = {
     else if (label.key) return label.key;
     else return "";
   },
-  getDateLocaleString(date) {
+  getDateLocaleString: (date) => {
     if (!date) return "";
     return new Date(date).toLocaleString();
   },
+  getReplaceNewlineToBr: (val) => (val ? val.replace(/(?:\r\n|\r|\n)/g, "<br>") : val),
 };
 
 const Search = {

@@ -11,7 +11,7 @@
             <K3FormColumn label="Cloud 유형" label-align="right">{{ CloudTypes[modelValue.cloud.type] }}</K3FormColumn>
           </K3FormRow>
           <K3FormRow>
-            <K3FormColumn label="Cloud 설명" label-align="right">{{ modelValue.cloud.desc }}</K3FormColumn>
+            <K3FormColumn label="Cloud 설명" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.cloud.desc)"></div></K3FormColumn>
           </K3FormRow>
         </K3FormContainer>
       </K3AccordionTab>
@@ -57,13 +57,8 @@
             <K3FormRow>
               <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
                 <K3FormContainer class="no-style w-full">
-                  <K3FormRow direction="vertical">
-                    <K3FormColumn label="Pre Kubeadm Commands" label-align="right">{{ modelValue.cluster.baremetal.cp_kubeadm_extra_config.pre_kubeadm_commands }}</K3FormColumn>
-                    <K3FormColumn label="Post Kubeadm Commands" label-align="right">{{ modelValue.cluster.baremetal.cp_kubeadm_extra_config.post_kubeadm_commands }}</K3FormColumn>
-                    <K3FormColumn label="files" label-align="right">{{ modelValue.cluster.baremetal.cp_kubeadm_extra_config.files }}</K3FormColumn>
-                    <K3FormColumn label="users" label-align="right">{{ modelValue.cluster.baremetal.cp_kubeadm_extra_config.users }}</K3FormColumn>
-                    <K3FormColumn label="ntp" label-align="right">{{ modelValue.cluster.baremetal.cp_kubeadm_extra_config.ntp }}</K3FormColumn>
-                    <K3FormColumn label="format" label-align="right">{{ modelValue.cluster.baremetal.cp_kubeadm_extra_config.format }}</K3FormColumn>
+                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                    <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.cluster.baremetal.cp_kubeadm_extra_config[config.id])"></div></K3FormColumn>
                   </K3FormRow>
                 </K3FormContainer>
               </K3FormColumn>
@@ -71,13 +66,8 @@
             <K3FormRow>
               <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
                 <K3FormContainer class="no-style w-full">
-                  <K3FormRow direction="vertical">
-                    <K3FormColumn label="Pre Kubeadm Commands" label-align="right">{{ modelValue.cluster.baremetal.worker_kubeadm_extra_config.pre_kubeadm_commands }}</K3FormColumn>
-                    <K3FormColumn label="Post Kubeadm Commands" label-align="right">{{ modelValue.cluster.baremetal.worker_kubeadm_extra_config.post_kubeadm_commands }}</K3FormColumn>
-                    <K3FormColumn label="files" label-align="right">{{ modelValue.cluster.baremetal.worker_kubeadm_extra_config.files }}</K3FormColumn>
-                    <K3FormColumn label="users" label-align="right">{{ modelValue.cluster.baremetal.worker_kubeadm_extra_config.users }}</K3FormColumn>
-                    <K3FormColumn label="ntp" label-align="right">{{ modelValue.cluster.baremetal.worker_kubeadm_extra_config.ntp }}</K3FormColumn>
-                    <K3FormColumn label="format" label-align="right">{{ modelValue.cluster.baremetal.worker_kubeadm_extra_config.format }}</K3FormColumn>
+                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                    <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.cluster.baremetal.worker_kubeadm_extra_config[config.id])"></div></K3FormColumn>
                   </K3FormRow>
                 </K3FormContainer>
               </K3FormColumn>
@@ -208,7 +198,7 @@
 </template>
 
 <script setup lang="ts">
-import { CloudTypes, K8sVersions, ImageChecksumTypes, ImageFormats, BootModes } from "~/models";
+import { CloudTypes, K8sVersions, ImageChecksumTypes, ImageFormats, BootModes, kubeadmConfigs } from "~/models";
 
 const { Util } = useAppHelper();
 const props = defineProps({

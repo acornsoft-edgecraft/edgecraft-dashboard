@@ -17,6 +17,15 @@ export const ImageFormatsMap = (addAll: boolean = false) => {
   }
 };
 
+export const kubeadmConfigs = [
+  { header: "Pre Kubeadm Commands", id: "pre_kubeadm_commands" },
+  { header: "Post Kubeadm Commands", id: "post_kubeadm_commands" },
+  { header: "files", id: "files" },
+  { header: "users", id: "users" },
+  { header: "ntp", id: "ntp" },
+  { header: "format", id: "format" },
+];
+
 export interface kubeadmExtraConfig {
   pre_kubeadm_commands: String;
   post_kubeadm_commands: String;

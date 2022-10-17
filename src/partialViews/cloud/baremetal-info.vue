@@ -45,7 +45,7 @@
             <K3FormRow direction="vertical">
               <K3Accordion :multiple="true" :activeIndex="activeIndex(modelValue.cp_kubeadm_extra_config)">
                 <K3AccordionTab v-for="(config, index) in kubeadmConfigs" :key="index" :header="config.header">
-                  <K3Textarea :id="setConfigId('cp', config.id)" v-model="modelValue.cp_kubeadm_extra_config[config.id]" type="text" rows="4" class="w-full" />
+                  <K3Textarea :id="setConfigId('cp', config.id)" v-model="modelValue.cp_kubeadm_extra_config[config.id]" type="text" rows="4" class="w-full" :autoResize="true" />
                 </K3AccordionTab>
               </K3Accordion>
             </K3FormRow>
@@ -58,7 +58,7 @@
             <K3FormRow direction="vertical">
               <K3Accordion :multiple="true" :activeIndex="activeIndex(modelValue.worker_kubeadm_extra_config)">
                 <K3AccordionTab v-for="(config, index) in kubeadmConfigs" :key="index" :header="config.header">
-                  <K3Textarea :id="setConfigId('worker', config.id)" v-model="modelValue.worker_kubeadm_extra_config[config.id]" rows="4" class="w-full" />
+                  <K3Textarea :id="setConfigId('worker', config.id)" v-model="modelValue.worker_kubeadm_extra_config[config.id]" rows="4" class="w-full" :autoResize="true" />
                 </K3AccordionTab>
               </K3Accordion>
             </K3FormRow>
@@ -70,22 +70,13 @@
 </template>
 
 <script setup lang="ts">
-import { ImageChecksumTypesMap, ImageFormatsMap, defaultBaremetalInfoValidation, baremetalInfo } from "~/models";
+import { ImageChecksumTypesMap, ImageFormatsMap, defaultBaremetalInfoValidation, baremetalInfo, kubeadmConfigs } from "~/models";
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });
 
 const v$ = useAppHelper().UI.getValidate(defaultBaremetalInfoValidation, ref(props.modelValue as baremetalInfo));
-
-const kubeadmConfigs = [
-  { header: "Pre Kubeadm Commands", id: "pre_kubeadm_commands" },
-  { header: "Post Kubeadm Commands", id: "post_kubeadm_commands" },
-  { header: "files", id: "files" },
-  { header: "users", id: "users" },
-  { header: "ntp", id: "ntp" },
-  { header: "format", id: "format" },
-];
 
 const setConfigId = (prefix, id) => {
   return `${prefix}_${id}`;

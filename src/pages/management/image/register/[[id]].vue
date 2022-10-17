@@ -50,7 +50,7 @@
         </K3FormRow>
         <K3FormRow>
           <K3FormColumn label="Desc" label-align="right">
-            <K3FormTextareaField v-model="v$.desc" field-name="Image Desc" rows="4" class="w-full" />
+            <K3FormTextareaField v-model="v$.desc" field-name="Image Desc" rows="4" :auto-resize="true" class="w-full" />
           </K3FormColumn>
         </K3FormRow>
       </K3FormContainer>

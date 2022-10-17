@@ -1,7 +1,7 @@
 <template>
   <div class="item-container">
     <div class="form-field">
-      <K3Textarea :value="modelValue.$model" :type="type" :rows="rows" :cols="cols" :class="itemClass" @input="changeValue" />
+      <K3Textarea :value="modelValue.$model" :type="type" :rows="rows" :cols="cols" :class="itemClass" :autoResize="autoResize" @input="changeValue" />
     </div>
     <div class="error-field basic label pointing error" v-if="modelValue.$invalid">{{ errorMessages }}</div>
   </div>
@@ -14,6 +14,7 @@ const props = defineProps({
   rows: { type: String, default: "4" },
   cols: { type: String, default: "20" },
   fieldName: { type: String, default: "Field" },
+  autoResize: { type: Boolean, default: false },
 });
 
 const itemClass = computed(() => [useAttrs().class /*{ 'p-invalid': props.modelValue.$invalid } */]);

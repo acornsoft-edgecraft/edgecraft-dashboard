@@ -8,7 +8,7 @@
     </K3FormRow>
     <K3FormRow>
       <K3FormColumn label="Cluster 설명" label-align="right">
-        <K3FormTextareaField v-model="v$.desc" rows="4" class="w-full" />
+        <K3FormTextareaField v-model="v$.desc" rows="4" :auto-resize="true" class="w-full" />
       </K3FormColumn>
     </K3FormRow>
   </K3FormContainer>
