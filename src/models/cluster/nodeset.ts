@@ -2,7 +2,6 @@ import { required, integer, between } from "@vuelidate/validators";
 import { labelInfo, defaultLabelInfo } from "~/models";
 
 export interface nodesetInfo {
-  namespace: String;
   name: String;
   node_count: Number;
   flavor: String;
@@ -10,7 +9,6 @@ export interface nodesetInfo {
 }
 
 export const defaultNodesetInfo: nodesetInfo = {
-  namespace: "",
   name: "",
   node_count: 3,
   flavor: "",
@@ -18,7 +16,6 @@ export const defaultNodesetInfo: nodesetInfo = {
 };
 
 export const defaultNodesetInfoValidation = {
-  namespace: {},
   name: { required },
   node_count: { required, integer, between: between(1, 100) },
   flavor: { required },
