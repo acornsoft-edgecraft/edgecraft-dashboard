@@ -103,9 +103,6 @@
           <template v-for="(node, index) in modelValue.nodes.master_sets" :key="index">
             <K3FormContainer class="node-wrapper no-style">
               <K3FormRow>
-                <K3FormColumn label="namespace" label-align="right">{{ node.namespace }}</K3FormColumn>
-              </K3FormRow>
-              <K3FormRow>
                 <K3FormColumn label="name" label-align="right">{{ node.name }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
@@ -127,9 +124,6 @@
         <K3Fieldset legend="WorkerSet" :toggleable="true">
           <template v-for="(node, index) in modelValue.nodes.worker_sets" :key="index">
             <K3FormContainer class="node-wrapper no-style">
-              <K3FormRow>
-                <K3FormColumn label="namespace" label-align="right">{{ node.namespace }}</K3FormColumn>
-              </K3FormRow>
               <K3FormRow>
                 <K3FormColumn label="name" label-align="right">{{ node.name }}</K3FormColumn>
               </K3FormRow>
