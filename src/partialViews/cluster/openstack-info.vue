@@ -58,7 +58,7 @@
     </K3FormRow>
     <K3FormRow class="h-3rem">
       <K3FormColumn>
-        <K3FormCheckField v-model="v$.use_bastion_host" id="use_bastion_host" label="Bastion Host" />
+        <K3FormCheckField v-model="v$.use_bastion_host" id="use_bastion_host" label="Bastion Host" @input="changeValue" />
       </K3FormColumn>
     </K3FormRow>
     <template v-if="modelValue.use_bastion_host">
@@ -96,6 +96,15 @@ const props = defineProps({
 });
 
 const v$ = UI.getValidate(defaultOpenstackConfValidation, props.modelValue);
+
+const changeValue = (val) => {
+  if (!val) {
+    props.modelValue.bastion_flavor = "";
+    props.modelValue.bastion_image_name = "";
+    props.modelValue.bastion_ssh_key_name = "";
+    props.modelValue.bastion_floating_ip = "";
+  }
+};
 </script>
 
 <style scoped lang="scss"></style>

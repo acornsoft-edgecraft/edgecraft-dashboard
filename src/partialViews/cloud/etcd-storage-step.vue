@@ -23,8 +23,6 @@ watch(
   (val) => {
     v$.value.$touch(); // 자식의 오류 여부 검증
 
-    console.log(`watch >>> ${val.$invalid}`);
-    console.log(`errors >>> ${JSON.stringify(val.$errors)}`);
     if (!val.$invalid) {
       emits("can-continue", { value: true });
     } else {
