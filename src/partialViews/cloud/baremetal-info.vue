@@ -3,6 +3,11 @@
     <K3FormContainer class="no-bg">
       <template #header>Baremetal 설치 정보</template>
       <K3FormRow>
+        <K3FormColumn label="namespace" label-align="right">
+          <K3FormInputField v-model="v$.namespace" field-name="namespace" class="w-6" />
+        </K3FormColumn>
+      </K3FormRow>
+      <K3FormRow>
         <K3FormColumn label="BMC Credential" label-align="right">
           <K3FormContainer class="no-style w-full">
             <K3FormRow direction="vertical">

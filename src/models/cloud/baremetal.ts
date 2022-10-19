@@ -45,6 +45,7 @@ export const defaultKubeadmExtraConfig: kubeadmExtraConfig = {
 };
 
 export interface baremetalInfo {
+  namespace: String;
   secret_name: String;
   user_name: String;
   password: String;
@@ -57,6 +58,7 @@ export interface baremetalInfo {
 }
 
 export const defaultBaremetalInfo: baremetalInfo = {
+  namespace: "default",
   secret_name: "",
   user_name: "",
   password: "",
@@ -69,6 +71,7 @@ export const defaultBaremetalInfo: baremetalInfo = {
 };
 
 export const defaultBaremetalInfoValidation = {
+  namespace: { required, alphaNum },
   secret_name: { required, alphaNum },
   user_name: { required, alphaNum },
   password: { required, alphaNum },

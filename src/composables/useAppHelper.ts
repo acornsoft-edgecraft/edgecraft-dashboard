@@ -467,6 +467,7 @@ const Util = {
     return new Date(date).toLocaleString();
   },
   getReplaceNewlineToBr: (val) => (val ? val.replace(/(?:\r\n|\r|\n)/g, "<br>") : val),
+  getUseYnKo: (val: boolean) => (val ? "사용" : "사용안함"),
 };
 
 const Search = {

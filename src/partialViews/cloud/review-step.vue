@@ -27,10 +27,16 @@
             <K3FormRow>
               <K3FormColumn label="Service CIDR" label-align="right">{{ modelValue.cluster.k8s.svc_cidr }}</K3FormColumn>
             </K3FormRow>
+            <K3FormRow>
+              <K3FormColumn label="Service Dns Domain" label-align="right">{{ modelValue.cluster.k8s.svc_domain }}</K3FormColumn>
+            </K3FormRow>
           </K3FormContainer>
         </K3Fieldset>
         <K3Fieldset legend="Baremetal 설치 정보" :toggleable="true">
           <K3FormContainer class="no-style">
+            <K3FormRow>
+              <K3FormColumn label="namespace" label-align="right">{{ modelValue.cluster.baremetal.namespace }}</K3FormColumn>
+            </K3FormRow>
             <K3FormRow>
               <K3FormColumn label="BMC Credential" label-align="right">
                 <K3FormContainer class="no-style w-full">
@@ -78,7 +84,7 @@
       <K3AccordionTab header="Node 정보">
         <K3FormContainer class="no-style">
           <K3FormRow>
-            <K3FormColumn label="Use LoadBalancer" label-align="right">{{ modelValue.nodes.use_loadbalancer }}</K3FormColumn>
+            <K3FormColumn label="Use LoadBalancer" label-align="right">{{ Util.getUseYnKo(modelValue.nodes.use_loadbalancer) }}</K3FormColumn>
           </K3FormRow>
           <K3FormRow v-if="modelValue.nodes.use_loadbalancer">
             <K3FormColumn label="Load Balancer IP" label-align="right" :size="6">{{ modelValue.nodes.loadbalancer_address }}</K3FormColumn>
@@ -100,8 +106,8 @@
                 <K3FormColumn label="Boot Mode" label-align="right" :size="6">{{ BootModes[node.BaremetalHost.boot_mode] }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
-                <K3FormColumn label="Online (power)" label-align="right" :size="6">{{ node.BaremetalHost.online_power }}</K3FormColumn>
-                <K3FormColumn label="Externally Provisioning" label-align="right" :size="6">{{ node.BaremetalHost.external_provisioning }}</K3FormColumn>
+                <K3FormColumn label="Online (power)" label-align="right" :size="6">{{ Util.getUseYnKo(node.BaremetalHost.online_power) }}</K3FormColumn>
+                <K3FormColumn label="Externally Provisioning" label-align="right" :size="6">{{ Util.getUseYnKo(node.BaremetalHost.external_provisioning) }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow class="no-bg-row">
                 <K3Divider align="left">Node</K3Divider>
@@ -135,8 +141,8 @@
                 <K3FormColumn label="Boot Mode" label-align="right" :size="6">{{ BootModes[node.BaremetalHost.boot_mode] }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
-                <K3FormColumn label="Online (power)" label-align="right" :size="6">{{ node.BaremetalHost.online_power }}</K3FormColumn>
-                <K3FormColumn label="Externally Provisioning" label-align="right" :size="6">{{ node.BaremetalHost.external_provisioning }}</K3FormColumn>
+                <K3FormColumn label="Online (power)" label-align="right" :size="6">{{ Util.getUseYnKo(node.BaremetalHost.online_power) }}</K3FormColumn>
+                <K3FormColumn label="Externally Provisioning" label-align="right" :size="6">{{ Util.getUseYnKo(node.BaremetalHost.external_provisioning) }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow class="no-bg-row">
                 <K3Divider align="left">Node</K3Divider>
@@ -160,7 +166,7 @@
         <K3Fieldset legend="ETCD 설정" :toggleable="true">
           <K3FormContainer class="no-style">
             <K3FormRow>
-              <K3FormColumn label="External ETCD" label-align="right">{{ modelValue.etcd_storage.etcd.use_external_etcd }}</K3FormColumn>
+              <K3FormColumn label="External ETCD" label-align="right">{{ Util.getUseYnKo(modelValue.etcd_storage.etcd.use_external_etcd) }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow v-if="modelValue.etcd_storage.etcd.use_external_etcd">
               <K3FormColumn label="Endpoints" label-align="right" :size="12">
@@ -180,7 +186,7 @@
         <K3Fieldset legend="STORAGE Class 설정" :toggleable="true">
           <K3FormContainer class="no-style">
             <K3FormRow>
-              <K3FormColumn label="Use Ceph" label-align="right">{{ modelValue.etcd_storage.storage_class.use_ceph }}</K3FormColumn>
+              <K3FormColumn label="Use Ceph" label-align="right">{{ Util.getUseYnKo(modelValue.etcd_storage.storage_class.use_ceph) }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow v-if="modelValue.etcd_storage.storage_class.use_ceph">
               <K3FormColumn label="Label 1" label-align="right">{{ modelValue.etcd_storage.storage_class.label1 }}</K3FormColumn>
