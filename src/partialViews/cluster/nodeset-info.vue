@@ -8,11 +8,6 @@
         <template #default="{ v }">
           <K3FormContainer class="no-style">
             <K3FormRow>
-              <K3FormColumn label="Namespace" label-align="right">
-                <K3FormInputField v-model="v.namespace" field-name="Namespace" class="w-full" />
-              </K3FormColumn>
-            </K3FormRow>
-            <K3FormRow>
               <K3FormColumn label="Node Name" label-align="right">
                 <K3FormInputField v-model="v.name" field-name="Node Name" class="w-full" />
               </K3FormColumn>
@@ -75,9 +70,7 @@ const removeNodeSet = (index) => {
   data.splice(index, 1);
 };
 // Events
-onMounted(() => {
-  console.log("data", props.type, data.length);
-});
+onMounted(() => {});
 // Logics (like api call, etc)
 </script>
 

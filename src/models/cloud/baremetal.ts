@@ -17,6 +17,15 @@ export const ImageFormatsMap = (addAll: boolean = false) => {
   }
 };
 
+export const kubeadmConfigs = [
+  { header: "Pre Kubeadm Commands", id: "pre_kubeadm_commands" },
+  { header: "Post Kubeadm Commands", id: "post_kubeadm_commands" },
+  { header: "files", id: "files" },
+  { header: "users", id: "users" },
+  { header: "ntp", id: "ntp" },
+  { header: "format", id: "format" },
+];
+
 export interface kubeadmExtraConfig {
   pre_kubeadm_commands: String;
   post_kubeadm_commands: String;
@@ -36,6 +45,7 @@ export const defaultKubeadmExtraConfig: kubeadmExtraConfig = {
 };
 
 export interface baremetalInfo {
+  namespace: String;
   secret_name: String;
   user_name: String;
   password: String;
@@ -48,6 +58,7 @@ export interface baremetalInfo {
 }
 
 export const defaultBaremetalInfo: baremetalInfo = {
+  namespace: "default",
   secret_name: "",
   user_name: "",
   password: "",
@@ -60,6 +71,7 @@ export const defaultBaremetalInfo: baremetalInfo = {
 };
 
 export const defaultBaremetalInfoValidation = {
+  namespace: { required, alphaNum },
   secret_name: { required, alphaNum },
   user_name: { required, alphaNum },
   password: { required, alphaNum },

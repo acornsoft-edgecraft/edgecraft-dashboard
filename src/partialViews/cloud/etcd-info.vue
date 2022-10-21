@@ -3,7 +3,7 @@
     <template #header>ETCD 설정</template>
     <K3FormRow class="h-3rem">
       <K3FormColumn>
-        <K3FormCheckField v-model="v$.use_external_etcd" id="use_external_etcd" label="External ETCD" />
+        <K3FormCheckField v-model="v$.use_external_etcd" id="use_external_etcd" label="External ETCD" @input="changeValue" />
       </K3FormColumn>
     </K3FormRow>
     <template v-if="data.use_external_etcd">
@@ -55,6 +55,15 @@ const props = defineProps({
 
 const data = ref(props.modelValue);
 const v$ = UI.getValidate(defaultETCDInfoValidation, data);
+
+const changeValue = (val) => {
+  if (!val) {
+    data.value.endpoints = [{ ip_address: "", port: "" }];
+    data.value.ca_file = "";
+    data.value.cert_file = "";
+    data.value.key_file = "";
+  }
+};
 
 const addEndpoint = () => {
   data.value.endpoints.push(useAppHelper().Util.clone({ ip_address: "", port: "" }));

@@ -56,13 +56,10 @@ const removeNode = (node) => {
     "노드 삭제",
     `<${node.data.Node.node_name}> 노드를 삭제하시겠습니까?`,
     () => {
-      console.log("accept");
       // TODO: call api
       props.modelValue.splice(node.index, 1);
     },
-    () => {
-      console.log("reject");
-    }
+    () => {}
   );
 };
 </script>

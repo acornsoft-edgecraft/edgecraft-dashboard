@@ -14,7 +14,12 @@
       </K3FormRow>
       <K3FormRow>
         <K3FormColumn label="Service CIDR" label-align="right">
-          <K3FormInputField v-model="v$.svc_cidr" field-name="Service CIDR" class="w-6" placeholder="예) 192.168.0.0/16" />
+          <K3FormInputField v-model="v$.svc_cidr" field-name="Service CIDR" class="w-6" placeholder="예) 10.96.0.0/12" />
+        </K3FormColumn>
+      </K3FormRow>
+      <K3FormRow>
+        <K3FormColumn label="Service Dns Domain" label-align="right">
+          <K3FormInputField v-model="v$.svc_domain" field-name="Service Dns Domain" class="w-6" placeholder="예) cluster.local" />
         </K3FormColumn>
       </K3FormRow>
     </K3FormContainer>

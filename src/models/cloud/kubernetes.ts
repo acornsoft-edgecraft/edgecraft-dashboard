@@ -13,16 +13,19 @@ export interface kubernetesInfo {
   version: K8sVersions;
   pod_cidr: String;
   svc_cidr: String;
+  svc_domain: String;
 }
 
 export const defaultKubernetesInfo: kubernetesInfo = {
   version: K8sVersions["1.23.0"],
   pod_cidr: "",
-  svc_cidr: "",
+  svc_cidr: "10.96.0.0/12",
+  svc_domain: "cluster.local",
 };
 
 export const defaultKubernetesInfoValidation = {
   version: { required },
   pod_cidr: { required, CIDR },
   svc_cidr: { required, CIDR },
+  svc_domain: { required },
 };

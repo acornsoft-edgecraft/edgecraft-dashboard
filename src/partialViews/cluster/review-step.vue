@@ -9,6 +9,9 @@
               <K3FormColumn label="클러스터 명" label-align="right">{{ modelValue.cluster.name }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
+              <K3FormColumn label="Namespace" label-align="right">{{ modelValue.cluster.namespace }}</K3FormColumn>
+            </K3FormRow>
+            <K3FormRow>
               <K3FormColumn label="클러스터 설명" label-align="right">{{ modelValue.cluster.desc }}</K3FormColumn>
             </K3FormRow>
           </K3FormContainer>
@@ -24,11 +27,17 @@
             <K3FormRow>
               <K3FormColumn label="Service CIDR" label-align="right">{{ modelValue.k8s.svc_cidr }}</K3FormColumn>
             </K3FormRow>
+            <K3FormRow>
+              <K3FormColumn label="Service Dns Domain" label-align="right">{{ modelValue.k8s.svc_domain }}</K3FormColumn>
+            </K3FormRow>
           </K3FormContainer>
         </K3Fieldset>
       </K3AccordionTab>
       <K3AccordionTab header="Openstack 정보">
         <K3FormContainer class="no-style">
+          <K3FormRow>
+            <K3FormColumn label="Node CIDR" label-align="right">{{ modelValue.openstack.node_cidr }}</K3FormColumn>
+          </K3FormRow>
           <K3FormRow>
             <K3FormColumn label="Openstack Cloud" label-align="right">{{ modelValue.openstack.openstack_cloud }}</K3FormColumn>
           </K3FormRow>
@@ -59,30 +68,40 @@
           <K3FormRow>
             <K3FormColumn label="API Server Floating IP" label-align="right">{{ modelValue.openstack.api_server_floating_ip }}</K3FormColumn>
           </K3FormRow>
-          <K3FormRow>
+          <K3FormRow v-if="!modelValue.openstack.use_bastion_host">
             <K3FormColumn label="Bastion Host" label-align="right">
-              {{ modelValue.openstack.use_bastion_host }}
+              {{ Util.getUseYnKo(modelValue.openstack.use_bastion_host) }}
             </K3FormColumn>
           </K3FormRow>
           <K3FormRow v-if="modelValue.openstack.use_bastion_host">
-            <K3FormColumn label="Bastion Host Flavor" label-align="right">{{ modelValue.openstack.bastion_flavor }}</K3FormColumn>
-            <K3FormColumn label="Bastion Host Image Name" label-align="right">{{ modelValue.openstack.bastion_image_name }}</K3FormColumn>
-            <K3FormColumn label="Bastion Host SSH Key Name" label-align="right">{{ modelValue.openstack.bastion_ssh_key_name }}</K3FormColumn>
+            <K3FormColumn label="Bastion Host">
+              <K3FormContainer class="no-style w-full">
+                <K3FormRow>
+                  <K3FormColumn label="Flavor" label-align="right">{{ modelValue.openstack.bastion_flavor }}</K3FormColumn>
+                </K3FormRow>
+                <K3FormRow>
+                  <K3FormColumn label="Image Name" label-align="right">{{ modelValue.openstack.bastion_image_name }}</K3FormColumn>
+                </K3FormRow>
+                <K3FormRow>
+                  <K3FormColumn label="SSH Key Name" label-align="right">{{ modelValue.openstack.bastion_ssh_key_name }}</K3FormColumn>
+                </K3FormRow>
+                <K3FormRow>
+                  <K3FormColumn label="Floating IP" label-align="right">{{ modelValue.openstack.bastion_floating_ip }}</K3FormColumn>
+                </K3FormRow>
+              </K3FormContainer>
+            </K3FormColumn>
           </K3FormRow>
         </K3FormContainer>
       </K3AccordionTab>
       <K3AccordionTab header="Node 정보">
         <K3FormContainer class="no-style">
           <K3FormRow>
-            <K3FormColumn label="Use LoadBalancer" label-align="right">{{ modelValue.nodes.use_loadbalancer }}</K3FormColumn>
+            <K3FormColumn label="Use LoadBalancer" label-align="right">{{ Util.getUseYnKo(modelValue.nodes.use_loadbalancer) }}</K3FormColumn>
           </K3FormRow>
         </K3FormContainer>
         <K3Fieldset legend="MasterSet" :toggleable="true">
           <template v-for="(node, index) in modelValue.nodes.master_sets" :key="index">
             <K3FormContainer class="node-wrapper no-style">
-              <K3FormRow>
-                <K3FormColumn label="namespace" label-align="right">{{ node.namespace }}</K3FormColumn>
-              </K3FormRow>
               <K3FormRow>
                 <K3FormColumn label="name" label-align="right">{{ node.name }}</K3FormColumn>
               </K3FormRow>
@@ -105,9 +124,6 @@
         <K3Fieldset legend="WorkerSet" :toggleable="true">
           <template v-for="(node, index) in modelValue.nodes.worker_sets" :key="index">
             <K3FormContainer class="node-wrapper no-style">
-              <K3FormRow>
-                <K3FormColumn label="namespace" label-align="right">{{ node.namespace }}</K3FormColumn>
-              </K3FormRow>
               <K3FormRow>
                 <K3FormColumn label="name" label-align="right">{{ node.name }}</K3FormColumn>
               </K3FormRow>
@@ -132,7 +148,7 @@
         <K3Fieldset legend="ETCD 설정" :toggleable="true">
           <K3FormContainer class="no-style">
             <K3FormRow>
-              <K3FormColumn label="External ETCD" label-align="right">{{ modelValue.etcd_storage.etcd.use_external_etcd }}</K3FormColumn>
+              <K3FormColumn label="External ETCD" label-align="right">{{ Util.getUseYnKo(modelValue.etcd_storage.etcd.use_external_etcd) }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow v-if="modelValue.etcd_storage.etcd.use_external_etcd">
               <K3FormColumn label="Endpoints" label-align="right" :size="12">
@@ -152,7 +168,7 @@
         <K3Fieldset legend="STORAGE Class 설정" :toggleable="true">
           <K3FormContainer class="no-style">
             <K3FormRow>
-              <K3FormColumn label="Use Ceph" label-align="right">{{ modelValue.etcd_storage.storage_class.use_ceph }}</K3FormColumn>
+              <K3FormColumn label="Use Ceph" label-align="right">{{ Util.getUseYnKo(modelValue.etcd_storage.storage_class.use_ceph) }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow v-if="modelValue.etcd_storage.storage_class.use_ceph">
               <K3FormColumn label="Label 1" label-align="right">{{ modelValue.etcd_storage.storage_class.label1 }}</K3FormColumn>

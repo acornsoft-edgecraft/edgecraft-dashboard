@@ -13,7 +13,7 @@
     </K3FormRow>
     <K3FormRow>
       <K3FormColumn label="Cloud 설명" label-align="right">
-        <K3FormTextareaField v-model="v$.desc" rows="4" class="w-full" />
+        <K3FormTextareaField v-model="v$.desc" :auto-resize="true" rows="4" class="w-full" />
       </K3FormColumn>
     </K3FormRow>
   </K3FormContainer>

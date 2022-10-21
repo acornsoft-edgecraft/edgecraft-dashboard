@@ -2,11 +2,6 @@
   <K3Dialog header="Cluster WorkerSet 추가" v-model:visible="modelValue.display" :modal="true" :style="{ width: '50vw' }" @hide="onHide">
     <K3FormContainer>
       <K3FormRow>
-        <K3FormColumn label="Namespace" label-align="right">
-          <K3FormInputField v-model="v.namespace" field-name="Namespace" class="w-full" />
-        </K3FormColumn>
-      </K3FormRow>
-      <K3FormRow>
         <K3FormColumn label="Node Name" label-align="right">
           <K3FormInputField v-model="v.name" field-name="Node Name" class="w-full" />
         </K3FormColumn>
@@ -35,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { MessageTypes, defaultNodesetInfoValidation, defaultNodesetInfo } from "~/models";
+import { defaultNodesetInfoValidation, defaultNodesetInfo } from "~/models";
 
 const { UI, Util } = useAppHelper();
 
@@ -55,9 +50,7 @@ const close = () => {
 const ok = () => {
   v.value.$touch();
 
-  if (v.value.$invalid) {
-    // UI.showMessage(MessageTypes.WARN, "필수항목 검증", "필수 항목을 모두 입력하셔야 합니다.");
-  } else {
+  if (!v.value.$invalid) {
     emits("ok", { item: Util.clone(data.value) });
   }
 };

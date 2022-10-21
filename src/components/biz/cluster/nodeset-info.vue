@@ -9,9 +9,8 @@
       </K3Button>
     </template>
     <K3FormContainer class="no-style">
-      <K3FormRow direction="horizontal" :overflow-wrap="true">
-        <K3FormColumn label="Namespace" label-align="right" :size="6">{{ item.namespace }}</K3FormColumn>
-        <K3FormColumn label="Name" label-align="right" :size="6">{{ item.name }}</K3FormColumn>
+      <K3FormRow>
+        <K3FormColumn label="Name" label-align="right">{{ item.name }}</K3FormColumn>
       </K3FormRow>
       <K3FormRow direction="horizontal" :overflow-wrap="true">
         <K3FormColumn label="Flavor" label-align="right" :size="6">{{ item.flavor }}</K3FormColumn>

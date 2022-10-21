@@ -4,7 +4,7 @@
       <template #header>Node 정보</template>
       <K3FormRow class="h-3rem">
         <K3FormColumn>
-          <K3FormCheckField v-model="v$.use_loadbalancer" id="use_loadbalancer" label="Loadbalancer" />
+          <K3FormCheckField v-model="v$.use_loadbalancer" id="use_loadbalancer" label="Loadbalancer" @input="changeValue" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow direction="horizontal" v-if="nodes.use_loadbalancer">
@@ -62,6 +62,13 @@ const beforeNextStep = (): boolean => {
     return false;
   }
   return true;
+};
+
+const changeValue = (val) => {
+  if (!val) {
+    nodes.value.loadbalancer_address = "";
+    nodes.value.loadbalancer_port = "";
+  }
 };
 
 onActivated(() => {
