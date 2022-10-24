@@ -1,10 +1,10 @@
 import { MessageTypes, defaultCloudReg } from "~/models";
 
-const url = "api/v1/clouds";
 const currentCloud = ref("");
 
 export function useCloudService(options: any = {}) {
   const { API, UI, Util } = useAppHelper();
+  const url = "api/v1/clouds";
 
   const getClouds = () => {
     const clouds = ref([] as any);
@@ -86,11 +86,8 @@ export function useCloudService(options: any = {}) {
       isUpFetch.value = true;
       API.put("", `${url}/${id}`, params)
         .then((res) => {
-          console.log(res);
           if (res.isError) {
             UI.showToastMessage(MessageTypes.ERROR, "Fetch Cloud", res.message);
-          } else {
-            console.log(res.data);
           }
           isUpFetch.value = false;
         })

@@ -26,7 +26,7 @@
               <span>상태: </span>
               <K3Dropdown v-model="(UI.tableSettings.filters.value as any).status.value" :options="SecurityStatusMap()" :optionLabel="`name`" :optionValue="`value`" placeholder="선택" :showClear="true" @change="statusSelected" class="w-11rem" />
               <span>실행일: </span>
-              <BizCommonCalendarRange v-model="selectedExecuted" @start-dt="setStartDate" @end-dt="setEndDate" />
+              <BizCommonCalendarRange v-model="search.executed" @start-dt="setStartDate" @end-dt="setEndDate" />
               <K3Button label="초기화" class="p-button-outlined p-button-plain" @click="onReset" />
             </div>
             <div class="search-right toggle flex align-content-center">
@@ -46,7 +46,7 @@
         </template>
         <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
-            <NuxtLink v-if="slotProps.field == 'executed'" :to="`/cloud/${cloudId}/security/${slotProps.data.id}`">{{ slotProps.data.executed }}</NuxtLink>
+            <NuxtLink v-if="slotProps.field == 'executed'" :to="`/cloud/${cloudId}/security/${slotProps.data.id}`">{{ Util.getDateLocaleString(slotProps.data.executed) }}</NuxtLink>
             <span v-if="slotProps.field == 'status'">{{ SecurityStatus[slotProps.data.status] }}</span>
             <span v-if="slotProps.field == 'result'">{{ slotProps.data.result }}</span>
           </template>
@@ -58,7 +58,6 @@
           <K3Button label="클라우드 목록" class="p-button-secondary" />
         </NuxtLink>
       </div>
-
       <BizDialogsSecurityPeriod v-model="period" @close="close" @ok="ok" />
     </section>
   </div>
@@ -66,7 +65,7 @@
 
 <script setup lang="ts">
 // imports
-import { FilterMatchMode } from "primevue/api";
+import { FilterMatchMode, FilterOperator } from "primevue/api";
 import { MessageTypes, SecurityStatus, SecurityStatusMap, StateKeys } from "~/models";
 
 // Page meta
@@ -76,16 +75,14 @@ definePageMeta({ layout: "default", title: "클라우드 보안검증 결과", p
 // Emits
 // const emits = defineEmits(['eventname']),
 // Properties
-const { UI, Search } = useAppHelper();
+const { UI, Util, Search } = useAppHelper();
 const { securites, isFetch, fetch } = useSecurityService().getSecurites();
 
-const search = Search.init(StateKeys.SEARCH_CLOUD_SC, { status: null, startDate: null, endDate: null });
+const search = Search.init(StateKeys.SEARCH_CLOUD_SC, { status: null, executed: { startDate: null, endDate: null } });
 const route = useRoute();
 const cloudId = route.params.cloudId;
 
 const selectedItem = ref();
-const selectedStatus = ref(0);
-const selectedExecuted = ref({ startDate: null, endDate: null });
 const columns = ref([
   { field: "executed", header: "실행일", sortable: true },
   { field: "status", header: "상태", sortable: true },
@@ -112,8 +109,13 @@ const columnSize = (field) => {
 };
 UI.tableSettings.initFilters({
   status: { value: null, matchMode: FilterMatchMode.EQUALS },
-  startDate: { value: null, matchMode: FilterMatchMode.DATE_AFTER },
-  endDate: { value: null, matchMode: FilterMatchMode.DATE_BEFORE },
+  executed: {
+    operator: FilterOperator.AND,
+    constraints: [
+      { value: null, matchMode: FilterMatchMode.DATE_AFTER, name: "startDate" },
+      { value: null, matchMode: FilterMatchMode.DATE_BEFORE, name: "endDate" },
+    ],
+  },
 });
 
 // Compputed
@@ -123,12 +125,10 @@ const statusSelected = (event) => {
   (UI.tableSettings.filters.value as any).status.value = event.value;
 };
 const setStartDate = (event) => {
-  console.log("setStartDate", event, new Date(event));
-  (UI.tableSettings.filters.value as any).startDate.value = event;
+  (UI.tableSettings.filters.value as any).executed.constraints.find((v) => v.matchMode === FilterMatchMode.DATE_AFTER).value = event == null ? null : new Date(event);
 };
 const setEndDate = (event) => {
-  console.log("setEndDate", event, new Date(event));
-  (UI.tableSettings.filters.value as any).endDate.value = event;
+  (UI.tableSettings.filters.value as any).executed.constraints.find((v) => v.matchMode === FilterMatchMode.DATE_BEFORE).value = event == null ? null : new Date(event);
 };
 const toggle = (val) => {
   selectedColumns.value = columns.value.filter((col) => val.includes(col));
@@ -163,7 +163,7 @@ const onReset = () => {
 
 // Watcher
 watch(
-  () => [(UI.tableSettings.filters.value as any).status.value, (UI.tableSettings.filters.value as any).startDate.value, (UI.tableSettings.filters.value as any).endDate.value],
+  () => [(UI.tableSettings.filters.value as any).status.value, (UI.tableSettings.filters.value as any).executed.constraints[0].value, (UI.tableSettings.filters.value as any).executed.constraints[1].value],
   () => {
     Search.set(search, UI.tableSettings.filters);
   }

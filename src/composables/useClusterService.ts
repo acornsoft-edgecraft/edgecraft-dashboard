@@ -2,10 +2,9 @@ import { MessageTypes } from "~/models";
 import { defaultClusterReg } from "~/models";
 
 const currentCluster = ref("");
-const { Util } = useAppHelper();
 
 export function useClusterService(options: any = {}) {
-  const { API, UI } = useAppHelper();
+  const { API, UI, Util } = useAppHelper();
 
   const getClusters = () => {
     const url = "api/v1/clusters";

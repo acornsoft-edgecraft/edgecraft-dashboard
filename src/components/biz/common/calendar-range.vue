@@ -1,7 +1,7 @@
 <template>
-  <K3Calendar v-model="modelValue.startDate" :dateFormat="dateFormat" :selectOtherMonths="selectOtherMonths" :showButtonBar="showButtonBar" :showIcon="showIcon" :inputClass="inputClass" :maxDate="maxDate" @date-select="selectedStartDate" @clear-click="onStartDtClear" />
+  <K3Calendar v-model="modelValue.startDate" placeholder="yyyy.mm.dd" :dateFormat="dateFormat" :selectOtherMonths="selectOtherMonths" :showButtonBar="showButtonBar" :showIcon="showIcon" :inputClass="inputClass" :maxDate="maxDate" @date-select="selectedStartDate" @clear-click="onStartDtClear" />
   <span> ~ </span>
-  <K3Calendar v-model="modelValue.endDate" :dateFormat="dateFormat" :selectOtherMonths="selectOtherMonths" :showButtonBar="showButtonBar" :showIcon="showIcon" :inputClass="inputClass" :minDate="minDate" @date-select="selectedEndDate" @clear-click="onEndDtClear" />
+  <K3Calendar v-model="modelValue.endDate" placeholder="yyyy.mm.dd" :dateFormat="dateFormat" :selectOtherMonths="selectOtherMonths" :showButtonBar="showButtonBar" :showIcon="showIcon" :inputClass="inputClass" :minDate="minDate" @date-select="selectedEndDate" @clear-click="onEndDtClear" />
 </template>
 
 <script setup lang="ts">
