@@ -21,30 +21,14 @@
         :loading="isFetch"
         stripedRows>
         <template #header>
-          <div class="header flex justify-content-between">
-            <div class="search-left">
-              <span>Email: </span>
-              <span class="p-input-icon-left">
-                <i class="pi pi-search" />
-                <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).email.value" placeholder="Search" />
-              </span>
-              <span>Name: </span>
-              <span class="p-input-icon-left">
-                <i class="pi pi-search" />
-                <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" />
-              </span>
-              <span>Role: </span>
-              <K3Dropdown v-model="(UI.tableSettings.filters.value as any).role.value" :options="UserRolesMap()" :optionLabel="'name'" :optionValue="'value'" @change="userRoleSelected" placeholder="선택" :showClear="true" class="w-10rem" />
-              <K3Button label="초기화" class="p-button-outlined p-button-plain" @click="onReset" />
-            </div>
-            <div class="search-right toggle flex align-content-center">
-              <K3MultiSelect :modelValue="selectedColumns" class="flex w-18rem" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" />
+          <BizCommonSearch :items="searchItems.items" :multi-select="searchItems.multiSelect" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle">
+            <template #search-right>
               <NuxtLink to="/management/user/register">
                 <K3Button label="사용자 등록" />
               </NuxtLink>
               <K3Button label="사용자 삭제" class="p-button-danger" @click="onDelete" />
-            </div>
-          </div>
+            </template>
+          </BizCommonSearch>
         </template>
         <template #loading>
           <K3ProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
@@ -112,12 +96,26 @@ UI.tableSettings.initFilters({
   role: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
-const userRoleSelected = (event) => {
-  (UI.tableSettings.filters.value as any).role.value = event.value;
-};
-
+const searchItems = ref({
+  items: [
+    { type: "text", name: "email", label: "Email", value: search.value["email"] },
+    { type: "text", name: "name", label: "Name", value: search.value["name"] },
+    { type: "dropdown", name: "role", label: "Role", value: search.value["role"], options: UserRolesMap(), class: "w-10rem" },
+  ],
+  multiSelect: { columns: columns.value, selectedColumns: selectedColumns.value, class: "w-20rem" },
+});
 const toggle = (val) => {
   selectedColumns.value = columns.value.filter((col) => val.includes(col));
+};
+const changeValue = (val) => {
+  (UI.tableSettings.filters.value as any)[val.name].value = val.value;
+};
+const onReset = () => {
+  Search.reset(search, UI.tableSettings.filters);
+
+  for (const val in searchItems.value.items) {
+    searchItems.value.items[val].value = null;
+  }
 };
 
 const onDelete = () => {
@@ -137,10 +135,6 @@ const onDelete = () => {
     },
     () => {}
   );
-};
-
-const onReset = () => {
-  Search.reset(search, UI.tableSettings.filters);
 };
 
 watch(
@@ -175,20 +169,6 @@ onUnmounted(() => {
     .p-datatable-header {
       border-top: none;
     }
-  }
-}
-.search-left {
-  span:not(:first-child) {
-    margin-left: 0.5rem;
-  }
-
-  .p-button {
-    margin-left: 1rem;
-  }
-}
-.search-right {
-  .p-button {
-    margin-left: 0.5rem;
   }
 }
 </style>
