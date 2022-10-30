@@ -1,9 +1,8 @@
 import { defaultUserInfo, MessageTypes } from "~/models";
 
-const url = "api/v1/users";
-
 export function useUserService(options: any = {}) {
   const { API, UI, Util } = useAppHelper();
+  const url = "api/v1/users";
 
   const getUsers = () => {
     const users = ref([] as any);

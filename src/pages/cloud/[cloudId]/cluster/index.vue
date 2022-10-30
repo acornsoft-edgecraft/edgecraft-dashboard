@@ -24,24 +24,13 @@
         @rowUnselect="rowUnselected"
         stripedRows>
         <template #header>
-          <div class="header flex justify-content-between">
-            <div class="search-left">
-              <span>Status: </span>
-              <K3Dropdown v-model="(UI.tableSettings.filters.value as any).status.value" :options="CloudStatusMap()" :optionLabel="'name'" :optionValue="'value'" placeholder="선택" :showClear="true" @change="statusSelected" class="w-12rem" />
-              <span>Cluster Name: </span>
-              <span class="p-input-icon-left">
-                <i class="pi pi-search" />
-                <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" autofocus />
-              </span>
-              <K3Button label="초기화" class="p-button-outlined p-button-plain" @click="onReset" />
-            </div>
-            <div class="search-right toggle flex align-content-center">
-              <K3MultiSelect :modelValue="selectedColumns" class="flex w-20rem" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" />
+          <BizCommonSearch :items="searchItems.items" :multiSelect="searchItems.multiSelect" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle">
+            <template #search-right>
               <NuxtLink :to="`/cloud/${cloudId}/cluster/register`">
                 <K3Button label="클러스터 등록"></K3Button>
               </NuxtLink>
-            </div>
-          </div>
+            </template>
+          </BizCommonSearch>
         </template>
         <template #loading>
           <K3ProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
@@ -77,14 +66,11 @@
 </template>
 
 <script setup lang="ts">
-// imports
 import { FilterMatchMode } from "primevue/api";
 import { CloudStatus, CloudStatusMap, K8sVersions, StateKeys } from "~/models";
-// Page meta
+
 definePageMeta({ layout: "default", title: "클라우드 클러스터", public: true });
-// Props
-// Emits
-// Properties
+
 const { UI, Search } = useAppHelper();
 const { clusters, isFetch, fetch } = useClusterService().getClusters();
 
@@ -92,9 +78,6 @@ const search = Search.init(StateKeys.SEARCH_CLUSTER, { status: null, name: null 
 const route = useRoute();
 const cloudId = route.params.cloudId;
 
-// Compputed
-// Watcher
-// Methods
 const menu = ref();
 const selectedItem = ref();
 const columns = ref([
@@ -132,10 +115,29 @@ UI.tableSettings.initFilters({
   name: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 
-const page = (data) => `/cloud/${cloudId}/cluster/${data.status == CloudStatus.Saved ? "register/" : ""}${data.id}`;
-const statusSelected = (event) => {
-  (UI.tableSettings.filters.value as any).status.value = event.value;
+const searchItems = ref({
+  items: [
+    { type: "dropdown", name: "status", label: "Status", value: search.value["status"], options: CloudStatusMap(), class: "w-12rem" },
+    { type: "text", name: "name", label: "Cluster Name", value: search.value["name"] },
+  ],
+  multiSelect: { columns: columns.value, selectedColumns: selectedColumns.value, class: "w-20rem" },
+});
+const toggle = (val) => {
+  selectedColumns.value = columns.value.filter((col) => val.includes(col));
 };
+const changeValue = (val) => {
+  (UI.tableSettings.filters.value as any)[val.name].value = val.value;
+};
+const onReset = () => {
+  Search.reset(search, UI.tableSettings.filters);
+
+  for (const val in searchItems.value.items) {
+    searchItems.value.items[val].value = null;
+  }
+};
+
+const page = (data) => `/cloud/${cloudId}/cluster/${data.status == CloudStatus.Saved ? "register/" : ""}${data.id}`;
+
 const rowSelected = (event) => {
   // TODO: Row selected
 };
@@ -143,9 +145,6 @@ const rowUnselected = (event) => {
   // TODO: Row unselected
 };
 
-const toggle = (val) => {
-  selectedColumns.value = columns.value.filter((col) => val.includes(col));
-};
 const showCommand = (id, event) => {
   selectedItem.value = clusters.value.find((c) => c.id === id);
   menu.value.show(event);
@@ -158,10 +157,6 @@ const menus = computed(() => {
   return [{ label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled }];
 });
 
-const onReset = () => {
-  Search.reset(search, UI.tableSettings.filters);
-};
-
 watch(
   () => [(UI.tableSettings.filters.value as any).name.value, (UI.tableSettings.filters.value as any).status.value],
   () => {
@@ -169,7 +164,6 @@ watch(
   }
 );
 
-// Events
 onMounted(() => {
   fetch();
 
@@ -181,7 +175,6 @@ onUnmounted(() => {
     Search.destroy(search);
   }
 });
-// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss">
@@ -196,19 +189,6 @@ onUnmounted(() => {
     .p-datatable-header {
       border-top: none;
     }
-  }
-}
-.search-left {
-  span:not(:first-child) {
-    margin-left: 0.5rem;
-  }
-  .p-button {
-    margin-left: 1rem;
-  }
-}
-.search-right {
-  .p-button {
-    margin-left: 0.5rem;
   }
 }
 </style>

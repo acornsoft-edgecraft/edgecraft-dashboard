@@ -24,26 +24,13 @@
         @rowUnselect="rowUnselected"
         stripedRows>
         <template #header>
-          <div class="header flex justify-content-between">
-            <div class="search-left">
-              <span>Cloud Type: </span>
-              <K3Dropdown v-model="(UI.tableSettings.filters.value as any).type.value" :options="CloudTypesMap()" :optionLabel="'name'" :optionValue="'value'" class="w-11rem" placeholder="선택" :showClear="true" @change="typeSelected" />
-              <span>Status: </span>
-              <K3Dropdown v-model="(UI.tableSettings.filters.value as any).status.value" :options="CloudStatusMap()" :optionLabel="'name'" :optionValue="'value'" class="w-12rem" placeholder="선택" :showClear="true" @change="statusSelected" />
-              <span>Name: </span>
-              <span class="p-input-icon-left">
-                <i class="pi pi-search" />
-                <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" autofocus />
-              </span>
-              <K3Button label="초기화" class="p-button-outlined p-button-plain" @click="onReset" />
-            </div>
-            <div class="search-right toggle flex align-content-center">
-              <K3MultiSelect class="flex w-20rem" :modelValue="selectedColumns" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" />
+          <BizCommonSearch :items="searchItems.items" :multiSelect="searchItems.multiSelect" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle">
+            <template #search-right>
               <NuxtLink to="/cloud/register">
                 <K3Button label="클라우드 등록" />
               </NuxtLink>
-            </div>
-          </div>
+            </template>
+          </BizCommonSearch>
         </template>
         <template #loading>
           <K3ProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
@@ -127,23 +114,35 @@ UI.tableSettings.initFilters({
   status: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
+const searchItems = ref({
+  items: [
+    { type: "dropdown", name: "type", label: "Cloud Type", value: search.value["type"], options: CloudTypesMap(), class: "w-11rem" },
+    { type: "dropdown", name: "status", label: "Status", value: search.value["status"], options: CloudStatusMap(), class: "w-12rem" },
+    { type: "text", name: "name", label: "Name", value: search.value["name"] },
+  ],
+  multiSelect: { columns: columns.value, selectedColumns: selectedColumns.value, class: "w-20rem" },
+});
+const toggle = (val) => {
+  selectedColumns.value = columns.value.filter((col) => val.includes(col));
+};
+const changeValue = (val) => {
+  (UI.tableSettings.filters.value as any)[val.name].value = val.value;
+};
+const onReset = () => {
+  Search.reset(search, UI.tableSettings.filters);
+
+  for (const val in searchItems.value.items) {
+    searchItems.value.items[val].value = null;
+  }
+};
+
 const page = (data) => `/cloud/${data.status == CloudStatus.Saved ? "register/" : ""}${data.cloud_uid}`;
 
-const typeSelected = (event) => {
-  (UI.tableSettings.filters.value as any).type.value = event.value;
-};
-const statusSelected = (event) => {
-  (UI.tableSettings.filters.value as any).status.value = event.value;
-};
 const rowSelected = (event) => {
   // TODO: Row selected
 };
 const rowUnselected = (event) => {
   // TODO: Row unselected
-};
-
-const toggle = (val) => {
-  selectedColumns.value = columns.value.filter((col) => val.includes(col));
 };
 
 const showCommand = (id, event) => {
@@ -173,13 +172,9 @@ const menus = computed(() => {
   ];
 });
 
-const onReset = () => {
-  Search.reset(search, UI.tableSettings.filters);
-};
-
 watch(
   () => [(UI.tableSettings.filters.value as any).type.value, (UI.tableSettings.filters.value as any).status.value, (UI.tableSettings.filters.value as any).name.value],
-  () => {
+  (val) => {
     Search.set(search, UI.tableSettings.filters);
   }
 );
@@ -209,21 +204,6 @@ onUnmounted(() => {
     .p-datatable-header {
       border-top: none;
     }
-  }
-}
-
-.search-left {
-  span:not(:first-child) {
-    margin-left: 0.5rem;
-  }
-
-  .p-button {
-    margin-left: 1rem;
-  }
-}
-.search-right {
-  .p-button {
-    margin-left: 0.5rem;
   }
 }
 </style>

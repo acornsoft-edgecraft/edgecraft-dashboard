@@ -468,6 +468,10 @@ const Util = {
   },
   getReplaceNewlineToBr: (val) => (val ? val.replace(/(?:\r\n|\r|\n)/g, "<br>") : val),
   getUseYnKo: (val: boolean) => (val ? "사용" : "사용안함"),
+  isObject: (val) => {
+    if (val == null) return false;
+    if (typeof val == "object" || typeof val == "function") return true;
+  },
 };
 
 const Search = {
@@ -477,12 +481,30 @@ const Search = {
   set: (search, filters) => {
     for (const val in filters.value) {
       if (val === "global") continue;
-      Object.assign(search.value, { [val]: filters.value[val].value });
+      let value;
+      if (filters.value[val].operator) {
+        let obj = {};
+        for (const v of filters.value[val].constraints) {
+          Object.assign(obj, { [v.name]: v.value });
+        }
+        value = obj;
+      } else {
+        value = filters.value[val].value;
+      }
+      Object.assign(search.value, { [val]: value });
     }
   },
   get: (search, filters) => {
     for (const val in search.value) {
-      filters.value[val].value = search.value[val];
+      if (Util.isObject(search.value[val])) {
+        if (filters.value[val].operator) {
+          for (const obj in search.value[val]) {
+            filters.value[val].constraints.find((c) => c.name === obj).value = search.value[val][obj];
+          }
+        }
+      } else {
+        filters.value[val].value = search.value[val];
+      }
     }
   },
   reset: (search, filters) => {
@@ -491,7 +513,13 @@ const Search = {
   },
   destroy: (search) => {
     for (const val in search.value) {
-      search.value[val] = null;
+      if (Util.isObject(search.value[val])) {
+        for (const obj in search.value[val]) {
+          search.value[val][obj] = null;
+        }
+      } else {
+        search.value[val] = null;
+      }
     }
   },
 };

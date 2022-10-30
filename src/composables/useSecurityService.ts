@@ -2,10 +2,9 @@ import { MessageTypes } from "../models";
 // TEST DATA
 import result from "~/pages/samples/cis.reuslt.json";
 
-const url = "api/v1/securities";
-
 export function useSecurityService(options: any = {}) {
   const { API, UI, Util } = useAppHelper();
+  const url = "api/v1/securities";
 
   const getSecurites = () => {
     const securites = ref([] as any);
@@ -19,6 +18,7 @@ export function useSecurityService(options: any = {}) {
             UI.showToastMessage(MessageTypes.ERROR, "Fetch Securites", res.message);
           } else {
             res.data.forEach((item) => {
+              item.executed = new Date(item.executed);
               securites.value.push(item);
             });
           }

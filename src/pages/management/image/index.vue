@@ -21,27 +21,14 @@
         :loading="isFetch"
         stripedRows>
         <template #header>
-          <div class="header flex justify-content-between">
-            <div class="search-left">
-              <span>Name: </span>
-              <span class="p-input-icon-left">
-                <i class="pi pi-search" />
-                <K3InputText class="flex" v-model="(UI.tableSettings.filters.value as any).name.value" placeholder="Search" />
-              </span>
-              <span>Type: </span>
-              <K3Dropdown v-model="(UI.tableSettings.filters.value as any).type.value" :options="ImageTypesMap()" :optionLabel="'name'" :optionValue="'value'" @change="typeSelected" placeholder="선택" :showClear="true" class="w-14rem" />
-              <span>OS: </span>
-              <K3Dropdown v-model="(UI.tableSettings.filters.value as any).os.value" :options="ImageOsTypesMap()" :optionLabel="'name'" :optionValue="'value'" @change="osSelected" placeholder="선택" :showClear="true" class="w-12rem" />
-              <K3Button label="초기화" class="p-button-outlined p-button-plain" @click="onReset" />
-            </div>
-            <div class="search-right toggle flex align-content-center">
-              <K3MultiSelect :modelValue="selectedColumns" class="flex" :options="columns" optionLabel="header" @update:modelValue="toggle" placeholder="Select Columns" style="width: 20em" />
+          <BizCommonSearch :items="searchItems.items" :multi-select="searchItems.multiSelect" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle">
+            <template #search-right>
               <NuxtLink to="/management/image/register">
                 <K3Button label="이미지 등록" />
               </NuxtLink>
               <K3Button label="이미지 삭제" class="p-button-danger" @click="onDelete" />
-            </div>
-          </div>
+            </template>
+          </BizCommonSearch>
         </template>
         <template #loading>
           <K3ProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
@@ -73,7 +60,7 @@ import { StateKeys, ImageTypes, ImageOsTypes, ImageFormats, ImageTypesMap, Image
 
 definePageMeta({ layout: "default", title: "Image Management", public: true });
 
-const { UI, Search, State } = useAppHelper();
+const { UI, Search } = useAppHelper();
 const { images, isFetch, fetch } = useImageService().getImages();
 
 const search = Search.init(StateKeys.SEARCH_IMAGE, { name: null, type: null, os: null });
@@ -119,14 +106,24 @@ UI.tableSettings.initFilters({
   os: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
-const typeSelected = (event) => {
-  (UI.tableSettings.filters.value as any).type.value = event.value;
-};
+const searchItems = ref({
+  items: [
+    { type: "text", name: "name", label: "Name", value: search.value["name"] },
+    { type: "dropdown", name: "type", label: "Type", value: search.value["type"], options: ImageTypesMap(), class: "w-14rem" },
+    { type: "dropdown", name: "os", label: "OS", value: search.value["os"], options: ImageOsTypesMap(), class: "w-12rem" },
+  ],
+  multiSelect: { columns: columns.value, selectedColumns: selectedColumns.value, class: "w-20rem" },
+});
+const onReset = () => {
+  Search.reset(search, UI.tableSettings.filters);
 
-const osSelected = (event) => {
-  (UI.tableSettings.filters.value as any).os.value = event.value;
+  for (const val in searchItems.value.items) {
+    searchItems.value.items[val].value = null;
+  }
 };
-
+const changeValue = (val) => {
+  (UI.tableSettings.filters.value as any)[val.name].value = val.value;
+};
 const toggle = (val) => {
   selectedColumns.value = columns.value.filter((col) => val.includes(col));
 };
@@ -148,10 +145,6 @@ const onDelete = () => {
     },
     () => {}
   );
-};
-
-const onReset = () => {
-  Search.reset(search, UI.tableSettings.filters);
 };
 
 watch(
@@ -186,19 +179,6 @@ onUnmounted(() => {
     .p-datatable-header {
       border-top: none;
     }
-  }
-}
-.search-left {
-  span:not(:first-child) {
-    margin-left: 0.5rem;
-  }
-  .p-button {
-    margin-left: 1rem;
-  }
-}
-.search-right {
-  .p-button {
-    margin-left: 0.5rem;
   }
 }
 </style>
