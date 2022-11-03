@@ -13,7 +13,7 @@ export function useUserService(options: any = {}) {
       API.get("", url)
         .then((res) => {
           if (res.isError) {
-            UI.showToastMessage(MessageTypes.ERROR, "Fetch Users", res.message);
+            UI.showToastMessage(MessageTypes.ERROR, "사용자 목록", res.message);
           } else {
             res.data.forEach((item) => {
               users.value.push(item);
@@ -22,7 +22,7 @@ export function useUserService(options: any = {}) {
           isFetch.value = false;
         })
         .catch((err) => {
-          UI.showToastMessage(MessageTypes.ERROR, "Fetch Users", err);
+          UI.showToastMessage(MessageTypes.ERROR, "사용자 목록", err);
           isFetch.value = false;
         });
     };
@@ -36,16 +36,16 @@ export function useUserService(options: any = {}) {
 
     const fetch = async (id) => {
       isFetch.value = true;
-      let rtn = false;
       const res = await API.get("", `${url}/${id}`);
       if (res.isError) {
-        UI.showToastMessage(MessageTypes.ERROR, "Fetch Users", res.message);
+        UI.showToastMessage(MessageTypes.ERROR, "사용자 정보", res.message);
+        isFetch.value = false;
+        return false;
       } else {
         user.value = res.data;
-        rtn = true;
+        isFetch.value = false;
+        return true;
       }
-      isFetch.value = false;
-      return rtn;
     };
 
     return { user, isFetch, fetch };
@@ -56,15 +56,15 @@ export function useUserService(options: any = {}) {
 
     const insFetch = async (params) => {
       isInsFetch.value = true;
-      let rtn = false;
       const res = await API.post("", url, params);
       if (res.isError) {
-        UI.showToastMessage(MessageTypes.ERROR, "Fetch User", res.message);
+        UI.showToastMessage(MessageTypes.ERROR, "사용자 등록", res.message);
+        isInsFetch.value = false;
+        return false;
       } else {
-        rtn = true;
+        isInsFetch.value = false;
+        return true;
       }
-      isInsFetch.value = false;
-      return rtn;
     };
 
     return { isInsFetch, insFetch };
@@ -75,15 +75,15 @@ export function useUserService(options: any = {}) {
 
     const upFetch = async (id, params) => {
       isUpFetch.value = true;
-      let rtn = false;
       const res = await API.put("", `${url}/${id}`, params);
       if (res.isError) {
-        UI.showToastMessage(MessageTypes.ERROR, "Fetch User", res.message);
+        UI.showToastMessage(MessageTypes.ERROR, "사용자 수정", res.message);
+        isUpFetch.value = false;
+        return false;
       } else {
-        rtn = true;
+        isUpFetch.value = false;
+        return true;
       }
-      isUpFetch.value = false;
-      return rtn;
     };
 
     return { isUpFetch, upFetch };
@@ -94,15 +94,15 @@ export function useUserService(options: any = {}) {
 
     const delFetch = async (id) => {
       isDelFetch.value = true;
-      let rtn = false;
       const res = await API.delete("", `${url}/${id}`);
       if (res.isError) {
-        UI.showToastMessage(MessageTypes.ERROR, "Fetch User", res.message);
+        UI.showToastMessage(MessageTypes.ERROR, "사용자 삭제", res.message);
+        isDelFetch.value = false;
+        return false;
       } else {
-        rtn = true;
+        isDelFetch.value = false;
+        return true;
       }
-      isDelFetch.value = false;
-      return rtn;
     };
 
     return { isDelFetch, delFetch };

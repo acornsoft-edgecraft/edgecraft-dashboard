@@ -85,44 +85,38 @@ const onSubmit = async () => {
     return;
   }
 
-  // TODO: call api
   let result;
   try {
     result = userId ? await upFetch(userId, user.value) : await insFetch(user.value);
   } catch (err) {
-    UI.showToastMessage(MessageTypes.ERROR, `사용자 ${label} 오류`, err);
+    UI.showToastMessage(MessageTypes.ERROR, `사용자 ${label}`, err);
   }
-
   if (!result) return;
-  else Routing.moveTo(list);
+
+  UI.showToastMessage(MessageTypes.INFO, `사용자 ${label}`, `사용자를 ${label}하였습니다.`);
+  Routing.moveTo(list);
 };
 const onDelete = () => {
-  UI.showConfirm(
-    MessageTypes.ERROR,
-    "사용자 삭제",
-    "사용자를 삭제하시겠습니까?",
-    () => {
-      deleteUser();
-    },
-    () => {}
-  );
+  UI.showConfirm(MessageTypes.ERROR, "사용자 삭제", "사용자를 삭제하시겠습니까?", deleteUser, () => {});
 };
 const deleteUser = async () => {
   let result;
   try {
     result = await delFetch(userId);
   } catch (err) {
-    UI.showToastMessage(MessageTypes.ERROR, "사용자 삭제 오류", err);
+    UI.showToastMessage(MessageTypes.ERROR, "사용자 삭제", err);
   }
   if (!result) return;
-  else Routing.moveTo(list);
+
+  UI.showToastMessage(MessageTypes.INFO, "사용자 삭제", `사용자를 삭제하였습니다.`);
+  Routing.moveTo(list);
 };
 const getUser = async () => {
   let result;
   try {
     result = await fetch(userId);
   } catch (err) {
-    UI.showToastMessage(MessageTypes.ERROR, "사용자 정보 오류", err);
+    UI.showToastMessage(MessageTypes.ERROR, "사용자 정보", err);
   }
   if (!result) {
     Routing.moveTo(list);
