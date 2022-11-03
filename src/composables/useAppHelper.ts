@@ -97,22 +97,21 @@ const API = {
   },
 };
 
-const defaultFilter = { global: { value: null, matchMode: FilterMatchMode.CONTAINS } };
 const UI = {
   init: () => {
     toast = useToast();
     confirm = useConfirm();
   },
+  defaultFilter: { global: { value: null, matchMode: FilterMatchMode.CONTAINS } },
   tableSettings: {
-    filters: ref({ ...defaultFilter }),
+    filters: ref(),
     scrollHeight: "calc(100vh - 150px)",
     rows: 10,
     paginatorTemplate: "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
     rowPerPageOptions: [5, 10, 20, 50],
     pageReportTemplate: "({first}~{last}) of {totalRecords}",
     initFilters: (pageFilters) => {
-      UI.tableSettings.filters.value = { ...defaultFilter };
-      Object.assign(UI.tableSettings.filters.value, pageFilters);
+      UI.tableSettings.filters.value = { ...UI.defaultFilter, ...pageFilters };
     },
   },
   isDeskTop: () => window.innerWidth >= 992,

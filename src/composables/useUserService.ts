@@ -34,23 +34,18 @@ export function useUserService(options: any = {}) {
     const user = ref(Util.clone(defaultUserInfo));
     const isFetch = ref(false);
 
-    const fetch = (id) => {
-      if (id == 0) return;
-
+    const fetch = async (id) => {
       isFetch.value = true;
-      API.get("", `${url}/${id}`)
-        .then((res) => {
-          if (res.isError) {
-            UI.showToastMessage(MessageTypes.ERROR, "Fetch Users", res.message);
-          } else {
-            user.value = res.data;
-          }
-          isFetch.value = false;
-        })
-        .catch((err) => {
-          UI.showToastMessage(MessageTypes.ERROR, "Fetch Users", err);
-          isFetch.value = false;
-        });
+      let rtn = false;
+      const res = await API.get("", `${url}/${id}`);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "Fetch Users", res.message);
+      } else {
+        user.value = res.data;
+        rtn = true;
+      }
+      isFetch.value = false;
+      return rtn;
     };
 
     return { user, isFetch, fetch };
@@ -59,19 +54,17 @@ export function useUserService(options: any = {}) {
   const insertUser = () => {
     const isInsFetch = ref(false);
 
-    const insFetch = (params) => {
+    const insFetch = async (params) => {
       isInsFetch.value = true;
-      API.post("", url, params)
-        .then((res) => {
-          if (res.isError) {
-            UI.showToastMessage(MessageTypes.ERROR, "Fetch User", res.message);
-          }
-          isInsFetch.value = false;
-        })
-        .catch((err) => {
-          UI.showToastMessage(MessageTypes.ERROR, "Fetch User", err);
-          isInsFetch.value = false;
-        });
+      let rtn = false;
+      const res = await API.post("", url, params);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "Fetch User", res.message);
+      } else {
+        rtn = true;
+      }
+      isInsFetch.value = false;
+      return rtn;
     };
 
     return { isInsFetch, insFetch };
@@ -80,22 +73,17 @@ export function useUserService(options: any = {}) {
   const updateUser = () => {
     const isUpFetch = ref(false);
 
-    const upFetch = (id, params) => {
+    const upFetch = async (id, params) => {
       isUpFetch.value = true;
-      API.put("", `${url}/${id}`, params)
-        .then((res) => {
-          console.log(res);
-          if (res.isError) {
-            UI.showToastMessage(MessageTypes.ERROR, "Fetch User", res.message);
-          } else {
-            console.log(res.data);
-          }
-          isUpFetch.value = false;
-        })
-        .catch((err) => {
-          UI.showToastMessage(MessageTypes.ERROR, "Fetch User", err);
-          isUpFetch.value = false;
-        });
+      let rtn = false;
+      const res = await API.put("", `${url}/${id}`, params);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "Fetch User", res.message);
+      } else {
+        rtn = true;
+      }
+      isUpFetch.value = false;
+      return rtn;
     };
 
     return { isUpFetch, upFetch };
@@ -104,19 +92,17 @@ export function useUserService(options: any = {}) {
   const deleteUser = () => {
     const isDelFetch = ref(false);
 
-    const delFetch = (id) => {
+    const delFetch = async (id) => {
       isDelFetch.value = true;
-      API.delete("", `${url}/${id}`)
-        .then((res) => {
-          if (res.isError) {
-            UI.showToastMessage(MessageTypes.ERROR, "Fetch User", res.message);
-          }
-          isDelFetch.value = false;
-        })
-        .catch((err) => {
-          UI.showToastMessage(MessageTypes.ERROR, "Fetch User", err);
-          isDelFetch.value = false;
-        });
+      let rtn = false;
+      const res = await API.delete("", `${url}/${id}`);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "Fetch User", res.message);
+      } else {
+        rtn = true;
+      }
+      isDelFetch.value = false;
+      return rtn;
     };
 
     return { isDelFetch, delFetch };
