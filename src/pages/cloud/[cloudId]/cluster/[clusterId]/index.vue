@@ -76,27 +76,20 @@
 </template>
 
 <script setup lang="ts">
-// imports
 import { CloudStatus, K8sVersions, NodeTypes, MessageTypes } from "~/models";
-// Page meta
+
 definePageMeta({ layout: "default", title: "클라우드 클러스터 상세", public: true });
-// Props
-// const props = defineProps({}),
-// Emits
-// const emits = defineEmits(['eventname']),
-// Properties
+
+const { UI, Routing } = useAppHelper();
+const { cluster, isFetch, fetch } = useClusterService().getCluster();
+const { isDelFetch, delFetch } = useClusterService().deleteCluster();
 const route = useRoute();
 const cloudId = route.params.cloudId;
 const clusterId = route.params.clusterId;
 const list = `/cloud/${cloudId}/cluster`;
-const { UI, Routing } = useAppHelper();
-const { cluster, isFetch, fetch } = useClusterService().getCluster();
-const { isDelFetch, delFetch } = useClusterService().deleteCluster();
 
-// Compputed
 const provisioned = computed(() => cluster.value.cluster.status == CloudStatus.Provisioned);
-// Watcher
-// Methods
+
 const goKoreboard = () => {
   // TOGO: go koreboard
 };
@@ -112,17 +105,32 @@ const upgrade = (val) => {
 };
 
 const onDelete = () => {
-  UI.showConfirm(
-    MessageTypes.ERROR,
-    "클러스터 삭제",
-    `<${cluster.value.cluster.name}> 클러스터를 삭제하시겠습니까?\n 관련된 모든 정보가 삭제됩니다.`,
-    () => {
-      // TODO: delete cluster
-      delFetch(clusterId);
-      Routing.moveTo(list);
-    },
-    () => {}
-  );
+  UI.showConfirm(MessageTypes.ERROR, "클러스터 삭제", `<${cluster.value.cluster.name}> 클러스터를 삭제하시겠습니까?\n 관련된 모든 정보가 삭제됩니다.`, deleteCluster, () => {});
+};
+const deleteCluster = async () => {
+  let result;
+  try {
+    result = await delFetch(clusterId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "클러스터 삭제", err);
+  }
+  if (!result) return;
+
+  UI.showToastMessage(MessageTypes.INFO, "클러스터 삭제", "클러스터를 삭제하였습니다.");
+  Routing.moveTo(list);
+};
+const getCluster = async () => {
+  let result;
+  try {
+    result = await fetch(clusterId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, `클러스터 정보`, err);
+  }
+  if (!result) Routing.moveTo(list);
+
+  if (cluster.value.cluster.status == CloudStatus.Saved) {
+    Routing.moveTo(`${list}/register/${clusterId}`);
+  }
 };
 
 const clusterNodeset = ref({ item: {}, display: false });
@@ -138,11 +146,11 @@ const close = () => {
   clusterNodeset.value.display = false;
 };
 
-// Events
 onMounted(() => {
-  fetch(clusterId);
+  if (clusterId) {
+    getCluster();
+  }
 });
-// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss">

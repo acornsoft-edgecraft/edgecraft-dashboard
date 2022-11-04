@@ -30,13 +30,13 @@
 
       <div class="flex button-wrapper">
         <div class="flex-grow-1 flex-shrink-1 flex align-items-start justify-content-start">
-          <K3Button label="삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" v-if="userId > 0" />
+          <K3Button label="삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" v-if="userId" />
         </div>
         <div class="flex-grow-1 flex-shrink-1 flex align-items-end justify-content-end">
           <NuxtLink :to="list">
             <K3Button label="취소" icon="pi pi-times" class="p-button-secondary" />
           </NuxtLink>
-          <K3Button label="등록" icon="pi pi-check" @click="onSubmit" />
+          <K3Button :label="label" icon="pi pi-check" @click="onSubmit" />
         </div>
       </div>
       <K3Overlay :active="isFetch || isInsFetch || isUpFetch || isDelFetch" loader="bars" background-color="#830205" />
@@ -54,13 +54,13 @@ const { isDelFetch, delFetch } = useUserService().deleteUser();
 const { UI, Routing } = useAppHelper();
 
 const route = useRoute();
-const userId = route.params.userId || 0;
+const userId = route.params.userId || "";
 const existsEmail = ref(false);
 const list = "/management/user";
+const label = userId ? `수정` : `등록`;
 
 definePageMeta({ layout: "default", title: "User Management", public: true });
-// const props = defineProps({}),
-// const emits = defineEmits(['eventname']),
+
 const v$ = UI.getValidate(defaultUserInfoValidation, user);
 
 const onCheckEmail = () => {
@@ -76,7 +76,7 @@ const onCheckEmail = () => {
     UI.showMessage(MessageTypes.ERROR, "이메일 중복체크", "사용할 수 없는 이메일입니다.");
   }
 };
-const onSubmit = () => {
+const onSubmit = async () => {
   v$.value.$touch();
 
   if (v$.value.$invalid) return;
@@ -85,32 +85,47 @@ const onSubmit = () => {
     return;
   }
 
-  // TODO: call api
-  if (userId > 0) {
-    upFetch(userId, user.value);
-  } else {
-    insFetch(user.value);
+  let result;
+  try {
+    result = userId ? await upFetch(userId, user.value) : await insFetch(user.value);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, `사용자 ${label}`, err);
   }
+  if (!result) return;
+
+  UI.showToastMessage(MessageTypes.INFO, `사용자 ${label}`, `사용자를 ${label}하였습니다.`);
   Routing.moveTo(list);
 };
 const onDelete = () => {
-  UI.showConfirm(
-    MessageTypes.ERROR,
-    "사용자 삭제",
-    "사용자를 삭제하시겠습니까?",
-    () => {
-      // TODO: call api
-      delFetch(userId);
-      Routing.moveTo(list);
-    },
-    () => {}
-  );
+  UI.showConfirm(MessageTypes.ERROR, "사용자 삭제", "사용자를 삭제하시겠습니까?", deleteUser, () => {});
+};
+const deleteUser = async () => {
+  let result;
+  try {
+    result = await delFetch(userId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "사용자 삭제", err);
+  }
+  if (!result) return;
+
+  UI.showToastMessage(MessageTypes.INFO, "사용자 삭제", `사용자를 삭제하였습니다.`);
+  Routing.moveTo(list);
+};
+const getUser = async () => {
+  let result;
+  try {
+    result = await fetch(userId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "사용자 정보", err);
+  }
+  if (!result) {
+    Routing.moveTo(list);
+  }
 };
 
 onMounted(() => {
-  fetch(userId);
-
-  if (userId > 0) {
+  if (userId) {
+    getUser();
     existsEmail.value = true;
   }
 });

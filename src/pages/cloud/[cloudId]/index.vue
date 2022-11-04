@@ -70,7 +70,7 @@
       <BizDialogsK8sUpgrade v-model="k8sUpgrade" @close="close" @upgrade="upgrade" />
 
       <div class="flex justify-content-end button-wrapper">
-        <NuxtLink to="/cloud">
+        <NuxtLink :to="list">
           <K3Button label="클라우드 목록" class="p-button-secondary" />
         </NuxtLink>
       </div>
@@ -80,27 +80,20 @@
 </template>
 
 <script setup lang="ts">
-// imports
 import { CloudTypes, CloudStatus, K8sVersions, MessageTypes, NodeTypes } from "~/models";
 
-// Page meta
 definePageMeta({ layout: "default", title: "클라우드 상세정보", public: true });
-// Props
-// const props = defineProps({}),
-// Emits
-// const emits = defineEmits(['eventname']),
-// Properties
-const route = useRoute();
-const cloudId = route.params.cloudId;
+
 const { UI, Routing } = useAppHelper();
 const { cloud, isFetch, fetch } = useCloudService().getCloud();
 const { isDelFetch, delFetch } = useCloudService().deleteCloud();
 
-// Compputed
+const route = useRoute();
+const cloudId = route.params.cloudId || "";
+const list = "/cloud";
+
 const provisioned = computed(() => cloud.value.cloud.status == CloudStatus.Provisioned);
 
-// Watcher
-// Methods
 const goKoreboard = () => {
   // TOGO: go koreboard
 };
@@ -116,17 +109,32 @@ const upgrade = (val) => {
 };
 
 const onDelete = () => {
-  UI.showConfirm(
-    MessageTypes.ERROR,
-    "클라우드 삭제",
-    `<${cloud.value.cloud.name}> 클라우드를 삭제하시겠습니까?\n 관련된 모든 정보가 삭제됩니다.`,
-    () => {
-      // TODO: delete cloud
-      delFetch(cloudId);
-      Routing.moveTo("/cloud");
-    },
-    () => {}
-  );
+  UI.showConfirm(MessageTypes.ERROR, "클라우드 삭제", `<${cloud.value.cloud.name}> 클라우드를 삭제하시겠습니까?\n 관련된 모든 정보가 삭제됩니다.`, deleteCloud, () => {});
+};
+const deleteCloud = async () => {
+  let result;
+  try {
+    result = await delFetch(cloudId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "클라우드 삭제", err);
+  }
+  if (!result) return;
+
+  UI.showToastMessage(MessageTypes.INFO, "클라우드 삭제", "클라우드를 삭제하였습니다.");
+  Routing.moveTo(list);
+};
+const getCloud = async () => {
+  let result;
+  try {
+    result = await fetch(cloudId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "클라우드 정보", err);
+  }
+  if (!result) Routing.moveTo(list);
+
+  if (cloud.value.cloud.status == CloudStatus.Saved) {
+    Routing.moveTo(`${list}/register/${cloudId}`);
+  }
 };
 
 const cloudNode = ref({ item: {}, type: "", display: false });
@@ -144,8 +152,8 @@ const ok = (val) => {
   }
   nodes.push(val.item);
 
-  console.log(" nodes ", nodes);
   // TODO: call api - add node
+  console.log(" nodes ", nodes);
 };
 
 const close = () => {
@@ -153,11 +161,11 @@ const close = () => {
   k8sUpgrade.value.display = false;
 };
 
-// Events
 onMounted(() => {
-  fetch(cloudId);
+  if (cloudId) {
+    getCloud();
+  }
 });
-// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss">

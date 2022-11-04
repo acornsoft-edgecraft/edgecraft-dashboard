@@ -6,41 +6,42 @@
     <section class="page-content">
       <div class="stepper-container">
         <K3Stepper :steps="steps" v-model="cloud" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" @visible-change="onVisibleChange" :keep-alive="false" :top-buttons="true" />
-        <K3Overlay :active="isFetch || isInsFetch || isUpFetch" loader="bars" background-color="#830205" />
+        <K3Overlay :active="isFetch || isInsFetch || isUpFetch || isDelFetch" loader="bars" background-color="#830205" />
       </div>
 
-      <div class="flex justify-content-end mt-3">
-        <NuxtLink to="/cloud">
-          <K3Button label="클라우드 목록" class="p-button-secondary" />
-        </NuxtLink>
+      <div class="flex button-wrapper">
+        <div class="flex flex-grow-1 flex-shrink-1 align-items-start justify-content-start">
+          <K3Button label="클라우드 삭제" class="p-button-danger" @click="onDelete" v-if="cloudId" />
+        </div>
+        <div class="flex flex-grow-1 flex-shrink-1 align-items-end justify-content-end">
+          <NuxtLink :to="list">
+            <K3Button label="클라우드 목록" class="p-button-secondary" />
+          </NuxtLink>
+        </div>
       </div>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-// imports
 import PCloudInfo from "~/partialViews/cloud/cloud-step.vue";
 import PClusterInfo from "~/partialViews/cloud/cluster-step.vue";
 import PNodeInfo from "~/partialViews/cloud/node-step.vue";
 import PEtcdStorageInfo from "~/partialViews/cloud/etcd-storage-step.vue";
 import POpenstackInfo from "~/partialViews/cloud/openstack-step.vue";
 import PReviewInfo from "~/partialViews/cloud/review-step.vue";
-import { CloudTypes } from "~/models";
+import { CloudStatus, CloudTypes, MessageTypes } from "~/models";
 
-// Page meta
 definePageMeta({ layout: "default", title: "클라우드 등록", public: true });
-// Props
-// const props = defineProps({}),
-// Emits
-// const emits = defineEmits(['eventname']),
-// Properties
-const { Routing } = useAppHelper();
+
+const { UI, Routing } = useAppHelper();
 const { cloud, isFetch, fetch } = useCloudService().getCloud();
 const { isInsFetch, insFetch } = useCloudService().insertCloud();
 const { isUpFetch, upFetch } = useCloudService().updateCloud();
+const { isDelFetch, delFetch } = useCloudService().deleteCloud();
 const route = useRoute();
-const cloudId = route.params.cloudId || 0;
+const cloudId = route.params.cloudId || "";
+const list = "/cloud";
 
 const steps = [
   { icon: "fas fa-cloud", name: "cloud", title: "CLOUD 정보", subTitle: "Cloud 구성 정보를 설정합니다", component: PCloudInfo, completed: false, visible: true },
@@ -50,8 +51,7 @@ const steps = [
   { icon: "fas fa-cubes-stacked", name: "openstack", title: "OPENSTACK 정보", subTitle: "Openstack 구성 정보를 설정합니다", component: POpenstackInfo, completed: false, visible: false },
   { icon: "fas fa-list-check", name: "review", title: "Review", subTitle: "구성 정보를 검증합니다.", component: PReviewInfo, completed: true, visible: true },
 ];
-// Compputed
-// Watcher
+
 watch(
   () => cloud.value.cloud?.type,
   (val) => {
@@ -60,7 +60,7 @@ watch(
     }
   }
 );
-// Methods
+
 const completedStep = (payload) => {
   steps.forEach((s) => (s.completed = s.name === payload.name));
 };
@@ -71,14 +71,18 @@ const activeStep = (payload) => {
     }
   });
 };
-const finished = (payload) => {
-  // TODO: call api
-  if (cloudId == 0) {
-    insFetch(cloud.value);
-  } else {
-    upFetch(cloudId, cloud.value);
+const finished = async (payload) => {
+  const label = cloudId ? "수정" : "등록";
+  let result;
+  try {
+    result = cloudId ? await upFetch(cloudId, cloud.value) : await insFetch(cloud.value);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, `클라우드 ${label}`, err);
   }
-  Routing.moveTo("/cloud");
+  if (!result) return;
+
+  UI.showToastMessage(MessageTypes.INFO, `클라우드 ${label}`, `클라우드를 ${label}하였습니다.`);
+  Routing.moveTo(list);
 };
 
 // Step Visible On/Off 처리
@@ -88,12 +92,41 @@ const onVisibleChange = (val) => {
   });
 };
 
-// Events
-onMounted(() => {
-  fetch(cloudId);
-});
+const onDelete = () => {
+  UI.showConfirm(MessageTypes.ERROR, "클라우드 삭제", "클라우드를 삭제하시겠습니까?", deleteCloud, () => {});
+};
+const deleteCloud = async () => {
+  let result;
+  try {
+    result = await delFetch(cloudId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "클라우드 삭제", err);
+  }
+  if (!result) return;
 
-// Logics (like api call, etc)
+  UI.showToastMessage(MessageTypes.INFO, "클라우드 삭제", "클라우드를 삭제하였습니다.");
+  Routing.moveTo(list);
+};
+
+const getCloud = async () => {
+  let result;
+  try {
+    result = await fetch(cloudId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "클라우드 정보", err);
+  }
+  if (!result) Routing.moveTo(list);
+
+  if (cloud.value.cloud.status > CloudStatus.Saved) {
+    Routing.moveTo(`${list}/${cloudId}`);
+  }
+};
+
+onMounted(() => {
+  if (cloudId) {
+    getCloud();
+  }
+});
 </script>
 
 <style scoped lang="scss">
@@ -103,5 +136,9 @@ onMounted(() => {
 
 .stepper-container {
   position: relative;
+}
+
+.button-wrapper {
+  margin-top: 1rem;
 }
 </style>

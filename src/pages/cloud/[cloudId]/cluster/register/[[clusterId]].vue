@@ -6,40 +6,42 @@
     <section class="page-content">
       <div class="stepper-container">
         <K3Stepper :steps="steps" v-model="cluster" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" :keep-alive="false" :top-buttons="true" />
-        <K3Overlay :active="isFetch || isInsFetch || isUpFetch" loader="bars" background-color="#830205" />
+        <K3Overlay :active="isFetch || isInsFetch || isUpFetch || isDelFetch" loader="bars" background-color="#830205" />
       </div>
 
-      <div class="flex justify-content-end mt-3">
-        <NuxtLink :to="list">
-          <K3Button label="클러스터 목록" class="p-button-secondary" />
-        </NuxtLink>
+      <div class="flex button-wrapper">
+        <div class="flex flex-grow-1 flex-shrink-1 align-items-start justify-content-start">
+          <K3Button label="클러스터 삭제" class="p-button-danger" @click="onDelete" v-if="clusterId" />
+        </div>
+        <div class="flex flex-grow-1 flex-shrink-1 align-items-end justify-content-end">
+          <NuxtLink :to="list">
+            <K3Button label="클러스터 목록" class="p-button-secondary" />
+          </NuxtLink>
+        </div>
       </div>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-// imports
 import PClusterInfo from "~/partialViews/cluster/cluster-step.vue";
 import POpenstackInfo from "~/partialViews/cluster/openstack-step.vue";
 import PNodeInfo from "~/partialViews/cluster/node-step.vue";
 import PEtcdStorageInfo from "~/partialViews/cluster/etcd-storage-step.vue";
 import PReviewInfo from "~/partialViews/cluster/review-step.vue";
+import { MessageTypes, CloudStatus } from "~/models";
 
-// Page meta
 definePageMeta({ layout: "default", title: "클라우드 클러스터 생성", public: true });
-// Props
-// const props = defineProps({}),
-// Emits
-// const emits = defineEmits(['eventname']),
-// Properties
-const { Routing } = useAppHelper();
+
+const { UI, Routing } = useAppHelper();
 const { cluster, isFetch, fetch } = useClusterService().getCluster();
 const { isInsFetch, insFetch } = useClusterService().insertCluster();
 const { isUpFetch, upFetch } = useClusterService().updateCluster();
+const { isDelFetch, delFetch } = useClusterService().deleteCluster();
+
 const route = useRoute();
 const cloudId = route.params.cloudId;
-const clusterId = route.params.clusterId || 0;
+const clusterId = route.params.clusterId || "";
 const list = `/cloud/${cloudId}/cluster`;
 
 const steps = [
@@ -49,9 +51,7 @@ const steps = [
   { icon: "fas fa-database", name: "etcdstorage", title: "ETCD/STORAGE 정보", subTitle: "ETCD 및 Storage 구성 정보를 설정합니다", component: PEtcdStorageInfo, completed: false, visible: true },
   { icon: "fas fa-list-check", name: "review", title: "Review", subTitle: "구성 정보를 검증합니다", component: PReviewInfo, completed: true, visible: true },
 ];
-// Compputed
-// Watcher
-// Methods
+
 const completedStep = (payload) => {
   steps.forEach((s) => (s.completed = s.name === payload.name));
 };
@@ -62,23 +62,54 @@ const activeStep = (payload) => {
     }
   });
 };
-const finished = (payload) => {
-  alert("잘 했어... ^^");
-
-  // TODO: call api
-  if (clusterId > 0) {
-    upFetch(clusterId, cluster.value);
-  } else {
-    insFetch(cluster.value);
+const finished = async (payload) => {
+  const label = clusterId ? "수정" : "등록";
+  let result;
+  try {
+    result = clusterId ? await upFetch(clusterId, cluster.value) : insFetch(cluster.value);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, `클러스터 ${label}`, err);
   }
+  if (!result) return;
+
+  UI.showToastMessage(MessageTypes.INFO, `클러스터 ${label}`, `클러스터를 ${label}하였습니다.`);
   Routing.moveTo(list);
 };
-// Events
+
+const onDelete = () => {
+  UI.showConfirm(MessageTypes.ERROR, "클러스터 삭제", "클러스터를 삭제하시겠습니까?", deleteCluster, () => {});
+};
+const deleteCluster = async () => {
+  let result;
+  try {
+    result = await delFetch(clusterId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "클러스터 삭제", err);
+  }
+  if (!result) return;
+
+  UI.showToastMessage(MessageTypes.INFO, "클러스터 삭제", "클러스터를 삭제하였습니다.");
+  Routing.moveTo(list);
+};
+const getCluster = async () => {
+  let result;
+  try {
+    result = await fetch(clusterId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, `클러스터 정보`, err);
+  }
+  if (!result) Routing.moveTo(list);
+
+  if (cluster.value.cluster.status > CloudStatus.Saved) {
+    Routing.moveTo(`${list}/${clusterId}`);
+  }
+};
+
 onMounted(() => {
-  fetch(clusterId);
-  // fetch(1);
+  if (clusterId) {
+    getCluster();
+  }
 });
-// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss">
@@ -88,5 +119,9 @@ onMounted(() => {
 
 .stepper-container {
   position: relative;
+}
+
+.button-wrapper {
+  margin-top: 1rem;
 }
 </style>
