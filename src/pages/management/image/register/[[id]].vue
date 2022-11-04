@@ -18,12 +18,12 @@
         <K3FormRow>
           <K3FormColumn label="Image File" label-align="right">
             <div class="flex flex-column w-full">
-              <div class="flex align-items-center w-full" v-if="imageId > 0">
+              <div class="flex align-items-center w-full" v-if="imageId">
                 <span class="image-field">{{ v$.file.$model }}</span>
                 <K3Button label="변경" class="p-button-outlined" @click="onChangeImage" />
                 <K3Button label="취소" class="p-button-outlined p-button-secondary" @click="cancelChangeImage" v-if="editImage" />
               </div>
-              <div class="flex flex-column align-items-center w-full" v-if="imageId == 0 || editImage">
+              <div class="flex flex-column align-items-center w-full" v-if="!imageId || editImage">
                 <div class="flex align-items-start w-full">
                   <K3FileUpload name="file[]" accept="image/*" :max-file-size="1000000000" :file-limit="1" @select="selectFile">
                     <template #empty>
@@ -57,11 +57,11 @@
 
       <div class="flex button-wrapper">
         <div class="flex-grow-1 flex-shrink-1 flex align-items-start justify-content-start">
-          <K3Button label="삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" v-if="imageId > 0" />
+          <K3Button label="삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" v-if="imageId" />
         </div>
         <div class="flex-grow-1 flex-shrink-1 flex align-items-end justify-content-end">
-          <NuxtLink to="/management/image"><K3Button label="취소" icon="pi pi-times" class="p-button-secondary" /></NuxtLink>
-          <K3Button label="등록" icon="pi pi-check" @click="onSubmit" />
+          <NuxtLink :to="list"><K3Button label="취소" icon="pi pi-times" class="p-button-secondary" /></NuxtLink>
+          <K3Button :label="label" icon="pi pi-check" @click="onSubmit" />
         </div>
       </div>
       <K3Overlay :active="isFetch || isInsFetch || isUpFetch || isDelFetch" loader="bars" background-color="#830205" />
@@ -78,13 +78,14 @@ const { isUpFetch, upFetch } = useImageService().updateImage();
 const { isDelFetch, delFetch } = useImageService().deleteImage();
 
 const route = useRoute();
-const imageId = route.params.id || 0;
+const imageId = route.params.id || "";
 const { UI, Routing } = useAppHelper();
 const editImage = ref(false);
+const list = "/management/image";
+const label = imageId ? "수정" : "등록";
 
 definePageMeta({ layout: "default", title: "Image Management", public: true });
-// const props = defineProps({}),
-// const emits = defineEmits(['eventname']),
+
 const v$ = UI.getValidate(defaultImageInfoValidation, image);
 
 const selectFile = (event) => {
@@ -93,31 +94,46 @@ const selectFile = (event) => {
   image.value.size = file.size;
 };
 
-const onSubmit = () => {
+const onSubmit = async () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
 
-  // // TODO: call api
-  if (imageId > 0) {
-    upFetch(imageId, image.value);
-  } else {
-    insFetch(image.value);
+  let result;
+  try {
+    result = imageId ? await upFetch(imageId, image.value) : await insFetch(image.value);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, `이미지 ${label}`, err);
   }
-  Routing.moveTo("/management/image");
-};
+  if (!result) return;
 
+  UI.showToastMessage(MessageTypes.INFO, `이미지 ${label}`, `이미지를 ${label}하였습니다.`);
+  Routing.moveTo(list);
+};
 const onDelete = () => {
-  UI.showConfirm(
-    MessageTypes.ERROR,
-    "이미지 삭제",
-    "이미지를 삭제하시겠습니까?",
-    () => {
-      // TODO: call api
-      delFetch(imageId);
-      Routing.moveTo("/management/image");
-    },
-    () => {}
-  );
+  UI.showConfirm(MessageTypes.ERROR, "이미지 삭제", "이미지를 삭제하시겠습니까?", deleteImage, () => {});
+};
+const deleteImage = async () => {
+  let result;
+  try {
+    result = await delFetch(imageId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "이미지 삭제", err);
+  }
+  if (!result) return;
+
+  UI.showToastMessage(MessageTypes.INFO, "이미지 삭제", `이미지를 삭제하였습니다.`);
+  Routing.moveTo(list);
+};
+const getImage = async () => {
+  let result;
+  try {
+    result = await fetch(imageId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "이미지 정보", err);
+  }
+  if (!result) {
+    Routing.moveTo(list);
+  }
 };
 
 const onChangeImage = () => {
@@ -128,7 +144,9 @@ const cancelChangeImage = () => {
 };
 
 onMounted(() => {
-  fetch(imageId);
+  if (imageId) {
+    getImage();
+  }
 });
 </script>
 
