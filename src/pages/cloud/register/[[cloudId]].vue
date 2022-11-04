@@ -73,7 +73,6 @@ const activeStep = (payload) => {
 };
 const finished = async (payload) => {
   const label = cloudId ? "수정" : "등록";
-  // TODO: call api
   let result;
   try {
     result = cloudId ? await upFetch(cloudId, cloud.value) : await insFetch(cloud.value);

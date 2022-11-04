@@ -40,7 +40,7 @@
             <p class="text-orange-500">No records found.</p>
           </div>
         </template>
-        <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :class="col.class" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
+        <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :class="col.class" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
             <NuxtLink v-if="slotProps.field == 'name'" :to="page(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
             <span v-if="slotProps.field == 'status'">{{ CloudStatus[slotProps.data.status] }}</span>
