@@ -15,7 +15,7 @@ export function useCloudService(options: any = {}) {
       API.get("", url)
         .then((res) => {
           if (res.isError) {
-            UI.showToastMessage(MessageTypes.ERROR, "Fetch Clouds", res.message);
+            UI.showToastMessage(MessageTypes.ERROR, "클라우드 목록", res.message);
           } else {
             res.data.forEach((item) => {
               clouds.value.push(item);
@@ -24,7 +24,7 @@ export function useCloudService(options: any = {}) {
           isFetch.value = false;
         })
         .catch((err) => {
-          UI.showToastMessage(MessageTypes.ERROR, "Fetch Clouds", err);
+          UI.showToastMessage(MessageTypes.ERROR, "클라우드 목록", err);
           isFetch.value = false;
         });
     };
@@ -36,23 +36,18 @@ export function useCloudService(options: any = {}) {
     const cloud = ref(Util.clone(defaultCloudReg));
     const isFetch = ref(false);
 
-    const fetch = (id) => {
-      if (id == 0) return;
-
+    const fetch = async (id) => {
       isFetch.value = true;
-      API.get("", `${url}/${id}`)
-        .then((res) => {
-          if (res.isError) {
-            UI.showToastMessage(MessageTypes.ERROR, "Fetch Cloud", res.message);
-          } else {
-            cloud.value = res.data;
-          }
-          isFetch.value = false;
-        })
-        .catch((err) => {
-          UI.showToastMessage(MessageTypes.ERROR, "Fetch Cloud", err);
-          isFetch.value = false;
-        });
+      const res = await API.get("", `${url}/${id}`);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "클라우드 정보", res.message);
+        isFetch.value = false;
+        return false;
+      } else {
+        cloud.value = res.data;
+        isFetch.value = false;
+        return true;
+      }
     };
 
     return { cloud, isFetch, fetch };
@@ -61,19 +56,17 @@ export function useCloudService(options: any = {}) {
   const insertCloud = () => {
     const isInsFetch = ref(false);
 
-    const insFetch = (params) => {
+    const insFetch = async (params) => {
       isInsFetch.value = true;
-      API.post("", url, params)
-        .then((res) => {
-          if (res.isError) {
-            UI.showToastMessage(MessageTypes.ERROR, "Fetch Cloud", res.message);
-          }
-          isInsFetch.value = false;
-        })
-        .catch((err) => {
-          UI.showToastMessage(MessageTypes.ERROR, "Fetch Cloud", err);
-          isInsFetch.value = false;
-        });
+      const res = await API.post("", url, params);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "클라우드 등록", res.message);
+        isInsFetch.value = false;
+        return false;
+      } else {
+        isInsFetch.value = false;
+        return true;
+      }
     };
 
     return { isInsFetch, insFetch };
@@ -82,19 +75,17 @@ export function useCloudService(options: any = {}) {
   const updateCloud = () => {
     const isUpFetch = ref(false);
 
-    const upFetch = (id, params) => {
+    const upFetch = async (id, params) => {
       isUpFetch.value = true;
-      API.put("", `${url}/${id}`, params)
-        .then((res) => {
-          if (res.isError) {
-            UI.showToastMessage(MessageTypes.ERROR, "Fetch Cloud", res.message);
-          }
-          isUpFetch.value = false;
-        })
-        .catch((err) => {
-          UI.showToastMessage(MessageTypes.ERROR, "Fetch Cloud", err);
-          isUpFetch.value = false;
-        });
+      const res = await API.put("", `${url}/${id}`, params);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "클라우드 수정", res.message);
+        isUpFetch.value = false;
+        return false;
+      } else {
+        isUpFetch.value = false;
+        return true;
+      }
     };
 
     return { isUpFetch, upFetch };
@@ -103,19 +94,17 @@ export function useCloudService(options: any = {}) {
   const deleteCloud = () => {
     const isDelFetch = ref(false);
 
-    const delFetch = (id) => {
+    const delFetch = async (id) => {
       isDelFetch.value = true;
-      API.delete("", `${url}/${id}`)
-        .then((res) => {
-          if (res.isError) {
-            UI.showToastMessage(MessageTypes.ERROR, "Fetch Cloud", res.message);
-          }
-          isDelFetch.value = false;
-        })
-        .catch((err) => {
-          UI.showToastMessage(MessageTypes.ERROR, "Fetch Cloud", err);
-          isDelFetch.value = false;
-        });
+      const res = await API.delete("", `${url}/${id}`);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "클라우드 삭제", res.message);
+        isDelFetch.value = false;
+        return false;
+      } else {
+        isDelFetch.value = false;
+        return true;
+      }
     };
 
     return { isDelFetch, delFetch };
