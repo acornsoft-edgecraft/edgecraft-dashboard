@@ -19,6 +19,8 @@
           </NuxtLink>
         </div>
       </div>
+
+      <BizDialogsConfirmSave v-model="save" @close="close" @ok="ok" />
     </section>
   </div>
 </template>
@@ -71,8 +73,23 @@ const activeStep = (payload) => {
     }
   });
 };
-const finished = async (payload) => {
+
+const save = ref({ type: "클라우드", display: false });
+const finished = (payload) => {
+  save.value.display = true;
+};
+const close = () => {
+  save.value.display = false;
+};
+const ok = (val) => {
+  save.value.display = false;
+  cloud.value.save_only = val;
+  onSubmit();
+};
+
+const onSubmit = async () => {
   const label = cloudId ? "수정" : "등록";
+
   let result;
   try {
     result = cloudId ? await upFetch(cloudId, cloud.value) : await insFetch(cloud.value);

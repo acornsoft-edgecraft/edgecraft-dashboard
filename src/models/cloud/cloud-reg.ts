@@ -18,6 +18,7 @@ export interface cloud_reg {
     storage_class: storageClassInfo;
   };
   openstack: openstackInfo;
+  save_only: boolean;
 }
 
 export const defaultCloudReg: cloud_reg = {
@@ -32,4 +33,5 @@ export const defaultCloudReg: cloud_reg = {
     storage_class: defaultStorageClassInfo,
   },
   openstack: defaultOpenstackInfo,
+  save_only: true,
 };

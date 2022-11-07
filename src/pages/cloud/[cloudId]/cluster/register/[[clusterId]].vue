@@ -19,6 +19,8 @@
           </NuxtLink>
         </div>
       </div>
+
+      <BizDialogsConfirmSave v-model="save" @close="close" @ok="ok" />
     </section>
   </div>
 </template>
@@ -62,7 +64,21 @@ const activeStep = (payload) => {
     }
   });
 };
+
+const save = ref({ type: "클러스터", display: false });
 const finished = async (payload) => {
+  save.value.display = true;
+};
+const close = () => {
+  save.value.display = false;
+};
+const ok = (val) => {
+  save.value.display = false;
+  cluster.value.save_only = val;
+  onSubmit();
+};
+
+const onSubmit = async () => {
   const label = clusterId ? "수정" : "등록";
   let result;
   try {

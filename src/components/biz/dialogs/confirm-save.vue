@@ -1,0 +1,41 @@
+<template>
+  <K3Dialog :header="`${modelValue.CloudTypes} 저장`" v-model:visible="modelValue.display" :style="{ width: '450px' }" :modal="true" @hide="onHide">
+    <div class="confirmation-content">
+      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+      <p>
+        입력한 내용을 저장하시겠습니까? <br />
+        저장 후 동작을 선택해주세요.
+      </p>
+    </div>
+    <template #footer>
+      <K3Button label="취소" icon="pi pi-times" @click="close" class="p-button-text" />
+      <K3Button label="저장 후 목록으로" icon="pi pi-list" @click="ok(true)" class="p-button-secondary" />
+      <K3Button :label="`저장 후 ${modelValue.type} 생성`" icon="pi pi-save" @click="ok(false)" />
+    </template>
+  </K3Dialog>
+</template>
+
+<script setup lang="ts">
+const props = defineProps({
+  modelValue: { type: Object, default: {} },
+});
+const emits = defineEmits(["close", "ok"]);
+
+const close = () => {
+  emits("close");
+};
+const ok = (val: boolean) => {
+  emits("ok", val);
+};
+const onHide = () => {
+  emits("close");
+};
+</script>
+
+<style scoped lang="scss">
+.confirmation-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

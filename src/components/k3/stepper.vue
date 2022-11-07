@@ -38,7 +38,7 @@
         <span class="ml-2">이전</span>
       </div>
       <div :class="['stepper-button next', !canContinue ? 'deactivated' : '']" @click="nextStep()">
-        <span class="mr-2">{{ finalStep ? `${pageType} 생성` : "저장 후 이동" }}</span>
+        <span class="mr-2">다음</span>
         <i class="pi pi-arrow-right" />
       </div>
     </div>
@@ -46,6 +46,9 @@
 </template>
 
 <script setup lang="ts">
+import { MessageTypes } from "~/models";
+
+const { UI } = useAppHelper();
 const router = useRouter();
 const props = defineProps({
   modelValue: { type: Object, default: null },
@@ -66,8 +69,6 @@ const keepAliveData = ref(props.keepAlive);
 
 // 내부 사용 Steps 참조 구성
 const steps = ref(props.steps);
-
-const pageType = computed(() => (router.currentRoute.value.path.indexOf("/cluster") > -1 ? "클러스터" : "클라우드"));
 
 const stepComponent = computed(() => props.steps[currentStep.value.index].component);
 const enterAnimation = computed(() => {
@@ -118,7 +119,7 @@ const nextStep = () => {
     if (next) {
       nextStepAction();
     } else {
-      alert("잘 해라!! -_-");
+      UI.showToastMessage(MessageTypes.WARN, "WARN", "입력된 항목을 확인해주세요.");
     }
   }
 };
