@@ -17,7 +17,7 @@ export interface kubernetesInfo {
 }
 
 export const defaultKubernetesInfo: kubernetesInfo = {
-  version: K8sVersions["1.23.0"],
+  version: K8sVersions["1.23.3"],
   pod_cidr: "",
   svc_cidr: "10.96.0.0/12",
   svc_domain: "cluster.local",
