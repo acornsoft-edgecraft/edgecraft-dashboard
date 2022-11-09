@@ -23,7 +23,7 @@
               <K3FormColumn label="Cluster Desc" label-align="right">{{ cluster.cluster.desc }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
-              <K3FormColumn label="Created" label-align="right">{{ cluster.cluster.created }}</K3FormColumn>
+              <K3FormColumn label="Created" label-align="right">{{ Util.getDateLocaleString(cluster.cluster.created) }}</K3FormColumn>
             </K3FormRow>
           </K3FormContainer>
           <K3FormContainer class="mt-2">
@@ -80,7 +80,7 @@ import { CloudStatus, K8sVersions, NodeTypes, MessageTypes } from "~/models";
 
 definePageMeta({ layout: "default", title: "클라우드 클러스터 상세", public: true });
 
-const { UI, Routing } = useAppHelper();
+const { UI, Util, Routing } = useAppHelper();
 const { cluster, isFetch, fetch } = useClusterService().getCluster();
 const { isDelFetch, delFetch } = useClusterService().deleteCluster();
 const route = useRoute();
@@ -110,7 +110,7 @@ const onDelete = () => {
 const deleteCluster = async () => {
   let result;
   try {
-    result = await delFetch(clusterId);
+    result = await delFetch(cloudId, clusterId);
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, "클러스터 삭제", err);
   }
@@ -122,7 +122,7 @@ const deleteCluster = async () => {
 const getCluster = async () => {
   let result;
   try {
-    result = await fetch(clusterId);
+    result = await fetch(cloudId, clusterId);
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `클러스터 정보`, err);
   }

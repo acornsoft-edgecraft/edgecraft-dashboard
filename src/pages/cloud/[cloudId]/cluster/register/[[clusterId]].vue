@@ -33,7 +33,7 @@ import PEtcdStorageInfo from "~/partialViews/cluster/etcd-storage-step.vue";
 import PReviewInfo from "~/partialViews/cluster/review-step.vue";
 import { MessageTypes, CloudStatus } from "~/models";
 
-definePageMeta({ layout: "default", title: "클라우드 클러스터 생성", public: true });
+definePageMeta({ layout: "default", title: "클라우드 클러스터", public: true });
 
 const { UI, Routing } = useAppHelper();
 const { cluster, isFetch, fetch } = useClusterService().getCluster();
@@ -82,7 +82,7 @@ const onSubmit = async () => {
   const label = clusterId ? "수정" : "등록";
   let result;
   try {
-    result = clusterId ? await upFetch(clusterId, cluster.value) : insFetch(cluster.value);
+    result = clusterId ? await upFetch(cloudId, clusterId, cluster.value) : insFetch(cloudId, cluster.value);
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `클러스터 ${label}`, err);
   }
@@ -98,7 +98,7 @@ const onDelete = () => {
 const deleteCluster = async () => {
   let result;
   try {
-    result = await delFetch(clusterId);
+    result = await delFetch(cloudId, clusterId);
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, "클러스터 삭제", err);
   }
@@ -110,7 +110,7 @@ const deleteCluster = async () => {
 const getCluster = async () => {
   let result;
   try {
-    result = await fetch(clusterId);
+    result = await fetch(cloudId, clusterId);
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `클러스터 정보`, err);
   }

@@ -9,12 +9,12 @@
           <K3FormInputField v-model="v.BaremetalHost.host_name" field-name="Host Name" class="w-full" />
         </K3FormColumn>
         <K3FormColumn label="BMC Address" label-align="right" :size="6">
-          <K3FormInputField v-model="v.BaremetalHost.bmc_address" field-name="BMC Address" class="w-full" />
+          <K3FormInputField v-model="v.BaremetalHost.bmc_address" field-name="BMC Address" class="w-full" placeholder="예) 98:03:9b:61:80:48" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow direction="horizontal" :overflow-wrap="true">
         <K3FormColumn label="Boot MAC Address" label-align="right" :size="6">
-          <K3FormInputField v-model="v.BaremetalHost.boot_mac_address" field-name="Boot MAC Address" class="w-full" />
+          <K3FormInputField v-model="v.BaremetalHost.boot_mac_address" field-name="Boot MAC Address" class="w-full" placeholder="예) 00:b2:8c:ee:22:98" />
         </K3FormColumn>
         <K3FormColumn label="Boot Mode" label-align="right" :size="6">
           <K3FormDropdownField v-model="v.BaremetalHost.boot_mode" field-name="Boot Mode" :options="BootModesMap()" :optionLabel="'name'" :optionValue="'value'" class="w-8" />
@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { NodeTypes, MessageTypes, BootModesMap, defaultBaremetalHostInfoValidation, defaultNodeInfoValidation, defaultBaremetalHostInfo, defaultNodeInfo } from "~/models";
+import { NodeTypes, BootModesMap, defaultBaremetalHostInfoValidation, defaultNodeInfoValidation, defaultBaremetalHostInfo, defaultNodeInfo } from "~/models";
 
 const { UI, Util } = useAppHelper();
 
@@ -76,9 +76,7 @@ const close = () => {
 const ok = () => {
   v.value.$touch();
 
-  if (v.value.$invalid) {
-    // UI.showMessage(MessageTypes.WARN, "필수항목 검증", "필수 항목을 모두 입력하셔야 합니다.");
-  } else {
+  if (!v.value.$invalid) {
     emits("ok", { item: Util.clone(data.value), type: props.modelValue.type });
   }
 };
