@@ -49,7 +49,7 @@ export const defaultOpenstackConfValidation = {
   image_name: { required },
   ssh_key_name: { required },
   external_network_id: { required },
-  api_server_floating_ip: { required, ipAddress },
+  api_server_floating_ip: { ipAddress },
   use_bastion_host: { required },
   // @ts-ignore
   bastion_flavor: { required: requiredIf((_, vm) => vm.use_bastion_host) },

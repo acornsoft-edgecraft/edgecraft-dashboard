@@ -1,4 +1,4 @@
-import { required } from "@vuelidate/validators";
+import { required, ipAddress } from "@vuelidate/validators";
 import { labelInfo, defaultLabelInfo } from "./label";
 
 export interface nodeInfo {
@@ -15,6 +15,6 @@ export const defaultNodeInfo: nodeInfo = {
 
 export const defaultNodeInfoValidation = {
   node_name: { required },
-  ip_address: { required },
+  ip_address: { required, ipAddress },
   labels: [],
 };
