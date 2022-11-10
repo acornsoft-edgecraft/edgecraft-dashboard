@@ -111,6 +111,25 @@ export function useClusterService(options: any = {}) {
     return { isDelFetch, delFetch };
   };
 
+  const provisionCluster = () => {
+    const isProFetch = ref(false);
+
+    const proFetch = async (cloudId, clusterId) => {
+      isProFetch.value = true;
+      const res = await API.post("", `${url_prefix}/${cloudId}/clusters/${clusterId}`, null);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "클러스터 생성", res.message);
+        isProFetch.value = false;
+        return false;
+      } else {
+        isProFetch.value = false;
+        return true;
+      }
+    };
+
+    return { isProFetch, proFetch };
+  };
+
   return {
     currentCluster,
 
@@ -119,5 +138,6 @@ export function useClusterService(options: any = {}) {
     insertCluster,
     updateCluster,
     deleteCluster,
+    provisionCluster,
   };
 }

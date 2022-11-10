@@ -61,18 +61,20 @@
           <K3Button label="클라우드 목록" class="p-button-secondary" />
         </NuxtLink>
       </div>
+      <K3Overlay :active="isProFetch" loader="bars" background-color="#830205" />
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import { FilterMatchMode } from "primevue/api";
-import { CloudStatus, CloudStatusMap, K8sVersions, StateKeys } from "~/models";
+import { MessageTypes, CloudStatus, CloudStatusMap, K8sVersions, StateKeys } from "~/models";
 
 definePageMeta({ layout: "default", title: "클라우드 클러스터", public: true });
 
 const { UI, Util, Search } = useAppHelper();
 const { clusters, isFetch, fetch } = useClusterService().getClusters();
+const { isProFetch, proFetch } = useClusterService().provisionCluster();
 
 const search = Search.init(StateKeys.SEARCH_CLUSTER, { status: null, name: null });
 const route = useRoute();
@@ -150,10 +152,38 @@ const showCommand = (id, event) => {
 
 const menus = computed(() => {
   const to = `/cloud/${cloudId}/cluster/${selectedItem?.value?.cluster_uid}`;
-  const disabled = !(selectedItem?.value?.status === CloudStatus.Provisioned);
 
-  return [{ label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled }];
+  if (selectedItem?.value?.status === CloudStatus.Saved) {
+    return [{ label: "클러스터 생성", icon: "pi pi-cloud-upload", command: () => provision(selectedItem.value) }];
+  } else {
+    const disabled = !(selectedItem?.value?.status === CloudStatus.Provisioned);
+
+    return [{ label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled }];
+  }
 });
+
+const provision = (item) => {
+  UI.showConfirm(
+    MessageTypes.INFO,
+    "클러스터 생성",
+    "클러스터를 생성하시겠습니까?",
+    () => onProvision(item),
+    () => {}
+  );
+};
+const onProvision = async (item) => {
+  let result;
+  try {
+    result = await proFetch(item.cloud_uid, item.cluster_uid);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "클러스터 생성", err);
+  }
+  if (!result) true;
+
+  UI.showToastMessage(MessageTypes.INFO, "클러스터 생성", "클러스터를 생성 요청하였습니다.");
+  clusters.value = [];
+  fetch(cloudId);
+};
 
 watch(
   () => [(UI.tableSettings.filters.value as any).name.value, (UI.tableSettings.filters.value as any).status.value],
