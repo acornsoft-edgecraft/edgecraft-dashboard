@@ -64,7 +64,7 @@
           <K3Button :label="label" icon="pi pi-check" @click="onSubmit" />
         </div>
       </div>
-      <K3Overlay :active="isFetch || isInsFetch || isUpFetch || isDelFetch" loader="bars" background-color="#830205" />
+      <K3Overlay :active="active" loader="bars" background-color="#830205" />
     </section>
   </div>
 </template>
@@ -87,6 +87,8 @@ const label = imageId ? "수정" : "등록";
 definePageMeta({ layout: "default", title: "Image Management", public: true });
 
 const v$ = UI.getValidate(defaultImageInfoValidation, image);
+
+const active = computed(() => unref(isFetch || isInsFetch || isUpFetch || isDelFetch));
 
 const selectFile = (event) => {
   const file = event.files[0];

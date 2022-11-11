@@ -6,7 +6,7 @@
     <section class="page-content">
       <div class="stepper-container">
         <K3Stepper :steps="steps" v-model="cluster" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" :keep-alive="false" :top-buttons="true" />
-        <K3Overlay :active="isFetch || isInsFetch || isUpFetch || isDelFetch" loader="bars" background-color="#830205" />
+        <K3Overlay :active="active" loader="bars" background-color="#830205" />
       </div>
 
       <div class="flex button-wrapper">
@@ -45,6 +45,8 @@ const route = useRoute();
 const cloudId = route.params.cloudId;
 const clusterId = route.params.clusterId || "";
 const list = `/cloud/${cloudId}/cluster`;
+
+const active = computed(() => unref(isFetch || isInsFetch || isUpFetch || isDelFetch));
 
 const steps = [
   { icon: "fas fa-circle-nodes", name: "cluster", title: "CLUSTER 정보", subTitle: "Cluster 구성 정보를 설정합니다", component: PClusterInfo, completed: false, visible: true },

@@ -39,7 +39,7 @@
           <K3Button :label="label" icon="pi pi-check" @click="onSubmit" />
         </div>
       </div>
-      <K3Overlay :active="isFetch || isInsFetch || isUpFetch || isDelFetch" loader="bars" background-color="#830205" />
+      <K3Overlay :active="active" loader="bars" background-color="#830205" />
     </section>
   </div>
 </template>
@@ -62,6 +62,8 @@ const label = userId ? `수정` : `등록`;
 definePageMeta({ layout: "default", title: "User Management", public: true });
 
 const v$ = UI.getValidate(defaultUserInfoValidation, user);
+
+const active = computed(() => unref(isFetch || isInsFetch || isUpFetch || isDelFetch));
 
 const onCheckEmail = () => {
   v$.value.email.$touch();

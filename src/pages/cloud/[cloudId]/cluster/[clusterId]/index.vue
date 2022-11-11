@@ -70,7 +70,7 @@
           <K3Button label="클러스터 목록" class="p-button-secondary" />
         </NuxtLink>
       </div>
-      <K3Overlay :active="isFetch || isDelFetch" loader="bars" background-color="#830205" />
+      <K3Overlay :active="active" loader="bars" background-color="#830205" />
     </section>
   </div>
 </template>
@@ -88,6 +88,7 @@ const cloudId = route.params.cloudId;
 const clusterId = route.params.clusterId;
 const list = `/cloud/${cloudId}/cluster`;
 
+const active = computed(() => unref(isFetch || isDelFetch));
 const provisioned = computed(() => cluster.value.cluster.status == CloudStatus.Provisioned);
 
 const goKoreboard = () => {

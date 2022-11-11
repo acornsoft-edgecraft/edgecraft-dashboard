@@ -6,7 +6,7 @@
     <section class="page-content">
       <div class="stepper-container">
         <K3Stepper :steps="steps" v-model="cloud" @completed-step="completedStep" @active-step="activeStep" @stepper-finished="finished" @visible-change="onVisibleChange" :keep-alive="false" :top-buttons="true" />
-        <K3Overlay :active="isFetch || isInsFetch || isUpFetch || isDelFetch" loader="bars" background-color="#830205" />
+        <K3Overlay :active="active" loader="bars" background-color="#830205" />
       </div>
 
       <div class="flex button-wrapper">
@@ -44,6 +44,8 @@ const { isDelFetch, delFetch } = useCloudService().deleteCloud();
 const route = useRoute();
 const cloudId = route.params.cloudId || "";
 const list = "/cloud";
+
+const active = computed(() => unref(isFetch || isInsFetch || isUpFetch || isDelFetch));
 
 const steps = [
   { icon: "fas fa-cloud", name: "cloud", title: "CLOUD 정보", subTitle: "Cloud 구성 정보를 설정합니다", component: PCloudInfo, completed: false, visible: true },
