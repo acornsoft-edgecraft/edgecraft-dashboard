@@ -61,8 +61,8 @@
       <K3Card v-if="provisioned">
         <template #title>노드 정보</template>
         <template #content>
-          <BizCloudNodeList :type="NodeTypes.Master" v-model="cloud.nodes.master_nodes" @add-node="addNode" />
-          <BizCloudNodeList :type="NodeTypes.Worker" v-model="cloud.nodes.worker_nodes" @add-node="addNode" />
+          <BizCloudNodeList :type="NodeTypes.Master" v-model="cloud.nodes.master_nodes" @add-node="addNode" @remove-node="removeNode" />
+          <BizCloudNodeList :type="NodeTypes.Worker" v-model="cloud.nodes.worker_nodes" @add-node="addNode" @remove-node="removeNode" />
         </template>
       </K3Card>
 
@@ -74,7 +74,7 @@
           <K3Button label="클라우드 목록" class="p-button-secondary" />
         </NuxtLink>
       </div>
-      <K3Overlay :active="isFetch || isDelFetch" loader="bars" background-color="#830205" />
+      <K3Overlay :active="active" loader="bars" background-color="#830205" />
     </section>
   </div>
 </template>
@@ -87,12 +87,16 @@ definePageMeta({ layout: "default", title: "클라우드 상세정보", public: 
 const { UI, Routing } = useAppHelper();
 const { cloud, isFetch, fetch } = useCloudService().getCloud();
 const { isDelFetch, delFetch } = useCloudService().deleteCloud();
+const { isGetFetch, getFetch } = useCloudService().getNodes();
+const { isAddFetch, addFetch } = useCloudService().addNode();
+const { isRemFetch, removeFetch } = useCloudService().removeNode();
 
 const route = useRoute();
 const cloudId = route.params.cloudId || "";
 const list = "/cloud";
 
-const provisioned = computed(() => cloud.value.cloud.status == CloudStatus.Provisioned);
+const active = computed(() => unref(isFetch || isDelFetch || isAddFetch || isGetFetch || isRemFetch));
+const provisioned = computed(() => cloud.value.cloud.status === CloudStatus.Provisioned);
 
 const goKoreboard = () => {
   // TOGO: go koreboard
@@ -132,7 +136,7 @@ const getCloud = async () => {
   }
   if (!result) Routing.moveTo(list);
 
-  if (cloud.value.cloud.status == CloudStatus.Saved) {
+  if (cloud.value.cloud.status === CloudStatus.Saved) {
     Routing.moveTo(`${list}/register/${cloudId}`);
   }
 };
@@ -143,22 +147,56 @@ const addNode = (data) => {
 };
 const ok = (val) => {
   cloudNode.value.display = false;
-
-  let nodes;
-  if (val.type == NodeTypes.Master) {
-    nodes = cloud.value.nodes.master_nodes;
-  } else if (val.type == NodeTypes.Worker) {
-    nodes = cloud.value.nodes.worker_nodes;
-  }
-  nodes.push(val.item);
-
-  // TODO: call api - add node
-  console.log(" nodes ", nodes);
+  onAddNode(Object.assign(val.item, { type: val.type }));
 };
-
 const close = () => {
   cloudNode.value.display = false;
   k8sUpgrade.value.display = false;
+};
+const removeNode = (node) => {
+  UI.showConfirm(
+    MessageTypes.WARN,
+    "노드 삭제",
+    `<${node.Node.node_name}> 노드를 삭제하시겠습니까?`,
+    () => onRemoveNode(node.node_uid),
+    () => {}
+  );
+};
+
+const onAddNode = async (params) => {
+  let result;
+  try {
+    result = await addFetch(cloudId, params);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "노드 등록", err);
+  }
+  if (!result) return;
+
+  UI.showToastMessage(MessageTypes.INFO, `노드 등록`, `노드를 등록하였습니다.`);
+  getNodes();
+};
+const onRemoveNode = async (nodeId) => {
+  let result;
+  try {
+    result = await removeFetch(cloudId, nodeId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "노드 삭제", err);
+  }
+  if (!result) return;
+
+  UI.showToastMessage(MessageTypes.INFO, `노드 삭제`, `노드를 삭제하였습니다.`);
+  getNodes();
+};
+
+const getNodes = async () => {
+  let nodes = null;
+  try {
+    nodes = await getFetch(cloudId);
+    cloud.value.nodes.master_nodes = nodes.master_nodes || [];
+    cloud.value.nodes.worker_nodes = nodes.worker_nodes || [];
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "노드 정보", err);
+  }
 };
 
 onMounted(() => {
@@ -177,7 +215,7 @@ onMounted(() => {
     margin-top: 1rem;
   }
 }
-// :deep(.dark-demo-terminal) {
+
 .dark-demo-terminal {
   background-color: var(--surface-900);
   color: var(--surface-0);

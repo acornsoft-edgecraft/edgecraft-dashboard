@@ -110,6 +110,64 @@ export function useCloudService(options: any = {}) {
     return { isDelFetch, delFetch };
   };
 
+  const getNodes = () => {
+    const isGetFetch = ref(false);
+
+    const getFetch = async (cloudId) => {
+      isGetFetch.value = true;
+      const res = await API.get("", `${url}/${cloudId}/nodes`);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "노드 목록", res.message);
+        isGetFetch.value = false;
+        return null;
+      } else {
+        isGetFetch.value = false;
+        return res.data;
+      }
+    };
+
+    return { isGetFetch, getFetch };
+  };
+
+  const addNode = () => {
+    const isAddFetch = ref(false);
+
+    const addFetch = async (cloudId, params) => {
+      isAddFetch.value = true;
+      const res = await API.post("", `${url}/${cloudId}/nodes`, params);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "노드 등록", res.message);
+        isAddFetch.value = false;
+        return false;
+      } else {
+        isAddFetch.value = false;
+        return true;
+      }
+    };
+
+    return { isAddFetch, addFetch };
+  };
+
+  const removeNode = () => {
+    const isRemFetch = ref(false);
+
+    const removeFetch = async (cloudId, nodeId) => {
+      isRemFetch.value = true;
+      const res = await API.delete("", `${url}/${cloudId}/nodes/${nodeId}`);
+
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "노드 삭제", res.message);
+        isRemFetch.value = false;
+        return false;
+      } else {
+        isRemFetch.value = false;
+        return true;
+      }
+    };
+
+    return { isRemFetch, removeFetch };
+  };
+
   return {
     currentCloud,
 
@@ -118,5 +176,8 @@ export function useCloudService(options: any = {}) {
     insertCloud,
     updateCloud,
     deleteCloud,
+    getNodes,
+    addNode,
+    removeNode,
   };
 }
