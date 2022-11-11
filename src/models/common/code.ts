@@ -16,6 +16,7 @@ export enum CloudStatus {
 export enum K8sVersions {
   "1.22.0" = 1,
   "1.23.0" = 2,
+  "1.23.3" = 3,
 }
 
 export enum ImageChecksumTypes {

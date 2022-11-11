@@ -4,16 +4,16 @@ const currentCluster = ref("");
 
 export function useClusterService(options: any = {}) {
   const { API, UI, Util } = useAppHelper();
-  const url = "api/v1/clusters";
+  const url_prefix = "api/v1/clouds";
 
   const getClusters = () => {
     const clusters = ref([] as any);
     const isFetch = ref(false);
 
-    const fetch = () => {
+    const fetch = (cloudId) => {
       isFetch.value = true;
 
-      API.get("", url)
+      API.get("", `${url_prefix}/${cloudId}/clusters`)
         .then((res) => {
           if (res.isError) {
             UI.showToastMessage(MessageTypes.ERROR, "클러스터 목록", res.message);
@@ -37,9 +37,9 @@ export function useClusterService(options: any = {}) {
     const cluster = ref(Util.clone(defaultClusterReg));
     const isFetch = ref(false);
 
-    const fetch = async (id) => {
+    const fetch = async (cloudId, id) => {
       isFetch.value = true;
-      const res = await API.get("", `${url}/${id}`);
+      const res = await API.get("", `${url_prefix}/${cloudId}/clusters/${id}`);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클러스터 정보", res.message);
         isFetch.value = false;
@@ -57,9 +57,9 @@ export function useClusterService(options: any = {}) {
   const insertCluster = () => {
     const isInsFetch = ref(false);
 
-    const insFetch = async (params) => {
+    const insFetch = async (cloudId, params) => {
       isInsFetch.value = true;
-      const res = await API.post("", url, params);
+      const res = await API.post("", `${url_prefix}/${cloudId}/clusters`, params);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클러스터 등록", res.message);
         isInsFetch.value = false;
@@ -76,9 +76,9 @@ export function useClusterService(options: any = {}) {
   const updateCluster = () => {
     const isUpFetch = ref(false);
 
-    const upFetch = async (id, params) => {
+    const upFetch = async (cloudId, clusterId, params) => {
       isUpFetch.value = true;
-      const res = await API.put("", `${url}/${id}`, params);
+      const res = await API.put("", `${url_prefix}/${cloudId}/clusters/${clusterId}`, params);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클러스터 수정", res.message);
         isUpFetch.value = false;
@@ -95,9 +95,9 @@ export function useClusterService(options: any = {}) {
   const deleteCluster = () => {
     const isDelFetch = ref(false);
 
-    const delFetch = async (id) => {
+    const delFetch = async (cloudId, clusterId) => {
       isDelFetch.value = true;
-      const res = await API.delete("", `${url}/${id}`);
+      const res = await API.delete("", `${url_prefix}/${cloudId}/clusters/${clusterId}`);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클러스터 삭제", res.message);
         isDelFetch.value = false;
@@ -111,6 +111,25 @@ export function useClusterService(options: any = {}) {
     return { isDelFetch, delFetch };
   };
 
+  const provisionCluster = () => {
+    const isProFetch = ref(false);
+
+    const proFetch = async (cloudId, clusterId) => {
+      isProFetch.value = true;
+      const res = await API.post("", `${url_prefix}/${cloudId}/clusters/${clusterId}`, null);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "클러스터 생성", res.message);
+        isProFetch.value = false;
+        return false;
+      } else {
+        isProFetch.value = false;
+        return true;
+      }
+    };
+
+    return { isProFetch, proFetch };
+  };
+
   return {
     currentCluster,
 
@@ -119,5 +138,6 @@ export function useClusterService(options: any = {}) {
     insertCluster,
     updateCluster,
     deleteCluster,
+    provisionCluster,
   };
 }

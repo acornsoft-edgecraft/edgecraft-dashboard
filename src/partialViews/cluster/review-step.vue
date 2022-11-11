@@ -12,7 +12,7 @@
               <K3FormColumn label="Namespace" label-align="right">{{ modelValue.cluster.namespace }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
-              <K3FormColumn label="클러스터 설명" label-align="right">{{ modelValue.cluster.desc }}</K3FormColumn>
+              <K3FormColumn label="클러스터 설명" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.cluster.desc)"></div></K3FormColumn>
             </K3FormRow>
           </K3FormContainer>
         </K3Fieldset>
@@ -103,13 +103,13 @@
           <template v-for="(node, index) in modelValue.nodes.master_sets" :key="index">
             <K3FormContainer class="node-wrapper no-style">
               <K3FormRow>
-                <K3FormColumn label="name" label-align="right">{{ node.name }}</K3FormColumn>
+                <K3FormColumn label="Node Name" label-align="right">{{ node.name }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
-                <K3FormColumn label="노드 개수" label-align="right">{{ node.node_count }}</K3FormColumn>
+                <K3FormColumn label="Node Count" label-align="right">{{ node.node_count }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
-                <K3FormColumn label="flavor" label-align="right">{{ node.flavor }}</K3FormColumn>
+                <K3FormColumn label="Flavor" label-align="right">{{ node.flavor }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
                 <K3FormColumn label="Labels" label-align="right">
@@ -125,13 +125,13 @@
           <template v-for="(node, index) in modelValue.nodes.worker_sets" :key="index">
             <K3FormContainer class="node-wrapper no-style">
               <K3FormRow>
-                <K3FormColumn label="name" label-align="right">{{ node.name }}</K3FormColumn>
+                <K3FormColumn label="Node Name" label-align="right">{{ node.name }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
-                <K3FormColumn label="노드 개수" label-align="right">{{ node.node_count }}</K3FormColumn>
+                <K3FormColumn label="Node Count" label-align="right">{{ node.node_count }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
-                <K3FormColumn label="flavor" label-align="right">{{ node.flavor }}</K3FormColumn>
+                <K3FormColumn label="Flavor" label-align="right">{{ node.flavor }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
                 <K3FormColumn label="Labels" label-align="right">
@@ -183,26 +183,18 @@
 </template>
 
 <script setup lang="ts">
-// imports
 import { K8sVersions } from "~/models";
 
 const { Util } = useAppHelper();
-// Page meta
 
-// Props
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });
-// Emits
 const emits = defineEmits(["can-continue"]);
-// Properties
-// Compputed
-// Watcher
-// Methods
+
 const beforeNextStep = (): boolean => {
   return true;
 };
-// Events
 
 onActivated(() => {
   emits("can-continue", { value: true });
@@ -213,7 +205,6 @@ onMounted(() => {
 });
 
 defineExpose({ beforeNextStep });
-// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss">

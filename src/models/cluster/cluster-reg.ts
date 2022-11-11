@@ -12,6 +12,7 @@ export interface cluster_reg {
     etcd: etcdInfo;
     storage_class: storageClassInfo;
   };
+  save_only: boolean;
 }
 
 export const defaultClusterReg: cluster_reg = {
@@ -23,4 +24,5 @@ export const defaultClusterReg: cluster_reg = {
     etcd: defaultETCDInfo,
     storage_class: defaultStorageClassInfo,
   },
+  save_only: true,
 };

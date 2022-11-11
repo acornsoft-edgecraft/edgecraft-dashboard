@@ -117,8 +117,8 @@ UI.tableSettings.initFilters({
 const searchItems = ref({
   items: [
     { type: "dropdown", name: "type", label: "Cloud Type", value: search.value["type"], options: CloudTypesMap(), class: "w-11rem" },
-    { type: "dropdown", name: "status", label: "Status", value: search.value["status"], options: CloudStatusMap(), class: "w-12rem" },
     { type: "text", name: "name", label: "Name", value: search.value["name"] },
+    { type: "dropdown", name: "status", label: "Status", value: search.value["status"], options: CloudStatusMap(), class: "w-12rem" },
   ],
   multiSelect: { columns: columns.value, selectedColumns: selectedColumns.value, class: "w-20rem" },
 });
@@ -136,7 +136,7 @@ const onReset = () => {
   }
 };
 
-const page = (data) => `/cloud/${data.status == CloudStatus.Saved ? "register/" : ""}${data.cloud_uid}`;
+const page = (data) => `/cloud/${data.status === CloudStatus.Saved ? "register/" : ""}${data.cloud_uid}`;
 
 const rowSelected = (event) => {
   // TODO: Row selected
@@ -158,8 +158,8 @@ const menus = computed(() => {
   const to = `/cloud/${selectedItem?.value?.cloud_uid}`;
   const disabled = [true, true];
 
-  if (selectedItem?.value?.status == CloudStatus.Provisioned) {
-    if (selectedItem?.value?.type == CloudTypes.Openstack) disabled[0] = false;
+  if (selectedItem?.value?.status === CloudStatus.Provisioned) {
+    if (selectedItem?.value?.type === CloudTypes.Openstack) disabled[0] = false;
     disabled[1] = false;
   }
 
