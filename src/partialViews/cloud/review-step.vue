@@ -30,6 +30,24 @@
             <K3FormRow>
               <K3FormColumn label="Service Dns Domain" label-align="right">{{ modelValue.cluster.k8s.svc_domain }}</K3FormColumn>
             </K3FormRow>
+            <K3FormRow>
+              <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
+                <K3FormContainer class="no-style w-full">
+                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                    <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.cluster.k8s.cp_kubeadm_extra_config[config.id])"></div></K3FormColumn>
+                  </K3FormRow>
+                </K3FormContainer>
+              </K3FormColumn>
+            </K3FormRow>
+            <K3FormRow>
+              <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
+                <K3FormContainer class="no-style w-full">
+                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                    <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.cluster.k8s.worker_kubeadm_extra_config[config.id])"></div></K3FormColumn>
+                  </K3FormRow>
+                </K3FormContainer>
+              </K3FormColumn>
+            </K3FormRow>
           </K3FormContainer>
         </K3Fieldset>
         <K3Fieldset legend="Baremetal 설치 정보" :toggleable="true">
@@ -59,24 +77,6 @@
             </K3FormRow>
             <K3FormRow>
               <K3FormColumn label="Image Format" label-align="right">{{ ImageFormats[modelValue.cluster.baremetal.image_format] }}</K3FormColumn>
-            </K3FormRow>
-            <K3FormRow>
-              <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
-                <K3FormContainer class="no-style w-full">
-                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
-                    <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.cluster.baremetal.cp_kubeadm_extra_config[config.id])"></div></K3FormColumn>
-                  </K3FormRow>
-                </K3FormContainer>
-              </K3FormColumn>
-            </K3FormRow>
-            <K3FormRow>
-              <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
-                <K3FormContainer class="no-style w-full">
-                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
-                    <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.cluster.baremetal.worker_kubeadm_extra_config[config.id])"></div></K3FormColumn>
-                  </K3FormRow>
-                </K3FormContainer>
-              </K3FormColumn>
             </K3FormRow>
           </K3FormContainer>
         </K3Fieldset>
@@ -207,6 +207,7 @@
 import { CloudTypes, K8sVersions, ImageChecksumTypes, ImageFormats, BootModes, kubeadmConfigs } from "~/models";
 
 const { Util } = useAppHelper();
+
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });
@@ -222,7 +223,6 @@ onActivated(() => {
 
 onMounted(() => {
   emits("can-continue", { value: true });
-  console.log(props.modelValue);
 });
 
 defineExpose({ beforeNextStep });

@@ -22,12 +22,38 @@
           <K3FormInputField v-model="v$.svc_domain" field-name="Service Dns Domain" class="w-6" placeholder="예) cluster.local" />
         </K3FormColumn>
       </K3FormRow>
+      <K3FormRow>
+        <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
+          <K3FormContainer class="no-style w-full">
+            <K3FormRow direction="vertical">
+              <K3Accordion :multiple="true" :activeIndex="activeIndex(modelValue.cp_kubeadm_extra_config)">
+                <K3AccordionTab v-for="(config, index) in kubeadmConfigs" :key="index" :header="config.header">
+                  <K3Textarea :id="setConfigId('cp', config.id)" v-model="modelValue.cp_kubeadm_extra_config[config.id]" type="text" rows="4" class="w-full" :autoResize="true" />
+                </K3AccordionTab>
+              </K3Accordion>
+            </K3FormRow>
+          </K3FormContainer>
+        </K3FormColumn>
+      </K3FormRow>
+      <K3FormRow>
+        <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
+          <K3FormContainer class="no-style w-full">
+            <K3FormRow direction="vertical">
+              <K3Accordion :multiple="true" :activeIndex="activeIndex(modelValue.worker_kubeadm_extra_config)">
+                <K3AccordionTab v-for="(config, index) in kubeadmConfigs" :key="index" :header="config.header">
+                  <K3Textarea :id="setConfigId('worker', config.id)" v-model="modelValue.worker_kubeadm_extra_config[config.id]" rows="4" class="w-full" :autoResize="true" />
+                </K3AccordionTab>
+              </K3Accordion>
+            </K3FormRow>
+          </K3FormContainer>
+        </K3FormColumn>
+      </K3FormRow>
     </K3FormContainer>
   </div>
 </template>
 
 <script setup lang="ts">
-import { K8sVersionMap, defaultKubernetesInfoValidation, kubernetesInfo } from "~/models";
+import { K8sVersionMap, defaultKubernetesInfoValidation, kubernetesInfo, kubeadmConfigs } from "~/models";
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
@@ -35,7 +61,17 @@ const props = defineProps({
 
 const v$ = useAppHelper().UI.getValidate(defaultKubernetesInfoValidation, ref(props.modelValue as kubernetesInfo));
 
-onMounted(() => {});
+const setConfigId = (prefix, id) => {
+  return `${prefix}_${id}`;
+};
+
+const activeIndex = (configs) => {
+  const idx = [];
+  Object.keys(configs).map((c, i) => {
+    if (configs[c] !== "") idx.push(i);
+  });
+  return idx.length > 0 ? idx : [0];
+};
 </script>
 
 <style scoped lang="scss"></style>

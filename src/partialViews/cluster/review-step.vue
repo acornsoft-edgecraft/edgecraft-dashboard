@@ -30,6 +30,24 @@
             <K3FormRow>
               <K3FormColumn label="Service Dns Domain" label-align="right">{{ modelValue.k8s.svc_domain }}</K3FormColumn>
             </K3FormRow>
+            <K3FormRow>
+              <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
+                <K3FormContainer class="no-style w-full">
+                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                    <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.k8s.cp_kubeadm_extra_config[config.id])"></div></K3FormColumn>
+                  </K3FormRow>
+                </K3FormContainer>
+              </K3FormColumn>
+            </K3FormRow>
+            <K3FormRow>
+              <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
+                <K3FormContainer class="no-style w-full">
+                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                    <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.k8s.worker_kubeadm_extra_config[config.id])"></div></K3FormColumn>
+                  </K3FormRow>
+                </K3FormContainer>
+              </K3FormColumn>
+            </K3FormRow>
           </K3FormContainer>
         </K3Fieldset>
       </K3AccordionTab>
@@ -183,7 +201,7 @@
 </template>
 
 <script setup lang="ts">
-import { K8sVersions } from "~/models";
+import { K8sVersions, kubeadmConfigs } from "~/models";
 
 const { Util } = useAppHelper();
 
