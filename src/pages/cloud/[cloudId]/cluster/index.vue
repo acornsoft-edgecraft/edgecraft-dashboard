@@ -15,6 +15,7 @@
         selectionMode="single"
         removableSort
         :rows="UI.tableSettings.rows"
+        :first="UI.tableSettings.first"
         :paginator="true"
         :paginatorTemplate="UI.tableSettings.paginatorTemplate"
         :rowsPerPageOptions="UI.tableSettings.rowPerPageOptions"
@@ -22,6 +23,7 @@
         :loading="isFetch"
         @rowSelect="rowSelected"
         @rowUnselect="rowUnselected"
+        @page="onPage"
         stripedRows>
         <template #header>
           <BizCommonSearch :items="searchItems.items" :multiSelect="searchItems.multiSelect" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle">
@@ -145,6 +147,11 @@ const rowUnselected = (event) => {
   // TODO: Row unselected
 };
 
+const onPage = (event) => {
+  UI.tableSettings.first = event.first;
+  UI.tableSettings.rows = event.rows;
+};
+
 const showCommand = (id, event) => {
   selectedItem.value = clusters.value.find((c) => c.cluster_uid === id);
   menu.value.show(event);
@@ -201,6 +208,7 @@ onMounted(() => {
 onUnmounted(() => {
   if (!useRouter().currentRoute.value.path.includes(useRoute().path)) {
     Search.destroy(search);
+    UI.tableSettings.first = 0;
   }
 });
 </script>

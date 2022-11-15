@@ -107,6 +107,7 @@ const UI = {
     filters: ref(),
     scrollHeight: "calc(100vh - 150px)",
     rows: 10,
+    first: 0,
     paginatorTemplate: "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
     rowPerPageOptions: [5, 10, 20, 50],
     pageReportTemplate: "({first}~{last}) of {totalRecords}",
