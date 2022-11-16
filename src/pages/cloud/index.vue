@@ -56,7 +56,7 @@
         </K3Column>
         <K3Column header="Commands" key="cmd" class="flex justify-content-center" headerStyle="min-width: 30px;" bodyStyle="min-width: 30px;">
           <template #body="slotProps">
-            <i class="fas fa-ellipsis-v" style="width: 10px" @click="showCommand(slotProps.data.cloud_uid, $event)"></i>
+            <i class="fas fa-ellipsis-v icon-command" @click="showCommand(slotProps.data.cloud_uid, $event)" />
           </template>
         </K3Column>
       </K3DataTable>
@@ -221,5 +221,10 @@ onUnmounted(() => {
       border-top: none;
     }
   }
+}
+
+.icon-command {
+  width: 10px;
+  padding: 0 1.2rem;
 }
 </style>
