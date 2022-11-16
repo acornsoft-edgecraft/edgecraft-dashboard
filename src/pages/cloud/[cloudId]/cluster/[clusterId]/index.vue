@@ -3,42 +3,170 @@
     <section class="page-header">
       <K3PageTitle />
     </section>
-    <section class="page-content cluster-info-container">
+    <section class="page-content">
       <div class="flex justify-content-end button-wrapper">
         <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="provisioned" />
         <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="provisioned" />
         <K3Button label="클러스터 삭제" class="p-button-danger" @click="onDelete" />
       </div>
-      <K3Card>
-        <template #title>클러스터 정보</template>
-        <template #content>
-          <K3FormContainer>
-            <K3FormRow>
-              <K3FormColumn label="Cluster Name" label-align="right">{{ cluster.cluster.name }}</K3FormColumn>
-            </K3FormRow>
-            <K3FormRow>
-              <K3FormColumn label="Cluster Status" label-align="right">{{ CloudStatus[cluster.cluster.status] }}</K3FormColumn>
-            </K3FormRow>
-            <K3FormRow>
-              <K3FormColumn label="Cluster Desc" label-align="right">{{ cluster.cluster.desc }}</K3FormColumn>
-            </K3FormRow>
-            <K3FormRow>
-              <K3FormColumn label="Created" label-align="right">{{ Util.getDateLocaleString(cluster.cluster.created) }}</K3FormColumn>
-            </K3FormRow>
-          </K3FormContainer>
-          <K3FormContainer class="mt-2">
-            <K3FormRow>
-              <K3FormColumn label="Kubernetes Version" label-align="right">{{ K8sVersions[cluster.k8s.version] }}</K3FormColumn>
-            </K3FormRow>
-            <K3FormRow>
-              <K3FormColumn label="POD CIDR" label-align="right">{{ cluster.k8s.pod_cidr }}</K3FormColumn>
-            </K3FormRow>
-            <K3FormRow>
-              <K3FormColumn label="Service CIDR" label-align="right">{{ cluster.k8s.svc_cidr }}</K3FormColumn>
-            </K3FormRow>
-          </K3FormContainer>
-        </template>
-      </K3Card>
+      <div class="info-wrapper">
+        <K3Accordion :multiple="true" :activeIndex="[0, 1, 2, 3, 4]">
+          <K3AccordionTab header="CLUSTER 정보">
+            <K3FormContainer>
+              <K3FormRow>
+                <K3FormColumn label="Cluster 명" label-align="right">{{ cluster.cluster.name }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Namespace" label-align="right">{{ cluster.cluster.namespace }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Cluster Status" label-align="right">{{ CloudStatus[cluster.cluster.status] }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Cluster 설명" label-align="right"><div v-html="Util.getReplaceNewlineToBr(cluster.cluster.desc)"></div></K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Created" label-align="right">{{ Util.getDateLocaleString(cluster.cluster.created) }}</K3FormColumn>
+              </K3FormRow>
+            </K3FormContainer>
+          </K3AccordionTab>
+          <K3AccordionTab header="Kubernetes 설치 정보">
+            <K3FormContainer>
+              <K3FormRow>
+                <K3FormColumn label="Kubernetes Version" label-align="right">{{ K8sVersions[cluster.k8s.version] }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="POD CIDR" label-align="right">{{ cluster.k8s.pod_cidr }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Service CIDR" label-align="right">{{ cluster.k8s.svc_cidr }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Service Domain" label-align="right">{{ cluster.k8s.svc_domain }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
+                  <K3FormContainer class="no-style w-full">
+                    <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                      <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(cluster.k8s.cp_kubeadm_extra_config[config.id])"></div></K3FormColumn>
+                    </K3FormRow>
+                  </K3FormContainer>
+                </K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
+                  <K3FormContainer class="no-style w-full">
+                    <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                      <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(cluster.k8s.worker_kubeadm_extra_config[config.id])"></div></K3FormColumn>
+                    </K3FormRow>
+                  </K3FormContainer>
+                </K3FormColumn>
+              </K3FormRow>
+            </K3FormContainer>
+          </K3AccordionTab>
+          <K3AccordionTab header="Openstack 정보">
+            <K3FormContainer>
+              <K3FormRow>
+                <K3FormColumn label="Node CIDR" label-align="right">{{ cluster.openstack.node_cidr }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Openstack Cloud" label-align="right">{{ cluster.openstack.openstack_cloud }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Openstack Cloud Provider Conf B64" label-align="right">{{ cluster.openstack.openstack_cloud_provider_conf_b64 }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Openstack Cloud Yaml B64" label-align="right">{{ cluster.openstack.openstack_cloud_yaml_b64 }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Openstack Cloud CaCert B64" label-align="right">{{ cluster.openstack.openstack_cloud_cacert_b64 }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="DNS Nameservers" label-align="right">{{ cluster.openstack.dns_nameservers }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Failure Domain" label-align="right">{{ cluster.openstack.failure_domain }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="Image Name" label-align="right">{{ cluster.openstack.image_name }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="SSH Key Name" label-align="right">{{ cluster.openstack.ssh_key_name }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="External Network ID" label-align="right">{{ cluster.openstack.external_network_id }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
+                <K3FormColumn label="API Server Floating IP" label-align="right">{{ cluster.openstack.api_server_floating_ip }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow v-if="!cluster.openstack.use_bastion_host">
+                <K3FormColumn label="Bastion Host" label-align="right">{{ Util.getUseYnKo(cluster.openstack.use_bastion_host) }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow v-if="cluster.openstack.use_bastion_host">
+                <K3FormColumn label="Bastion Host" label-align="right">
+                  <K3FormContainer class="no-style w-full">
+                    <K3FormRow>
+                      <K3FormColumn label="Flavor" label-align="right">{{ cluster.openstack.bastion_flavor }}</K3FormColumn>
+                    </K3FormRow>
+                    <K3FormRow>
+                      <K3FormColumn label="Image Name" label-align="right">{{ cluster.openstack.bastion_image_name }}</K3FormColumn>
+                    </K3FormRow>
+                    <K3FormRow>
+                      <K3FormColumn label="SSH Key Name" label-align="right">{{ cluster.openstack.bastion_ssh_key_name }}</K3FormColumn>
+                    </K3FormRow>
+                    <K3FormRow>
+                      <K3FormColumn label="Floating IP" label-align="right">{{ cluster.openstack.bastion_floating_ip }}</K3FormColumn>
+                    </K3FormRow>
+                  </K3FormContainer>
+                </K3FormColumn>
+              </K3FormRow>
+            </K3FormContainer>
+          </K3AccordionTab>
+          <K3AccordionTab header="Node 정보">
+            <K3FormContainer class="no-style">
+              <K3FormRow>
+                <K3FormColumn label="Use LoadBalancer" label-align="right">{{ Util.getUseYnKo(cluster.nodes.use_loadbalancer) }}</K3FormColumn>
+              </K3FormRow>
+            </K3FormContainer>
+            <BizClusterNodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" @add-nodeset="addNodeset" />
+            <BizClusterNodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" @add-nodeset="addNodeset" />
+          </K3AccordionTab>
+          <K3AccordionTab header="ETCD/Storage 정보">
+            <K3Fieldset legend="ETCD 설정" :toggleable="true">
+              <K3FormContainer class="no-style">
+                <K3FormRow>
+                  <K3FormColumn label="External ETCD" label-align="right">{{ Util.getUseYnKo(cluster.etcd_storage.etcd.use_external_etcd) }}</K3FormColumn>
+                </K3FormRow>
+                <K3FormRow v-if="cluster.etcd_storage.etcd.use_external_etcd">
+                  <K3FormColumn label="Endpoints" label-align="right" :size="12">
+                    <K3FormContainer class="no-style w-full">
+                      <K3FormRow direction="horizontal" :overflow-wrap="true" v-for="(item, index) in cluster.etcd_storage.etcd.endpoints" :key="index">
+                        <K3FormColumn label="IP" label-align="right" :size="6">{{ item.ip_address }}</K3FormColumn>
+                        <K3FormColumn label="Port" label-align="right" :size="6">{{ item.port }}</K3FormColumn>
+                      </K3FormRow>
+                    </K3FormContainer>
+                  </K3FormColumn>
+                  <K3FormColumn label="CA File" label-align="right">{{ cluster.etcd_storage.etcd.ca_file }}</K3FormColumn>
+                  <K3FormColumn label="CERT File" label-align="right">{{ cluster.etcd_storage.etcd.cert_file }}</K3FormColumn>
+                  <K3FormColumn label="KEY File" label-align="right">{{ cluster.etcd_storage.etcd.key_file }}</K3FormColumn>
+                </K3FormRow>
+              </K3FormContainer>
+            </K3Fieldset>
+            <K3Fieldset legend="STORAGE Class 설정" :toggleable="true">
+              <K3FormContainer class="no-style">
+                <K3FormRow>
+                  <K3FormColumn label="Use Ceph" label-align="right">{{ Util.getUseYnKo(cluster.etcd_storage.storage_class.use_ceph) }}</K3FormColumn>
+                </K3FormRow>
+                <K3FormRow v-if="cluster.etcd_storage.storage_class.use_ceph">
+                  <K3FormColumn label="Label 1" label-align="right">{{ cluster.etcd_storage.storage_class.label1 }}</K3FormColumn>
+                  <K3FormColumn label="Label 2" label-align="right">{{ cluster.etcd_storage.storage_class.label2 }}</K3FormColumn>
+                  <K3FormColumn label="Label 3" label-align="right">{{ cluster.etcd_storage.storage_class.label3 }}</K3FormColumn>
+                </K3FormRow>
+              </K3FormContainer>
+            </K3Fieldset>
+          </K3AccordionTab>
+        </K3Accordion>
+      </div>
 
       <K3TabView v-if="cluster.cluster.status < CloudStatus.Provisioned">
         <K3TabPanel header="Cluster">
@@ -55,14 +183,6 @@
         </K3TabPanel>
       </K3TabView>
 
-      <K3Card>
-        <template #title>노드 정보</template>
-        <template #content>
-          <BizClusterNodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" @add-nodeset="addNodeset" />
-          <BizClusterNodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" @add-nodeset="addNodeset" />
-        </template>
-      </K3Card>
-
       <BizDialogsClusterNodeset v-model="clusterNodeset" @close="close" @ok="ok" />
       <BizDialogsK8sUpgrade v-model="k8sUpgrade" @close="close" @upgrade="upgrade" />
       <div class="flex justify-content-end button-wrapper">
@@ -76,7 +196,7 @@
 </template>
 
 <script setup lang="ts">
-import { CloudStatus, K8sVersions, NodeTypes, MessageTypes } from "~/models";
+import { CloudStatus, K8sVersions, NodeTypes, MessageTypes, kubeadmConfigs } from "~/models";
 
 definePageMeta({ layout: "default", title: "클라우드 클러스터 상세", public: true });
 
@@ -89,7 +209,7 @@ const clusterId = route.params.clusterId;
 const list = `/cloud/${cloudId}/cluster`;
 
 const active = computed(() => unref(isFetch || isDelFetch));
-const provisioned = computed(() => cluster.value.cluster.status == CloudStatus.Provisioned);
+const provisioned = computed(() => cluster.value.cluster.status === CloudStatus.Provisioned);
 
 const goKoreboard = () => {
   // TOGO: go koreboard
@@ -129,7 +249,7 @@ const getCluster = async () => {
   }
   if (!result) Routing.moveTo(list);
 
-  if (cluster.value.cluster.status == CloudStatus.Saved) {
+  if (cluster.value.cluster.status === CloudStatus.Saved) {
     Routing.moveTo(`${list}/register/${clusterId}`);
   }
 };
@@ -155,13 +275,25 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.cluster-info-container {
-  .p-card,
-  .p-tabview,
-  .p-fieldset,
-  .button-wrapper {
-    margin-top: 1rem;
+.info-wrapper {
+  background-color: #fff;
+  padding: 0.25rem;
+  margin: 1rem 0;
+
+  .p-accordion {
+    margin: 0.25rem;
+
+    :deep(.p-accordion-header-text) {
+      font-size: 1.1rem;
+    }
   }
+
+  .form-container {
+    box-shadow: none;
+  }
+}
+.button-wrapper {
+  margin-top: 1rem;
 }
 
 .dark-demo-terminal {

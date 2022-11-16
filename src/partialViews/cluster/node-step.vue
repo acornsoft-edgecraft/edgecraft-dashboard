@@ -18,29 +18,25 @@
 </template>
 
 <script setup lang="ts">
-// imports
 import NodesetInfo from "./nodeset-info.vue";
 import { NodeTypes, defaultClusterNodesInfoValidation } from "~/models";
 
 const { UI } = useAppHelper();
-// Page meta
-// Props
+
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });
-// Emits
+
 const emits = defineEmits(["can-continue"]);
-// Properties
+
 const nodes = ref(props.modelValue.nodes);
 const v$ = UI.getValidate(defaultClusterNodesInfoValidation, nodes);
-// Compputed
-// Watcher
+
 watch(
   () => v$.value,
   (val) => {
     v$.value.$touch(); // 자식의 오류 여부 검증
 
-    console.log(`watch >>> ${val.$invalid}`);
     if (!val.$invalid) {
       emits("can-continue", { value: true });
     } else {
@@ -49,18 +45,15 @@ watch(
   }
 );
 
-// Methods
 const beforeNextStep = (): boolean => {
   v$.value.$touch();
 
-  console.log(`validation >>> ${JSON.stringify(props.modelValue)}`);
   if (v$.value.$invalid) {
     return false;
   }
   return true;
 };
 
-// Events
 onActivated(() => {
   v$.value.$touch();
 
@@ -71,10 +64,7 @@ onActivated(() => {
   }
 });
 
-onMounted(() => {});
-
 defineExpose({ beforeNextStep });
-// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss"></style>

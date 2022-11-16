@@ -6,20 +6,17 @@
 
 <script setup lang="ts">
 import OpenstackInfo from "./openstack-info.vue";
-// imports
+
 const { UI } = useAppHelper();
-// Page meta
-// Props
+
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });
-// Emits
+
 const emits = defineEmits(["can-continue"]);
-// const emits = defineEmits(['eventname']),
-// Properties
+
 const v$ = UI.getValidate();
-// Compputed
-// Watcher
+
 watch(
   () => v$.value,
   (val) => {
@@ -34,7 +31,6 @@ watch(
   }
 );
 
-// Methods
 const beforeNextStep = (): boolean => {
   v$.value.$touch();
 
@@ -44,7 +40,7 @@ const beforeNextStep = (): boolean => {
   }
   return true;
 };
-// Events
+
 onActivated(() => {
   v$.value.$touch();
 
@@ -56,7 +52,6 @@ onActivated(() => {
 });
 
 defineExpose({ beforeNextStep });
-// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss"></style>

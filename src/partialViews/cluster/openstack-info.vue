@@ -1,6 +1,6 @@
 <template>
   <K3FormContainer class="no-bg">
-    <template #header>OPENSTACK 정보</template>
+    <template #header>Openstack 정보</template>
     <K3FormRow>
       <K3FormColumn label="Node CIDR" label-align="right">
         <K3FormInputField v-model="v$.node_cidr" field-name="Node CIDR" class="w-full" placeholder="예) 10.6.0.0/24" />

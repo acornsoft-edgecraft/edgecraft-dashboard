@@ -8,8 +8,8 @@
         <template #default="{ v }">
           <K3FormContainer class="no-style">
             <K3FormRow>
-              <K3FormColumn label="Node Name" label-align="right">
-                <K3FormInputField v-model="v.name" field-name="Node Name" class="w-full" />
+              <K3FormColumn label="Name" label-align="right">
+                <K3FormInputField v-model="v.name" field-name="Name" class="w-full" />
               </K3FormColumn>
             </K3FormRow>
             <K3FormRow>
@@ -40,7 +40,6 @@
 </template>
 
 <script setup lang="ts">
-// imports
 import useVuelidate from "@vuelidate/core";
 import { NodeTypes, defaultNodesetInfoValidation, defaultNodesetInfo } from "~/models";
 
@@ -48,20 +47,14 @@ const { Util } = useAppHelper();
 
 const v = useVuelidate();
 
-// Page meta
-// Props
 const props = defineProps({
   modelValue: { type: Array<any>, default: [] },
   type: { type: Number, default: NodeTypes.Master },
 });
-// Emits
-// Properties
+
 const data = reactive(props.modelValue);
 const vRules = defaultNodesetInfoValidation;
 
-// Compputed
-// Watcher
-// Methods
 const addNodeSet = () => {
   data.push({ ...Util.clone(defaultNodesetInfo) });
 };
@@ -69,9 +62,6 @@ const addNodeSet = () => {
 const removeNodeSet = (index) => {
   data.splice(index, 1);
 };
-// Events
-onMounted(() => {});
-// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss">
