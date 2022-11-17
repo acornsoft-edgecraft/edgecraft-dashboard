@@ -41,13 +41,11 @@ export function useCloudService(options: any = {}) {
       const res = await API.get("", `${url}/${id}`);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클라우드 정보", res.message);
-        isFetch.value = false;
-        return false;
       } else {
         cloud.value = res.data;
-        isFetch.value = false;
-        return true;
       }
+      isFetch.value = false;
+      return !res.isError;
     };
 
     return { cloud, isFetch, fetch };
@@ -61,12 +59,9 @@ export function useCloudService(options: any = {}) {
       const res = await API.post("", url, params);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클라우드 등록", res.message);
-        isInsFetch.value = false;
-        return false;
-      } else {
-        isInsFetch.value = false;
-        return true;
       }
+      isInsFetch.value = false;
+      return res;
     };
 
     return { isInsFetch, insFetch };
@@ -80,12 +75,9 @@ export function useCloudService(options: any = {}) {
       const res = await API.put("", `${url}/${id}`, params);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클라우드 수정", res.message);
-        isUpFetch.value = false;
-        return false;
-      } else {
-        isUpFetch.value = false;
-        return true;
       }
+      isUpFetch.value = false;
+      return res;
     };
 
     return { isUpFetch, upFetch };
@@ -99,12 +91,9 @@ export function useCloudService(options: any = {}) {
       const res = await API.delete("", `${url}/${id}`);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클라우드 삭제", res.message);
-        isDelFetch.value = false;
-        return false;
-      } else {
-        isDelFetch.value = false;
-        return true;
       }
+      isDelFetch.value = false;
+      return res;
     };
 
     return { isDelFetch, delFetch };
@@ -137,12 +126,9 @@ export function useCloudService(options: any = {}) {
       const res = await API.post("", `${url}/${cloudId}/nodes`, params);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "노드 등록", res.message);
-        isAddFetch.value = false;
-        return false;
-      } else {
-        isAddFetch.value = false;
-        return true;
       }
+      isAddFetch.value = false;
+      return res;
     };
 
     return { isAddFetch, addFetch };
@@ -154,15 +140,11 @@ export function useCloudService(options: any = {}) {
     const removeFetch = async (cloudId, nodeId) => {
       isRemFetch.value = true;
       const res = await API.delete("", `${url}/${cloudId}/nodes/${nodeId}`);
-
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "노드 삭제", res.message);
-        isRemFetch.value = false;
-        return false;
-      } else {
-        isRemFetch.value = false;
-        return true;
       }
+      isRemFetch.value = false;
+      return res;
     };
 
     return { isRemFetch, removeFetch };

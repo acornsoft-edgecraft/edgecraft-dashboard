@@ -235,9 +235,9 @@ const deleteCluster = async () => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, "클러스터 삭제", err);
   }
-  if (!result) return;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, "클러스터 삭제", "클러스터를 삭제하였습니다.");
+  UI.showToastMessage(MessageTypes.INFO, "클러스터 삭제", result.message || "클러스터를 삭제하였습니다.");
   Routing.moveTo(list);
 };
 const getCluster = async () => {
