@@ -106,9 +106,9 @@ const onSubmit = async () => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `이미지 ${label}`, err);
   }
-  if (!result) return;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, `이미지 ${label}`, `이미지를 ${label}하였습니다.`);
+  UI.showToastMessage(MessageTypes.INFO, `이미지 ${label}`, result.message || `이미지를 ${label}하였습니다.`);
   Routing.moveTo(list);
 };
 const onDelete = () => {
@@ -121,9 +121,9 @@ const deleteImage = async () => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, "이미지 삭제", err);
   }
-  if (!result) return;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, "이미지 삭제", `이미지를 삭제하였습니다.`);
+  UI.showToastMessage(MessageTypes.INFO, "이미지 삭제", result.message || `이미지를 삭제하였습니다.`);
   Routing.moveTo(list);
 };
 const getImage = async () => {

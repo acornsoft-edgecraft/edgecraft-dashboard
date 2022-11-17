@@ -39,13 +39,11 @@ export function useImageService(options: any = {}) {
       const res = await API.get("", `${url}/${id}`);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "이미지 정보", res.message);
-        isFetch.value = false;
-        return false;
       } else {
         image.value = res.data;
-        isFetch.value = false;
-        return true;
       }
+      isFetch.value = false;
+      return !res.isError;
     };
 
     return { image, isFetch, fetch };
@@ -59,12 +57,9 @@ export function useImageService(options: any = {}) {
       const res = await API.post("", url, params);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "이미지 등록", res.message);
-        isInsFetch.value = false;
-        return false;
-      } else {
-        isInsFetch.value = false;
-        return true;
       }
+      isInsFetch.value = false;
+      return res;
     };
 
     return { isInsFetch, insFetch };
@@ -78,12 +73,9 @@ export function useImageService(options: any = {}) {
       const res = await API.put("", `${url}/${id}`, params);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "이미지 수정", res.message);
-        isUpFetch.value = false;
-        return false;
-      } else {
-        isUpFetch.value = false;
-        return true;
       }
+      isUpFetch.value = false;
+      return res;
     };
 
     return { isUpFetch, upFetch };
@@ -97,12 +89,9 @@ export function useImageService(options: any = {}) {
       const res = await API.delete("", `${url}/${id}`);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "이미지 삭제", res.message);
-        isDelFetch.value = false;
-        return false;
-      } else {
-        isDelFetch.value = false;
-        return true;
       }
+      isDelFetch.value = false;
+      return res;
     };
 
     return { isDelFetch, delFetch };
