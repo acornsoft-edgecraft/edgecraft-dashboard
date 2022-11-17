@@ -42,6 +42,10 @@
             <p class="text-orange-500">No records found.</p>
           </div>
         </template>
+        <template #paginatorstart>
+          <K3Button icon="pi pi-refresh" class="p-button-text" @click="refresh" />
+        </template>
+        <template #paginatorend></template>
         <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :class="col.class" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
             <NuxtLink v-if="slotProps.field == 'name'" :to="page(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
@@ -152,6 +156,11 @@ const onPage = (event) => {
   UI.tableSettings.rows = event.rows;
 };
 
+const refresh = () => {
+  clusters.value = [];
+  fetch(cloudId);
+};
+
 const showCommand = (id, event) => {
   selectedItem.value = clusters.value.find((c) => c.cluster_uid === id);
   menu.value.show(event);
@@ -188,8 +197,7 @@ const onProvision = async (item) => {
   if (result.isError) return;
 
   UI.showToastMessage(MessageTypes.INFO, "클러스터 생성", result.message || "클러스터를 생성 요청하였습니다.");
-  clusters.value = [];
-  fetch(cloudId);
+  refresh();
 };
 
 watch(
