@@ -286,6 +286,10 @@ onMounted(() => {
     :deep(.p-accordion-header-text) {
       font-size: 1.1rem;
     }
+
+    .p-fieldset:not(:first-child) {
+      margin-top: 1rem;
+    }
   }
 
   .form-container {

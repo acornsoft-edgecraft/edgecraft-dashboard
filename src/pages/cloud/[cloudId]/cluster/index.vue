@@ -185,9 +185,9 @@ const onProvision = async (item) => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, "클러스터 생성", err);
   }
-  if (!result) true;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, "클러스터 생성", "클러스터를 생성 요청하였습니다.");
+  UI.showToastMessage(MessageTypes.INFO, "클러스터 생성", result.message || "클러스터를 생성 요청하였습니다.");
   clusters.value = [];
   fetch(cloudId);
 };
