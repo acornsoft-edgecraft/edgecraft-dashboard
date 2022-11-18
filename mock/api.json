@@ -38,6 +38,69 @@
       "name": "asdfasf",
       "role": 3,
       "id": 5
+    },
+    {
+      "email": "222@22.com",
+      "password": "$2a$10$r1gldIY25vCyKaJMpC45B.O4ELhUOsRLCv7l/OnAK79LVp/1KZaQS",
+      "name": "asfdsfsffff",
+      "role": 3,
+      "id": 6
+    },
+    {
+      "email": "333@aaa.com",
+      "password": "$2a$10$PiHFcFZxyUKYgPNPRkNSOOjPJyINegXFnFIIaGk1CVs8hhsCLbhD.",
+      "name": "asdfasf3",
+      "role": 3,
+      "id": 7
+    },
+    {
+      "email": "4444@aaa.com",
+      "password": "$2a$10$r1gldIY25vCyKaJMpC45B.O4ELhUOsRLCv7l/OnAK79LVp/1KZaQS",
+      "name": "asf444",
+      "role": 3,
+      "id": 8
+    },
+    {
+      "email": "555@aaa.com",
+      "password": "$2a$10$PiHFcFZxyUKYgPNPRkNSOOjPJyINegXFnFIIaGk1CVs8hhsCLbhD.",
+      "name": "asdf555",
+      "role": 3,
+      "id": 9
+    },
+    {
+      "email": "6666@aaa.com",
+      "password": "$2a$10$r1gldIY25vCyKaJMpC45B.O4ELhUOsRLCv7l/OnAK79LVp/1KZaQS",
+      "name": "asdf666",
+      "role": 3,
+      "id": 10
+    },
+    {
+      "email": "777@aaa.com",
+      "password": "$2a$10$PiHFcFZxyUKYgPNPRkNSOOjPJyINegXFnFIIaGk1CVs8hhsCLbhD.",
+      "name": "asdf777",
+      "role": 3,
+      "id": 11
+    },
+    {
+      "email": "888@aaa.com",
+      "password": "$2a$10$r1gldIY25vCyKaJMpC45B.O4ELhUOsRLCv7l/OnAK79LVp/1KZaQS",
+      "name": "asdf888",
+      "role": 3,
+      "id": 12
+    },
+    {
+      "email": "999@aaa.com",
+      "password": "$2a$10$PiHFcFZxyUKYgPNPRkNSOOjPJyINegXFnFIIaGk1CVs8hhsCLbhD.",
+      "name": "asdf999",
+      "role": 3,
+      "id": 13
+    },
+    {
+      "email": "000@aaa.com",
+      "password": "$2a$10$r1gldIY25vCyKaJMpC45B.O4ELhUOsRLCv7l/OnAK79LVp/1KZaQS",
+      "name": "asdf000",
+      "role": 3,
+      "id": 14
     }
   ],
   "messages": [
@@ -48,6 +111,7 @@
   ],
   "clouds": [
     {
+      "id": 1,
       "cloud_uid": 1,
       "type": 1,
       "name": "Non-profit charity...",
@@ -57,6 +121,7 @@
       "created": "2022-03-02 12:12:12"
     },
     {
+      "id": 2,
       "cloud_uid": 2,
       "type": 1,
       "name": "Search for company logos and embed them in your project.",
@@ -66,6 +131,7 @@
       "created": "2022-03-03 15:33:04"
     },
     {
+      "id": 3,
       "cloud_uid": 3,
       "type": 2,
       "name": "Registered Domain Names Search",
@@ -75,6 +141,7 @@
       "created": "2022-03-04 14:44:44"
     },
     {
+      "id": 4,
       "cloud_uid": 4,
       "type": 2,
       "name": "Flexible, RESTful access to the user's inbox",
@@ -84,6 +151,7 @@
       "created": "2022-03-06 21:03:11"
     },
     {
+      "id": 5,
       "cloud_uid": 5,
       "type": 2,
       "name": "Collect configure and analyze your data to reach the right audience",
@@ -146,11 +214,11 @@
   },
   "cloud": [
     {
-      "id": 4,
+      "id": 5,
       "cloud": {
-        "name": "testtesttest",
+        "name": "Collect configure and analyze your data to reach the right audience",
         "type": 1,
-        "status": 3,
+        "status": 1,
         "desc": "",
         "created": "2022-03-02 12:12:12"
       },
@@ -158,16 +226,7 @@
         "k8s": {
           "version": 1,
           "pod_cidr": "10.244.0.0/24",
-          "svc_cidr": "10.244.0.0/1"
-        },
-        "baremetal": {
-          "secret_name": "secret1",
-          "user_name": "admin",
-          "password": "1234",
-          "image_url": "http://192.168.0.1/ubuntu.qcow2",
-          "image_checksum": "http://192.168.0.1/ubuntu.qcow2.md5sum",
-          "image_checksum_type": 0,
-          "image_format": 1,
+          "svc_cidr": "10.244.0.0/1",
           "cp_kubeadm_extra_config": {
             "pre_kubeadm_commands": "",
             "post_kubeadm_commands": "- hostname",
@@ -184,6 +243,423 @@
             "ntp": "",
             "format": ""
           }
+        },
+        "baremetal": {
+          "secret_name": "secret1",
+          "user_name": "admin",
+          "password": "1234",
+          "image_url": "http://192.168.0.1/ubuntu.qcow2",
+          "image_checksum": "http://192.168.0.1/ubuntu.qcow2.md5sum",
+          "image_checksum_type": 0,
+          "image_format": 1
+        }
+      },
+      "nodes": {
+        "use_loadbalancer": true,
+        "loadbalancer_address": "192.168.0.0",
+        "loadbalancer_port": "88",
+        "master_nodes": [
+          {
+            "BaremetalHost": {
+              "host_name": "master 1",
+              "bmc_address": "00:b2:8c:ee:22:98",
+              "boot_mac_address": "00:b2:8c:ee:22:98",
+              "boot_mode": 0,
+              "online_power": false,
+              "external_provisioning": false
+            },
+            "Node": {
+              "node_name": "sadf",
+              "ip_address": "safd",
+              "labels": [
+                {
+                  "key": "1111",
+                  "value": "2222"
+                }
+              ]
+            }
+          }
+        ],
+        "worker_nodes": [
+          {
+            "BaremetalHost": {
+              "host_name": "worker 1",
+              "bmc_address": "00:b2:8c:ee:22:98",
+              "boot_mac_address": "00:b2:8c:ee:22:98",
+              "boot_mode": 0,
+              "online_power": false,
+              "external_provisioning": false
+            },
+            "Node": {
+              "node_name": "worker 1",
+              "ip_address": "safd",
+              "labels": [
+                {
+                  "key": "aaaa",
+                  "value": "aaaa"
+                },
+                {
+                  "key": "bbbb",
+                  "value": "bbbb"
+                }
+              ]
+            }
+          },
+          {
+            "BaremetalHost": {
+              "host_name": "worker 2",
+              "bmc_address": "00:b2:8c:ee:22:98",
+              "boot_mac_address": "00:b2:8c:ee:22:98",
+              "boot_mode": 0,
+              "online_power": false,
+              "external_provisioning": false
+            },
+            "Node": {
+              "node_name": "worker 2",
+              "ip_address": "safd",
+              "labels": [
+                {
+                  "key": "aaaa",
+                  "value": "bbbb"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "etcd_storage": {
+        "etcd": {
+          "use_external_etcd": false,
+          "endpoints": [
+            {
+              "ip_address": "",
+              "port": ""
+            }
+          ],
+          "ca_file": "",
+          "cert_file": "",
+          "key_file": ""
+        },
+        "storage_class": {
+          "use_ceph": false,
+          "label1": "",
+          "label2": "",
+          "label3": ""
+        }
+      },
+      "openstack": {}
+    },
+    {
+      "id": 3,
+      "cloud": {
+        "name": "tesRegistered Domain Names Searchttesttest",
+        "type": 1,
+        "status": 2,
+        "desc": "",
+        "created": "2022-03-02 12:12:12"
+      },
+      "cluster": {
+        "k8s": {
+          "version": 1,
+          "pod_cidr": "10.244.0.0/24",
+          "svc_cidr": "10.244.0.0/1",
+          "cp_kubeadm_extra_config": {
+            "pre_kubeadm_commands": "",
+            "post_kubeadm_commands": "- hostname",
+            "files": "",
+            "users": "",
+            "ntp": "",
+            "format": ""
+          },
+          "worker_kubeadm_extra_config": {
+            "pre_kubeadm_commands": "",
+            "post_kubeadm_commands": "- hostname",
+            "files": "",
+            "users": "",
+            "ntp": "",
+            "format": ""
+          }
+        },
+        "baremetal": {
+          "secret_name": "secret1",
+          "user_name": "admin",
+          "password": "1234",
+          "image_url": "http://192.168.0.1/ubuntu.qcow2",
+          "image_checksum": "http://192.168.0.1/ubuntu.qcow2.md5sum",
+          "image_checksum_type": 0,
+          "image_format": 1
+        }
+      },
+      "nodes": {
+        "use_loadbalancer": true,
+        "loadbalancer_address": "192.168.0.0",
+        "loadbalancer_port": "88",
+        "master_nodes": [
+          {
+            "BaremetalHost": {
+              "host_name": "master 1",
+              "bmc_address": "00:b2:8c:ee:22:98",
+              "boot_mac_address": "00:b2:8c:ee:22:98",
+              "boot_mode": 0,
+              "online_power": false,
+              "external_provisioning": false
+            },
+            "Node": {
+              "node_name": "sadf",
+              "ip_address": "safd",
+              "labels": [
+                {
+                  "key": "1111",
+                  "value": "2222"
+                }
+              ]
+            }
+          }
+        ],
+        "worker_nodes": [
+          {
+            "BaremetalHost": {
+              "host_name": "worker 1",
+              "bmc_address": "00:b2:8c:ee:22:98",
+              "boot_mac_address": "00:b2:8c:ee:22:98",
+              "boot_mode": 0,
+              "online_power": false,
+              "external_provisioning": false
+            },
+            "Node": {
+              "node_name": "worker 1",
+              "ip_address": "safd",
+              "labels": [
+                {
+                  "key": "aaaa",
+                  "value": "aaaa"
+                },
+                {
+                  "key": "bbbb",
+                  "value": "bbbb"
+                }
+              ]
+            }
+          },
+          {
+            "BaremetalHost": {
+              "host_name": "worker 2",
+              "bmc_address": "00:b2:8c:ee:22:98",
+              "boot_mac_address": "00:b2:8c:ee:22:98",
+              "boot_mode": 0,
+              "online_power": false,
+              "external_provisioning": false
+            },
+            "Node": {
+              "node_name": "worker 2",
+              "ip_address": "safd",
+              "labels": [
+                {
+                  "key": "aaaa",
+                  "value": "bbbb"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "etcd_storage": {
+        "etcd": {
+          "use_external_etcd": false,
+          "endpoints": [
+            {
+              "ip_address": "",
+              "port": ""
+            }
+          ],
+          "ca_file": "",
+          "cert_file": "",
+          "key_file": ""
+        },
+        "storage_class": {
+          "use_ceph": false,
+          "label1": "",
+          "label2": "",
+          "label3": ""
+        }
+      },
+      "openstack": {}
+    },
+    {
+      "id": 2,
+      "cloud": {
+        "name": "Search for company logos and embed them in your project.",
+        "type": 1,
+        "status": 1,
+        "desc": "",
+        "created": "2022-03-02 12:12:12"
+      },
+      "cluster": {
+        "k8s": {
+          "version": 1,
+          "pod_cidr": "10.244.0.0/24",
+          "svc_cidr": "10.244.0.0/1",
+          "cp_kubeadm_extra_config": {
+            "pre_kubeadm_commands": "",
+            "post_kubeadm_commands": "- hostname",
+            "files": "",
+            "users": "",
+            "ntp": "",
+            "format": ""
+          },
+          "worker_kubeadm_extra_config": {
+            "pre_kubeadm_commands": "",
+            "post_kubeadm_commands": "- hostname",
+            "files": "",
+            "users": "",
+            "ntp": "",
+            "format": ""
+          }
+        },
+        "baremetal": {
+          "secret_name": "secret1",
+          "user_name": "admin",
+          "password": "1234",
+          "image_url": "http://192.168.0.1/ubuntu.qcow2",
+          "image_checksum": "http://192.168.0.1/ubuntu.qcow2.md5sum",
+          "image_checksum_type": 0,
+          "image_format": 1
+        }
+      },
+      "nodes": {
+        "use_loadbalancer": true,
+        "loadbalancer_address": "192.168.0.0",
+        "loadbalancer_port": "88",
+        "master_nodes": [
+          {
+            "BaremetalHost": {
+              "host_name": "master 1",
+              "bmc_address": "00:b2:8c:ee:22:98",
+              "boot_mac_address": "00:b2:8c:ee:22:98",
+              "boot_mode": 0,
+              "online_power": false,
+              "external_provisioning": false
+            },
+            "Node": {
+              "node_name": "sadf",
+              "ip_address": "safd",
+              "labels": [
+                {
+                  "key": "1111",
+                  "value": "2222"
+                }
+              ]
+            }
+          }
+        ],
+        "worker_nodes": [
+          {
+            "BaremetalHost": {
+              "host_name": "worker 1",
+              "bmc_address": "00:b2:8c:ee:22:98",
+              "boot_mac_address": "00:b2:8c:ee:22:98",
+              "boot_mode": 0,
+              "online_power": false,
+              "external_provisioning": false
+            },
+            "Node": {
+              "node_name": "worker 1",
+              "ip_address": "safd",
+              "labels": [
+                {
+                  "key": "aaaa",
+                  "value": "aaaa"
+                },
+                {
+                  "key": "bbbb",
+                  "value": "bbbb"
+                }
+              ]
+            }
+          },
+          {
+            "BaremetalHost": {
+              "host_name": "worker 2",
+              "bmc_address": "00:b2:8c:ee:22:98",
+              "boot_mac_address": "00:b2:8c:ee:22:98",
+              "boot_mode": 0,
+              "online_power": false,
+              "external_provisioning": false
+            },
+            "Node": {
+              "node_name": "worker 2",
+              "ip_address": "safd",
+              "labels": [
+                {
+                  "key": "aaaa",
+                  "value": "bbbb"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "etcd_storage": {
+        "etcd": {
+          "use_external_etcd": false,
+          "endpoints": [
+            {
+              "ip_address": "",
+              "port": ""
+            }
+          ],
+          "ca_file": "",
+          "cert_file": "",
+          "key_file": ""
+        },
+        "storage_class": {
+          "use_ceph": false,
+          "label1": "",
+          "label2": "",
+          "label3": ""
+        }
+      },
+      "openstack": {}
+    },
+    {
+      "id": 1,
+      "cloud": {
+        "name": "Non-profit charity...",
+        "type": 1,
+        "status": 3,
+        "desc": "",
+        "created": "2022-03-02 12:12:12"
+      },
+      "cluster": {
+        "k8s": {
+          "version": 1,
+          "pod_cidr": "10.244.0.0/24",
+          "svc_cidr": "10.244.0.0/1",
+          "cp_kubeadm_extra_config": {
+            "pre_kubeadm_commands": "",
+            "post_kubeadm_commands": "- hostname",
+            "files": "",
+            "users": "",
+            "ntp": "",
+            "format": ""
+          },
+          "worker_kubeadm_extra_config": {
+            "pre_kubeadm_commands": "",
+            "post_kubeadm_commands": "- hostname",
+            "files": "",
+            "users": "",
+            "ntp": "",
+            "format": ""
+          }
+        },
+        "baremetal": {
+          "secret_name": "secret1",
+          "user_name": "admin",
+          "password": "1234",
+          "image_url": "http://192.168.0.1/ubuntu.qcow2",
+          "image_checksum": "http://192.168.0.1/ubuntu.qcow2.md5sum",
+          "image_checksum_type": 0,
+          "image_format": 1
         }
       },
       "nodes": {
@@ -285,43 +761,48 @@
   "clusters": [
     {
       "id": 1,
+      "cluster_uid": 1,
       "name": "openstack cluster 1111",
-      "status": 3,
-      "nodeCount": 6,
-      "version": 2,
-      "created": "2022-03-02 12:12:12"
+      "status": 1,
+      "nodeCount": 3,
+      "version": 3,
+      "created": "2022-03-03 15:33:04"
     },
     {
       "id": 2,
+      "cluster_uid": 2,
       "name": "openstack cluster 22222",
       "status": 1,
       "nodeCount": 7,
-      "version": 2,
+      "version": 3,
       "created": "2022-03-03 15:33:04"
     },
     {
       "id": 3,
+      "cluster_uid": 3,
       "name": "openstack cluster 33333",
       "status": 2,
       "nodeCount": 3,
-      "version": 2,
+      "version": 3,
       "created": "2022-03-04 14:44:44"
     },
     {
       "id": 4,
+      "cluster_uid": 4,
       "name": "openstack cluster 44444",
       "status": 3,
       "nodeCount": 6,
-      "version": 1,
+      "version": 3,
       "created": "2022-03-06 21:03:11"
     },
     {
       "id": 5,
-      "name": "openstack cluster 55555",
+      "cluster_uid": 5,
+      "name": "openstack cluster 5555",
       "status": 1,
       "nodeCount": 6,
-      "version": 2,
-      "created": "2022-03-08 11:11:55"
+      "version": 3,
+      "created": "2022-03-06 21:03:11"
     }
   ],
   "cluster": [
@@ -329,14 +810,31 @@
       "id": 1,
       "cluster": {
         "name": "openstack cluster 11111",
-        "status": 3,
+        "status": 1,
         "desc": "",
+        "namespace": "default",
         "created": "2022-03-02 12:12:12"
       },
       "k8s": {
         "version": 1,
         "pod_cidr": "10.244.0.0/24",
-        "svc_cidr": "10.244.0.0/1"
+        "svc_cidr": "10.244.0.0/1",
+        "cp_kubeadm_extra_config": {
+          "pre_kubeadm_commands": "",
+          "post_kubeadm_commands": "- hostname",
+          "files": "",
+          "users": "",
+          "ntp": "",
+          "format": ""
+        },
+        "worker_kubeadm_extra_config": {
+          "pre_kubeadm_commands": "",
+          "post_kubeadm_commands": "- hostname",
+          "files": "",
+          "users": "",
+          "ntp": "",
+          "format": ""
+        }
       },
       "openstack": {
         "openstack_cloud": "openstack",
@@ -358,7 +856,6 @@
         "use_loadbalancer": true,
         "master_sets": [
           {
-            "namespace": "default",
             "name": "os-cluster-cp-0",
             "node_count": 3,
             "flavor": "m1.large",
@@ -395,7 +892,6 @@
         ],
         "worker_sets": [
           {
-            "namespace": "default",
             "name": "os-cluster-wk-0",
             "node_count": 3,
             "flavor": "m1.medium",
@@ -430,7 +926,537 @@
             ]
           },
           {
-            "namespace": "default",
+            "name": "os-cluster-wk-1",
+            "node_count": 2,
+            "flavor": "m1.small",
+            "labels": [
+              {
+                "key": "3333",
+                "value": "4444"
+              }
+            ],
+            "nodes": [
+              {
+                "name": "os-cluster-wk-1-kuwiw",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-wk-1-k729d",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-wk-1-mqod0",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              }
+            ]
+          }
+        ]
+      },
+      "etcd_storage": {
+        "etcd": {
+          "use_external_etcd": false,
+          "endpoints": [
+            {
+              "ip_address": "",
+              "port": ""
+            }
+          ],
+          "ca_file": "",
+          "cert_file": "",
+          "key_file": ""
+        },
+        "storage_class": {
+          "use_ceph": false,
+          "label1": "",
+          "label2": "",
+          "label3": ""
+        }
+      }
+    },
+    {
+      "id": 2,
+      "cluster": {
+        "name": "openstack cluster 11111",
+        "status": 1,
+        "desc": "",
+        "namespace": "default",
+        "created": "2022-03-02 12:12:12"
+      },
+      "k8s": {
+        "version": 1,
+        "pod_cidr": "10.244.0.0/24",
+        "svc_cidr": "10.244.0.0/1",
+        "svc_domain": "cluster.local",
+        "cp_kubeadm_extra_config": {
+          "pre_kubeadm_commands": "",
+          "post_kubeadm_commands": "- hostname",
+          "files": "",
+          "users": "",
+          "ntp": "",
+          "format": ""
+        },
+        "worker_kubeadm_extra_config": {
+          "pre_kubeadm_commands": "",
+          "post_kubeadm_commands": "- hostname",
+          "files": "",
+          "users": "",
+          "ntp": "",
+          "format": ""
+        }
+      },
+      "openstack": {
+        "openstack_cloud": "openstack",
+        "openstack_cloud_provider_conf_b64": "openstack",
+        "openstack_cloud_yaml_b64": "openstack",
+        "openstack_cloud_cacert_b64": "openstack",
+        "dns_nameservers": "168.126.63.1",
+        "failure_domain": "nova",
+        "image_name": "ubuntu-1804",
+        "ssh_key_name": "admin",
+        "external_network_id": "public",
+        "api_server_floating_ip": "192.168.0.4",
+        "use_bastion_host": true,
+        "bastion_flavor": "m1.medium",
+        "bastion_image_name": "ubuntu-1804",
+        "bastion_ssh_key_name": "admin",
+        "node_cidr": "10.6.0.0/24"
+      },
+      "nodes": {
+        "use_loadbalancer": true,
+        "master_sets": [
+          {
+            "name": "os-cluster-cp-0",
+            "node_count": 3,
+            "flavor": "m1.large",
+            "labels": [
+              {
+                "key": "aaaa",
+                "value": "bbbb"
+              }
+            ],
+            "nodes": [
+              {
+                "name": "os-cluster-cp-0-jdkwf",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-cp-0-29djf",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-cp-0-dsdfas",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              }
+            ]
+          }
+        ],
+        "worker_sets": [
+          {
+            "name": "os-cluster-wk-0",
+            "node_count": 3,
+            "flavor": "m1.medium",
+            "labels": [
+              {
+                "key": "1111",
+                "value": "2222"
+              }
+            ],
+            "nodes": [
+              {
+                "name": "os-cluster-wk-0-fewet",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-wk-0-7dfew",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-wk-0-f2efs",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              }
+            ]
+          },
+          {
+            "name": "os-cluster-wk-1",
+            "node_count": 2,
+            "flavor": "m1.small",
+            "labels": [
+              {
+                "key": "3333",
+                "value": "4444"
+              }
+            ],
+            "nodes": [
+              {
+                "name": "os-cluster-wk-1-kuwiw",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-wk-1-k729d",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-wk-1-mqod0",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              }
+            ]
+          }
+        ]
+      },
+      "etcd_storage": {
+        "etcd": {
+          "use_external_etcd": false,
+          "endpoints": [
+            {
+              "ip_address": "",
+              "port": ""
+            }
+          ],
+          "ca_file": "",
+          "cert_file": "",
+          "key_file": ""
+        },
+        "storage_class": {
+          "use_ceph": false,
+          "label1": "",
+          "label2": "",
+          "label3": ""
+        }
+      },
+      "save_only": false
+    },
+    {
+      "id": 3,
+      "cluster": {
+        "name": "openstack cluster 11111",
+        "status": 2,
+        "desc": "",
+        "namespace": "default",
+        "created": "2022-03-02 12:12:12"
+      },
+      "k8s": {
+        "version": 1,
+        "pod_cidr": "10.244.0.0/24",
+        "svc_cidr": "10.244.0.0/1",
+        "cp_kubeadm_extra_config": {
+          "pre_kubeadm_commands": "",
+          "post_kubeadm_commands": "- hostname",
+          "files": "",
+          "users": "",
+          "ntp": "",
+          "format": ""
+        },
+        "worker_kubeadm_extra_config": {
+          "pre_kubeadm_commands": "",
+          "post_kubeadm_commands": "- hostname",
+          "files": "",
+          "users": "",
+          "ntp": "",
+          "format": ""
+        }
+      },
+      "openstack": {
+        "openstack_cloud": "openstack",
+        "openstack_cloud_provider_conf_b64": "openstack",
+        "openstack_cloud_yaml_b64": "openstack",
+        "openstack_cloud_cacert_b64": "openstack",
+        "dns_nameservers": "168.126.63.1",
+        "failure_domain": "nova",
+        "image_name": "ubuntu-1804",
+        "ssh_key_name": "admin",
+        "external_network_id": "public",
+        "api_server_floating_ip": "192.168.0.4",
+        "use_bastion_host": true,
+        "bastion_flavor": "m1.medium",
+        "bastion_image_name": "ubuntu-1804",
+        "bastion_ssh_key_name": "admin"
+      },
+      "nodes": {
+        "use_loadbalancer": true,
+        "master_sets": [
+          {
+            "name": "os-cluster-cp-0",
+            "node_count": 3,
+            "flavor": "m1.large",
+            "labels": [
+              {
+                "key": "aaaa",
+                "value": "bbbb"
+              }
+            ],
+            "nodes": [
+              {
+                "name": "os-cluster-cp-0-jdkwf",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-cp-0-29djf",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-cp-0-dsdfas",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              }
+            ]
+          }
+        ],
+        "worker_sets": [
+          {
+            "name": "os-cluster-wk-0",
+            "node_count": 3,
+            "flavor": "m1.medium",
+            "labels": [
+              {
+                "key": "1111",
+                "value": "2222"
+              }
+            ],
+            "nodes": [
+              {
+                "name": "os-cluster-wk-0-fewet",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-wk-0-7dfew",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-wk-0-f2efs",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              }
+            ]
+          },
+          {
+            "name": "os-cluster-wk-1",
+            "node_count": 2,
+            "flavor": "m1.small",
+            "labels": [
+              {
+                "key": "3333",
+                "value": "4444"
+              }
+            ],
+            "nodes": [
+              {
+                "name": "os-cluster-wk-1-kuwiw",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-wk-1-k729d",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-wk-1-mqod0",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              }
+            ]
+          }
+        ]
+      },
+      "etcd_storage": {
+        "etcd": {
+          "use_external_etcd": false,
+          "endpoints": [
+            {
+              "ip_address": "",
+              "port": ""
+            }
+          ],
+          "ca_file": "",
+          "cert_file": "",
+          "key_file": ""
+        },
+        "storage_class": {
+          "use_ceph": false,
+          "label1": "",
+          "label2": "",
+          "label3": ""
+        }
+      }
+    },
+    {
+      "id": 4,
+      "cluster": {
+        "name": "openstack cluster 11111",
+        "status": 3,
+        "desc": "",
+        "namespace": "default",
+        "created": "2022-03-02 12:12:12"
+      },
+      "k8s": {
+        "version": 1,
+        "pod_cidr": "10.244.0.0/24",
+        "svc_cidr": "10.244.0.0/1",
+        "cp_kubeadm_extra_config": {
+          "pre_kubeadm_commands": "",
+          "post_kubeadm_commands": "- hostname",
+          "files": "",
+          "users": "",
+          "ntp": "",
+          "format": ""
+        },
+        "worker_kubeadm_extra_config": {
+          "pre_kubeadm_commands": "",
+          "post_kubeadm_commands": "- hostname",
+          "files": "",
+          "users": "",
+          "ntp": "",
+          "format": ""
+        }
+      },
+      "openstack": {
+        "openstack_cloud": "openstack",
+        "openstack_cloud_provider_conf_b64": "openstack",
+        "openstack_cloud_yaml_b64": "openstack",
+        "openstack_cloud_cacert_b64": "openstack",
+        "dns_nameservers": "168.126.63.1",
+        "failure_domain": "nova",
+        "image_name": "ubuntu-1804",
+        "ssh_key_name": "admin",
+        "external_network_id": "public",
+        "api_server_floating_ip": "192.168.0.4",
+        "use_bastion_host": true,
+        "bastion_flavor": "m1.medium",
+        "bastion_image_name": "ubuntu-1804",
+        "bastion_ssh_key_name": "admin"
+      },
+      "nodes": {
+        "use_loadbalancer": true,
+        "master_sets": [
+          {
+            "name": "os-cluster-cp-0",
+            "node_count": 3,
+            "flavor": "m1.large",
+            "labels": [
+              {
+                "key": "aaaa",
+                "value": "bbbb"
+              }
+            ],
+            "nodes": [
+              {
+                "name": "os-cluster-cp-0-jdkwf",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-cp-0-29djf",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-cp-0-dsdfas",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              }
+            ]
+          }
+        ],
+        "worker_sets": [
+          {
+            "name": "os-cluster-wk-0",
+            "node_count": 3,
+            "flavor": "m1.medium",
+            "labels": [
+              {
+                "key": "1111",
+                "value": "2222"
+              }
+            ],
+            "nodes": [
+              {
+                "name": "os-cluster-wk-0-fewet",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-wk-0-7dfew",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              },
+              {
+                "name": "os-cluster-wk-0-f2efs",
+                "status": "",
+                "version": 2,
+                "os_image": "ubuntu 20.04",
+                "container_runtime": "containerd://1.4.3"
+              }
+            ]
+          },
+          {
             "name": "os-cluster-wk-1",
             "node_count": 2,
             "flavor": "m1.small",
@@ -492,13 +1518,31 @@
       "cluster": {
         "name": "openstack cluster 5555",
         "status": 1,
+        "namespace": "default",
         "desc": "",
         "created": "2022-03-02 12:12:12"
       },
       "k8s": {
-        "version": 1,
+        "version": 3,
         "pod_cidr": "10.244.0.0/24",
-        "svc_cidr": "10.244.0.0/1"
+        "svc_cidr": "10.244.0.0/1",
+        "svc_domain": "cluster.local",
+        "cp_kubeadm_extra_config": {
+          "pre_kubeadm_commands": "",
+          "post_kubeadm_commands": "- hostname",
+          "files": "",
+          "users": "",
+          "ntp": "",
+          "format": ""
+        },
+        "worker_kubeadm_extra_config": {
+          "pre_kubeadm_commands": "",
+          "post_kubeadm_commands": "- hostname",
+          "files": "",
+          "users": "",
+          "ntp": "",
+          "format": ""
+        }
       },
       "openstack": {
         "openstack_cloud": "openstack",
@@ -514,13 +1558,13 @@
         "use_bastion_host": true,
         "bastion_flavor": "m1.medium",
         "bastion_image_name": "ubuntu-1804",
-        "bastion_ssh_key_name": "admin"
+        "bastion_ssh_key_name": "admin",
+        "node_cidr": "192.168.0.0/16"
       },
       "nodes": {
         "use_loadbalancer": true,
         "master_sets": [
           {
-            "namespace": "default",
             "name": "os-cluster-cp-0",
             "node_count": 3,
             "flavor": "m1.large",
@@ -534,7 +1578,6 @@
         ],
         "worker_sets": [
           {
-            "namespace": "default",
             "name": "os-cluster-wk-0",
             "node_count": 3,
             "flavor": "m1.medium",
@@ -546,7 +1589,6 @@
             ]
           },
           {
-            "namespace": "default",
             "name": "os-cluster-wk-1",
             "node_count": 2,
             "flavor": "m1.small",

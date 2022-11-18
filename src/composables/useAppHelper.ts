@@ -85,7 +85,7 @@ const API = {
     if (auth.value.isAuthenticated) {
       opts.Authorization = `Baarer ${auth.value.token}`;
     }
-    const { error, data, statusCode } = await useFetch(getApiUrl(group, path), setAPIOptions({ method: "DELETE" }), { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError });
+    const { error, data, statusCode } = await useFetch(getApiUrl(group, path), setAPIOptions({ method: "DELETE" }), { timeout: timeLimit * 1000, beforeFetch: onBeforeFetch, afterFetch: onAfterFetch, onFetchError: onFetchError }).json();
     return makeResponse(error, data, statusCode, showError);
   },
   call: async (url: string, opts: any = {}, showError: boolean = false, timeLimit: number = defaultRequestTimeout()) => {
@@ -107,6 +107,7 @@ const UI = {
     filters: ref(),
     scrollHeight: "calc(100vh - 150px)",
     rows: 10,
+    first: 0,
     paginatorTemplate: "CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown",
     rowPerPageOptions: [5, 10, 20, 50],
     pageReportTemplate: "({first}~{last}) of {totalRecords}",

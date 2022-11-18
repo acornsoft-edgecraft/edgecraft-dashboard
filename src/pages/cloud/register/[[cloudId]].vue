@@ -98,9 +98,9 @@ const onSubmit = async () => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `클라우드 ${label}`, err);
   }
-  if (!result) return;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, `클라우드 ${label}`, `클라우드를 ${label}하였습니다.`);
+  UI.showToastMessage(MessageTypes.INFO, `클라우드 ${label}`, result.message || `클라우드를 ${label}하였습니다.`);
   Routing.moveTo(list);
 };
 
@@ -121,9 +121,9 @@ const deleteCloud = async () => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, "클라우드 삭제", err);
   }
-  if (!result) return;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, "클라우드 삭제", "클라우드를 삭제하였습니다.");
+  UI.showToastMessage(MessageTypes.INFO, "클라우드 삭제", result.message || "클라우드를 삭제하였습니다.");
   Routing.moveTo(list);
 };
 

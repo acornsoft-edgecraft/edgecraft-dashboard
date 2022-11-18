@@ -3,16 +3,16 @@
     <h5 class="form-title text-center">등록 정보 확인</h5>
     <K3Accordion :multiple="true" :activeIndex="[0, 1, 2, 3]">
       <K3AccordionTab header="Cluster 정보">
-        <K3Fieldset legend="클러스터 정보" :toggleable="true">
+        <K3Fieldset legend="Cluster 정보" :toggleable="true">
           <K3FormContainer class="no-style">
             <K3FormRow>
-              <K3FormColumn label="클러스터 명" label-align="right">{{ modelValue.cluster.name }}</K3FormColumn>
+              <K3FormColumn label="Cluster 명" label-align="right">{{ modelValue.cluster.name }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
               <K3FormColumn label="Namespace" label-align="right">{{ modelValue.cluster.namespace }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
-              <K3FormColumn label="클러스터 설명" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.cluster.desc)"></div></K3FormColumn>
+              <K3FormColumn label="Cluster 설명" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.cluster.desc)"></div></K3FormColumn>
             </K3FormRow>
           </K3FormContainer>
         </K3Fieldset>
@@ -29,6 +29,24 @@
             </K3FormRow>
             <K3FormRow>
               <K3FormColumn label="Service Dns Domain" label-align="right">{{ modelValue.k8s.svc_domain }}</K3FormColumn>
+            </K3FormRow>
+            <K3FormRow>
+              <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
+                <K3FormContainer class="no-style w-full">
+                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                    <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.k8s.cp_kubeadm_extra_config[config.id])"></div></K3FormColumn>
+                  </K3FormRow>
+                </K3FormContainer>
+              </K3FormColumn>
+            </K3FormRow>
+            <K3FormRow>
+              <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
+                <K3FormContainer class="no-style w-full">
+                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                    <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.k8s.worker_kubeadm_extra_config[config.id])"></div></K3FormColumn>
+                  </K3FormRow>
+                </K3FormContainer>
+              </K3FormColumn>
             </K3FormRow>
           </K3FormContainer>
         </K3Fieldset>
@@ -74,7 +92,7 @@
             </K3FormColumn>
           </K3FormRow>
           <K3FormRow v-if="modelValue.openstack.use_bastion_host">
-            <K3FormColumn label="Bastion Host">
+            <K3FormColumn label="Bastion Host" label-align="right">
               <K3FormContainer class="no-style w-full">
                 <K3FormRow>
                   <K3FormColumn label="Flavor" label-align="right">{{ modelValue.openstack.bastion_flavor }}</K3FormColumn>
@@ -103,7 +121,7 @@
           <template v-for="(node, index) in modelValue.nodes.master_sets" :key="index">
             <K3FormContainer class="node-wrapper no-style">
               <K3FormRow>
-                <K3FormColumn label="Node Name" label-align="right">{{ node.name }}</K3FormColumn>
+                <K3FormColumn label="Name" label-align="right">{{ node.name }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
                 <K3FormColumn label="Node Count" label-align="right">{{ node.node_count }}</K3FormColumn>
@@ -125,7 +143,7 @@
           <template v-for="(node, index) in modelValue.nodes.worker_sets" :key="index">
             <K3FormContainer class="node-wrapper no-style">
               <K3FormRow>
-                <K3FormColumn label="Node Name" label-align="right">{{ node.name }}</K3FormColumn>
+                <K3FormColumn label="Name" label-align="right">{{ node.name }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
                 <K3FormColumn label="Node Count" label-align="right">{{ node.node_count }}</K3FormColumn>
@@ -183,7 +201,7 @@
 </template>
 
 <script setup lang="ts">
-import { K8sVersions } from "~/models";
+import { K8sVersions, kubeadmConfigs } from "~/models";
 
 const { Util } = useAppHelper();
 

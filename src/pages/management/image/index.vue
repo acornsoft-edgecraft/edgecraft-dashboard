@@ -14,11 +14,13 @@
         :scrollHeight="UI.tableSettings.scrollHeight"
         removableSort
         :rows="UI.tableSettings.rows"
+        :first="UI.tableSettings.first"
         :paginator="true"
         :paginatorTemplate="UI.tableSettings.paginatorTemplate"
         :rowsPerPageOptions="UI.tableSettings.rowPerPageOptions"
         :currentPageReportTemplate="UI.tableSettings.pageReportTemplate"
         :loading="isFetch"
+        @page="onPage"
         stripedRows>
         <template #header>
           <BizCommonSearch :items="searchItems.items" :multi-select="searchItems.multiSelect" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle">
@@ -106,6 +108,11 @@ UI.tableSettings.initFilters({
   os: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
 
+const onPage = (event) => {
+  UI.tableSettings.first = event.first;
+  UI.tableSettings.rows = event.rows;
+};
+
 const searchItems = ref({
   items: [
     { type: "text", name: "name", label: "Name", value: search.value["name"] },
@@ -163,6 +170,7 @@ onMounted(() => {
 onUnmounted(() => {
   if (!useRouter().currentRoute.value.path.includes(useRoute().path)) {
     Search.destroy(search);
+    UI.tableSettings.first = 0;
   }
 });
 </script>

@@ -93,9 +93,9 @@ const onSubmit = async () => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `사용자 ${label}`, err);
   }
-  if (!result) return;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, `사용자 ${label}`, `사용자를 ${label}하였습니다.`);
+  UI.showToastMessage(MessageTypes.INFO, `사용자 ${label}`, result.message || `사용자를 ${label}하였습니다.`);
   Routing.moveTo(list);
 };
 const onDelete = () => {
@@ -108,9 +108,9 @@ const deleteUser = async () => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, "사용자 삭제", err);
   }
-  if (!result) return;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, "사용자 삭제", `사용자를 삭제하였습니다.`);
+  UI.showToastMessage(MessageTypes.INFO, "사용자 삭제", result.message || `사용자를 삭제하였습니다.`);
   Routing.moveTo(list);
 };
 const getUser = async () => {

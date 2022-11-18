@@ -122,9 +122,9 @@ const deleteCloud = async () => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, "클라우드 삭제", err);
   }
-  if (!result) return;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, "클라우드 삭제", "클라우드를 삭제하였습니다.");
+  UI.showToastMessage(MessageTypes.INFO, "클라우드 삭제", result.message || "클라우드를 삭제하였습니다.");
   Routing.moveTo(list);
 };
 const getCloud = async () => {
@@ -170,9 +170,9 @@ const onAddNode = async (params) => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, "노드 등록", err);
   }
-  if (!result) return;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, `노드 등록`, `노드를 등록하였습니다.`);
+  UI.showToastMessage(MessageTypes.INFO, `노드 등록`, result.message || `노드를 등록하였습니다.`);
   getNodes();
 };
 const onRemoveNode = async (nodeId) => {
@@ -182,9 +182,9 @@ const onRemoveNode = async (nodeId) => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, "노드 삭제", err);
   }
-  if (!result) return;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, `노드 삭제`, `노드를 삭제하였습니다.`);
+  UI.showToastMessage(MessageTypes.INFO, `노드 삭제`, result.message || `노드를 삭제하였습니다.`);
   getNodes();
 };
 

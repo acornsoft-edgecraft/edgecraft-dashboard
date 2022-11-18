@@ -42,13 +42,11 @@ export function useClusterService(options: any = {}) {
       const res = await API.get("", `${url_prefix}/${cloudId}/clusters/${id}`);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클러스터 정보", res.message);
-        isFetch.value = false;
-        return false;
       } else {
         cluster.value = res.data;
-        isFetch.value = false;
-        return true;
       }
+      isFetch.value = false;
+      return !res.isError;
     };
 
     return { cluster, isFetch, fetch };
@@ -62,12 +60,9 @@ export function useClusterService(options: any = {}) {
       const res = await API.post("", `${url_prefix}/${cloudId}/clusters`, params);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클러스터 등록", res.message);
-        isInsFetch.value = false;
-        return false;
-      } else {
-        isInsFetch.value = false;
-        return true;
       }
+      isInsFetch.value = false;
+      return res;
     };
 
     return { isInsFetch, insFetch };
@@ -81,12 +76,9 @@ export function useClusterService(options: any = {}) {
       const res = await API.put("", `${url_prefix}/${cloudId}/clusters/${clusterId}`, params);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클러스터 수정", res.message);
-        isUpFetch.value = false;
-        return false;
-      } else {
-        isUpFetch.value = false;
-        return true;
       }
+      isUpFetch.value = false;
+      return res;
     };
 
     return { isUpFetch, upFetch };
@@ -100,12 +92,9 @@ export function useClusterService(options: any = {}) {
       const res = await API.delete("", `${url_prefix}/${cloudId}/clusters/${clusterId}`);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클러스터 삭제", res.message);
-        isDelFetch.value = false;
-        return false;
-      } else {
-        isDelFetch.value = false;
-        return true;
       }
+      isDelFetch.value = false;
+      return res;
     };
 
     return { isDelFetch, delFetch };
@@ -119,12 +108,9 @@ export function useClusterService(options: any = {}) {
       const res = await API.post("", `${url_prefix}/${cloudId}/clusters/${clusterId}`, null);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "클러스터 생성", res.message);
-        isProFetch.value = false;
-        return false;
-      } else {
-        isProFetch.value = false;
-        return true;
       }
+      isProFetch.value = false;
+      return res;
     };
 
     return { isProFetch, proFetch };

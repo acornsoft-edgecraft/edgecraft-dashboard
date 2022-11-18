@@ -84,13 +84,13 @@ const onSubmit = async () => {
   const label = clusterId ? "수정" : "등록";
   let result;
   try {
-    result = clusterId ? await upFetch(cloudId, clusterId, cluster.value) : insFetch(cloudId, cluster.value);
+    result = clusterId ? await upFetch(cloudId, clusterId, cluster.value) : await insFetch(cloudId, cluster.value);
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `클러스터 ${label}`, err);
   }
-  if (!result) return;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, `클러스터 ${label}`, `클러스터를 ${label}하였습니다.`);
+  UI.showToastMessage(MessageTypes.INFO, `클러스터 ${label}`, result.message || `클러스터를 ${label}하였습니다.`);
   Routing.moveTo(list);
 };
 
@@ -104,9 +104,9 @@ const deleteCluster = async () => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, "클러스터 삭제", err);
   }
-  if (!result) return;
+  if (result.isError) return;
 
-  UI.showToastMessage(MessageTypes.INFO, "클러스터 삭제", "클러스터를 삭제하였습니다.");
+  UI.showToastMessage(MessageTypes.INFO, "클러스터 삭제", result.message || "클러스터를 삭제하였습니다.");
   Routing.moveTo(list);
 };
 const getCluster = async () => {

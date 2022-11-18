@@ -38,40 +38,38 @@
     <K3DataTable :value="item.nodes">
       <K3Column field="name" header="Node Name"></K3Column>
       <K3Column field="status" header="Status"></K3Column>
+      <K3Column field="role" header="Role"></K3Column>
+      <K3Column field="age" header="Age"></K3Column>
       <K3Column field="version" header="Version"></K3Column>
       <K3Column field="os_image" header="OS Image"></K3Column>
-      <K3Column field="container_runtime" header="Container-runtime"></K3Column>
+      <K3Column field="container_image" header="Container-runtime"></K3Column>
     </K3DataTable>
   </K3Panel>
 </template>
 
 <script setup lang="ts">
-// imports
 import { MessageTypes, NodeTypes } from "~/models";
 
-// Page meta
-// Props
 const props = defineProps({
   modelValue: { type: Object, required: true },
   type: { type: Number, default: NodeTypes.Master },
 });
-// Emits
+
 const emits = defineEmits(["add-nodeset"]);
-// Properties
+
 const { UI, Util } = useAppHelper();
 
 const showEditNodeCnt = ref([] as any);
 const originNodeCnt = ref([] as any);
-// Compputed
-// Watcher
-// Methods
+
 const removeNodeset = (index, item) => {
   UI.showConfirm(
     MessageTypes.ERROR,
     "NodeSet 삭제",
     `<${item.name}> WorkerSet을 삭제하시겠습니까? 하위 Worker Node가 모두 삭제됩니다.`,
     (index) => {
-      props.modelValue.splice(index, 1);
+      // TODO: call api
+      // props.modelValue.splice(index, 1);
     },
     () => {}
   );
@@ -95,14 +93,11 @@ const cancelNodeCount = (index, item) => {
   item.node_count = originNodeCnt.value[index];
 };
 
-// Events
 onMounted(() => {
   props.modelValue.forEach((ele, index) => {
     showEditNodeCnt.value[index] = false;
   });
 });
-
-// Logics (like api call, etc)
 </script>
 <style scoped lang="scss">
 .form-container.no-style {

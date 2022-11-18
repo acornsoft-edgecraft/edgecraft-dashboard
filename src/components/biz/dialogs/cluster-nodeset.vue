@@ -2,8 +2,8 @@
   <K3Dialog header="Cluster WorkerSet 추가" v-model:visible="modelValue.display" :modal="true" :style="{ width: '50vw' }" @hide="onHide">
     <K3FormContainer>
       <K3FormRow>
-        <K3FormColumn label="Node Name" label-align="right">
-          <K3FormInputField v-model="v.name" field-name="Node Name" class="w-full" />
+        <K3FormColumn label="Name" label-align="right">
+          <K3FormInputField v-model="v.name" field-name="Name" class="w-full" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>

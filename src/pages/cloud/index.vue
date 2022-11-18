@@ -15,6 +15,7 @@
         selectionMode="single"
         removableSort
         :rows="UI.tableSettings.rows"
+        :first="UI.tableSettings.first"
         :paginator="true"
         :paginatorTemplate="UI.tableSettings.paginatorTemplate"
         :rowsPerPageOptions="UI.tableSettings.rowPerPageOptions"
@@ -22,6 +23,7 @@
         :loading="isFetch"
         @rowSelect="rowSelected"
         @rowUnselect="rowUnselected"
+        @page="onPage"
         stripedRows>
         <template #header>
           <BizCommonSearch :items="searchItems.items" :multiSelect="searchItems.multiSelect" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle">
@@ -40,7 +42,10 @@
             <p class="text-orange-500">No records found.</p>
           </div>
         </template>
-        <!-- Columns -->
+        <template #paginatorstart>
+          <K3Button icon="pi pi-refresh" class="p-button-text" @click="refresh" />
+        </template>
+        <template #paginatorend></template>
         <K3Column v-for="(col, index) of selectedColumns" :class="col.class" :field="col.field" :header="col.header" :sortable="col.sortable" :key="`${col.field}_${index}`" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
             <span v-if="slotProps.field === 'type'">{{ CloudTypes[slotProps.data.type] }} </span>
@@ -54,7 +59,7 @@
         </K3Column>
         <K3Column header="Commands" key="cmd" class="flex justify-content-center" headerStyle="min-width: 30px;" bodyStyle="min-width: 30px;">
           <template #body="slotProps">
-            <i class="fas fa-ellipsis-v" style="width: 10px" @click="showCommand(slotProps.data.cloud_uid, $event)"></i>
+            <i class="fas fa-ellipsis-v icon-command" @click="showCommand(slotProps.data.cloud_uid, $event)" />
           </template>
         </K3Column>
       </K3DataTable>
@@ -145,32 +150,41 @@ const rowUnselected = (event) => {
   // TODO: Row unselected
 };
 
+const onPage = (event) => {
+  UI.tableSettings.first = event.first;
+  UI.tableSettings.rows = event.rows;
+};
+
+const refresh = () => {
+  clouds.value = [];
+  fetch();
+};
+
 const showCommand = (id, event) => {
   selectedItem.value = clouds.value.find((c) => c.cloud_uid === id);
   menu.value.show(event);
-};
-
-const rowMenuProcessing = (menuId) => {
-  UI.showToastMessage(MessageTypes.INFO, "Row Menu", `menum #${menuId} selected with ${JSON.stringify(selectedItem.value)}`);
 };
 
 const menus = computed(() => {
   const to = `/cloud/${selectedItem?.value?.cloud_uid}`;
   const disabled = [true, true];
 
+  // TODO
+  // if (selectedItem?.value?.status === CloudStatus.Saved) {
+  //   return [{ label: "클라우드 생성", icon: "pi pi-cloud-upload", command: () => provision(selectedItem.value) }];
+  // } else {
   if (selectedItem?.value?.status === CloudStatus.Provisioned) {
     if (selectedItem?.value?.type === CloudTypes.Openstack) disabled[0] = false;
     disabled[1] = false;
   }
 
-  return [
-    { label: "클러스터 목록", icon: "pi pi-list", to: `${to}/cluster`, disabled: disabled[0], command: () => rowMenuProcessing("1") },
-    { separator: true },
-    { label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled[1], command: () => rowMenuProcessing("2") },
-    { separator: true },
-    { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled[1], command: () => rowMenuProcessing("3") },
-  ];
+  return [{ label: "클러스터 목록", icon: "pi pi-list", to: `${to}/cluster`, disabled: disabled[0] }, { separator: true }, { label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled[1] }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled[1] }];
+  // }
 });
+const provision = (item) => {
+  console.log("provision", item);
+  refresh();
+};
 
 watch(
   () => [(UI.tableSettings.filters.value as any).type.value, (UI.tableSettings.filters.value as any).status.value, (UI.tableSettings.filters.value as any).name.value],
@@ -188,6 +202,7 @@ onMounted(() => {
 onUnmounted(() => {
   if (!useRouter().currentRoute.value.path.includes(useRoute().path)) {
     Search.destroy(search);
+    UI.tableSettings.first = 0;
   }
 });
 </script>
@@ -205,5 +220,10 @@ onUnmounted(() => {
       border-top: none;
     }
   }
+}
+
+.icon-command {
+  width: 10px;
+  padding: 0 1.2rem;
 }
 </style>
