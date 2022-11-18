@@ -42,7 +42,10 @@
             <p class="text-orange-500">No records found.</p>
           </div>
         </template>
-        <!-- Columns -->
+        <template #paginatorstart>
+          <K3Button icon="pi pi-refresh" class="p-button-text" @click="refresh" />
+        </template>
+        <template #paginatorend></template>
         <K3Column v-for="(col, index) of selectedColumns" :class="col.class" :field="col.field" :header="col.header" :sortable="col.sortable" :key="`${col.field}_${index}`" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
             <span v-if="slotProps.field === 'type'">{{ CloudTypes[slotProps.data.type] }} </span>
@@ -152,13 +155,14 @@ const onPage = (event) => {
   UI.tableSettings.rows = event.rows;
 };
 
+const refresh = () => {
+  clouds.value = [];
+  fetch();
+};
+
 const showCommand = (id, event) => {
   selectedItem.value = clouds.value.find((c) => c.cloud_uid === id);
   menu.value.show(event);
-};
-
-const rowMenuProcessing = (menuId) => {
-  UI.showToastMessage(MessageTypes.INFO, "Row Menu", `menum #${menuId} selected with ${JSON.stringify(selectedItem.value)}`);
 };
 
 const menus = computed(() => {
@@ -174,17 +178,12 @@ const menus = computed(() => {
     disabled[1] = false;
   }
 
-  return [
-    { label: "클러스터 목록", icon: "pi pi-list", to: `${to}/cluster`, disabled: disabled[0], command: () => rowMenuProcessing("1") },
-    { separator: true },
-    { label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled[1], command: () => rowMenuProcessing("2") },
-    { separator: true },
-    { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled[1], command: () => rowMenuProcessing("3") },
-  ];
+  return [{ label: "클러스터 목록", icon: "pi pi-list", to: `${to}/cluster`, disabled: disabled[0] }, { separator: true }, { label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled[1] }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled[1] }];
   // }
 });
 const provision = (item) => {
   console.log("provision", item);
+  refresh();
 };
 
 watch(
