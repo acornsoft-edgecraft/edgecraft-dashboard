@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-content-end button-wrapper" v-if="type === NodeTypes.Worker">
+  <div class="flex justify-content-end button-wrapper" v-if="type === NodeTypes.Worker && provisioned">
     <K3Button label="Add WorkerSet" icon="pi pi-plus" @click="addNodeSet" />
   </div>
   <K3Panel :header="`${NodeTypes[type]}Set`" v-for="(item, index) in modelValue" :key="index">
@@ -15,14 +15,19 @@
       <K3FormRow direction="horizontal" :overflow-wrap="true">
         <K3FormColumn label="Flavor" label-align="right" :size="6">{{ item.flavor }}</K3FormColumn>
         <K3FormColumn label="Node Count" label-align="right" :size="6">
-          <template v-if="!showEditNodeCnt[index]">
-            <span class="w-4rem">{{ item.node_count }}</span>
-            <K3Button label="변경" @click="changeNodeCount(index, item)" />
+          <template v-if="provisioned">
+            <template v-if="!showEditNodeCnt[index]">
+              <span class="w-4rem">{{ item.node_count }}</span>
+              <K3Button label="변경" @click="changeNodeCount(index, item)" />
+            </template>
+            <template v-if="showEditNodeCnt[index]">
+              <K3InputNumber v-model="item.node_count" :min="1" :max="100" show-buttons mode="decimal" field-name="Node Count" input-id="node_count" :allowEmpty="false" input-class="w-6rem" />
+              <K3Button label="수정" icon="pi pi-check" @click="saveNodeCount(index)" />
+              <K3Button label="취소" icon="pi pi-times" class="p-button-secondary" @click="cancelNodeCount(index, item)" />
+            </template>
           </template>
-          <template v-if="showEditNodeCnt[index]">
-            <K3InputNumber v-model="item.node_count" :min="1" :max="100" show-buttons mode="decimal" field-name="Node Count" input-id="node_count" :allowEmpty="false" input-class="w-6rem" />
-            <K3Button label="수정" icon="pi pi-check" @click="saveNodeCount(index)" />
-            <K3Button label="취소" icon="pi pi-times" class="p-button-secondary" @click="cancelNodeCount(index, item)" />
+          <template v-else>
+            <span class="w-4rem">{{ item.node_count }}</span>
           </template>
         </K3FormColumn>
       </K3FormRow>
@@ -53,6 +58,7 @@ import { MessageTypes, NodeTypes } from "~/models";
 const props = defineProps({
   modelValue: { type: Object, required: true },
   type: { type: Number, default: NodeTypes.Master },
+  provisioned: { type: Boolean, default: false },
 });
 
 const emits = defineEmits(["add-nodeset"]);
@@ -106,15 +112,7 @@ onMounted(() => {
   }
 }
 .p-panel {
-  :deep(.p-panel-header) {
-    padding: 1.25rem;
-  }
-}
-.p-panel:not(:first-child) {
   margin-top: 1rem;
-  :deep(.p-panel-header) {
-    padding: 0.75rem 1.25rem;
-  }
 }
 
 .button-wrapper {

@@ -128,8 +128,8 @@
                 <K3FormColumn label="Use LoadBalancer" label-align="right">{{ Util.getUseYnKo(cluster.nodes.use_loadbalancer) }}</K3FormColumn>
               </K3FormRow>
             </K3FormContainer>
-            <BizClusterNodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" @add-nodeset="addNodeset" />
-            <BizClusterNodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" @add-nodeset="addNodeset" />
+            <BizClusterNodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" :provisioned="provisioned" @add-nodeset="addNodeset" />
+            <BizClusterNodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" :provisioned="provisioned" @add-nodeset="addNodeset" />
           </K3AccordionTab>
           <K3AccordionTab header="ETCD/Storage 정보">
             <K3Fieldset legend="ETCD 설정" :toggleable="true">
@@ -247,7 +247,7 @@ const getCluster = async () => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `클러스터 정보`, err);
   }
-  if (!result) Routing.moveTo(list);
+  // if (!result) Routing.moveTo(list);
 
   if (cluster.value.cluster.status === CloudStatus.Saved) {
     Routing.moveTo(`${list}/register/${clusterId}`);
