@@ -41,6 +41,11 @@
     </K3FormContainer>
     <K3Divider align="left">{{ NodeTypes[type] }} Nodes</K3Divider>
     <K3DataTable :value="item.nodes">
+      <template #empty>
+        <div class="w-full text-center">
+          <p class="text-orange-500">No nodes found.</p>
+        </div>
+      </template>
       <K3Column field="name" header="Node Name"></K3Column>
       <K3Column field="status" header="Status"></K3Column>
       <K3Column field="role" header="Role"></K3Column>

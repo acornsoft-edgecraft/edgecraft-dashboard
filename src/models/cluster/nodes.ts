@@ -1,4 +1,4 @@
-import { nodesetInfo, defaultNodesetInfo, defaultNodesetInfoValidation } from "./nodeset";
+import { nodesetInfo, defaultNodesetInfo } from "./nodeset";
 
 export interface clusterNodesInfo {
   use_loadbalancer: Boolean;
@@ -14,6 +14,4 @@ export const defaultClusterNodesInfo: clusterNodesInfo = {
 
 export const defaultClusterNodesInfoValidation = {
   use_loadbalancer: {},
-  // master_sets: defaultNodesetInfoValidation,
-  // worker_sets: defaultNodesetInfoValidation,
 };

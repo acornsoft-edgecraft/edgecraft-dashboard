@@ -34,7 +34,6 @@ watch(
 const beforeNextStep = (): boolean => {
   v$.value.$touch();
 
-  console.log(`validation >>> ${JSON.stringify(props.modelValue)}`);
   if (v$.value.$invalid) {
     return false;
   }
