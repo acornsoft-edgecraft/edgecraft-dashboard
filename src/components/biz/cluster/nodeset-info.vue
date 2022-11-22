@@ -3,7 +3,7 @@
     <K3Button label="Add WorkerSet" icon="pi pi-plus" @click="addNodeSet" />
   </div>
   <K3Panel :header="`${NodeTypes[type]}Set`" v-for="(item, index) in modelValue" :key="index">
-    <template #icons v-if="type === NodeTypes.Worker">
+    <template #icons v-if="type === NodeTypes.Worker && provisioned">
       <K3Button class="p-panel-header-icon p-link text-danger" @click="removeNodeset(index, item)">
         <span class="pi pi-trash"></span>
       </K3Button>
