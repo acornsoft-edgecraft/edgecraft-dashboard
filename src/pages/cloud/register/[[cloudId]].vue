@@ -11,11 +11,11 @@
 
       <div class="flex justify-content-between mt-3">
         <div class="flex align-items-start justify-content-start">
-          <K3Button label="클라우드 삭제" class="p-button-danger" @click="onDelete" v-if="cloudId" />
+          <K3Button label="클라우드 삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" v-if="cloudId" />
         </div>
         <div class="flex align-items-end justify-content-end">
           <NuxtLink :to="list">
-            <K3Button label="클라우드 목록" class="p-button-secondary" />
+            <K3Button label="클라우드 목록" icon="pi pi-list" class="p-button-secondary" />
           </NuxtLink>
         </div>
       </div>
