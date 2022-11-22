@@ -38,7 +38,7 @@
         <span class="ml-2">이전</span>
       </div>
       <div :class="['stepper-button next', !canContinue ? 'deactivated' : '']" @click="nextStep()">
-        <span class="mr-2">다음</span>
+        <span class="mr-2">{{ finalStep ? "저장" : "다음" }}</span>
         <i class="pi pi-arrow-right" />
       </div>
     </div>
