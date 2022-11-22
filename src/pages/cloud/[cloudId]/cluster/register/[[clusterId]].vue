@@ -9,13 +9,13 @@
         <K3Overlay :active="active" loader="bars" background-color="#830205" />
       </div>
 
-      <div class="flex button-wrapper">
-        <div class="flex flex-grow-1 flex-shrink-1 align-items-start justify-content-start">
-          <K3Button label="클러스터 삭제" class="p-button-danger" @click="onDelete" v-if="clusterId" />
+      <div class="flex justify-content-between mt-3">
+        <div class="flex align-items-start justify-content-start">
+          <K3Button label="클러스터 삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" v-if="clusterId" />
         </div>
-        <div class="flex flex-grow-1 flex-shrink-1 align-items-end justify-content-end">
+        <div class="flex align-items-end justify-content-end">
           <NuxtLink :to="list">
-            <K3Button label="클러스터 목록" class="p-button-secondary" />
+            <K3Button label="클러스터 목록" icon="pi pi-list" class="p-button-secondary" />
           </NuxtLink>
         </div>
       </div>
@@ -95,7 +95,7 @@ const onSubmit = async () => {
 };
 
 const onDelete = () => {
-  UI.showConfirm(MessageTypes.ERROR, "클러스터 삭제", "클러스터를 삭제하시겠습니까?", deleteCluster, () => {});
+  UI.showConfirm(MessageTypes.ERROR, "클러스터 삭제", "클러스터를 삭제하시겠습니까? 관련된 정보가 삭제됩니다.", deleteCluster, () => {});
 };
 const deleteCluster = async () => {
   let result;
@@ -116,7 +116,7 @@ const getCluster = async () => {
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `클러스터 정보`, err);
   }
-  if (!result) Routing.moveTo(list);
+  if (result.isError) Routing.moveTo(list);
 
   if (cluster.value.cluster.status > CloudStatus.Saved) {
     Routing.moveTo(`${list}/${clusterId}`);
@@ -137,9 +137,5 @@ onMounted(() => {
 
 .stepper-container {
   position: relative;
-}
-
-.button-wrapper {
-  margin-top: 1rem;
 }
 </style>

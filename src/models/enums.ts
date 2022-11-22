@@ -25,6 +25,10 @@ export enum StoreTypes {
   SESSION = "session",
 }
 
+export enum ResMessages {
+  SUCCEED = "정상 처리되었습니다.",
+}
+
 // export enum BackgroundColors {
 //     WARN = '--yellow-300',
 //     SUCCESS = '--green-300',
