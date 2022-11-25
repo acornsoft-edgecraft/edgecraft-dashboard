@@ -29,7 +29,7 @@
           <BizCommonSearch :items="searchItems.items" :multiSelect="searchItems.multiSelect" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle">
             <template #search-right>
               <NuxtLink :to="`/cloud/${cloudId}/cluster/register`">
-                <K3Button label="클러스터 등록"></K3Button>
+                <K3Button label="클러스터 등록" icon="pi pi-plus"></K3Button>
               </NuxtLink>
             </template>
           </BizCommonSearch>
@@ -64,7 +64,7 @@
       <K3ContextMenu ref="menu" :model="menus" />
       <div class="flex justify-content-end mt-3">
         <NuxtLink to="/cloud">
-          <K3Button label="클라우드 목록" class="p-button-secondary" />
+          <K3Button label="클라우드 목록" icon="pi pi-list" class="p-button-secondary" />
         </NuxtLink>
       </div>
       <K3Overlay :active="isProFetch" loader="bars" background-color="#830205" />

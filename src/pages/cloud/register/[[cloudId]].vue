@@ -9,13 +9,13 @@
         <K3Overlay :active="active" loader="bars" background-color="#830205" />
       </div>
 
-      <div class="flex button-wrapper">
-        <div class="flex flex-grow-1 flex-shrink-1 align-items-start justify-content-start">
-          <K3Button label="클라우드 삭제" class="p-button-danger" @click="onDelete" v-if="cloudId" />
+      <div class="flex justify-content-between mt-3">
+        <div class="flex align-items-start justify-content-start">
+          <K3Button label="클라우드 삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" v-if="cloudId" />
         </div>
-        <div class="flex flex-grow-1 flex-shrink-1 align-items-end justify-content-end">
+        <div class="flex align-items-end justify-content-end">
           <NuxtLink :to="list">
-            <K3Button label="클라우드 목록" class="p-button-secondary" />
+            <K3Button label="클라우드 목록" icon="pi pi-list" class="p-button-secondary" />
           </NuxtLink>
         </div>
       </div>
@@ -155,9 +155,5 @@ onMounted(() => {
 
 .stepper-container {
   position: relative;
-}
-
-.button-wrapper {
-  margin-top: 1rem;
 }
 </style>

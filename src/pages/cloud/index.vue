@@ -29,7 +29,7 @@
           <BizCommonSearch :items="searchItems.items" :multiSelect="searchItems.multiSelect" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle">
             <template #search-right>
               <NuxtLink to="/cloud/register">
-                <K3Button label="클라우드 등록" />
+                <K3Button label="클라우드 등록" icon="pi pi-plus" />
               </NuxtLink>
             </template>
           </BizCommonSearch>

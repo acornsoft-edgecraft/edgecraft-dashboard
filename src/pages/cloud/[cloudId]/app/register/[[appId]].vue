@@ -19,12 +19,12 @@
         </K3FormRow>
       </K3FormContainer>
 
-      <div class="flex button-wrapper">
-        <div class="flex-grow-1 flex-shrink-1 flex align-items-start justify-content-start">
+      <div class="flex justify-content-between button-wrapper">
+        <div class="flex align-items-start justify-content-start">
           <K3Button label="삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" />
         </div>
 
-        <div class="flex-grow-1 flex-shrink-1 flex align-items-end justify-content-end">
+        <div class="flex align-items-end justify-content-end">
           <NuxtLink :to="`/cloud/${route.params.cloudId}/app`">
             <K3Button label="취소" icon="pi pi-times" class="p-button-secondary" />
           </NuxtLink>

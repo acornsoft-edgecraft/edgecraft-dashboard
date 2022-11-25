@@ -4,10 +4,10 @@
       <K3PageTitle />
     </section>
     <section class="page-content">
-      <div class="flex justify-content-end button-wrapper">
+      <div class="flex justify-content-end mt-3">
         <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="provisioned" />
         <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="provisioned" />
-        <K3Button label="클러스터 삭제" class="p-button-danger" @click="onDelete" />
+        <K3Button label="클러스터 삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" />
       </div>
       <div class="info-wrapper">
         <K3Accordion :multiple="true" :activeIndex="[0, 1, 2, 3, 4]">
@@ -20,7 +20,10 @@
                 <K3FormColumn label="Namespace" label-align="right">{{ cluster.cluster.namespace }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
-                <K3FormColumn label="Cluster Status" label-align="right">{{ CloudStatus[cluster.cluster.status] }}</K3FormColumn>
+                <K3FormColumn label="Cluster Status" label-align="right">
+                  {{ CloudStatus[cluster.cluster.status] }}
+                  <div class="status-msg" v-if="!provisioned">({{ msg }})</div>
+                </K3FormColumn>
               </K3FormRow>
               <K3FormRow>
                 <K3FormColumn label="Cluster 설명" label-align="right"><div v-html="Util.getReplaceNewlineToBr(cluster.cluster.desc)"></div></K3FormColumn>
@@ -128,8 +131,8 @@
                 <K3FormColumn label="Use LoadBalancer" label-align="right">{{ Util.getUseYnKo(cluster.nodes.use_loadbalancer) }}</K3FormColumn>
               </K3FormRow>
             </K3FormContainer>
-            <BizClusterNodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" @add-nodeset="addNodeset" />
-            <BizClusterNodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" @add-nodeset="addNodeset" />
+            <BizClusterNodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" :provisioned="provisioned" @add-nodeset="addNodeset" />
+            <BizClusterNodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" :provisioned="provisioned" @add-nodeset="addNodeset" />
           </K3AccordionTab>
           <K3AccordionTab header="ETCD/Storage 정보">
             <K3Fieldset legend="ETCD 설정" :toggleable="true">
@@ -168,7 +171,7 @@
         </K3Accordion>
       </div>
 
-      <K3TabView v-if="cluster.cluster.status < CloudStatus.Provisioned">
+      <K3TabView v-if="cluster.cluster.status === CloudStatus.Provisioning">
         <K3TabPanel header="Cluster">
           <div class="dark-demo-terminal"></div>
         </K3TabPanel>
@@ -183,20 +186,26 @@
         </K3TabPanel>
       </K3TabView>
 
+      <div class="flex justify-content-between mt-3">
+        <div class="flex justify-content-start align-items-start">
+          <K3Button label="클러스터 삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" />
+        </div>
+        <div class="flex justify-content-end align-items-end">
+          <NuxtLink :to="list">
+            <K3Button label="클러스터 목록" icon="pi pi-list" class="p-button-secondary" />
+          </NuxtLink>
+        </div>
+      </div>
+
       <BizDialogsClusterNodeset v-model="clusterNodeset" @close="close" @ok="ok" />
       <BizDialogsK8sUpgrade v-model="k8sUpgrade" @close="close" @upgrade="upgrade" />
-      <div class="flex justify-content-end button-wrapper">
-        <NuxtLink :to="list">
-          <K3Button label="클러스터 목록" class="p-button-secondary" />
-        </NuxtLink>
-      </div>
       <K3Overlay :active="active" loader="bars" background-color="#830205" />
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { CloudStatus, K8sVersions, NodeTypes, MessageTypes, kubeadmConfigs } from "~/models";
+import { CloudStatus, K8sVersions, NodeTypes, MessageTypes, ResMessages, kubeadmConfigs } from "~/models";
 
 definePageMeta({ layout: "default", title: "클라우드 클러스터 상세", public: true });
 
@@ -208,8 +217,10 @@ const cloudId = route.params.cloudId;
 const clusterId = route.params.clusterId;
 const list = `/cloud/${cloudId}/cluster`;
 
+const msg = ref(undefined);
+
 const active = computed(() => unref(isFetch || isDelFetch));
-const provisioned = computed(() => cluster.value.cluster.status === CloudStatus.Provisioned);
+const provisioned = computed(() => cluster.value.cluster.status === CloudStatus.Provisioned && msg.value === ResMessages.SUCCEED);
 
 const goKoreboard = () => {
   // TOGO: go koreboard
@@ -244,10 +255,11 @@ const getCluster = async () => {
   let result;
   try {
     result = await fetch(cloudId, clusterId);
+    msg.value = result.message;
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `클러스터 정보`, err);
   }
-  if (!result) Routing.moveTo(list);
+  if (result.isError) Routing.moveTo(list);
 
   if (cluster.value.cluster.status === CloudStatus.Saved) {
     Routing.moveTo(`${list}/register/${clusterId}`);
@@ -296,8 +308,11 @@ onMounted(() => {
     box-shadow: none;
   }
 }
-.button-wrapper {
-  margin-top: 1rem;
+
+.status-msg {
+  padding-left: 0.5rem;
+  color: var(--orange-500);
+  font-weight: 500;
 }
 
 .dark-demo-terminal {

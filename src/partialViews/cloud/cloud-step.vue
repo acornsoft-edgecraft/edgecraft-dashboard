@@ -5,25 +5,18 @@
 </template>
 
 <script setup lang="ts">
-// imports
 import CloudInfo from "./cloud-info.vue";
 
 const { UI } = useAppHelper();
 
-// Page meta
-// Props
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });
 
-// Emits
 const emits = defineEmits(["can-continue", "visible-change"]);
 
-// Properties
 const v$ = UI.getValidate();
 
-// Compputed
-// Watcher
 watch(
   () => v$.value,
   (val) => {
@@ -37,7 +30,6 @@ watch(
   }
 );
 
-// Methods
 const beforeNextStep = (): boolean => {
   v$.value.$touch();
 
@@ -50,7 +42,7 @@ const beforeNextStep = (): boolean => {
 const onVisibleChange = (val) => {
   emits("visible-change", val);
 };
-// Events
+
 onActivated(() => {
   v$.value.$touch();
 
@@ -62,7 +54,6 @@ onActivated(() => {
 });
 
 defineExpose({ beforeNextStep });
-// Logics (like api call, etc)
 </script>
 
 <style scoped lang="scss">

@@ -46,7 +46,7 @@ export function useClusterService(options: any = {}) {
         cluster.value = res.data;
       }
       isFetch.value = false;
-      return !res.isError;
+      return res;
     };
 
     return { cluster, isFetch, fetch };

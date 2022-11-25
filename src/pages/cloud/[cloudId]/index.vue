@@ -7,7 +7,7 @@
       <div class="flex justify-content-end button-wrapper">
         <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="provisioned" />
         <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="provisioned" />
-        <K3Button label="클라우드 삭제" class="p-button-danger" @click="onDelete" />
+        <K3Button label="클라우드 삭제" class="p-button-danger" icon="pi pi-trash" @click="onDelete" />
       </div>
       <K3Card>
         <template #title>클라우드 정보</template>
@@ -69,11 +69,17 @@
       <BizDialogsCloudNode v-model="cloudNode" @close="close" @ok="ok" />
       <BizDialogsK8sUpgrade v-model="k8sUpgrade" @close="close" @upgrade="upgrade" />
 
-      <div class="flex justify-content-end button-wrapper">
-        <NuxtLink :to="list">
-          <K3Button label="클라우드 목록" class="p-button-secondary" />
-        </NuxtLink>
+      <div class="flex justify-content-between button-wrapper">
+        <div class="flex justify-content-start align-items-start">
+          <K3Button label="클라우드 삭제" class="p-button-danger" icon="pi pi-trash" @click="onDelete" />
+        </div>
+        <div class="flex justify-content-end align-items-end">
+          <NuxtLink :to="list">
+            <K3Button label="클라우드 목록" icon="pi pi-list" class="p-button-secondary" />
+          </NuxtLink>
+        </div>
       </div>
+
       <K3Overlay :active="active" loader="bars" background-color="#830205" />
     </section>
   </div>

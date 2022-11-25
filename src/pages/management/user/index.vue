@@ -26,9 +26,9 @@
           <BizCommonSearch :items="searchItems.items" :multi-select="searchItems.multiSelect" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle">
             <template #search-right>
               <NuxtLink to="/management/user/register">
-                <K3Button label="사용자 등록" />
+                <K3Button label="사용자 등록" icon="pi pi-plus" />
               </NuxtLink>
-              <K3Button label="사용자 삭제" class="p-button-danger" @click="onDelete" />
+              <K3Button label="사용자 삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" />
             </template>
           </BizCommonSearch>
         </template>
