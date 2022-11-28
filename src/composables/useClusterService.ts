@@ -116,6 +116,86 @@ export function useClusterService(options: any = {}) {
     return { isProFetch, proFetch };
   };
 
+  const getNodeSets = () => {
+    const isGetFetch = ref(false);
+
+    const getFetch = async (cloudId, clusterId) => {
+      isGetFetch.value = true;
+      const res = await API.get("", `${url_prefix}/${cloudId}/clusters/${clusterId}/nodesets`);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "노드셋 목록", res.message);
+      }
+      isGetFetch.value = false;
+      return res;
+    };
+
+    return { isGetFetch, getFetch };
+  };
+
+  const addNodeSet = () => {
+    const isAddFetch = ref(false);
+
+    const addFetch = async (cloudId, clusterId, params) => {
+      isAddFetch.value = true;
+      const res = await API.post("", `${url_prefix}/${cloudId}/clusters/${clusterId}/nodesets`, params);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "노드셋 추가", res.message);
+      }
+      isAddFetch.value = false;
+      return res;
+    };
+
+    return { isAddFetch, addFetch };
+  };
+
+  const getNodeSet = () => {
+    const isGetFetch = ref(false);
+
+    const getFetch = async (cloudId, clusterId, nodesetId) => {
+      isGetFetch.value = true;
+      const res = await API.get("", `${url_prefix}/${cloudId}/clusters/${clusterId}/nodesets/${nodesetId}`);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "노드셋 정보", res.message);
+      }
+      isGetFetch.value = false;
+      return res;
+    };
+
+    return { isGetFetch, getFetch };
+  };
+
+  const removeNodeSet = () => {
+    const isRemFetch = ref(false);
+
+    const removeFetch = async (cloudId, clusterId, nodesetId) => {
+      isRemFetch.value = true;
+      const res = await API.delete("", `${url_prefix}/${cloudId}/clusters/${clusterId}/nodesets/${nodesetId}`);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "노드셋 삭제", res.message);
+      }
+      isRemFetch.value = false;
+      return res;
+    };
+
+    return { isRemFetch, removeFetch };
+  };
+
+  const updateNodeCount = () => {
+    const isUpCntFetch = ref(false);
+
+    const upCntFetch = async (cloudId, clusterId, nodeSetId, nodeCount) => {
+      isUpCntFetch.value = true;
+      const res = await API.get("", `${url_prefix}/${cloudId}/clusters/${clusterId}/nodesets/${nodeSetId}/${nodeCount}`);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "노드 개수 수정", res.message);
+      }
+      isUpCntFetch.value = false;
+      return res;
+    };
+
+    return { isUpCntFetch, upCntFetch };
+  };
+
   return {
     currentCluster,
 
@@ -125,5 +205,11 @@ export function useClusterService(options: any = {}) {
     updateCluster,
     deleteCluster,
     provisionCluster,
+
+    getNodeSets,
+    getNodeSet,
+    addNodeSet,
+    removeNodeSet,
+    updateNodeCount,
   };
 }

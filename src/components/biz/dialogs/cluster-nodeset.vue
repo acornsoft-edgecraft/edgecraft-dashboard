@@ -3,7 +3,7 @@
     <K3FormContainer>
       <K3FormRow>
         <K3FormColumn label="Name" label-align="right">
-          <K3FormInputField v-model="v.name" field-name="Name" class="w-full" />
+          <K3FormInputField v-model="v.name" field-name="Name" class="w-full" autofocus />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
@@ -24,7 +24,7 @@
     </K3FormContainer>
     <template #footer>
       <K3Button label="취소" icon="pi pi-times" @click="close" class="p-button-text" />
-      <K3Button label="등록" icon="pi pi-check" @click="ok" autofocus />
+      <K3Button label="등록" icon="pi pi-check" @click="ok" />
     </template>
   </K3Dialog>
 </template>
