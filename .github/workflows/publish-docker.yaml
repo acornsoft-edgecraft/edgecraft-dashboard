@@ -53,3 +53,14 @@ jobs:
           tags: |
             ${{steps.variables.outputs.prefix}}/${{steps.variables.outputs.project}}:${{steps.variables.outputs.version}}
             ${{steps.variables.outputs.prefix}}/${{steps.variables.outputs.project}}:latest
+      # release
+      - name: Release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: true
+          release_name: Release ${{ steps.variables.outputs.version }}
+          tag_name: ${{ steps.variables.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
