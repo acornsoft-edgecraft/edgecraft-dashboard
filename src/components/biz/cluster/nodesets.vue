@@ -3,9 +3,9 @@
     <K3Button label="Add WorkerSet" icon="pi pi-plus" @click="addNodeSet" />
   </div>
   <K3Panel :header="`${NodeTypes[type]}Set`" v-for="(item, index) in modelValue" :key="index" :class="panelClass">
-    <template #icons v-if="type === NodeTypes.Worker && succeed">
+    <template #icons v-if="succeed">
       <K3Button icon="pi pi-refresh" class="p-panel-header-icon mr-2" @click="refresh(index, item.nodeset_uid)" />
-      <K3Button class="p-panel-header-icon p-link text-danger" @click="remove(index, item)">
+      <K3Button class="p-panel-header-icon p-link text-danger" @click="remove(index, item)" v-if="type === NodeTypes.Worker">
         <span class="pi pi-trash"></span>
       </K3Button>
     </template>

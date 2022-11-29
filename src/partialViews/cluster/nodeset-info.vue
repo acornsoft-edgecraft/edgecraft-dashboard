@@ -4,7 +4,7 @@
       <template #icons v-if="type === NodeTypes.Worker">
         <K3Button icon="pi pi-plus" class="mr-2" @click="addNodeSet" />
       </template>
-      <K3ValidateEach v-for="(item, index) in data" :key="index" :state="item" :rules="vRules">
+      <K3ValidateEach v-for="(item, index) in data" :key="index" :state="item" :rules="vRules(type)">
         <template #default="{ v }">
           <K3FormContainer class="no-style">
             <K3FormRow>
@@ -53,7 +53,7 @@ const props = defineProps({
 });
 
 const data = reactive(props.modelValue);
-const vRules = defaultNodesetInfoValidation;
+const vRules = (type) => defaultNodesetInfoValidation(type);
 
 const addNodeSet = () => {
   data.push({ ...Util.clone(defaultNodesetInfo) });

@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { defaultNodesetInfoValidation, defaultNodesetInfo } from "~/models";
+import { defaultNodesetInfoValidation, defaultNodesetInfo, NodeTypes } from "~/models";
 
 const { UI, Util } = useAppHelper();
 
@@ -39,7 +39,7 @@ const props = defineProps({
 });
 const emits = defineEmits(["close", "ok"]);
 
-const vRule = defaultNodesetInfoValidation;
+const vRule = defaultNodesetInfoValidation(NodeTypes.Worker);
 
 const data = ref();
 const v = UI.getValidate(vRule, data);

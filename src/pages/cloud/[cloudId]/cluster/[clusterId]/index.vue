@@ -277,7 +277,6 @@ const addNodeset = (data) => {
 const ok = async (val) => {
   clusterNodeset.value.display = false;
 
-  console.log("add nodeset", val.item);
   let result;
   try {
     result = await addFetch(cloudId, clusterId, val.item);

@@ -1,5 +1,17 @@
-import { required, integer, between } from "@vuelidate/validators";
-import { labelInfo, defaultLabelInfo } from "~/models";
+import { required, integer, between, helpers } from "@vuelidate/validators";
+import { labelInfo, defaultLabelInfo, NodeTypes } from "~/models";
+
+export const oddErrMsg = "The Node-Count of the MasetSet must be odd";
+export const checkOdd = (value) => value % 2 === 1;
+
+export const defaultNodeCountValidation = (type: NodeTypes) => {
+  return {
+    required,
+    integer,
+    between: between(1, 100),
+    checkCnt: type === NodeTypes.Master ? helpers.withMessage(oddErrMsg, checkOdd) : "",
+  };
+};
 
 export interface nodesetInfo {
   name: String;
@@ -15,9 +27,11 @@ export const defaultNodesetInfo: nodesetInfo = {
   labels: [defaultLabelInfo],
 };
 
-export const defaultNodesetInfoValidation = {
-  name: { required },
-  node_count: { required, integer, between: between(1, 100) },
-  flavor: { required },
-  labels: [],
+export const defaultNodesetInfoValidation = (type: NodeTypes) => {
+  return {
+    name: { required },
+    node_count: defaultNodeCountValidation(type),
+    flavor: { required },
+    labels: [],
+  };
 };
