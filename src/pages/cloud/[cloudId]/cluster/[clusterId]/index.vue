@@ -5,6 +5,7 @@
     </section>
     <section class="page-content">
       <div class="flex justify-content-end mt-3">
+        <K3Button icon="pi pi-refresh" class="p-button-text mr-2" @click="getCluster" />
         <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="succeed" />
         <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="succeed" />
         <K3Button label="클러스터 삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" />
@@ -22,7 +23,7 @@
               <K3FormRow>
                 <K3FormColumn label="Cluster Status" label-align="right">
                   {{ CloudStatus[cluster.cluster.status] }}
-                  <div class="status-msg" v-if="!succeed">({{ msg }})</div>
+                  <div class="status-msg" v-if="msg !== ResMessages.SUCCEED">({{ msg }})</div>
                 </K3FormColumn>
               </K3FormRow>
               <K3FormRow>
@@ -240,7 +241,18 @@ const upgrade = (val) => {
 };
 
 const onDelete = () => {
-  UI.showConfirm(MessageTypes.ERROR, "클러스터 삭제", `<${cluster.value.cluster.name}> 클러스터를 삭제하시겠습니까?\n Provision 된 클러스터가 삭제됩니다.`, deleteCluster, () => {});
+  let msg;
+  switch (cluster.value.cluster.status) {
+    case CloudStatus.Provisioned:
+    case CloudStatus.Failed:
+      msg = "Provision 된 클러스터가 삭제 후 'Deleted' 상태로 변경됩니다.";
+      break;
+    case CloudStatus.Deleting:
+    case CloudStatus.Deleted:
+      msg = "저장된 데이터가 모두 삭제됩니다.";
+      break;
+  }
+  UI.showConfirm(MessageTypes.ERROR, "클러스터 삭제", `<${cluster.value.cluster.name}> 클러스터를 삭제하시겠습니까?\n ${msg}`, deleteCluster, () => {});
 };
 const deleteCluster = async () => {
   let result;
@@ -252,8 +264,7 @@ const deleteCluster = async () => {
   if (result.isError) return;
 
   UI.showToastMessage(MessageTypes.INFO, "클러스터 삭제", result.message || "클러스터를 삭제하였습니다.");
-
-  // TODO:
+  Routing.moveTo(list);
 };
 const getCluster = async () => {
   let result;

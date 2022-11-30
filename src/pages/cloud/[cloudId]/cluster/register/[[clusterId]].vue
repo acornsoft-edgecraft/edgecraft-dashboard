@@ -95,7 +95,7 @@ const onSubmit = async () => {
 };
 
 const onDelete = () => {
-  UI.showConfirm(MessageTypes.ERROR, "클러스터 삭제", "클러스터를 삭제하시겠습니까? 관련된 정보가 삭제됩니다.", deleteCluster, () => {});
+  UI.showConfirm(MessageTypes.ERROR, "클러스터 삭제", "클러스터를 삭제하시겠습니까? 저장된 데이터가 모두 삭제됩니다.", deleteCluster, () => {});
 };
 const deleteCluster = async () => {
   let result;

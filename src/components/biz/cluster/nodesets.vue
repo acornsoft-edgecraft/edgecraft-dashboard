@@ -2,7 +2,7 @@
   <div class="flex justify-content-end mt-4" v-if="type === NodeTypes.Worker && succeed">
     <K3Button label="Add WorkerSet" icon="pi pi-plus" @click="addNodeSet" />
   </div>
-  <K3Panel :header="`${NodeTypes[type]}Set`" v-for="(item, index) in modelValue" :key="index" :class="panelClass">
+  <K3Panel :header="`${NodeTypes[type]}Set`" v-for="(item, index) in modelValue" :key="index">
     <template #icons v-if="succeed">
       <K3Button icon="pi pi-refresh" class="p-panel-header-icon mr-2" @click="refresh(index, item.nodeset_uid)" />
       <K3Button class="p-panel-header-icon p-link text-danger" @click="remove(index, item)" v-if="type === NodeTypes.Worker">
@@ -32,8 +32,6 @@ const { UI } = useAppHelper();
 const { isGetFetch, getFetch } = useClusterService().getNodeSet();
 const { isRemFetch, removeFetch } = useClusterService().removeNodeSet();
 const { isUpCntFetch, upCntFetch } = useClusterService().updateNodeCount();
-
-const panelClass = props.type === NodeTypes.Master ? "" : "worker-wrapper";
 
 const active = computed(() => unref(isGetFetch || isRemFetch || isUpCntFetch));
 
@@ -95,9 +93,6 @@ const addNodeSet = () => {
 <style scoped lang="scss">
 .p-panel {
   margin-top: 1rem;
-}
-
-.p-panel.worker-wrapper {
   :deep(.p-panel-header) {
     padding: 0.75rem 1.25rem;
   }

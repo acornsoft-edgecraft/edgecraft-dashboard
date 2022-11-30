@@ -81,6 +81,7 @@ definePageMeta({ layout: "default", title: "클라우드 클러스터", public: 
 const { UI, Util, Search } = useAppHelper();
 const { clusters, isFetch, fetch } = useClusterService().getClusters();
 const { isProFetch, proFetch } = useClusterService().provisionCluster();
+const { isDelFetch, delFetch } = useClusterService().deleteCluster();
 
 const search = Search.init(StateKeys.SEARCH_CLUSTER, { status: null, name: null });
 const route = useRoute();
@@ -171,6 +172,8 @@ const menus = computed(() => {
 
   if (selectedItem?.value?.status === CloudStatus.Saved) {
     return [{ label: "클러스터 생성", icon: "pi pi-cloud-upload", command: () => provision(selectedItem.value) }];
+  } else if (selectedItem?.value?.status === CloudStatus.Deleted) {
+    return [{ label: "클러스터 삭제", icon: "pi pi-trash", command: () => del(selectedItem.value) }];
   } else {
     const disabled = !(selectedItem?.value?.status === CloudStatus.Provisioned);
 
@@ -197,6 +200,28 @@ const onProvision = async (item) => {
   if (result.isError) return;
 
   UI.showToastMessage(MessageTypes.INFO, "클러스터 생성", result.message || "클러스터를 생성 요청하였습니다.");
+  refresh();
+};
+
+const del = (item) => {
+  UI.showConfirm(
+    MessageTypes.ERROR,
+    "클러스터 삭제",
+    "클러스터를 삭제하시겠습니까? 저장된 데이터가 모두 삭제됩니다.",
+    () => onDelete(item),
+    () => {}
+  );
+};
+const onDelete = async (item) => {
+  let result;
+  try {
+    result = await delFetch(item.cloud_uid, item.cluster_uid);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "클러스터 삭제", err);
+  }
+  if (result.isError) return;
+
+  UI.showToastMessage(MessageTypes.INFO, "클러스터 삭제", result.message || "클러스터를 삭제하였습니다.");
   refresh();
 };
 
