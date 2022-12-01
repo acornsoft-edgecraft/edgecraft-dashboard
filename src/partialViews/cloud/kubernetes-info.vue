@@ -27,8 +27,8 @@
           <K3FormContainer class="no-style w-full">
             <K3FormRow direction="vertical">
               <K3Accordion :multiple="true" :activeIndex="activeIndex(modelValue.cp_kubeadm_extra_config)">
-                <K3AccordionTab v-for="(config, index) in kubeadmConfigs" :key="index" :header="config.header">
-                  <K3Textarea :id="setConfigId('cp', config.id)" v-model="modelValue.cp_kubeadm_extra_config[config.id]" type="text" rows="4" class="w-full" :autoResize="true" />
+                <K3AccordionTab v-for="(config, index) in extraConfigs" :key="index" :header="config.header" :disabled="config.disabled">
+                  <K3Textarea :id="setConfigId('cp', config.id)" v-model="modelValue.cp_kubeadm_extra_config[config.id]" type="text" rows="4" class="w-full" :autoResize="true" :placeholder="setPlaceholder(config.id)" />
                 </K3AccordionTab>
               </K3Accordion>
             </K3FormRow>
@@ -40,7 +40,7 @@
           <K3FormContainer class="no-style w-full">
             <K3FormRow direction="vertical">
               <K3Accordion :multiple="true" :activeIndex="activeIndex(modelValue.worker_kubeadm_extra_config)">
-                <K3AccordionTab v-for="(config, index) in kubeadmConfigs" :key="index" :header="config.header">
+                <K3AccordionTab v-for="(config, index) in extraConfigs" :key="index" :header="config.header" :disabled="config.disabled">
                   <K3Textarea :id="setConfigId('worker', config.id)" v-model="modelValue.worker_kubeadm_extra_config[config.id]" rows="4" class="w-full" :autoResize="true" />
                 </K3AccordionTab>
               </K3Accordion>
@@ -55,23 +55,32 @@
 <script setup lang="ts">
 import { K8sVersionMap, defaultKubernetesInfoValidation, kubernetesInfo, kubeadmConfigs } from "~/models";
 
+const { Util } = useAppHelper();
+
 const props = defineProps({
   modelValue: { type: Object, required: true },
 });
 
 const v$ = useAppHelper().UI.getValidate(defaultKubernetesInfoValidation, ref(props.modelValue as kubernetesInfo));
 
-const setConfigId = (prefix, id) => {
-  return `${prefix}_${id}`;
-};
+const extraConfigs = computed(() => (useRoute().path.includes("/cluster/register") ? kubeadmConfigsForCluster : kubeadmConfigs));
+
+const setConfigId = (prefix, id) => `${prefix}_${id}`;
+const setPlaceholder = (id) => (id === "post_kubeadm_commands" ? "예) - kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/calico.yaml" : "");
 
 const activeIndex = (configs) => {
   const idx = [];
   Object.keys(configs).map((c, i) => {
     if (configs[c] !== "") idx.push(i);
   });
-  return idx.length > 0 ? idx : [0];
+  return idx.length > 0 ? idx : [1];
 };
+
+const disable = ["files", "users"];
+const kubeadmConfigsForCluster = Util.clone(kubeadmConfigs).map((c) => {
+  c.disabled = disable.includes(c.id) ? true : false;
+  return c;
+});
 </script>
 
 <style scoped lang="scss"></style>
