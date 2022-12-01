@@ -184,7 +184,6 @@ const UI = {
   showToastMessage: (messageType: MessageTypes, title: string, message: string, fixed: boolean = false) => {
     if (fixed) {
       toast.add({ severity: messageType as string, summary: title, detail: message, group: "tr" });
-      console.log(`messages: ${messageType as string}`);
     } else toast.add({ severity: messageType as string, summary: title, detail: message, group: "tr", life: messageTimeout });
   },
   showConfirm: (messageType: MessageTypes, title: string, message: string, acceptCallback, rejectCallback) => {

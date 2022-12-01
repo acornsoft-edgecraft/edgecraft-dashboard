@@ -170,19 +170,18 @@ const menus = computed(() => {
   const disabled = [true, true];
 
   // TODO
-  // if (selectedItem?.value?.status === CloudStatus.Saved) {
-  //   return [{ label: "클라우드 생성", icon: "pi pi-cloud-upload", command: () => provision(selectedItem.value) }];
-  // } else {
-  if (selectedItem?.value?.status === CloudStatus.Provisioned) {
-    if (selectedItem?.value?.type === CloudTypes.Openstack) disabled[0] = false;
-    disabled[1] = false;
-  }
+  if (selectedItem?.value?.status === CloudStatus.Saved) {
+    return [{ label: "클라우드 생성", icon: "pi pi-cloud-upload", command: () => provision(selectedItem.value) }];
+  } else {
+    if (selectedItem?.value?.status === CloudStatus.Provisioned) {
+      if (selectedItem?.value?.type === CloudTypes.Openstack) disabled[0] = false;
+      disabled[1] = false;
+    }
 
-  return [{ label: "클러스터 목록", icon: "pi pi-list", to: `${to}/cluster`, disabled: disabled[0] }, { separator: true }, { label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled[1] }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled[1] }];
-  // }
+    return [{ label: "클러스터 목록", icon: "pi pi-list", to: `${to}/cluster`, disabled: disabled[0] }, { separator: true }, { label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled[1] }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled[1] }];
+  }
 });
 const provision = (item) => {
-  console.log("provision", item);
   refresh();
 };
 

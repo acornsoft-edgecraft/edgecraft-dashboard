@@ -63,7 +63,6 @@ const saveNodeCount = async (val) => {
 };
 
 const remove = (index, item) => {
-  console.log("removenodeset", item);
   UI.showConfirm(
     MessageTypes.ERROR,
     "NodeSet 삭제",
