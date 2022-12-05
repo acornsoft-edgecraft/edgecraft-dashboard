@@ -36,8 +36,6 @@ const emits = defineEmits(["can-continue"]);
 
 const nodes = ref(props.modelValue.nodes);
 
-console.log(`node step >>> model value: ${JSON.stringify(nodes.value)}`);
-
 const v$ = useAppHelper().UI.getValidate(defaultNodesInfoValidation, nodes);
 
 watch(

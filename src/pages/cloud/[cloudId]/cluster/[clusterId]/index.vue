@@ -5,8 +5,9 @@
     </section>
     <section class="page-content">
       <div class="flex justify-content-end mt-3">
-        <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="provisioned" />
-        <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="provisioned" />
+        <K3Button icon="pi pi-refresh" class="p-button-text mr-2" @click="getCluster" />
+        <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="succeed" />
+        <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="succeed" />
         <K3Button label="클러스터 삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" />
       </div>
       <div class="info-wrapper">
@@ -22,7 +23,7 @@
               <K3FormRow>
                 <K3FormColumn label="Cluster Status" label-align="right">
                   {{ CloudStatus[cluster.cluster.status] }}
-                  <div class="status-msg" v-if="!provisioned">({{ msg }})</div>
+                  <div class="status-msg" v-if="msg !== ResMessages.SUCCEED">({{ msg }})</div>
                 </K3FormColumn>
               </K3FormRow>
               <K3FormRow>
@@ -131,8 +132,8 @@
                 <K3FormColumn label="Use LoadBalancer" label-align="right">{{ Util.getUseYnKo(cluster.nodes.use_loadbalancer) }}</K3FormColumn>
               </K3FormRow>
             </K3FormContainer>
-            <BizClusterNodesetInfo v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" :provisioned="provisioned" @add-nodeset="addNodeset" />
-            <BizClusterNodesetInfo v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" :provisioned="provisioned" @add-nodeset="addNodeset" />
+            <BizClusterNodesets v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" :succeed="succeed" :params="{ cloudId: cloudId, clusterId: clusterId }" @add-nodeset="addNodeset" />
+            <BizClusterNodesets v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" :succeed="succeed" :params="{ cloudId: cloudId, clusterId: clusterId }" @add-nodeset="addNodeset" />
           </K3AccordionTab>
           <K3AccordionTab header="ETCD/Storage 정보">
             <K3Fieldset legend="ETCD 설정" :toggleable="true">
@@ -212,6 +213,9 @@ definePageMeta({ layout: "default", title: "클라우드 클러스터 상세", p
 const { UI, Util, Routing } = useAppHelper();
 const { cluster, isFetch, fetch } = useClusterService().getCluster();
 const { isDelFetch, delFetch } = useClusterService().deleteCluster();
+const { isAddFetch, addFetch } = useClusterService().addNodeSet();
+const { isGetFetch, getFetch } = useClusterService().getNodeSets();
+
 const route = useRoute();
 const cloudId = route.params.cloudId;
 const clusterId = route.params.clusterId;
@@ -219,8 +223,8 @@ const list = `/cloud/${cloudId}/cluster`;
 
 const msg = ref(undefined);
 
-const active = computed(() => unref(isFetch || isDelFetch));
-const provisioned = computed(() => cluster.value.cluster.status === CloudStatus.Provisioned && msg.value === ResMessages.SUCCEED);
+const active = computed(() => unref(isFetch || isDelFetch || isGetFetch || isAddFetch));
+const succeed = computed(() => cluster.value.cluster.status === CloudStatus.Provisioned && msg.value === ResMessages.SUCCEED);
 
 const goKoreboard = () => {
   // TOGO: go koreboard
@@ -237,7 +241,18 @@ const upgrade = (val) => {
 };
 
 const onDelete = () => {
-  UI.showConfirm(MessageTypes.ERROR, "클러스터 삭제", `<${cluster.value.cluster.name}> 클러스터를 삭제하시겠습니까?\n 관련된 모든 정보가 삭제됩니다.`, deleteCluster, () => {});
+  let msg;
+  switch (cluster.value.cluster.status) {
+    case CloudStatus.Provisioned:
+    case CloudStatus.Failed:
+      msg = "Provision 된 클러스터가 삭제 후 'Deleted' 상태로 변경됩니다.";
+      break;
+    case CloudStatus.Deleting:
+    case CloudStatus.Deleted:
+      msg = "저장된 데이터가 모두 삭제됩니다.";
+      break;
+  }
+  UI.showConfirm(MessageTypes.ERROR, "클러스터 삭제", `<${cluster.value.cluster.name}> 클러스터를 삭제하시겠습니까?\n ${msg}`, deleteCluster, () => {});
 };
 const deleteCluster = async () => {
   let result;
@@ -270,13 +285,34 @@ const clusterNodeset = ref({ item: {}, display: false });
 const addNodeset = (data) => {
   clusterNodeset.value = data;
 };
-const ok = (val) => {
+const ok = async (val) => {
   clusterNodeset.value.display = false;
-  cluster.value.nodes.worker_sets.push(val.item);
+
+  let result;
+  try {
+    result = await addFetch(cloudId, clusterId, val.item);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, `노드셋 생성`, err);
+  }
+  if (result.isError) return;
+
+  UI.showToastMessage(MessageTypes.INFO, `노드셋 생성`, result.message || "클러스터의 노드셋이 생성되었습니다.");
+  getNodesets();
 };
 const close = () => {
   k8sUpgrade.value.display = false;
   clusterNodeset.value.display = false;
+};
+const getNodesets = async () => {
+  let result;
+  try {
+    result = await getFetch(cloudId, clusterId);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, `노드셋 목록`, err);
+  }
+  if (result.isError) return;
+
+  cluster.value.nodes = result.data;
 };
 
 onMounted(() => {
