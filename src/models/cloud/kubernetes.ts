@@ -1,11 +1,19 @@
 import { required, CIDR } from "~/models/common/validators";
-import { K8sVersions } from "~/models";
+import { K8sVersions, BootstrapProviders } from "~/models";
 
 export const K8sVersionMap = (addAll: boolean = false) => {
   if (addAll) {
     return [{ name: "All", value: "" }, ...useAppHelper().Util.getEnumMap(K8sVersions, false)];
   } else {
     return useAppHelper().Util.getEnumMap(K8sVersions, false);
+  }
+};
+
+export const BootstrapProviderMap = (addAll: boolean = false) => {
+  if (addAll) {
+    return [{ name: "All", value: "" }, ...useAppHelper().Util.getEnumMap(BootstrapProviders, false)];
+  } else {
+    return useAppHelper().Util.getEnumMap(BootstrapProviders, false);
   }
 };
 
@@ -37,6 +45,7 @@ export const kubeadmConfigs = [
 ];
 
 export interface kubernetesInfo {
+  bootstrap_provider: BootstrapProviders;
   version: K8sVersions;
   pod_cidr: String;
   svc_cidr: String;
@@ -46,6 +55,7 @@ export interface kubernetesInfo {
 }
 
 export const defaultKubernetesInfo: kubernetesInfo = {
+  bootstrap_provider: BootstrapProviders["Kubeadm"],
   version: K8sVersions["1.23.3"],
   pod_cidr: "",
   svc_cidr: "10.96.0.0/12",
@@ -55,6 +65,7 @@ export const defaultKubernetesInfo: kubernetesInfo = {
 };
 
 export const defaultKubernetesInfoValidation = {
+  bootstrap_provider: { required },
   version: { required },
   pod_cidr: { required, CIDR },
   svc_cidr: { required, CIDR },

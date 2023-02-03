@@ -3,6 +3,11 @@
     <K3FormContainer class="no-bg">
       <template #header>Kubernetes 설치 정보</template>
       <K3FormRow>
+        <K3FormColumn label="Bootstrap Provider" label-align="right">
+          <K3FormDropdownField v-model="v$.bootstrap_provider" :options="BootstrapProviderMap()" :optionLabel="'name'" :optionValue="'value'" field-name="Bootstrap Provider" class="w-6" />
+        </K3FormColumn>
+      </K3FormRow>
+      <K3FormRow>
         <K3FormColumn label="Kubernetes Version" label-align="right">
           <K3FormDropdownField v-model="v$.version" :options="K8sVersionMap()" :optionLabel="'name'" :optionValue="'value'" field-name="Kubernetes Version" class="w-6" />
         </K3FormColumn>
@@ -53,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { K8sVersionMap, defaultKubernetesInfoValidation, kubernetesInfo, kubeadmConfigs } from "~/models";
+import { K8sVersionMap, BootstrapProviderMap, defaultKubernetesInfoValidation, kubernetesInfo, kubeadmConfigs } from "~/models";
 
 const { Util } = useAppHelper();
 

@@ -13,10 +13,17 @@ export enum CloudStatus {
   Deleted = 6, // 삭제완료
 }
 
+export enum BootstrapProviders {
+  "Kubeadm" = 1,
+  "MicroK8s" = 2,
+  "K3s" = 3,
+}
+
 export enum K8sVersions {
   "1.22.0" = 1,
   "1.23.0" = 2,
   "1.23.3" = 3,
+  "1.23.8+k3s2" = 4,
 }
 
 export enum ImageChecksumTypes {
