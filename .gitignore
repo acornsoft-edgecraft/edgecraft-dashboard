@@ -9,3 +9,4 @@ dist
 
 .vscode
 .history
+.DS_Store
