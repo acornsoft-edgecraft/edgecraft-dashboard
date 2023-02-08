@@ -37,6 +37,9 @@
           <K3AccordionTab header="Kubernetes 설치 정보">
             <K3FormContainer>
               <K3FormRow>
+                <K3FormColumn label="Bootstrap Provider" label-align="right">{{ BootstrapProviders[cluster.k8s.bootstrap_provider] }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
                 <K3FormColumn label="Kubernetes Version" label-align="right">{{ K8sVersions[cluster.k8s.version] }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
@@ -206,7 +209,7 @@
 </template>
 
 <script setup lang="ts">
-import { CloudStatus, K8sVersions, NodeTypes, MessageTypes, ResMessages, kubeadmConfigs } from "~/models";
+import { CloudStatus, K8sVersions, BootstrapProviders, NodeTypes, MessageTypes, ResMessages, kubeadmConfigs } from "~/models";
 
 definePageMeta({ layout: "default", title: "클라우드 클러스터 상세", public: true });
 
