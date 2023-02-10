@@ -36,20 +36,31 @@ jobs:
           echo ::set-output name=prefix::${REGISTRY}
           echo ::set-output name=version::${VERSION}
           echo ::set-output name=project::${PROJECT}
-      - name: Check out the repository
-        uses: actions/checkout@v2
-      - name: Login GHCR
-        uses: docker/login-action@v1 
+#       - name: Check out the repository
+#         uses: actions/checkout@v2
+#       - name: Login GHCR
+#         uses: docker/login-action@v1 
+#         with:
+#           registry: ghcr.io
+#           username: ${{ github.actor }}
+#           password: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Build docker image [${{steps.variables.outputs.project}}]
+#         uses: docker/build-push-action@v2
+#         with:
+#           context: .
+#           file: ./Dockerfile
+#           push: true
+#           tags: |
+#             ${{steps.variables.outputs.prefix}}/${{steps.variables.outputs.project}}:${{steps.variables.outputs.version}}
+#             ${{steps.variables.outputs.prefix}}/${{steps.variables.outputs.project}}:latest
+      # release
+      - name: Release
+        uses: actions/create-release@v1
+        id: create_release
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build docker image [${{steps.variables.outputs.project}}]
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: |
-            ${{steps.variables.outputs.prefix}}/${{steps.variables.outputs.project}}:${{steps.variables.outputs.version}}
-            ${{steps.variables.outputs.prefix}}/${{steps.variables.outputs.project}}:latest
+          draft: false
+          prerelease: true
+          release_name: Release ${{ steps.variables.outputs.version }}
+          tag_name: ${{ steps.variables.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
