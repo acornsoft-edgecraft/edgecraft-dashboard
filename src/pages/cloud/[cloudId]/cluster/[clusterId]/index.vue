@@ -135,8 +135,8 @@
                 <K3FormColumn label="Use LoadBalancer" label-align="right">{{ Util.getUseYnKo(cluster.nodes.use_loadbalancer) }}</K3FormColumn>
               </K3FormRow>
             </K3FormContainer>
-            <BizClusterNodesets v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" :succeed="succeed" :params="{ cloudId: cloudId, clusterId: clusterId }" @add-nodeset="addNodeset" />
-            <BizClusterNodesets v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" :succeed="succeed" :params="{ cloudId: cloudId, clusterId: clusterId }" @add-nodeset="addNodeset" />
+            <BizClusterNodesets v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" :succeed="succeed" :params="{ cloudId: cloudId, clusterId: clusterId, bootstrapProvider: cluster.k8s.bootstrap_provider }" @add-nodeset="addNodeset" />
+            <BizClusterNodesets v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" :succeed="succeed" :params="{ cloudId: cloudId, clusterId: clusterId, bootstrapProvider: cluster.k8s.bootstrap_provider }" @add-nodeset="addNodeset" />
           </K3AccordionTab>
           <K3AccordionTab header="ETCD/Storage 정보">
             <K3Fieldset legend="ETCD 설정" :toggleable="true">
