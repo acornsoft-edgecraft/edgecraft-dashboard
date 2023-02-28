@@ -56,7 +56,7 @@ const props = defineProps({
 
 const data = reactive(props.modelValue);
 const vRules = (type) => defaultNodesetInfoValidation(type);
-const masterSetNodeCountWarning = computed(() => (props.type === NodeTypes.Master && props.bootstrapProvider !== BootstrapProviders.Kubeadm ? `${BootstrapProviders[props.bootstrapProvider]} 부트스트랩에서는 생성 후 노드 수를 조정할 수 없습니다.` : `${props.type}, ${props.bootstrapProvider}`));
+const masterSetNodeCountWarning = computed(() => (props.type === NodeTypes.Master && props.bootstrapProvider !== BootstrapProviders.Kubeadm ? `${BootstrapProviders[props.bootstrapProvider]} 부트스트랩에서는 생성 후 노드 수를 조정할 수 없습니다.` : ''));
 
 const addNodeSet = () => {
   data.push({ ...Util.clone(defaultNodesetInfo) });
