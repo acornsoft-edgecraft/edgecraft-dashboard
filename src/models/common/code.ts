@@ -24,6 +24,7 @@ export enum K8sVersions {
   "1.23.0" = 2,
   "1.23.3" = 3,
   "1.23.8+k3s2" = 4,
+  "1.24.5" = 7,
 }
 
 export enum ImageChecksumTypes {
