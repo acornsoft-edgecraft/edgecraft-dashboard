@@ -115,6 +115,7 @@ const onUpgrade = () => {
 const upgrade = (val) => {
   k8sUpgrade.value.display = false;
 
+  UI.showToastMessage(MessageTypes.INFO, "TEST", `Upgrade Selected ${val}`);
   // TODO: call api - kubernetes cluster upgrade
 };
 

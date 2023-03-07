@@ -240,6 +240,7 @@ const onUpgrade = () => {
 const upgrade = (val) => {
   k8sUpgrade.value.display = false;
 
+  console.log(`Received data : ${JSON.stringify(val)}`);
   // TODO: call api - kubernetes cluster upgrade
 };
 
