@@ -2,19 +2,19 @@
   <div class="header flex justify-content-between">
     <div class="search-left">
       <slot />
-      <template v-for="(item, index) in items">
-        <template v-if="item.type == 'text'">
+      <template v-for="(item, index) in items" :key="index">
+        <template v-if="item.type === 'text'">
           <span>{{ item.label }}: </span>
           <span class="p-input-icon-left">
             <i class="pi pi-search" />
             <K3InputText class="flex" v-model="item.value" placeholder="Search" @input="changeValue(item, $event)" />
           </span>
         </template>
-        <template v-if="item.type == 'dropdown'">
+        <template v-if="item.type === 'dropdown'">
           <span>{{ item.label }}: </span>
           <K3Dropdown v-model="item.value" :options="item.options" :optionLabel="'name'" :optionValue="'value'" @change="changeValue(item, $event)" placeholder="선택" :showClear="true" :class="item.class" />
         </template>
-        <template v-if="item.type == 'calendar-range'">
+        <template v-if="item.type === 'calendar-range'">
           <span>{{ item.label }}: </span>
           <BizCommonCalendarRange v-model="item.value" @start-dt="setStartDt" @end-dt="setEndDt" />
         </template>
