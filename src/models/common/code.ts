@@ -71,6 +71,12 @@ export enum ImageOsTypes {
   "Ubuntu 18.04" = 2,
 }
 
+export enum BenchmarksStatus {
+  "In Progress" = 1,
+  Completed = 2,
+  Failed = 3,
+}
+
 export enum SecurityStatus {
   "In Progress" = 1,
   Completed = 2,

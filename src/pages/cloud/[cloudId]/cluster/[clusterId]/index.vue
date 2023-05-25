@@ -4,11 +4,22 @@
       <K3PageTitle />
     </section>
     <section class="page-content">
-      <div class="flex justify-content-end mt-3">
-        <K3Button icon="pi pi-refresh" class="p-button-text mr-2" @click="getCluster" />
-        <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="succeed" />
-        <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="succeed" />
-        <K3Button label="클러스터 삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" />
+      <div class="flex justify-content-between mt-3">
+        <div class="flex justify-content-start">
+          <K3Button label="클러스터 삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" />
+        </div>
+        <div class="flex justify-content-end">
+          <K3Button icon="pi pi-refresh" class="p-button-text mr-2" @click="getCluster" />
+          <!-- <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="succeed" /> -->
+          <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="succeed" />
+          <NuxtLink :to="goBenchmarks">
+            <K3Button label="CIS Benchmarks" class="p-button mr-2 p-button-info" />
+          </NuxtLink>
+          <NuxtLink :to="list">
+            <K3Button label="클러스터 목록" icon="pi pi-list" class="p-button-secondary" />
+          </NuxtLink>
+        </div>
+
       </div>
       <div class="info-wrapper">
         <K3Accordion :multiple="true" :activeIndex="[0, 1, 2, 3, 4]">
@@ -54,7 +65,7 @@
               <K3FormRow>
                 <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
                   <K3FormContainer class="no-style w-full">
-                    <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                    <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs" :key="index">
                       <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(cluster.k8s.cp_kubeadm_extra_config[config.id])"></div></K3FormColumn>
                     </K3FormRow>
                   </K3FormContainer>
@@ -63,7 +74,7 @@
               <K3FormRow>
                 <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
                   <K3FormContainer class="no-style w-full">
-                    <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                    <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs" :key="index">
                       <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(cluster.k8s.worker_kubeadm_extra_config[config.id])"></div></K3FormColumn>
                     </K3FormRow>
                   </K3FormContainer>
@@ -229,6 +240,7 @@ const msg = ref(undefined);
 const active = computed(() => unref(isFetch || isDelFetch || isGetFetch || isAddFetch));
 const succeed = computed(() => cluster.value.cluster.status === CloudStatus.Provisioned && msg.value === ResMessages.SUCCEED);
 
+const goBenchmarks = `${list}/${clusterId}/benchmarks`;
 const goKoreboard = () => {
   // TOGO: go koreboard
 };

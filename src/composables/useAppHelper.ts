@@ -471,6 +471,18 @@ const Util = {
     if (val == null) return false;
     if (typeof val == "object" || typeof val == "function") return true;
   },
+  getSeverity: (status) => {
+    switch (status) {
+      case "FAIL":
+        return "danger"
+      case "WARN":
+        return "warning"
+      case "INFO":
+        return "info"
+      default:
+        return null
+    }
+  },
 };
 
 const Search = {
