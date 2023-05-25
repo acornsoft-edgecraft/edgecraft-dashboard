@@ -24,6 +24,10 @@ export enum K8sVersions {
   "1.23.0" = 2,
   "1.23.3" = 3,
   "1.23.8+k3s2" = 4,
+  "1.24.3" = 6,
+  "1.24.5" = 7,
+  "1.25.6" = 9,
+  "1.26.1" = 10,
 }
 
 export enum ImageChecksumTypes {
@@ -65,6 +69,12 @@ export enum ImageTypes {
 export enum ImageOsTypes {
   "Ubuntu 20.04" = 1,
   "Ubuntu 18.04" = 2,
+}
+
+export enum BenchmarksStatus {
+  "In Progress" = 1,
+  Completed = 2,
+  Failed = 3,
 }
 
 export enum SecurityStatus {
