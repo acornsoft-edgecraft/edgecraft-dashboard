@@ -20,4 +20,28 @@ spec:
         image: ghcr.io/acornsoft-edgecraft/edgecraft-dashboard:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 8080
+          protocol: TCP
+        env:
+        - name: BACKEND_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: edgecraft-dashboard-env
+              key: BACKEND_BASE_URL
+        - name: BACKEND_BASE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: edgecraft-dashboard-env
+              key: BACKEND_BASE_PORT
+        resources:
+          limits:
+            cpu: 200m
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        securityContext:
+          privileged: false
+          # readOnlyRootFilesystem: true
+          runAsNonRoot: false
+          allowPrivilegeEscalation: false

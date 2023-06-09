@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: edgecraft-dashboard-env
+  namespace: edgecraft
+data:
+  BACKEND_BASE_URL: "http://192.168.88.201"
+  BACKEND_BASE_PORT: "31810"
