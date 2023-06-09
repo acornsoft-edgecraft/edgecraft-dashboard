@@ -22,17 +22,6 @@ spec:
         ports:
         - containerPort: 8080
           protocol: TCP
-        env:
-        - name: BACKEND_BASE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: edgecraft-dashboard-env
-              key: BACKEND_BASE_URL
-        - name: BACKEND_BASE_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: edgecraft-dashboard-env
-              key: BACKEND_BASE_PORT
         resources:
           limits:
             cpu: 200m
@@ -45,3 +34,15 @@ spec:
           # readOnlyRootFilesystem: true
           runAsNonRoot: false
           allowPrivilegeEscalation: false
+        volumeMounts:
+        - name: edgecraft-dashboard-env
+          mountPath: /.env
+          subPath: env
+      volumes:
+      - name: edgecraft-dashboard-env
+        configMap:
+          name: edgecraft-dashboard-env
+          items:
+          - key: env
+            path: env
+
