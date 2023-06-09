@@ -87,3 +87,15 @@ export enum SecurityItemStatus {
   Pass = 1,
   Failed = 2,
 }
+
+export enum BackResType {
+  Backup = "B",
+  Restore = "R",
+}
+
+export enum BackResStatus {
+  Running = "R",
+  Completed = "C",
+  Failed = "F",
+  PartiallyFailed = "P",
+}

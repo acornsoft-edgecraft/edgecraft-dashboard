@@ -5,3 +5,4 @@ export * from "./nodes";
 export * from "./nodeset";
 export * from "./upgrade";
 export * from "./benchmarks";
+export * from "./backres";
