@@ -20,7 +20,7 @@ spec:
         image: ghcr.io/acornsoft-edgecraft/edgecraft-dashboard:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 8080
+        - containerPort: 80
           protocol: TCP
         resources:
           limits:
@@ -35,14 +35,14 @@ spec:
           runAsNonRoot: false
           allowPrivilegeEscalation: false
         volumeMounts:
-        - name: edgecraft-dashboard-env
-          mountPath: /.env
-          subPath: env
+        - name: edgecraft-dashboard-nginx
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
       volumes:
-      - name: edgecraft-dashboard-env
+      - name: edgecraft-dashboard-nginx
         configMap:
-          name: edgecraft-dashboard-env
+          name: edgecraft-dashboard-nginx
           items:
-          - key: env
-            path: env
+          - key: default.conf
+            path: default.conf
 
