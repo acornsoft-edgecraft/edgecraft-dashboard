@@ -177,7 +177,7 @@ const menus = computed(() => {
   } else {
     const disabled = !(selectedItem?.value?.status === CloudStatus.Provisioned);
 
-    return [{ label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled }, { separator: true }, { label: "CIS Benchmarks", icon: "fas fa-shield-halved", to: `${to}/benchmarks`, disabled: disabled }];;
+    return [{ label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled }, { separator: true }, { label: "CIS Benchmarks", icon: "fas fa-shield-halved", to: `${to}/benchmarks`, disabled: disabled }, { separator: true }, { label: "Backup & Restore", icon: "fas fa-arrows-rotate", to: `${to}/backres`, disabled: disabled }];
   }
 });
 

@@ -381,6 +381,9 @@ const Util = {
       });
     }
   },
+  getEnumKeyName: (targetEnum, enumValue) => {
+    return Object.entries(targetEnum).find(([key, val]) => val === enumValue)?.[0];
+  },
   copyToClipboard: (val) => {
     const title = "CLIPBOARD";
     if (!val) {
@@ -474,13 +477,13 @@ const Util = {
   getSeverity: (status) => {
     switch (status) {
       case "FAIL":
-        return "danger"
+        return "danger";
       case "WARN":
-        return "warning"
+        return "warning";
       case "INFO":
-        return "info"
+        return "info";
       default:
-        return null
+        return null;
     }
   },
 };

@@ -12,14 +12,16 @@
           <K3Button icon="pi pi-refresh" class="p-button-text mr-2" @click="getCluster" />
           <!-- <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="succeed" /> -->
           <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="succeed" />
-          <NuxtLink :to="goBenchmarks">
+          <NuxtLink v-if="provisioned" :to="goBenchmarks">
             <K3Button label="CIS Benchmarks" class="p-button mr-2 p-button-info" />
+          </NuxtLink>
+          <NuxtLink v-if="provisioned" :to="goBackRes">
+            <K3Button label="Backup & Restore" class="p-button mr-2 p-button-help" />
           </NuxtLink>
           <NuxtLink :to="list">
             <K3Button label="클러스터 목록" icon="pi pi-list" class="p-button-secondary" />
           </NuxtLink>
         </div>
-
       </div>
       <div class="info-wrapper">
         <K3Accordion :multiple="true" :activeIndex="[0, 1, 2, 3, 4]">
@@ -239,8 +241,10 @@ const msg = ref(undefined);
 
 const active = computed(() => unref(isFetch || isDelFetch || isGetFetch || isAddFetch));
 const succeed = computed(() => cluster.value.cluster.status === CloudStatus.Provisioned && msg.value === ResMessages.SUCCEED);
+const provisioned = computed(() => cluster.value.cluster.status === CloudStatus.Provisioned);
 
 const goBenchmarks = `${list}/${clusterId}/benchmarks`;
+const goBackRes = `${list}/${clusterId}/backres`;
 const goKoreboard = () => {
   // TOGO: go koreboard
 };
