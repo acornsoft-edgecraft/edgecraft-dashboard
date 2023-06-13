@@ -21,12 +21,9 @@ RUN apk update && apk upgrade && apk add dumb-init
 
 WORKDIR /app
 COPY --from=build /app/.output ./
-COPY --from=build /app/scripts/shell-scripts/change_backend_uri.sh ./change_backend_uri.sh
-
-## change backend uri
-RUN ./change_backend_uri.sh
+COPY --from=build /app/scripts/shell-scripts/run.sh ./run.sh
 
 # expose 3000 on container
 EXPOSE 3000
 
-CMD ["dumb-init","node","/app/server/index.mjs"]
+CMD ["./run.sh"]

@@ -33,3 +33,5 @@ do
     sed -i -e "s/\(\(NUXT_\).*\($check_str\)\).*\(\(\"version\).*\(public\)\)/\1\,$change_str2\,\4/" $i
     sed -i -e "s/\(\(public\).*\($check_str\)\).*\(\"version\)/\1\,$change_str2\,\4/" $i
 done
+
+dumb-init node ./server/index.mjs
