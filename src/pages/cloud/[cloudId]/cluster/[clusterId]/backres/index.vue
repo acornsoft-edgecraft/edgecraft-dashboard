@@ -57,8 +57,9 @@
                     <K3InputText :value="restoreParam.name" @input="onInput(restoreParam, $event)" @keyup.delete="onKeyUp(restoreParam, $event)" @paste="onPaste(restoreParam, $event)"> </K3InputText>
                     <small class="ml-2 text-red-300">영문소문자와 숫자만 가능합니다.</small>
                     <K3Button label="Restore 실행" icon="pi pi-play" class="mx-3" @click="onRestore" />
+                    <K3Tag style="padding: 0.65rem !important; font-size: 0.95rem" :severity="Util.getSeverity('INFO')">사용할 백업: {{ selectedBackups?.name || "None" }}</K3Tag>
                   </div>
-                  <div class="error-field basic label pointing error" v-if="vr$.name.$invalid">{{ vb$.name.$errors[0].$message.replace("Value", "Restore Name") }}</div>
+                  <div class="error-field basic label pointing error" v-if="vr$.$invalid">{{ restoreValidations() }}</div>
                 </div>
               </K3FormColumn>
             </K3FormRow>
@@ -67,6 +68,7 @@
                 <K3DataTable
                   :value="backresList"
                   v-model:filters="UI.tableSettings.filters.value"
+                  v-model:selection="selectedBackups"
                   dataKey="backres_uid"
                   class="w-full"
                   :autoLayout="true"
@@ -81,7 +83,10 @@
                   :rowPerPageOptions="UI.tableSettings.rowPerPageOptions"
                   :currentPageReportTemplate="UI.tableSettings.pageReportTemplate"
                   :loading="isFetch"
-                  stripedRows>
+                  :metakeySelection="false"
+                  stripedRows
+                  @rowSelect="onRowSelected"
+                  @page="onPage">
                   <template #header>
                     <BizCommonSearch :items="searchItems.items" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle" @start-dt="setStartDate" @end-dt="setEndDate"> </BizCommonSearch>
                   </template>
@@ -106,7 +111,7 @@
                         {{ Util.getEnumKeyName(BackResType, slotProps.data.type) }}
                       </span>
                       <span v-else-if="slotProps.field === 'created'">
-                        {{ slotProps.data.created }}
+                        {{ Util.getDateLocaleString(slotProps.data.created) }}
                       </span>
                       <span v-else>
                         {{ slotProps.data[slotProps.field] }}
@@ -126,7 +131,7 @@
 
 <script setup lang="ts">
 import { FilterMatchMode, FilterOperator } from "primevue/api";
-import { defaultBackresParamInfo, defaultBackupValidation, defaultRestoreValidation, MessageTypes, BackResTypeMap, BackResStatus, BackResStatusMap, BootstrapProviders, K8sVersions, CloudStatus, StateKeys, BackResType } from "~/models";
+import { defaultBackupParamInfo, defaultBackupValidation, defaultRestoreParamInfo, defaultRestoreValidation, MessageTypes, BackResTypeMap, BackResStatus, BackResStatusMap, BootstrapProviders, K8sVersions, CloudStatus, StateKeys, BackResType } from "~/models";
 
 definePageMeta({ layout: "default", title: "클라우드 클러스터 Backup & Restore", public: true });
 
@@ -137,11 +142,11 @@ const { isProcessing, execute } = useClusterService().execBackRes();
 const route = useRoute();
 const cloudId = route.params.cloudId;
 const clusterId = route.params.clusterId;
-const backupParam = ref(Util.clone(defaultBackresParamInfo));
-const restoreParam = ref(Util.clone(defaultBackresParamInfo));
+const backupParam = ref(Util.clone(defaultBackupParamInfo));
+const restoreParam = ref(Util.clone(defaultRestoreParamInfo));
 const vb$ = UI.getValidate(defaultBackupValidation, backupParam);
 const vr$ = UI.getValidate(defaultRestoreValidation, restoreParam);
-const search = Search.init(StateKeys.SEARCH_CLUSTER_BC, { status: null, created: { startDate: null, endDate: null } });
+const search = Search.init(StateKeys.SEARCH_CLUSTER_BC, { status: null, type: null, created: { startDate: null, endDate: null } });
 const searchItems = ref({
   items: [
     { type: "dropdown", name: "status", label: "작업 상태", options: BackResStatusMap(), value: search.value["status"], class: "w-12rem" },
@@ -158,6 +163,7 @@ const columns = ref([
   { field: "created", header: "실행 시각", sortable: true },
 ]);
 const selectedColumns = ref(columns.value);
+const selectedBackups = ref();
 
 UI.tableSettings.initFilters({
   status: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -166,7 +172,7 @@ UI.tableSettings.initFilters({
     operator: FilterOperator.AND,
     constraints: [
       { value: null, matchMode: FilterMatchMode.DATE_AFTER, name: "startDate" },
-      { value: null, matchMode: FilterMatchMode.DATE_AFTER, name: "endDate" },
+      { value: null, matchMode: FilterMatchMode.DATE_BEFORE, name: "endDate" },
     ],
   },
 });
@@ -218,30 +224,51 @@ const onInput = (item, event) => {
 };
 const onBackup = () => {
   vb$.value.$touch();
-  // TODO: Validation
-  // TODO: Confiram
-  // UI.showConfirm(
-  //   MessageTypes.INFO,
-  //   ``"Benchmarks 실행",
-  //   "Benchmarks를 실행하시겠습니까?",
-  //   () => onExecute(item),
-  //   () => {}
-  // );
+
+  if (!vb$.value.$invalid) {
+    UI.showConfirm(
+      MessageTypes.INFO,
+      "클러스터 백업",
+      "백업을 실행하시겠습니까?",
+      () => onExecute(backupParam, true),
+      () => {}
+    );
+  }
 };
 const onRestore = () => {
   vr$.value.$touch();
-  // TODO: Validation
-  // TODO: Confiram
-  // UI.showConfirm(
-  //   MessageTypes.INFO,
-  //   ``"Benchmarks 실행",
-  //   "Benchmarks를 실행하시겠습니까?",
-  //   () => onExecute(item),
-  //   () => {}
-  // );
+
+  if (!vr$.value.$invalid) {
+    UI.showConfirm(
+      MessageTypes.INFO,
+      "클러스터 복원",
+      "복원을 실행하시겠습니까?",
+      () => onExecute(restoreParam, false),
+      () => {}
+    );
+  }
 };
-const onExecute = async (item) => {
-  // TODO: Call API
+const restoreValidations = () => {
+  if (vr$.value.name.$invalid) {
+    return vr$.value.name.$errors[0].$message.replace("Value", "Restore Name");
+  }
+  if (vr$.value.backres_uid.$invalid) {
+    return "아래의 백업에서 사용할 백업을 선택해야 합니다. (Complete 상태만 가능)";
+  }
+};
+const onExecute = async (item, isBackup) => {
+  let result;
+  const title = isBackup ? "백업" : "복원";
+
+  try {
+    result = await execute(cloudId, clusterId, item, isBackup);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, `${title} 실행`, err);
+  }
+
+  if (result.isError) return;
+  UI.showToastMessage(MessageTypes.INFO, `${title} 실행`, result.message || `${title} 작업을 요청하였습니다.`);
+  refresh();
 };
 const onPage = (event) => {
   UI.tableSettings.first = event.first;
@@ -276,17 +303,21 @@ const refresh = () => {
   backresList.value = [];
   fetch(cloudId, clusterId);
 };
-// watch(
-//   () => [(UI.tableSettings.filters.value as any).status.value, (UI.tableSettings.filters.value as any).created.constraints[0].value, (UI.tableSettings.filters.value as any).created.constraints[1].value],
-//   () => {
-//     Search.set(search, UI.tableSettings.filters);
-//   }
-// );
+const onRowSelected = (event) => {
+  if (event.data.type === "R") {
+    selectedBackups.value = null;
+    restoreParam.value.backres_uid = null;
+  } else if (event.data.status !== "C") {
+    selectedBackups.value = null;
+    restoreParam.value.backres_uid = null;
+  } else {
+    restoreParam.value.backres_uid = event.data.backres_uid;
+  }
+};
 
 onMounted(() => {
   fetch(cloudId, clusterId);
-
-  //Search.get(search, UI.tableSettings.filters);
+  Search.get(search, UI.tableSettings.filters);
 });
 onUnmounted(() => {
   if (!useRouter().currentRoute.value.path.includes(route.path)) {

@@ -295,9 +295,9 @@ export function useClusterService(options: any = {}) {
   const execBackRes = () => {
     const isProcessing = ref(false);
 
-    const execute = async (cloudId, clusterId, backresParam) => {
+    const execute = async (cloudId, clusterId, item, isBackup) => {
       isProcessing.value = true;
-      const res = await API.post("", `${url_prefix}/${cloudId}/clusters/${clusterId}/backres`, backresParam);
+      const res = await API.post("", `${url_prefix}/${cloudId}/clusters/${clusterId}/${isBackup ? "backup" : "restore"}`, item);
       if (res.isError) {
         UI.showToastMessage(MessageTypes.ERROR, "Backup/Restore 실행", res.message);
       }

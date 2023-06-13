@@ -17,14 +17,24 @@ export const BackResTypeMap = (addAll: boolean = false, allValue: any = 0) => {
   }
 };
 
-export interface backresParamInfo {
-  backresId: String;
+export interface backupParamInfo {
+  backres_uid: String;
   name: String;
 }
 
-export const defaultBackresParamInfo: backresParamInfo = {
-  backresId: "",
+export interface restoreParamInfo extends backupParamInfo {
+  backup_name: string;
+}
+
+export const defaultBackupParamInfo: backupParamInfo = {
+  backres_uid: "",
   name: "",
+};
+
+export const defaultRestoreParamInfo: restoreParamInfo = {
+  backres_uid: "",
+  name: "",
+  backup_name: "",
 };
 
 export const defaultBackupValidation = {
@@ -32,6 +42,6 @@ export const defaultBackupValidation = {
 };
 
 export const defaultRestoreValidation = {
-  backresId: { required },
+  backres_uid: { required },
   name: { required, alphaNum, minLength: minLength(3), maxLength: maxLength(100) },
 };
