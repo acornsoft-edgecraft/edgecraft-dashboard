@@ -283,7 +283,7 @@ const onExecute = async (item, isBackup) => {
   const title = isBackup ? "백업" : "복원";
 
   try {
-    result = await execute(cloudId, clusterId, item.value, isBackup);
+    result = await execute(item.cloudId, clusterId, item.value, isBackup);
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `${title} 실행`, err);
   }
@@ -297,7 +297,7 @@ const onExecuteDelete = async (item) => {
   const title = item.Type === "B" ? "백업" : "복원";
 
   try {
-    result = await execDelete(cloudId, clusterId, item.backres_uid, item.type === "B");
+    result = await execDelete(item.cloud_uid, item.cluster_uid, item.backres_uid, item.type === "B");
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `${title} 삭제`, err);
   }
