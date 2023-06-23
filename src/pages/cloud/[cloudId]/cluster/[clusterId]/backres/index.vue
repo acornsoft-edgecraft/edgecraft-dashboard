@@ -35,7 +35,7 @@
                 <div class="item-container">
                   <div class="form-field">
                     <K3InputText :value="backupParam.name" @input="onInput(backupParam, $event)" @keyup.delete="onKeyUp(backupParam, $event)" @paste="onPaste(backupParam, $event)" autofocus> </K3InputText>
-                    <small class="ml-2 text-red-300">영문소문자와 숫자만 가능합니다.</small>
+                    <small class="ml-2 text-red-300">영문과 숫자만 가능합니다.</small>
                     <K3Button label="Backup 실행" icon="pi pi-play" class="mx-3" @click="onBackup" />
                   </div>
                   <div class="error-field basic label pointing error" v-if="vb$.$invalid">{{ vb$.name.$errors[0].$message.replace("Value", "Backup Name") }}</div>
@@ -55,7 +55,7 @@
                 <div class="item-container">
                   <div class="form-field">
                     <K3InputText :value="restoreParam.name" @input="onInput(restoreParam, $event)" @keyup.delete="onKeyUp(restoreParam, $event)" @paste="onPaste(restoreParam, $event)"> </K3InputText>
-                    <small class="ml-2 text-red-300">영문소문자와 숫자만 가능합니다.</small>
+                    <small class="ml-2 text-red-300">영문과 숫자만 가능합니다.</small>
                     <K3Button label="Restore 실행" icon="pi pi-play" class="mx-3" @click="onRestore" />
                     <K3Tag style="padding: 0.65rem !important; font-size: 0.95rem" :severity="Util.getSeverity('INFO')">사용할 백업: {{ selectedBackups?.name || "None" }}</K3Tag>
                   </div>
@@ -63,66 +63,73 @@
                 </div>
               </K3FormColumn>
             </K3FormRow>
-            <K3FormRow>
-              <K3FormColumn label="Backup / Restore List">
-                <K3DataTable
-                  :value="backresList"
-                  v-model:filters="UI.tableSettings.filters.value"
-                  v-model:selection="selectedBackups"
-                  dataKey="backres_uid"
-                  class="w-full"
-                  :autoLayout="true"
-                  :scrollable="true"
-                  :scrollHeight="UI.tableSettings.scrollHeight"
-                  selectionMode="single"
-                  removableSort
-                  :rows="UI.tableSettings.rows"
-                  :first="UI.tableSettings.first"
-                  :paginator="true"
-                  :paginatorTemplate="UI.tableSettings.paginatorTemplate"
-                  :rowPerPageOptions="UI.tableSettings.rowPerPageOptions"
-                  :currentPageReportTemplate="UI.tableSettings.pageReportTemplate"
-                  :loading="isFetch"
-                  :metakeySelection="false"
-                  stripedRows
-                  @rowSelect="onRowSelected"
-                  @page="onPage">
-                  <template #header>
-                    <BizCommonSearch :items="searchItems.items" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle" @start-dt="setStartDate" @end-dt="setEndDate"> </BizCommonSearch>
-                  </template>
-                  <template #loading>
-                    <K3ProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
-                  </template>
-                  <template #empty>
-                    <div class="w-full text-center">
-                      <p class="text-orange-500">No records found.</p>
-                    </div>
-                  </template>
-                  <template #paginatorstart>
-                    <K3Button icon="pi pi-refresh" class="p-button-text" @click="refresh" />
-                  </template>
-                  <template #paginatorend></template>
-                  <K3Column v-for="col of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
-                    <template #body="slotProps">
-                      <span v-if="slotProps.field === 'status'" :class="statusMark(slotProps.data.status)">
-                        {{ Util.getEnumKeyName(BackResStatus, slotProps.data.status) }}
-                      </span>
-                      <span v-else-if="slotProps.field === 'type'">
-                        {{ Util.getEnumKeyName(BackResType, slotProps.data.type) }}
-                      </span>
-                      <span v-else-if="slotProps.field === 'created'">
-                        {{ Util.getDateLocaleString(slotProps.data.created) }}
-                      </span>
-                      <span v-else>
-                        {{ slotProps.data[slotProps.field] }}
-                      </span>
-                    </template>
-                  </K3Column>
-                </K3DataTable>
-                <K3Overlay :active="isProcessing" loader="bars" background-color="#830205" />
-              </K3FormColumn>
-            </K3FormRow>
           </K3FormContainer>
+        </template>
+      </K3Card>
+      <!-- Backup / Restore List -->
+      <K3Card class="mt-2">
+        <template #title>Backup / Restore Task List</template>
+        <template #content>
+          <K3DataTable
+            :value="backresList"
+            v-model:filters="UI.tableSettings.filters.value"
+            v-model:selection="selectedBackups"
+            dataKey="backres_uid"
+            class="w-full pt-2"
+            :autoLayout="true"
+            :scrollable="true"
+            :scrollHeight="UI.tableSettings.scrollHeight"
+            selectionMode="single"
+            removableSort
+            :rows="UI.tableSettings.rows"
+            :first="UI.tableSettings.first"
+            :paginator="true"
+            :paginatorTemplate="UI.tableSettings.paginatorTemplate"
+            :rowPerPageOptions="UI.tableSettings.rowPerPageOptions"
+            :currentPageReportTemplate="UI.tableSettings.pageReportTemplate"
+            :loading="isFetch"
+            :metakeySelection="false"
+            stripedRows
+            @rowSelect="onRowSelected"
+            @page="onPage">
+            <template #header>
+              <BizCommonSearch :items="searchItems.items" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle" @start-dt="setStartDate" @end-dt="setEndDate"> </BizCommonSearch>
+            </template>
+            <template #loading>
+              <K3ProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+            </template>
+            <template #empty>
+              <div class="w-full text-center">
+                <p class="text-orange-500">No records found.</p>
+              </div>
+            </template>
+            <template #paginatorstart>
+              <K3Button icon="pi pi-refresh" class="p-button-text" @click="refresh" />
+            </template>
+            <template #paginatorend></template>
+            <K3Column v-for="col of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
+              <template #body="slotProps">
+                <span v-if="slotProps.field === 'status'" :class="statusMark(slotProps.data.status)">
+                  {{ Util.getEnumKeyName(BackResStatus, slotProps.data.status) }}
+                </span>
+                <span v-else-if="slotProps.field === 'type'">
+                  {{ Util.getEnumKeyName(BackResType, slotProps.data.type) }}
+                </span>
+                <span v-else-if="slotProps.field === 'created'">
+                  {{ Util.getDateLocaleString(slotProps.data.created) }}
+                </span>
+                <span v-else-if="slotProps.field === 'command'">
+                  <K3Button class="p-panel-header-icon p-link text-danger" @click="onDelete(slotProps.data)">
+                    <span class="pi pi-trash"></span>
+                  </K3Button>
+                </span>
+                <span v-else>
+                  {{ slotProps.data[slotProps.field] }}
+                </span>
+              </template>
+            </K3Column>
+          </K3DataTable>
+          <K3Overlay :active="isProcessing" loader="bars" background-color="#830205" />
         </template>
       </K3Card>
     </section>
@@ -137,7 +144,7 @@ definePageMeta({ layout: "default", title: "클라우드 클러스터 Backup & R
 
 const { Util, UI, Search } = useAppHelper();
 const { cluster, backresList, isFetch, fetch } = useClusterService().getBackResList();
-const { isProcessing, execute } = useClusterService().execBackRes();
+const { isProcessing, execute, execDelete } = useClusterService().execBackRes();
 
 const route = useRoute();
 const cloudId = route.params.cloudId;
@@ -161,6 +168,7 @@ const columns = ref([
   { field: "reason", header: "메시지", sortable: true },
   { field: "backup_name", header: "백업 명칭", sortable: true },
   { field: "created", header: "실행 시각", sortable: true },
+  { field: "command", header: "삭제", sortable: false },
 ]);
 const selectedColumns = ref(columns.value);
 const selectedBackups = ref();
@@ -190,7 +198,10 @@ const columnSize = (field) => {
       size = 20;
       break;
     case "reason":
-      size = 40;
+      size = 35;
+      break;
+    case "command":
+      size = 5;
       break;
   }
 
@@ -198,6 +209,14 @@ const columnSize = (field) => {
 };
 const statusMark = (val) => {
   return val === "R" ? `text-cyan-500` : val === "C" ? "text-yellow-500" : "text-orange-500";
+};
+const restoreValidations = () => {
+  if (vr$.value.name.$invalid) {
+    return vr$.value.name.$errors[0].$message.replace("Value", "Restore Name");
+  }
+  if (vr$.value.backres_uid.$invalid) {
+    return "아래의 백업에서 사용할 백업을 선택해야 합니다. (Complete 상태만 가능)";
+  }
 };
 const onKeyUp = (item, event) => {
   item.name = event.target.value;
@@ -248,26 +267,43 @@ const onRestore = () => {
     );
   }
 };
-const restoreValidations = () => {
-  if (vr$.value.name.$invalid) {
-    return vr$.value.name.$errors[0].$message.replace("Value", "Restore Name");
-  }
-  if (vr$.value.backres_uid.$invalid) {
-    return "아래의 백업에서 사용할 백업을 선택해야 합니다. (Complete 상태만 가능)";
-  }
+const onDelete = (data) => {
+  const title = data.type === "B" ? "백업" : "복원";
+
+  UI.showConfirm(
+    MessageTypes.INFO,
+    `${title} 삭제`,
+    "삭제를 실행하시겠습니까?",
+    () => onExecuteDelete(data),
+    () => {}
+  );
 };
 const onExecute = async (item, isBackup) => {
   let result;
   const title = isBackup ? "백업" : "복원";
 
   try {
-    result = await execute(cloudId, clusterId, item, isBackup);
+    result = await execute(item.cloudId, clusterId, item.value, isBackup);
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `${title} 실행`, err);
   }
 
   if (result.isError) return;
   UI.showToastMessage(MessageTypes.INFO, `${title} 실행`, result.message || `${title} 작업을 요청하였습니다.`);
+  refresh();
+};
+const onExecuteDelete = async (item) => {
+  let result;
+  const title = item.Type === "B" ? "백업" : "복원";
+
+  try {
+    result = await execDelete(item.cloud_uid, item.cluster_uid, item.backres_uid, item.type === "B");
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, `${title} 삭제`, err);
+  }
+
+  if (result.isError) return;
+  UI.showToastMessage(MessageTypes.INFO, `${title} 삭제`, result.message || `${title} 작업이 처리되었습니다.`);
   refresh();
 };
 const onPage = (event) => {

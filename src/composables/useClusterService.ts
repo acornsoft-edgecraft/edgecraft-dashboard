@@ -305,7 +305,17 @@ export function useClusterService(options: any = {}) {
       return res;
     };
 
-    return { isProcessing, execute };
+    const execDelete = async (cloudId, clusterId, backresId, isBackup) => {
+      isProcessing.value = true;
+      const res = await API.delete("", `${url_prefix}/${cloudId}/clusters/${clusterId}/${isBackup ? "backup" : "restore"}/${backresId}`, null);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "Backup/Restore 삭제", res.message);
+      }
+      isProcessing.value = false;
+      return res;
+    };
+
+    return { isProcessing, execute, execDelete };
   };
 
   return {

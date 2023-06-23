@@ -1,5 +1,5 @@
 <template>
-    <BizBenchmarksTotals :model="model.totals" :show="false" />
+    <BizBenchmarksTotals :model="model.totals" />
     <K3Divider />
     <K3TabView>
         <K3TabPanel v-for="(control, index) in controls" :key="index" :header="`${control.id}. ${control.node_type}`">
@@ -29,6 +29,8 @@
                             <div class="flex font-medium" v-if="slotProps.data.test_desc"><span class="font-semibold mr-2">Desc: </span>{{ slotProps.data.test_desc }}</div>
                             <div class="flex text-800" v-if="slotProps.data.audit"><span class="font-semibold mr-2">Audit: </span>{{ slotProps.data.audit }}</div>
                             <div class="flex text-800" v-if="slotProps.data.remediation"><span class="font-semibold mr-2">Remediation: </span>{{ slotProps.data.remediation }}</div>
+                            <div class="flex text-800" v-if="slotProps.data.actual_value"><span class="font-semibold mr-2">Actual Value: </span>{{ slotProps.data.actual_value }}</div>
+                            <div class="flex text-800" v-if="slotProps.data.expected_result"><span class="font-semibold mr-2">Expected Result: </span>{{ slotProps.data.expected_result }}</div>
                             <div class="flex text-800" v-if="slotProps.data.reason"><span class="font-semibold mr-2">Reason: </span>{{ slotProps.data.reason }}</div>
                         </div>
                     </template>
