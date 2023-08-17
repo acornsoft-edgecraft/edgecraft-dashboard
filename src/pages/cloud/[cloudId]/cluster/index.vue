@@ -46,7 +46,7 @@
           <K3Button icon="pi pi-refresh" class="p-button-text" @click="refresh" />
         </template>
         <template #paginatorend></template>
-        <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :class="col.class" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
+        <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_${index}`" :class="col.class" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
             <NuxtLink v-if="slotProps.field == 'name'" :to="page(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
             <span v-if="slotProps.field == 'status'">{{ CloudStatus[slotProps.data.status] }}</span>
@@ -177,7 +177,7 @@ const menus = computed(() => {
   } else {
     const disabled = !(selectedItem?.value?.status === CloudStatus.Provisioned);
 
-    return [{ label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled }, { separator: true }, { label: "보안검증 결과", icon: "fas fa-shield-halved", to: `${to}/security`, disabled: disabled }];
+    return [{ label: "애플리케이션", icon: "fas fa-shapes", to: `${to}/app`, disabled: disabled }, { separator: true }, { label: "CIS Benchmarks", icon: "fas fa-shield-halved", to: `${to}/benchmarks`, disabled: disabled }, { separator: true }, { label: "Backup & Restore", icon: "fas fa-arrows-rotate", to: `${to}/backres`, disabled: disabled }];
   }
 });
 

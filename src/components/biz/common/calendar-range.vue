@@ -1,13 +1,36 @@
 <template>
-  <K3Calendar v-model="modelValue.startDate" placeholder="yyyy.mm.dd" :manualInput="false" :dateFormat="dateFormat" :selectOtherMonths="selectOtherMonths" :showButtonBar="showButtonBar" :showIcon="showIcon" :inputClass="inputClass" :maxDate="maxDate" @date-select="selectedStartDate" @clear-click="clearStartDt" />
+  <K3Calendar 
+    v-model="modelValue.startDate" 
+    :placeholder="placeholder" 
+    :manualInput="false" 
+    :dateFormat="dateFormat" 
+    :selectOtherMonths="selectOtherMonths" 
+    :showButtonBar="showButtonBar" 
+    :showIcon="showIcon" 
+    :inputClass="inputClass" 
+    :maxDate="maxDate" 
+    @date-select="selectedStartDate" 
+    @clear-click="clearStartDt" />
   <span> ~ </span>
-  <K3Calendar v-model="modelValue.endDate" placeholder="yyyy.mm.dd" :manualInput="false" :dateFormat="dateFormat" :selectOtherMonths="selectOtherMonths" :showButtonBar="showButtonBar" :showIcon="showIcon" :inputClass="inputClass" :minDate="minDate" @date-select="selectedEndDate" @clear-click="clearEndDt" />
+  <K3Calendar 
+    v-model="modelValue.endDate" 
+    :placeholder="placeholder" 
+    :manualInput="false" 
+    :dateFormat="dateFormat" 
+    :selectOtherMonths="selectOtherMonths" 
+    :showButtonBar="showButtonBar" 
+    :showIcon="showIcon" 
+    :inputClass="inputClass" 
+    :minDate="minDate" 
+    @date-select="selectedEndDate" 
+    @clear-click="clearEndDt" />
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
   modelValue: { type: Object, default: () => {} },
   dateFormat: { type: String, default: "yy.mm.dd" },
+  placeholder: { type: String, default: "yyyy.mm.dd" },
   showIcon: { type: Boolean, default: true },
   selectOtherMonths: { type: Boolean, default: true },
   showButtonBar: { type: Boolean, default: true },
@@ -36,6 +59,15 @@ const clearStartDt = (event) => {
 const clearEndDt = (event) => {
   selectedEndDate(null);
 };
+
+onUpdated(() => {
+  if (props.modelValue.startDate == null) {
+    minDate.value = null;
+  }
+  if (props.modelValue.endDate == null) {
+    maxDate.value = null;
+  }
+})
 </script>
 
 <style scoped lang="scss"></style>

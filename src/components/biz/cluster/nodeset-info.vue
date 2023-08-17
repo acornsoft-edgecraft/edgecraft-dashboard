@@ -5,7 +5,7 @@
     </K3FormRow>
     <K3FormRow direction="horizontal" :overflow-wrap="true">
       <K3FormColumn label="Flavor" label-align="right" :size="6">{{ item.flavor }}</K3FormColumn>
-      <K3FormColumn label="Node Count" label-align="right" :size="6">
+      <K3FormColumn label="Node Count" label-align="right" :size="6" v-if="isEditable">
         <template v-if="!editable">
           <span class="w-4rem">{{ item.node_count }}</span>
           <K3Button label="변경" @click="edit" v-if="succeed" />
@@ -67,6 +67,7 @@ const editable = ref(false);
 const originCnt = ref();
 
 const disabled = computed(() => originCnt.value === props.item.node_count || invalid.value);
+const isEditable = computed(() => props.type === NodeTypes.Worker || (props.params.bootstrapProvider === 1 && props.type === NodeTypes.Master));
 
 const edit = () => {
   originCnt.value = props.item.node_count;

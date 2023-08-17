@@ -19,6 +19,9 @@
         <K3Fieldset legend="Kubernetes 설치 정보" :toggleable="true">
           <K3FormContainer class="no-style">
             <K3FormRow>
+              <K3FormColumn label="Bootstrap Provider" label-align="right">{{ BootstrapProviders[modelValue.k8s.bootstrap_provider] }}</K3FormColumn>
+            </K3FormRow>
+            <K3FormRow>
               <K3FormColumn label="Version" label-align="right">{{ K8sVersions[modelValue.k8s.version] }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
@@ -33,7 +36,7 @@
             <K3FormRow>
               <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
                 <K3FormContainer class="no-style w-full">
-                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs" :key="index">
                     <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.k8s.cp_kubeadm_extra_config[config.id])"></div></K3FormColumn>
                   </K3FormRow>
                 </K3FormContainer>
@@ -42,7 +45,7 @@
             <K3FormRow>
               <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
                 <K3FormContainer class="no-style w-full">
-                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                  <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs" :key="index">
                     <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.k8s.worker_kubeadm_extra_config[config.id])"></div></K3FormColumn>
                   </K3FormRow>
                 </K3FormContainer>
@@ -201,7 +204,7 @@
 </template>
 
 <script setup lang="ts">
-import { K8sVersions, kubeadmConfigs } from "~/models";
+import { K8sVersions, BootstrapProviders, kubeadmConfigs } from "~/models";
 
 const { Util } = useAppHelper();
 

@@ -13,10 +13,21 @@ export enum CloudStatus {
   Deleted = 6, // 삭제완료
 }
 
+export enum BootstrapProviders {
+  "Kubeadm" = 1,
+  "MicroK8s" = 2,
+  "K3s" = 3,
+}
+
 export enum K8sVersions {
-  "1.22.0" = 1,
-  "1.23.0" = 2,
+  // "1.22.0" = 1,
+  // "1.23.0" = 2,
   "1.23.3" = 3,
+  "1.23.8+k3s2" = 4,
+  // "1.24.3" = 6,
+  "1.24.5" = 7,
+  "1.25.6" = 9,
+  "1.26.1" = 10,
 }
 
 export enum ImageChecksumTypes {
@@ -60,6 +71,12 @@ export enum ImageOsTypes {
   "Ubuntu 18.04" = 2,
 }
 
+export enum BenchmarksStatus {
+  "In Progress" = 1,
+  Completed = 2,
+  Failed = 3,
+}
+
 export enum SecurityStatus {
   "In Progress" = 1,
   Completed = 2,
@@ -69,4 +86,16 @@ export enum SecurityStatus {
 export enum SecurityItemStatus {
   Pass = 1,
   Failed = 2,
+}
+
+export enum BackResType {
+  Backup = "B",
+  Restore = "R",
+}
+
+export enum BackResStatus {
+  Running = "R",
+  Completed = "C",
+  Failed = "F",
+  PartiallyFailed = "P",
 }

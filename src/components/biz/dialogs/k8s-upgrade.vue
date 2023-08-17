@@ -11,6 +11,12 @@
             <K3FormDropdownField v-model="v.version" :options="versions" :optionLabel="'name'" :optionValue="'value'" field-name="Kubernetes Version" />
           </K3FormColumn>
         </K3FormRow>
+        <K3FormRow>
+          <K3FormColumn>
+            <div class="font-medium text-lg">업그레이드 사용할 이미지 명을 설정하세요.</div>
+            <K3FormInputField class="ml-2" v-model="v.image" field-name="Image Name" />
+          </K3FormColumn>
+        </K3FormRow>
       </K3FormContainer>
     </div>
     <div class="font-medium text-lg text-orange-500 mt-3" v-else>업그레이드 가능한 버전이 없습니다.</div>
@@ -28,17 +34,19 @@
 </template>
 
 <script setup lang="ts">
-import { K8sVersions, K8sVersionMap } from "~/models";
+import { debug } from "console";
+import { K8sVersions, K8sVersionMap, defaultUpgradeInfo, defaultUpgradeInfoValidation } from "~/models";
 
-const { UI } = useAppHelper();
-const { required } = UI.getValidators();
+const { UI, Util } = useAppHelper();
 
 const props = defineProps({
   modelValue: { type: Object, default: {} },
 });
 const emits = defineEmits(["close", "upgrade"]);
 
-const v = UI.getValidate({ version: { required } }, ref({ version: "" }));
+const upgradeVal = ref(Util.clone(defaultUpgradeInfo));
+
+const v = UI.getValidate(defaultUpgradeInfoValidation, upgradeVal);
 
 const upgradable = computed(() => props.modelValue.current < Object.keys(K8sVersions).length / 2);
 const versions = computed(() => K8sVersionMap().filter((val) => val.value > props.modelValue.current));
@@ -50,7 +58,7 @@ const upgrade = () => {
   v.value.$touch();
 
   if (!v.value.$invalid) {
-    emits("upgrade", v.value.version.$model);
+    emits("upgrade", upgradeVal.value);
   }
 };
 const onHide = () => {

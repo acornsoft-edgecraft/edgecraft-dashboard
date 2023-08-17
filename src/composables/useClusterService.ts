@@ -196,6 +196,128 @@ export function useClusterService(options: any = {}) {
     return { isUpCntFetch, upCntFetch };
   };
 
+  const getBenchmarksList = () => {
+    const cluster = ref({} as any);
+    const benchmarks = ref([] as any);
+    const isFetch = ref(false);
+
+    const fetch = (cloudId, clusterId) => {
+      isFetch.value = true;
+
+      API.get("", `${url_prefix}/${cloudId}/clusters/${clusterId}/benchmarks`)
+        .then((res) => {
+          if (res.isError) {
+            UI.showToastMessage(MessageTypes.ERROR, "CIS Benchmarks 목록", res.message);
+          } else {
+            cluster.value = res.data.cluster;
+            res.data.list.forEach((item) => {
+              item.created = new Date(item.created);
+              benchmarks.value.push(item);
+            });
+          }
+          isFetch.value = false;
+        })
+        .catch((err) => {
+          UI.showToastMessage(MessageTypes.ERROR, "CIS Benchmarks 목록", err);
+          isFetch.value = false;
+        });
+    };
+
+    return { cluster, benchmarks, isFetch, fetch };
+  };
+
+  const getBenchmarks = () => {
+    const benchmarks = ref();
+    const isFetch = ref(false);
+
+    const fetch = async (cloudId, clusterId, id) => {
+      isFetch.value = true;
+      const res = await API.get("", `${url_prefix}/${cloudId}/clusters/${clusterId}/benchmarks/${id}`);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "Benchmarks 정보", res.message);
+      } else {
+        benchmarks.value = res.data;
+      }
+      isFetch.value = false;
+      return res;
+    };
+
+    return { benchmarks, isFetch, fetch };
+  };
+
+  const execBenchmarks = () => {
+    const isExecFetch = ref(false);
+
+    const execFetch = async (cloudId, clusterId) => {
+      isExecFetch.value = true;
+      const res = await API.post("", `${url_prefix}/${cloudId}/clusters/${clusterId}/benchmarks`, null);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "Benchmarks 실행", res.message);
+      }
+      isExecFetch.value = false;
+      return res;
+    };
+
+    return { isExecFetch, execFetch };
+  };
+
+  const getBackResList = () => {
+    const cluster = ref({} as any);
+    const backresList = ref([] as any);
+    const isFetch = ref(false);
+
+    const fetch = (cloudId, clusterId) => {
+      isFetch.value = true;
+
+      // 백업을 호출해서 백업/복원 리스트 처리
+      API.get("", `${url_prefix}/${cloudId}/clusters/${clusterId}/backup`)
+        .then((res) => {
+          if (res.isError) {
+            UI.showToastMessage(MessageTypes.ERROR, "Backup/Restore 목록", res.message);
+          } else {
+            cluster.value = res.data.cluster;
+            res.data.list.forEach((item) => {
+              item.created = new Date(item.created);
+              backresList.value.push(item);
+            });
+          }
+          isFetch.value = false;
+        })
+        .catch((err) => {
+          UI.showToastMessage(MessageTypes.ERROR, "Backup/Restore 목록", err);
+          isFetch.value = false;
+        });
+    };
+
+    return { cluster, backresList, isFetch, fetch };
+  };
+
+  const execBackRes = () => {
+    const isProcessing = ref(false);
+
+    const execute = async (cloudId, clusterId, item, isBackup) => {
+      isProcessing.value = true;
+      const res = await API.post("", `${url_prefix}/${cloudId}/clusters/${clusterId}/${isBackup ? "backup" : "restore"}`, item);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "Backup/Restore 실행", res.message);
+      }
+      isProcessing.value = false;
+      return res;
+    };
+
+    const execDelete = async (cloudId, clusterId, backresId, isBackup) => {
+      isProcessing.value = true;
+      const res = await API.delete("", `${url_prefix}/${cloudId}/clusters/${clusterId}/${isBackup ? "backup" : "restore"}/${backresId}`, null);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "Backup/Restore 삭제", res.message);
+      }
+      isProcessing.value = false;
+      return res;
+    };
+
+    return { isProcessing, execute, execDelete };
+  };
+
   return {
     currentCluster,
 
@@ -211,5 +333,12 @@ export function useClusterService(options: any = {}) {
     addNodeSet,
     removeNodeSet,
     updateNodeCount,
+
+    getBenchmarksList,
+    getBenchmarks,
+    execBenchmarks,
+
+    getBackResList,
+    execBackRes,
   };
 }

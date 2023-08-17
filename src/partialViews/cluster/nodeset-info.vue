@@ -15,6 +15,7 @@
             <K3FormRow>
               <K3FormColumn label="Node Count" label-align="right">
                 <K3FormInputNumber v-model="v.node_count" :min="1" field-name="Node Count" input-id="node_count" />
+                <div class="ml-3 text-red-300" v-if="type === NodeTypes.Master">{{ masterSetNodeCountWarning }}</div>
               </K3FormColumn>
             </K3FormRow>
             <K3FormRow>
@@ -41,7 +42,7 @@
 
 <script setup lang="ts">
 import useVuelidate from "@vuelidate/core";
-import { NodeTypes, defaultNodesetInfoValidation, defaultNodesetInfo } from "~/models";
+import { NodeTypes, BootstrapProviders, defaultNodesetInfoValidation, defaultNodesetInfo } from "~/models";
 
 const { Util } = useAppHelper();
 
@@ -50,10 +51,12 @@ const v = useVuelidate();
 const props = defineProps({
   modelValue: { type: Array<any>, default: [] },
   type: { type: Number, default: NodeTypes.Master },
+  bootstrapProvider: { type: Number, default: BootstrapProviders.Kubeadm },
 });
 
 const data = reactive(props.modelValue);
 const vRules = (type) => defaultNodesetInfoValidation(type);
+const masterSetNodeCountWarning = computed(() => (props.type === NodeTypes.Master && props.bootstrapProvider !== BootstrapProviders.Kubeadm ? `${BootstrapProviders[props.bootstrapProvider]} 부트스트랩에서는 생성 후 노드 수를 조정할 수 없습니다.` : ''));
 
 const addNodeSet = () => {
   data.push({ ...Util.clone(defaultNodesetInfo) });

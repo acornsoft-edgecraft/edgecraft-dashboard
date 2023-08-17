@@ -4,11 +4,24 @@
       <K3PageTitle />
     </section>
     <section class="page-content">
-      <div class="flex justify-content-end mt-3">
-        <K3Button icon="pi pi-refresh" class="p-button-text mr-2" @click="getCluster" />
-        <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="succeed" />
-        <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="succeed" />
-        <K3Button label="클러스터 삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" />
+      <div class="flex justify-content-between mt-3">
+        <div class="flex justify-content-start">
+          <K3Button label="클러스터 삭제" icon="pi pi-trash" class="p-button-danger" @click="onDelete" />
+        </div>
+        <div class="flex justify-content-end">
+          <K3Button icon="pi pi-refresh" class="p-button-text mr-2" @click="getCluster" />
+          <!-- <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="succeed" /> -->
+          <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="succeed" />
+          <NuxtLink v-if="provisioned" :to="goBenchmarks">
+            <K3Button label="CIS Benchmarks" class="p-button mr-2 p-button-info" />
+          </NuxtLink>
+          <NuxtLink v-if="provisioned" :to="goBackRes">
+            <K3Button label="Backup & Restore" class="p-button mr-2 p-button-help" />
+          </NuxtLink>
+          <NuxtLink :to="list">
+            <K3Button label="클러스터 목록" icon="pi pi-list" class="p-button-secondary" />
+          </NuxtLink>
+        </div>
       </div>
       <div class="info-wrapper">
         <K3Accordion :multiple="true" :activeIndex="[0, 1, 2, 3, 4]">
@@ -37,6 +50,9 @@
           <K3AccordionTab header="Kubernetes 설치 정보">
             <K3FormContainer>
               <K3FormRow>
+                <K3FormColumn label="Bootstrap Provider" label-align="right">{{ BootstrapProviders[cluster.k8s.bootstrap_provider] }}</K3FormColumn>
+              </K3FormRow>
+              <K3FormRow>
                 <K3FormColumn label="Kubernetes Version" label-align="right">{{ K8sVersions[cluster.k8s.version] }}</K3FormColumn>
               </K3FormRow>
               <K3FormRow>
@@ -51,7 +67,7 @@
               <K3FormRow>
                 <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
                   <K3FormContainer class="no-style w-full">
-                    <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                    <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs" :key="index">
                       <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(cluster.k8s.cp_kubeadm_extra_config[config.id])"></div></K3FormColumn>
                     </K3FormRow>
                   </K3FormContainer>
@@ -60,7 +76,7 @@
               <K3FormRow>
                 <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
                   <K3FormContainer class="no-style w-full">
-                    <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs">
+                    <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs" :key="index">
                       <K3FormColumn :label="config.header" label-align="right"><div v-html="Util.getReplaceNewlineToBr(cluster.k8s.worker_kubeadm_extra_config[config.id])"></div></K3FormColumn>
                     </K3FormRow>
                   </K3FormContainer>
@@ -132,8 +148,8 @@
                 <K3FormColumn label="Use LoadBalancer" label-align="right">{{ Util.getUseYnKo(cluster.nodes.use_loadbalancer) }}</K3FormColumn>
               </K3FormRow>
             </K3FormContainer>
-            <BizClusterNodesets v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" :succeed="succeed" :params="{ cloudId: cloudId, clusterId: clusterId }" @add-nodeset="addNodeset" />
-            <BizClusterNodesets v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" :succeed="succeed" :params="{ cloudId: cloudId, clusterId: clusterId }" @add-nodeset="addNodeset" />
+            <BizClusterNodesets v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" :succeed="succeed" :params="{ cloudId: cloudId, clusterId: clusterId, bootstrapProvider: cluster.k8s.bootstrap_provider }" @add-nodeset="addNodeset" />
+            <BizClusterNodesets v-model="cluster.nodes.worker_sets" :type="NodeTypes.Worker" :succeed="succeed" :params="{ cloudId: cloudId, clusterId: clusterId, bootstrapProvider: cluster.k8s.bootstrap_provider }" @add-nodeset="addNodeset" />
           </K3AccordionTab>
           <K3AccordionTab header="ETCD/Storage 정보">
             <K3Fieldset legend="ETCD 설정" :toggleable="true">
@@ -206,7 +222,7 @@
 </template>
 
 <script setup lang="ts">
-import { CloudStatus, K8sVersions, NodeTypes, MessageTypes, ResMessages, kubeadmConfigs } from "~/models";
+import { CloudStatus, K8sVersions, BootstrapProviders, NodeTypes, MessageTypes, ResMessages, kubeadmConfigs } from "~/models";
 
 definePageMeta({ layout: "default", title: "클라우드 클러스터 상세", public: true });
 
@@ -225,7 +241,10 @@ const msg = ref(undefined);
 
 const active = computed(() => unref(isFetch || isDelFetch || isGetFetch || isAddFetch));
 const succeed = computed(() => cluster.value.cluster.status === CloudStatus.Provisioned && msg.value === ResMessages.SUCCEED);
+const provisioned = computed(() => cluster.value.cluster.status === CloudStatus.Provisioned);
 
+const goBenchmarks = `${list}/${clusterId}/benchmarks`;
+const goBackRes = `${list}/${clusterId}/backres`;
 const goKoreboard = () => {
   // TOGO: go koreboard
 };
@@ -237,6 +256,7 @@ const onUpgrade = () => {
 const upgrade = (val) => {
   k8sUpgrade.value.display = false;
 
+  console.log(`Received data : ${JSON.stringify(val)}`);
   // TODO: call api - kubernetes cluster upgrade
 };
 
