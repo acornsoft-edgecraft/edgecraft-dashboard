@@ -19,6 +19,21 @@ export enum BootstrapProviders {
   "K3s" = 3,
 }
 
+export enum KubeadmK8sVersions {
+  "1.23.3" = 3,
+  "1.24.5" = 7,
+  "1.25.6" = 9,
+  "1.26.1" = 10,
+}
+
+export enum MicroK8sK8sVersions {
+  "1.23.3" = 3,
+}
+
+export enum K3sK8sVersions {
+  "1.23.8+k3s2" = 4,
+}
+
 export enum K8sVersions {
   // "1.22.0" = 1,
   // "1.23.0" = 2,

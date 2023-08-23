@@ -68,6 +68,22 @@ export function useClusterService(options: any = {}) {
     return { isInsFetch, insFetch };
   };
 
+  const upgradeCluster = () => {
+    const isUpFetch = ref(false);
+
+    const upgradeFetch = async (cloudId, clusterId, params) => {
+      isUpFetch.value = true;
+      const res = await API.post("", `${url_prefix}/${cloudId}/clusters/${clusterId}/upgrade`, params);
+      if (res.isError) {
+        UI.showToastMessage(MessageTypes.ERROR, "클러스터 업그레이드", res.message);
+      }
+      isUpFetch.value = false;
+      return res;
+    };
+
+    return { isUpFetch, upgradeFetch };
+  };
+
   const updateCluster = () => {
     const isUpFetch = ref(false);
 
@@ -324,6 +340,7 @@ export function useClusterService(options: any = {}) {
     getClusters,
     getCluster,
     insertCluster,
+    upgradeCluster,
     updateCluster,
     deleteCluster,
     provisionCluster,

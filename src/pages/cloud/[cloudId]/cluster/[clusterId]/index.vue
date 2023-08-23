@@ -229,6 +229,7 @@ definePageMeta({ layout: "default", title: "클라우드 클러스터 상세", p
 const { UI, Util, Routing } = useAppHelper();
 const { cluster, isFetch, fetch } = useClusterService().getCluster();
 const { isDelFetch, delFetch } = useClusterService().deleteCluster();
+const { isUpFetch, upgradeFetch } = useClusterService().upgradeCluster();
 const { isAddFetch, addFetch } = useClusterService().addNodeSet();
 const { isGetFetch, getFetch } = useClusterService().getNodeSets();
 
@@ -254,12 +255,32 @@ const onUpgrade = () => {
   k8sUpgrade.value = { current: cluster.value.k8s.version, display: true };
 };
 const upgrade = (val) => {
+  let msg;
+  msg = "설치되어 있는 어플리케이션이 초가화 됩니다.";
   k8sUpgrade.value.display = false;
 
-  console.log(`Received data : ${JSON.stringify(val)}`);
   // TODO: call api - kubernetes cluster upgrade
-};
+  UI.showConfirm(
+    MessageTypes.ERROR, 
+    "클러스터 업그레이드", 
+    `<${cluster.value.cluster.name}> 클러스터를 업그레이드 하시겠습니까?\n ${msg}`, 
+    () => upgradeCluster(val), 
+    () => {}
+  );
 
+};
+const upgradeCluster = async (val) => {
+  let result;
+  try {
+    result = await upgradeFetch(cloudId, clusterId, val);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "클러스터 업그레이드", err);
+  }
+  if (result.isError) return;
+
+  UI.showToastMessage(MessageTypes.INFO, "클러스터 업그레이드", result.message || "클러스터를 업그레이드 하였습니다.\n클러스터 상세 정로에서 확인할 수 있습니다.");
+  Routing.moveTo(list);
+};
 const onDelete = () => {
   let msg;
   switch (cluster.value.cluster.status) {

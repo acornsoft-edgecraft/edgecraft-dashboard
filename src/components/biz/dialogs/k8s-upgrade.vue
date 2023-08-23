@@ -48,7 +48,8 @@ const upgradeVal = ref(Util.clone(defaultUpgradeInfo));
 
 const v = UI.getValidate(defaultUpgradeInfoValidation, upgradeVal);
 
-const upgradable = computed(() => props.modelValue.current < Object.keys(K8sVersions).length / 2);
+const upgradable = computed(() => Object.keys(K8sVersions).filter((val) => isNaN(Number(val)) === false).filter((val) => Number(val) > props.modelValue.current).length > 0);
+// const upgradable = computed(() => props.modelValue.current < Object.keys(K8sVersions).length / 2);
 const versions = computed(() => K8sVersionMap().filter((val) => val.value > props.modelValue.current));
 
 const close = () => {
