@@ -4,12 +4,12 @@
       <template #header>Kubernetes 설치 정보</template>
       <K3FormRow>
         <K3FormColumn label="Bootstrap Provider" label-align="right">
-          <K3FormDropdownField v-model="v$.bootstrap_provider" :options="BootstrapProviderMap()" :optionLabel="'name'" :optionValue="'value'" field-name="Bootstrap Provider" class="w-6" />
+          <K3FormDropdownField v-model="v$.bootstrap_provider" :options="BootstrapProviderMap()" :optionLabel="'name'" :optionValue="'value'" @change="activeDefaultVersion" field-name="Bootstrap Provider" class="w-6" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
         <K3FormColumn label="Kubernetes Version" label-align="right">
-          <K3FormDropdownField v-model="v$.version" :options="K8sVersionMap()" :optionLabel="'name'" :optionValue="'value'" field-name="Kubernetes Version" class="w-6" />
+          <K3FormDropdownField v-model="v$.version" :options="K8sVersionMap(props.modelValue.bootstrap_provider)" :optionLabel="'name'" :optionValue="'value'" field-name="Kubernetes Version" class="w-6" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
@@ -67,6 +67,9 @@ const props = defineProps({
 });
 
 const v$ = useAppHelper().UI.getValidate(defaultKubernetesInfoValidation, ref(props.modelValue as kubernetesInfo));
+const activeDefaultVersion = (item) => {
+  v$.value.version.$model = K8sVersionMap(item.value)[0].value
+};
 
 const extraConfigs = computed(() => (useRoute().path.includes("/cluster/register") ? kubeadmConfigsForCluster : kubeadmConfigs));
 

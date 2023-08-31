@@ -250,20 +250,26 @@ const goKoreboard = () => {
   // TOGO: go koreboard
 };
 
-const k8sUpgrade = ref({ current: "", display: false });
+const k8sUpgrade = ref({ 
+  current: "", 
+  bootstrap_provider: "", 
+  display: false, 
+});
 const onUpgrade = () => {
-  k8sUpgrade.value = { current: cluster.value.k8s.version, display: true };
+  k8sUpgrade.value = { 
+    current: cluster.value.k8s.version, 
+    bootstrap_provider: cluster.value.k8s.bootstrap_provider, 
+    display: true,
+  };
 };
 const upgrade = (val) => {
-  let msg;
-  msg = "설치되어 있는 어플리케이션이 초가화 됩니다.";
   k8sUpgrade.value.display = false;
-
+ 
   // TODO: call api - kubernetes cluster upgrade
   UI.showConfirm(
     MessageTypes.ERROR, 
     "클러스터 업그레이드", 
-    `<${cluster.value.cluster.name}> 클러스터를 업그레이드 하시겠습니까?\n ${msg}`, 
+    `<${cluster.value.cluster.name}> 클러스터를 업그레이드 하시겠습니까?\n`, 
     () => upgradeCluster(val), 
     () => {}
   );

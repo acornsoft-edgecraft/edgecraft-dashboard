@@ -1,7 +1,7 @@
 <template>
   <K3Dialog header="Kubernetes Cluster Upgrade" v-model:visible="modelValue.display" :modal="true" :style="{ width: '50vw' }" @hide="onHide">
     <div>
-      현재 Kubernetes Cluster Version : <span class="font-medium text-lg">{{ K8sVersions[modelValue.current] }}</span>
+      현재 Kubernetes Cluster Version : <span class="font-medium text-lg">{{ crtVersion }}</span>
     </div>
     <div v-if="upgradable">
       <K3FormContainer class="no-style">
@@ -34,8 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { debug } from "console";
-import { K8sVersions, K8sVersionMap, defaultUpgradeInfo, defaultUpgradeInfoValidation } from "~/models";
+import { K8sVersionMap, defaultUpgradeInfo, defaultUpgradeInfoValidation } from "~/models";
 
 const { UI, Util } = useAppHelper();
 
@@ -48,9 +47,9 @@ const upgradeVal = ref(Util.clone(defaultUpgradeInfo));
 
 const v = UI.getValidate(defaultUpgradeInfoValidation, upgradeVal);
 
-const upgradable = computed(() => Object.keys(K8sVersions).filter((val) => isNaN(Number(val)) === false).filter((val) => Number(val) > props.modelValue.current).length > 0);
-// const upgradable = computed(() => props.modelValue.current < Object.keys(K8sVersions).length / 2);
-const versions = computed(() => K8sVersionMap().filter((val) => val.value > props.modelValue.current));
+const crtVersion = computed(() => K8sVersionMap(props.modelValue.bootstrap_provider).find((val) => val.value === props.modelValue.current).name);
+const versions = computed(() => K8sVersionMap(props.modelValue.bootstrap_provider).filter((val) => val.value > props.modelValue.current));
+const upgradable = computed(() => versions.value.length > 0);
 
 const close = () => {
   emits("close");
