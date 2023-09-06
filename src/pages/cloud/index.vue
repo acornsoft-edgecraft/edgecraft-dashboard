@@ -2,7 +2,6 @@
   <div class="page-wrapper">
     <section class="page-header">
       <K3PageTitle />
-      <K3Button label="Test Dynamic Dialog" icon="pi pi-search" @click="showTest" />
     </section>
     <section class="page-content">
       <K3DataTable
@@ -160,23 +159,6 @@ const refresh = () => {
   clouds.value = [];
   fetch();
 };
-
-const showTest = () => {
-  UI.showDialog(
-    MessageTypes.INFO,
-    "test",
-    `클러스터를 업그레이드 하시겠습니까?    \n클러스터의 \n기존 \n어플리케이션은 \n모두 \n초기화 됩니다.`,
-    defineAsyncComponent(() => import("@/components/biz/dialogs/confirm-dialog.vue")),
-    () => {
-      // TODO: acceptCallback
-      UI.showToastMessage(MessageTypes.INFO, "테스트", `테스트 완료 되었습니다.`);
-    },
-    () => {
-      // TODO: rejectCallback
-      UI.showToastMessage(MessageTypes.INFO, "테스트", `테스트 취소 되었습니다.`);
-    },
-  );
-}
 
 const showCommand = (id, event) => {
   selectedItem.value = clouds.value.find((c) => c.cloud_uid === id);

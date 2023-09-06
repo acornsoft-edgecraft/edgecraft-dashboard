@@ -2,7 +2,7 @@
 <template>
   <div class="confirmation-content">
     <i :class="iconClass" style="font-size: 1.5rem;"></i>
-    <pre class="pl-4">{{ message }}</pre>
+    <pre class="pl-4 p-dialog-content">{{ message }}</pre>
   </div>
   <div class="flex justify-content-end">
     <K3Button label="No" icon="pi pi-times" @click="closeDialog({ buttonType: false })" class="p-button-text"></K3Button>

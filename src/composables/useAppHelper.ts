@@ -211,9 +211,6 @@ const UI = {
       },
       props: {
           header: title,
-          style: {
-              width: '24vw',
-          },
           breakpoints:{
               '960px': '75vw',
               '640px': '90vw'
