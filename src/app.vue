@@ -9,6 +9,7 @@
         <K3Toast position="bottom-right"
                  group="br" />
         <K3ConfirmDialog />
+        <K3DynamicDialog />
         <K3MessageBox :msg="msg" />
         <NuxtLayout>
             <NuxtPage />

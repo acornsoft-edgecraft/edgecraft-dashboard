@@ -21,12 +21,14 @@ import ColorPicker from 'primevue/colorpicker';
 import Column from 'primevue/column';
 import ConfirmDialog from 'primevue/confirmdialog';
 import ConfirmPopup from 'primevue/confirmpopup';
-import ConfirmationService from 'primevue/confirmationservice';
+import DialogService from 'primevue/dialogservice';
 import ContextMenu from 'primevue/contextmenu';
 import DataTable from 'primevue/datatable';
 import DataView from 'primevue/dataview';
 import DataViewLayoutOptions from 'primevue/dataviewlayoutoptions';
 import Dialog from 'primevue/dialog';
+import DynamicDialog from 'primevue/dynamicdialog';
+import ConfirmationService from 'primevue/confirmationservice';
 import Divider from 'primevue/divider';
 import Dropdown from 'primevue/dropdown';
 import Fieldset from 'primevue/fieldset';
@@ -106,6 +108,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     nuxtApp.vueApp.use(PrimeVue, { ripple: true, inputStyle: 'outlined' });
     nuxtApp.vueApp.use(ConfirmationService);
+    nuxtApp.vueApp.use(DialogService);
     nuxtApp.vueApp.use(ToastService);
 
     nuxtApp.vueApp.component('K3Accordion', Accordion);
@@ -132,6 +135,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component('K3DataView', DataView);
     nuxtApp.vueApp.component('K3DataViewLayoutOptions', DataViewLayoutOptions);
     nuxtApp.vueApp.component('K3Dialog', Dialog);
+    nuxtApp.vueApp.component('K3DynamicDialog', DynamicDialog);
     nuxtApp.vueApp.component('K3Divider', Divider);
     nuxtApp.vueApp.component('K3Dropdown', Dropdown);
     nuxtApp.vueApp.component('K3Fieldset', Fieldset);

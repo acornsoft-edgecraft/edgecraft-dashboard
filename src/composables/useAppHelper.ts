@@ -4,6 +4,7 @@ import { useFetch, useClipboard, usePermission, useStorage, StorageSerializers }
 import { FilterMatchMode } from "primevue/api";
 import { useToast } from "primevue/usetoast";
 import { useConfirm } from "primevue/useconfirm";
+import { useDialog } from 'primevue/usedialog';
 import { MessageTypes, StateKeys, StoreTypes, APIResponse, defaultMessageType, IUser, defaultUser, IAuth, defaultAuth, ILogin, validators, labelInfo } from "~/models";
 import { Router } from "vue-router";
 import { useVuelidate } from "@vuelidate/core";
@@ -12,6 +13,7 @@ let auth = null;
 const messageTimeout = 5000;
 let toast = null;
 let confirm = null;
+let dialog = null;
 let router: Router = null;
 
 const redirect = (path: object) => {
@@ -101,6 +103,7 @@ const UI = {
   init: () => {
     toast = useToast();
     confirm = useConfirm();
+    dialog = useDialog();
   },
   defaultFilter: { global: { value: null, matchMode: FilterMatchMode.CONTAINS } },
   tableSettings: {
@@ -199,6 +202,43 @@ const UI = {
         rejectCallback();
       },
     });
+  },
+  showDialog: (messageType: MessageTypes, title: string, message: string, component, acceptCallback, rejectCallback) => {
+    const dialogRef = dialog.open(component, {
+      data: {
+        iconClass: `${[MessageTypes.ERROR, MessageTypes.WARN].includes(messageType) ? "pi-exclamation-triangle" : "pi-question-circle"}`,
+        message: message,
+      },
+      props: {
+          header: title,
+          style: {
+              width: '24vw',
+          },
+          breakpoints:{
+              '960px': '75vw',
+              '640px': '90vw'
+          },
+          modal: true
+      },
+      onClose: (options) => {
+        const data = options.data;
+        if (data) {
+          const buttonType = data.buttonType;
+          if (buttonType) {
+            // acceptCallback 처리
+            acceptCallback();
+          } else {
+            // acceptCallback 처리
+            rejectCallback();
+          }
+        } else {
+          // TODO: 예외처리
+        }
+      },
+      reject: () => {
+        rejectCallback();
+      },
+    })
   },
   showMessage: (messageType: MessageTypes, title: string, message: string) => {
     // StateHelper를 직접 쓰면 `require` 관련 오류 발생. (원인 파악 및 해결방법 미 확인)
