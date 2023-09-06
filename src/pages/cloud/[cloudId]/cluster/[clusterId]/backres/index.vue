@@ -283,7 +283,7 @@ const onExecute = async (item, isBackup) => {
   const title = isBackup ? "백업" : "복원";
 
   try {
-    result = await execute(item.cloudId, clusterId, item.value, isBackup);
+    result = await execute(cloudId, clusterId, item.value, isBackup);
   } catch (err) {
     UI.showToastMessage(MessageTypes.ERROR, `${title} 실행`, err);
   }
