@@ -269,7 +269,7 @@ const upgrade = (val) => {
   UI.showDialog(
     MessageTypes.ERROR, 
     "클러스터 업그레이드", 
-    `<${cluster.value.cluster.name}> 클러스터를 업그레이드 하시겠습니까? \n 기존의 어플리케이션은 초기화 됩니다.`, 
+    `<${cluster.value.cluster.name}> 클러스터를 업그레이드 하시겠습니까? \n기존의 어플리케이션은 초기화 됩니다.`, 
     defineAsyncComponent(() => import("@/components/biz/dialogs/confirm-dialog.vue")),
     () => upgradeCluster(val), 
     () => {}
