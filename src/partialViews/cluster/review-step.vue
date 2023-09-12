@@ -2,17 +2,17 @@
   <div class="partial-container m-0 p-0">
     <h5 class="form-title text-center">등록 정보 확인</h5>
     <K3Accordion :multiple="true" :activeIndex="[0, 1, 2, 3]">
-      <K3AccordionTab header="Cluster 정보">
-        <K3Fieldset legend="Cluster 정보" :toggleable="true">
+      <K3AccordionTab header="Cloud 정보">
+        <K3Fieldset legend="Cloud 정보" :toggleable="true">
           <K3FormContainer class="no-style">
             <K3FormRow>
-              <K3FormColumn label="Cluster 명" label-align="right">{{ modelValue.cluster.name }}</K3FormColumn>
+              <K3FormColumn label="클라우드 명" label-align="right">{{ modelValue.cluster.name }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
               <K3FormColumn label="Namespace" label-align="right">{{ modelValue.cluster.namespace }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
-              <K3FormColumn label="Cluster 설명" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.cluster.desc)"></div></K3FormColumn>
+              <K3FormColumn label="설명" label-align="right"><div v-html="Util.getReplaceNewlineToBr(modelValue.cluster.desc)"></div></K3FormColumn>
             </K3FormRow>
           </K3FormContainer>
         </K3Fieldset>

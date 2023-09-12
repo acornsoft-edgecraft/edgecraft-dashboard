@@ -50,14 +50,14 @@
 <script setup lang="ts">
 import { MessageTypes, BenchmarksStatus } from "~/models";
 
-definePageMeta({ layout: "default", title: "클라우드 클러스터 CIS Benchmarks", public: true });
+definePageMeta({ layout: "default", title: "엣지 클라우드 CIS Benchmarks", public: true });
 
 const { UI, Util, Routing } = useAppHelper();
 const { benchmarks, isFetch, fetch } = useClusterService().getBenchmarks();
 
 const route = useRoute();
-const cloudId = route.params.cloudId;
-const clusterId = route.params.clusterId;
+const cloudId = UI.cloudId;
+const clusterId = route.params.cloudId;
 const benchmarksId = route.params.benchmarksId;
 const list = `/cloud/${cloudId}/cluster/${clusterId}/benchmarks`
 

@@ -71,7 +71,7 @@ const activeDefaultVersion = (item) => {
   v$.value.version.$model = K8sVersionMap(item.value)[0].value
 };
 
-const extraConfigs = computed(() => (useRoute().path.includes("/cluster/register") ? kubeadmConfigsForCluster : kubeadmConfigs));
+const extraConfigs = computed(() => (useRoute().path.includes("/cloud/register") ? kubeadmConfigsForCluster : kubeadmConfigs));
 
 const setConfigId = (prefix, id) => `${prefix}_${id}`;
 const setPlaceholder = (id) => (id === "post_kubeadm_commands" ? "예) - kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/calico.yaml" : "");

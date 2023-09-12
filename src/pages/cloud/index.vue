@@ -5,10 +5,10 @@
     </section>
     <section class="page-content">
       <K3DataTable
-        :value="clouds"
+        :value="clusters"
         v-model:filters="UI.tableSettings.filters.value"
         v-model:selection="selectedItem"
-        dataKey="cloud_uid"
+        dataKey="cluster_uid"
         :autoLayout="true"
         :scrollable="true"
         :scrollHeight="UI.tableSettings.scrollHeight"
@@ -28,8 +28,8 @@
         <template #header>
           <BizCommonSearch :items="searchItems.items" :multiSelect="searchItems.multiSelect" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle">
             <template #search-right>
-              <NuxtLink to="/cloud/register">
-                <K3Button label="클라우드 등록" icon="pi pi-plus" />
+              <NuxtLink :to="`/cloud/register`">
+                <K3Button label="클라우드 등록" icon="pi pi-plus"></K3Button>
               </NuxtLink>
             </template>
           </BizCommonSearch>
@@ -46,83 +46,87 @@
           <K3Button icon="pi pi-refresh" class="p-button-text" @click="refresh" />
         </template>
         <template #paginatorend></template>
-        <K3Column v-for="(col, index) of selectedColumns" :class="col.class" :field="col.field" :header="col.header" :sortable="col.sortable" :key="`${col.field}_${index}`" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
+        <K3Column v-for="(col, index) of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_${index}`" :class="col.class" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
-            <span v-if="slotProps.field === 'type'">{{ CloudTypes[slotProps.data.type] }} </span>
-            <NuxtLink v-else-if="slotProps.field === 'name'" :to="page(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
-            <span v-else-if="slotProps.field === 'status'">{{ CloudStatus[slotProps.data.status] }} </span>
-            <span v-else-if="slotProps.field === 'nodeCount'">{{ slotProps.data.nodeCount }}</span>
-            <span v-else-if="slotProps.field === 'version'">{{ K8sVersions[slotProps.data.version] }}</span>
-            <span v-else-if="slotProps.field === 'created'">{{ Util.getDateLocaleString(slotProps.data.created) }}</span>
-            <span v-else>{{ slotProps.data[slotProps.field] }}</span>
+            <NuxtLink v-if="slotProps.field == 'name'" :to="page(slotProps.data)">{{ slotProps.data.name }}</NuxtLink>
+            <span v-if="slotProps.field == 'bootstrap_provider'">{{ BootstrapProviders[slotProps.data.bootstrap_provider] }}</span>
+            <span v-if="slotProps.field == 'version'">{{ K8sVersions[slotProps.data.version] }}</span>
+            <span v-if="slotProps.field == 'status'">{{ CloudStatus[slotProps.data.status] }}</span>
+            <span v-if="slotProps.field == 'node_count'">{{ slotProps.data.node_count }}</span>
+            <span v-if="slotProps.field == 'created'">{{ Util.getDateLocaleString(slotProps.data.created) }}</span>
           </template>
         </K3Column>
-        <K3Column header="Commands" key="cmd" class="flex justify-content-center" headerStyle="min-width: 30px;" bodyStyle="min-width: 30px;">
+        <K3Column header="Commands" key="cmd" class="flex justify-content-center" headerStyle="min-width: 30px" bodyStyle="min-width:30px">
           <template #body="slotProps">
-            <i class="fas fa-ellipsis-v icon-command" @click="showCommand(slotProps.data.cloud_uid, $event)" />
+            <i class="fas fa-ellipsis-v icon-command" @click="showCommand(slotProps.data.cluster_uid, $event)" />
           </template>
         </K3Column>
       </K3DataTable>
       <K3ContextMenu ref="menu" :model="menus" />
+      <K3Overlay :active="isProFetch" loader="bars" background-color="#830205" />
     </section>
   </div>
 </template>
+
 <script setup lang="ts">
 import { FilterMatchMode } from "primevue/api";
-import { CloudTypes, CloudTypesMap, CloudStatus, K8sVersions, CloudStatusMap, MessageTypes, StateKeys } from "~/models";
+import { MessageTypes, CloudStatus, CloudStatusMap, BootstrapProviderMap, BootstrapProviders, K8sVersions, StateKeys } from "~/models";
 
-definePageMeta({ layout: "default", title: "Clouds List", public: true });
+definePageMeta({ layout: "default", title: "엣지 클라우드", public: true });
 
 const { UI, Util, Search } = useAppHelper();
-const { clouds, isFetch, fetch } = useCloudService().getClouds();
+const { clusters, isFetch, fetch } = useClusterService().getClusters();
+const { isProFetch, proFetch } = useClusterService().provisionCluster();
+const { isDelFetch, delFetch } = useClusterService().deleteCluster();
 
-const search = Search.init(StateKeys.SEARCH_CLOUD, { name: null, type: null, status: null });
+const search = Search.init(StateKeys.SEARCH_CLUSTER, { status: null, name: null, bootstrap_provider: null });
+const route = useRoute();
+const cloudId = UI.cloudId;
 
 const menu = ref();
 const selectedItem = ref();
 const columns = ref([
-  { field: "type", header: "Type", sortable: true },
+  { field: "bootstrap_provider", header: "Bootstrap Provider", sortable: true },
   { field: "name", header: "Cloud Name", sortable: true },
-  { field: "status", header: "Status", sortable: true },
-  { field: "nodeCount", header: "Node Count", sortable: true, class: "flex justify-content-end" },
   { field: "version", header: "Version", sortable: true },
+  { field: "status", header: "Status", sortable: true },
+  { field: "node_count", header: "Node Count", sortable: true, class: "flex justify-content-end" },
   { field: "created", header: "Created", sortable: true },
 ]);
 const selectedColumns = ref(columns.value);
 const columnSize = (field) => {
   let size = 0;
   switch (field) {
-    case "type":
-      size = 5;
-      break;
     case "name":
-      size = 45;
+      size = 32;
       break;
     case "status":
       size = 10;
       break;
-    case "nodeCount":
+    case "node_count":
+      size = 7;
+      break;
     case "version":
-      size = 5;
+      size = 10;
       break;
     case "created":
+    case "bootstrap_provider":
       size = 15;
       break;
   }
 
   return `min-width: ${size}%`;
 };
-
 UI.tableSettings.initFilters({
-  name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  type: { value: null, matchMode: FilterMatchMode.EQUALS },
+  bootstrap_provider: { value: null, matchMode: FilterMatchMode.EQUALS },
   status: { value: null, matchMode: FilterMatchMode.EQUALS },
+  name: { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
 
 const searchItems = ref({
   items: [
-    { type: "dropdown", name: "type", label: "Cloud Type", value: search.value["type"], options: CloudTypesMap(), class: "w-11rem" },
-    { type: "text", name: "name", label: "Name", value: search.value["name"] },
+    { type: "dropdown", name: "bootstrap_provider", label: "Bootstrap Provider", value: search.value["bootstrap_provider"], options: BootstrapProviderMap(), class: "w-10rem" },
+    { type: "text", name: "name", label: "Cloud Name", value: search.value["name"] },
     { type: "dropdown", name: "status", label: "Status", value: search.value["status"], options: CloudStatusMap(), class: "w-12rem" },
   ],
   multiSelect: { columns: columns.value, selectedColumns: selectedColumns.value, class: "w-20rem" },
@@ -141,7 +145,7 @@ const onReset = () => {
   }
 };
 
-const page = (data) => `/cloud/${data.status === CloudStatus.Saved ? "register/" : ""}${data.cloud_uid}`;
+const page = (data) => `/cloud/${data.status === CloudStatus.Saved ? "register/" : ""}${data.cluster_uid}`;
 
 const rowSelected = (event) => {
   // TODO: Row selected
@@ -156,44 +160,83 @@ const onPage = (event) => {
 };
 
 const refresh = () => {
-  clouds.value = [];
-  fetch();
+  clusters.value = [];
+  fetch(cloudId);
 };
 
 const showCommand = (id, event) => {
-  selectedItem.value = clouds.value.find((c) => c.cloud_uid === id);
+  selectedItem.value = clusters.value.find((c) => c.cluster_uid === id);
   menu.value.show(event);
 };
 
 const menus = computed(() => {
-  const to = `/cloud/${selectedItem?.value?.cloud_uid}`;
-  const disabled = [true, true];
+  const to = `/cloud/${selectedItem?.value?.cluster_uid}`;
 
-  // TODO
   if (selectedItem?.value?.status === CloudStatus.Saved) {
     return [{ label: "클라우드 생성", icon: "pi pi-cloud-upload", command: () => provision(selectedItem.value) }];
+  } else if (selectedItem?.value?.status === CloudStatus.Deleted) {
+    return [{ label: "클라우드 삭제", icon: "pi pi-trash", command: () => del(selectedItem.value) }];
   } else {
-    if (selectedItem?.value?.status === CloudStatus.Provisioned) {
-      if (selectedItem?.value?.type === CloudTypes.Openstack) disabled[0] = false;
-      disabled[1] = false;
-    }
+    const disabled = !(selectedItem?.value?.status === CloudStatus.Provisioned);
 
-    return [{ label: "클러스터 목록", icon: "pi pi-list", to: `${to}/cluster`, disabled: disabled[0] }];
+    return [{ label: "CIS Benchmarks", icon: "fas fa-shield-halved", to: `${to}/benchmarks`, disabled: disabled }, { separator: true }, { label: "Backup & Restore", icon: "fas fa-arrows-rotate", to: `${to}/backres`, disabled: disabled }];
   }
 });
+
 const provision = (item) => {
+  UI.showConfirm(
+    MessageTypes.INFO,
+    "클라우드 생성",
+    "클라우드를 생성하시겠습니까?",
+    () => onProvision(item),
+    () => {}
+  );
+};
+const onProvision = async (item) => {
+  let result;
+  try {
+    result = await proFetch(item.cloud_uid, item.cluster_uid);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "클라우드 생성", err);
+  }
+  if (result.isError) return;
+
+  UI.showToastMessage(MessageTypes.INFO, "클라우드 생성", result.message || "클라우드를 생성 요청하였습니다.");
+  refresh();
+};
+
+const del = (item) => {
+  UI.showConfirm(
+    MessageTypes.ERROR,
+    "클라우드 삭제",
+    "클라우드를 삭제하시겠습니까? 저장된 데이터가 모두 삭제됩니다.",
+    () => onDelete(item),
+    () => {}
+  );
+};
+const onDelete = async (item) => {
+  let result;
+  try {
+    result = await delFetch(item.cloud_uid, item.cluster_uid);
+  } catch (err) {
+    UI.showToastMessage(MessageTypes.ERROR, "클라우드 삭제", err);
+  }
+  if (result.isError) return;
+
+  UI.showToastMessage(MessageTypes.INFO, "클라우드 삭제", result.message || "클라우드를 삭제하였습니다.");
   refresh();
 };
 
 watch(
-  () => [(UI.tableSettings.filters.value as any).type.value, (UI.tableSettings.filters.value as any).status.value, (UI.tableSettings.filters.value as any).name.value],
-  (val) => {
+  () => [(UI.tableSettings.filters.value as any).name.value, (UI.tableSettings.filters.value as any).status.value, (UI.tableSettings.filters.value as any).bootstrap_provider.value],
+  () => {
+    console.log(search)
     Search.set(search, UI.tableSettings.filters);
   }
 );
 
 onMounted(() => {
-  fetch();
+  fetch(cloudId);
 
   Search.get(search, UI.tableSettings.filters);
 });

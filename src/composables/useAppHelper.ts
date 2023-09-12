@@ -105,6 +105,7 @@ const UI = {
     confirm = useConfirm();
     dialog = useDialog();
   },
+  cloudId: "c28ae203-ac48-4581-9659-42d7de9856cd",
   defaultFilter: { global: { value: null, matchMode: FilterMatchMode.CONTAINS } },
   tableSettings: {
     filters: ref(),
