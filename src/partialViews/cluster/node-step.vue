@@ -4,7 +4,7 @@
       <template #header>Node 정보</template>
       <K3FormRow class="h-3rem">
         <K3FormColumn>
-          <K3FormCheckField v-model="v$.use_loadbalancer" id="use_loadbalancer" label="Loadbalancer" />
+          <K3FormCheckField v-model="v$.use_loadbalancer" id="use_loadbalancer" label="Use Load Balancer" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>

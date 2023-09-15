@@ -8,10 +8,10 @@
         <template #content>
           <K3FormContainer>
             <K3FormRow>
-              <K3FormColumn label="클러스터 명">{{ cluster.name }}</K3FormColumn>
+              <K3FormColumn label="클라우드 명">{{ cluster.name }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
-              <K3FormColumn label="클러스터 상태">{{ CloudStatus[cluster.status] }}</K3FormColumn>
+              <K3FormColumn label="클라우드 상태">{{ CloudStatus[cluster.status] }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
               <K3FormColumn label="Bootstrap Provider">{{ BootstrapProviders[cluster.bootstrap_provider] }}</K3FormColumn>
@@ -21,7 +21,7 @@
             </K3FormRow>
           </K3FormContainer>
           <div class="flex justify-content-end">
-            <NuxtLink :to="`/cloud/${cloudId}/cluster`" class="m-2"><K3Button label="클러스터 목록" icon="pi pi-list" class="p-button-secondary" /></NuxtLink>
+            <NuxtLink :to="`/cloud`" class="m-2"><K3Button label="클라우드 목록" icon="pi pi-list" class="p-button-secondary" /></NuxtLink>
           </div>
         </template>
       </K3Card>
@@ -140,15 +140,15 @@
 import { FilterMatchMode, FilterOperator } from "primevue/api";
 import { defaultBackupParamInfo, defaultBackupValidation, defaultRestoreParamInfo, defaultRestoreValidation, MessageTypes, BackResTypeMap, BackResStatus, BackResStatusMap, BootstrapProviders, K8sVersions, CloudStatus, StateKeys, BackResType } from "~/models";
 
-definePageMeta({ layout: "default", title: "클라우드 클러스터 Backup & Restore", public: true });
+definePageMeta({ layout: "default", title: "엣지 클라우드 Backup & Restore", public: true });
 
 const { Util, UI, Search } = useAppHelper();
 const { cluster, backresList, isFetch, fetch } = useClusterService().getBackResList();
 const { isProcessing, execute, execDelete } = useClusterService().execBackRes();
 
 const route = useRoute();
-const cloudId = route.params.cloudId;
-const clusterId = route.params.clusterId;
+const cloudId = UI.cloudId;
+const clusterId = route.params.cloudId;
 const backupParam = ref(Util.clone(defaultBackupParamInfo));
 const restoreParam = ref(Util.clone(defaultRestoreParamInfo));
 const vb$ = UI.getValidate(defaultBackupValidation, backupParam);
@@ -247,7 +247,7 @@ const onBackup = () => {
   if (!vb$.value.$invalid) {
     UI.showConfirm(
       MessageTypes.INFO,
-      "클러스터 백업",
+      "클라우드 백업",
       "백업을 실행하시겠습니까?",
       () => onExecute(backupParam, true),
       () => {}
@@ -260,7 +260,7 @@ const onRestore = () => {
   if (!vr$.value.$invalid) {
     UI.showConfirm(
       MessageTypes.INFO,
-      "클러스터 복원",
+      "클라우드 복원",
       "복원을 실행하시겠습니까?",
       () => onExecute(restoreParam, false),
       () => {}

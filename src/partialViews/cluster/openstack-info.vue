@@ -87,12 +87,14 @@
 </template>
 
 <script setup lang="ts">
-import { defaultOpenstackConfValidation } from "~/models";
+import { BootstrapProviders, defaultOpenstackConfValidation, KubeadmK8sVersions } from "~/models";
 
 const { UI } = useAppHelper();
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
+  bootstrapProvider: { type: Number },
+  version: { type: Number }
 });
 
 const v$ = UI.getValidate(defaultOpenstackConfValidation, props.modelValue);
@@ -105,6 +107,23 @@ const changeValue = (val) => {
     props.modelValue.bastion_floating_ip = "";
   }
 };
+
+const getDefaultImageName = () => {
+  const imgPrefix = "edgecraft-kube-v";
+  
+  switch (props.bootstrapProvider) {
+    case BootstrapProviders.Kubeadm:
+      return imgPrefix + KubeadmK8sVersions[props.version];
+    case BootstrapProviders.MicroK8s:
+      return "edgecraft-microk8s"
+    case BootstrapProviders.K3s:
+      return "ubuntu-20.04"
+  }
+}
+
+onMounted(() => {
+  props.modelValue.image_name = getDefaultImageName();
+})
 </script>
 
 <style scoped lang="scss"></style>

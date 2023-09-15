@@ -36,7 +36,7 @@ import { initSidebarMenu } from '~/composables/_components'
 const props = defineProps({
     menu: { type: Array, required: true },
     collapsed: { type: Boolean, default: false },
-    width: { type: String, default: '290px' },
+    width: { type: String, default: '250px' },
     widthCollapsed: { type: String, default: '65px' },
     showChild: { type: Boolean, default: false },
     theme: { type: String, default: '' },

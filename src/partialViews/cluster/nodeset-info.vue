@@ -23,11 +23,11 @@
                 <K3FormInputField v-model="v.flavor" field-name="Flavor" class="w-full" />
               </K3FormColumn>
             </K3FormRow>
-            <K3FormRow>
+            <!-- <K3FormRow>
               <K3FormColumn label="Labels" label-align="right">
                 <K3FormKeyValueField v-model="v.labels" caption="Labels 설정" />
               </K3FormColumn>
-            </K3FormRow>
+            </K3FormRow> -->
             <K3FormRow v-if="index > 0 && type === NodeTypes.Worker" class="no-bg-row">
               <K3FormColumn item-align="right">
                 <K3Button icon="pi pi-minus" class="mr-2" @click="removeNodeSet(index)" />
@@ -65,6 +65,14 @@ const addNodeSet = () => {
 const removeNodeSet = (index) => {
   data.splice(index, 1);
 };
+
+onMounted(() => {
+  // if (!useRoute().params.cloudId && props.bootstrapProvider !== BootstrapProviders.Kubeadm && props.type === NodeTypes.Worker) {
+  //   data.map((c) => {
+  //     c.flavor = "m1.small"
+  //   })
+  // }
+})
 </script>
 
 <style scoped lang="scss">

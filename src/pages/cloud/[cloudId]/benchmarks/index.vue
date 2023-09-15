@@ -8,10 +8,10 @@
         <template #content>
           <K3FormContainer>
             <K3FormRow>
-              <K3FormColumn label="클러스터 명">{{ cluster.name }}</K3FormColumn>
+              <K3FormColumn label="클라우드 명">{{ cluster.name }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
-              <K3FormColumn label="클러스터 상태">{{ CloudStatus[cluster.status] }}</K3FormColumn>
+              <K3FormColumn label="클라우드 상태">{{ CloudStatus[cluster.status] }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow>
               <K3FormColumn label="Bootstrap Provider">{{ BootstrapProviders[cluster.bootstrap_provider] }}</K3FormColumn>
@@ -24,7 +24,7 @@
       </K3Card>
       <div class="flex my-3">
         <K3Button label="Benchmarks 실행" icon="pi pi-play" class="px-3" @click="execute" v-if="cluster.status === CloudStatus.Provisioned" />
-        <span class="text-danger font-semibold" v-else>[Benchmarks 실행은 클러스터가 Provisioned 상태일 때만 가능합니다.]</span>
+        <span class="text-danger font-semibold" v-else>[Benchmarks 실행은 클라우드가 Provisioned 상태일 때만 가능합니다.]</span>
       </div>
       <K3DataTable 
         :value="benchmarks" 
@@ -47,7 +47,7 @@
         <template #header>
           <BizCommonSearch :items="searchItems.items" @reset="onReset" @change-value="changeValue" @multiselect-update="toggle" @start-dt="setStartDate" @end-dt="setEndDate">
             <template #search-right>
-              <NuxtLink :to="`/cloud/${cloudId}/cluster`"><K3Button label="클러스터 목록" icon="pi pi-list" class="p-button-secondary" /></NuxtLink>
+              <NuxtLink :to="`/cloud`"><K3Button label="클라우드 목록" icon="pi pi-list" class="p-button-secondary" /></NuxtLink>
             </template>
           </BizCommonSearch>
         </template>
@@ -65,7 +65,7 @@
         <template #paginatorend></template>
         <K3Column v-for="col of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
-            <NuxtLink v-if="slotProps.field === 'created'" :to="`/cloud/${cloudId}/cluster/${clusterId}/benchmarks/${slotProps.data.benchmarks_uid}`">{{ Util.getDateLocaleString(slotProps.data.created) }}</NuxtLink>
+            <NuxtLink v-if="slotProps.field === 'created'" :to="`/cloud/${clusterId}/benchmarks/${slotProps.data.benchmarks_uid}`">{{ Util.getDateLocaleString(slotProps.data.created) }}</NuxtLink>
             <span v-if="slotProps.field === 'status'">
               {{ BenchmarksStatus[slotProps.data.status] }}
             </span>            
@@ -85,7 +85,7 @@
 import { FilterMatchMode, FilterOperator  } from 'primevue/api';
 import { MessageTypes, BenchmarksStatus, BenchmarksStatusMap, StateKeys, BootstrapProviders, K8sVersions, CloudStatus } from '~/models';
 
-definePageMeta({ layout: "default", title: "클라우드 클러스터 CIS Benchmarks", public: true });
+definePageMeta({ layout: "default", title: "엣지 클라우드 CIS Benchmarks", public: true });
 
 const { UI, Util, Search } = useAppHelper();
 const { cluster, benchmarks, isFetch, fetch } = useClusterService().getBenchmarksList();
@@ -93,8 +93,8 @@ const { isExecFetch, execFetch } = useClusterService().execBenchmarks();
 
 const search = Search.init(StateKeys.SEARCH_CLUSTER_BC, { status: null, created: { startDate: null, endDate: null } });
 const route = useRoute();
-const cloudId = route.params.cloudId;
-const clusterId = route.params.clusterId;
+const cloudId = UI.cloudId;
+const clusterId = route.params.cloudId;
 
 const columns = ref([
   { field: "created", header: "실행 시각", sortable: true },
