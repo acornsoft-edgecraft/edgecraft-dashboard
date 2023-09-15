@@ -23,14 +23,17 @@
           </div>
         </template>
       </K3FormColumn>
+      <K3FormColumn label="Node Count" label-align="right" :size="6" v-else>
+        <span class="w-4rem">{{ item.node_count }}</span>
+      </K3FormColumn>
     </K3FormRow>
-    <K3FormRow>
+    <!-- <K3FormRow>
       <K3FormColumn label="Labels" label-align="right">
         <template v-for="(label, i) in item.labels" :key="i">
           <K3Chip :label="Util.getLabel(label)" />
         </template>
       </K3FormColumn>
-    </K3FormRow>
+    </K3FormRow> -->
   </K3FormContainer>
   <K3Divider align="left">{{ NodeTypes[type] }} Nodes</K3Divider>
   <K3DataTable :value="item.nodes">
@@ -50,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { MessageTypes, NodeTypes, oddErrMsg } from "~/models";
+import { BootstrapProviders, MessageTypes, NodeTypes, oddErrMsg } from "~/models";
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -67,7 +70,8 @@ const editable = ref(false);
 const originCnt = ref();
 
 const disabled = computed(() => originCnt.value === props.item.node_count || invalid.value);
-const isEditable = computed(() => props.type === NodeTypes.Worker || (props.params.bootstrapProvider === 1 && props.type === NodeTypes.Master));
+// const isEditable = computed(() => props.type === NodeTypes.Worker || (props.params.bootstrapProvider === BootstrapProviders.Kubeadm && props.type === NodeTypes.Master));
+const isEditable = computed(() => props.type === NodeTypes.Worker);
 
 const edit = () => {
   originCnt.value = props.item.node_count;

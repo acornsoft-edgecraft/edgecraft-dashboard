@@ -59,7 +59,7 @@ const route = useRoute();
 const cloudId = UI.cloudId;
 const clusterId = route.params.cloudId;
 const benchmarksId = route.params.benchmarksId;
-const list = `/cloud/${cloudId}/cluster/${clusterId}/benchmarks`
+const list = `/cloud/${clusterId}/benchmarks`
 
 const active = computed(() => unref(isFetch));
 const getBenchmarks = async () => {

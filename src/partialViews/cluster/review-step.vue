@@ -33,7 +33,7 @@
             <K3FormRow>
               <K3FormColumn label="Service Dns Domain" label-align="right">{{ modelValue.k8s.svc_domain }}</K3FormColumn>
             </K3FormRow>
-            <K3FormRow>
+            <K3FormRow v-if="modelValue.k8s.bootstrap_provider === BootstrapProviders.Kubeadm">
               <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
                 <K3FormContainer class="no-style w-full">
                   <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs" :key="index">
@@ -42,7 +42,7 @@
                 </K3FormContainer>
               </K3FormColumn>
             </K3FormRow>
-            <K3FormRow>
+            <K3FormRow v-if="modelValue.k8s.bootstrap_provider === BootstrapProviders.Kubeadm">
               <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
                 <K3FormContainer class="no-style w-full">
                   <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs" :key="index">
@@ -117,7 +117,7 @@
       <K3AccordionTab header="Node 정보">
         <K3FormContainer class="no-style">
           <K3FormRow>
-            <K3FormColumn label="Use LoadBalancer" label-align="right">{{ Util.getUseYnKo(modelValue.nodes.use_loadbalancer) }}</K3FormColumn>
+            <K3FormColumn label="Load Balancer" label-align="right">{{ Util.getUseYnKo(modelValue.nodes.use_loadbalancer) }}</K3FormColumn>
           </K3FormRow>
         </K3FormContainer>
         <K3Fieldset legend="MasterSet" :toggleable="true">
@@ -132,13 +132,13 @@
               <K3FormRow>
                 <K3FormColumn label="Flavor" label-align="right">{{ node.flavor }}</K3FormColumn>
               </K3FormRow>
-              <K3FormRow>
+              <!-- <K3FormRow>
                 <K3FormColumn label="Labels" label-align="right">
                   <template v-for="(item, i) in node.labels" :key="i">
                     <K3Chip :label="Util.getLabel(item)" />
                   </template>
                 </K3FormColumn>
-              </K3FormRow>
+              </K3FormRow> -->
             </K3FormContainer>
           </template>
         </K3Fieldset>
@@ -154,13 +154,13 @@
               <K3FormRow>
                 <K3FormColumn label="Flavor" label-align="right">{{ node.flavor }}</K3FormColumn>
               </K3FormRow>
-              <K3FormRow>
+              <!-- <K3FormRow>
                 <K3FormColumn label="Labels" label-align="right">
                   <template v-for="(item, i) in node.labels" :key="i">
                     <K3Chip :label="Util.getLabel(item)" />
                   </template>
                 </K3FormColumn>
-              </K3FormRow>
+              </K3FormRow> -->
             </K3FormContainer>
           </template>
         </K3Fieldset>
@@ -189,7 +189,7 @@
         <K3Fieldset legend="STORAGE Class 설정" :toggleable="true">
           <K3FormContainer class="no-style">
             <K3FormRow>
-              <K3FormColumn label="Use Ceph" label-align="right">{{ Util.getUseYnKo(modelValue.etcd_storage.storage_class.use_ceph) }}</K3FormColumn>
+              <K3FormColumn label="Ceph" label-align="right">{{ Util.getUseYnKo(modelValue.etcd_storage.storage_class.use_ceph) }}</K3FormColumn>
             </K3FormRow>
             <K3FormRow v-if="modelValue.etcd_storage.storage_class.use_ceph">
               <K3FormColumn label="Label 1" label-align="right">{{ modelValue.etcd_storage.storage_class.label1 }}</K3FormColumn>

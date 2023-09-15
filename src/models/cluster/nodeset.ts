@@ -22,8 +22,8 @@ export interface nodesetInfo {
 
 export const defaultNodesetInfo: nodesetInfo = {
   name: "",
-  node_count: 3,
-  flavor: "",
+  node_count: 1,
+  flavor: "m1.medium",
   labels: [defaultLabelInfo],
 };
 

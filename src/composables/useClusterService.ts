@@ -292,10 +292,14 @@ export function useClusterService(options: any = {}) {
             UI.showToastMessage(MessageTypes.ERROR, "Backup/Restore 목록", res.message);
           } else {
             cluster.value = res.data.cluster;
-            res.data.list.forEach((item) => {
-              item.created = new Date(item.created);
-              backresList.value.push(item);
-            });
+            if (res.data.list) {
+              res.data.list.forEach((item) => {
+                item.created = new Date(item.created);
+                backresList.value.push(item);
+              });
+            } else {
+              backresList.value = []
+            }
           }
           isFetch.value = false;
         })

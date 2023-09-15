@@ -1,26 +1,25 @@
 <template>
   <K3Dialog header="Kubernetes Cluster Upgrade" v-model:visible="modelValue.display" :modal="true" :style="{ width: '50vw' }" @hide="onHide">
     <div>
-      현재 Kubernetes Cluster Version : <span class="font-medium text-lg">{{ crtVersion }}</span>
+      현재 Kubernetes Cluster Version : <span class="font-medium text-lg">{{ K8sVersions[modelValue.current] }}</span>
     </div>
     <div v-if="upgradable">
       <K3FormContainer class="no-style">
         <K3FormRow>
           <K3FormColumn>
             <div class="font-medium text-lg">업그레이드 할 Kubernetes Cluster Version을 선택하세요.</div>
-            <K3FormDropdownField v-model="v.version" :options="versions" :optionLabel="'name'" :optionValue="'value'" field-name="Kubernetes Version" />
+            <K3FormDropdownField v-model="v.version" :options="versions" :optionLabel="'name'" :optionValue="'value'" field-name="Kubernetes Version" @change="onVersionChange" />
           </K3FormColumn>
         </K3FormRow>
         <K3FormRow>
           <K3FormColumn>
-            <div class="font-medium text-lg">업그레이드 사용할 이미지 명을 설정하세요.</div>
-            <K3FormInputField class="ml-2" v-model="v.image" field-name="Image Name" />
+            <div class="font-medium text-lg">업그레이드에 사용할 이미지 명: </div>
+            <K3FormInputField class="w-6 ml-2" v-model="v.image" field-name="Image Name" />
           </K3FormColumn>
         </K3FormRow>
       </K3FormContainer>
     </div>
     <div class="font-medium text-lg text-orange-500 mt-3" v-else>업그레이드 가능한 버전이 없습니다.</div>
-
     <template #footer>
       <template v-if="upgradable">
         <K3Button label="Cancel" icon="pi pi-times" @click="close" class="p-button-text" />
@@ -34,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { K8sVersionMap, defaultUpgradeInfo, defaultUpgradeInfoValidation } from "~/models";
+import { K8sVersions, K8sVersionMap, defaultUpgradeInfo, defaultUpgradeInfoValidation, BootstrapProviders } from "~/models";
 
 const { UI, Util } = useAppHelper();
 
@@ -47,9 +46,8 @@ const upgradeVal = ref(Util.clone(defaultUpgradeInfo));
 
 const v = UI.getValidate(defaultUpgradeInfoValidation, upgradeVal);
 
-const crtVersion = computed(() => K8sVersionMap(props.modelValue.bootstrap_provider).find((val) => val.value === props.modelValue.current).name);
-const versions = computed(() => K8sVersionMap(props.modelValue.bootstrap_provider).filter((val) => val.value > props.modelValue.current));
-const upgradable = computed(() => versions.value.length > 0);
+const versions = computed(() => K8sVersionMap(false, props.modelValue.bootstrap_provider).filter((val) => val.value > props.modelValue.current));
+const upgradable = computed(() => props.modelValue.bootstrap_provider === BootstrapProviders.Kubeadm && versions.value.length > 0);
 
 const close = () => {
   emits("close");
@@ -65,7 +63,9 @@ const onHide = () => {
   emits("close");
 };
 
-onMounted(() => {});
+const onVersionChange = (item) => {
+  upgradeVal.value.image = "edgecraft-kube-v" + K8sVersions[item.value];
+}
 </script>
 
 <style scoped lang="scss">

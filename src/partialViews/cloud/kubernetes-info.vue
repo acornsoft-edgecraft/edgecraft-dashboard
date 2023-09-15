@@ -9,7 +9,7 @@
       </K3FormRow>
       <K3FormRow>
         <K3FormColumn label="Kubernetes Version" label-align="right">
-          <K3FormDropdownField v-model="v$.version" :options="K8sVersionMap(props.modelValue.bootstrap_provider)" :optionLabel="'name'" :optionValue="'value'" field-name="Kubernetes Version" class="w-6" />
+          <K3FormDropdownField v-model="v$.version" :options="K8sVersionMap(false, modelValue.bootstrap_provider)" :optionLabel="'name'" :optionValue="'value'" field-name="Kubernetes Version" class="w-6" />
         </K3FormColumn>
       </K3FormRow>
       <K3FormRow>
@@ -27,20 +27,20 @@
           <K3FormInputField v-model="v$.svc_domain" field-name="Service Dns Domain" class="w-6" placeholder="예) cluster.local" />
         </K3FormColumn>
       </K3FormRow>
-      <K3FormRow>
+      <K3FormRow v-if="showExtraConfigs">
         <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
           <K3FormContainer class="no-style w-full">
             <K3FormRow direction="vertical">
               <K3Accordion :multiple="true" :activeIndex="activeIndex(modelValue.cp_kubeadm_extra_config)">
                 <K3AccordionTab v-for="(config, index) in extraConfigs" :key="index" :header="config.header" :disabled="config.disabled">
-                  <K3Textarea :id="setConfigId('cp', config.id)" v-model="modelValue.cp_kubeadm_extra_config[config.id]" type="text" rows="4" class="w-full" :autoResize="true" :placeholder="setPlaceholder(config.id)" />
+                  <K3Textarea :id="setConfigId('cp', config.id)" v-model="modelValue.cp_kubeadm_extra_config[config.id]" type="text" rows="4" class="w-full" :autoResize="true"/>
                 </K3AccordionTab>
               </K3Accordion>
             </K3FormRow>
           </K3FormContainer>
         </K3FormColumn>
       </K3FormRow>
-      <K3FormRow>
+      <K3FormRow v-if="showExtraConfigs">
         <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
           <K3FormContainer class="no-style w-full">
             <K3FormRow direction="vertical">
@@ -58,9 +58,10 @@
 </template>
 
 <script setup lang="ts">
-import { K8sVersionMap, BootstrapProviderMap, defaultKubernetesInfoValidation, kubernetesInfo, kubeadmConfigs } from "~/models";
+import { K8sVersionMap, BootstrapProviderMap, defaultKubernetesInfoValidation, kubernetesInfo, kubeadmConfigs, BootstrapProviders } from "~/models";
 
 const { Util } = useAppHelper();
+const route = useRoute();
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
@@ -68,13 +69,14 @@ const props = defineProps({
 
 const v$ = useAppHelper().UI.getValidate(defaultKubernetesInfoValidation, ref(props.modelValue as kubernetesInfo));
 const activeDefaultVersion = (item) => {
-  v$.value.version.$model = K8sVersionMap(item.value)[0].value
+  props.modelValue.version = K8sVersionMap(false, item.value)[0].value
 };
 
+const showExtraConfigs = computed(() => props.modelValue.bootstrap_provider === BootstrapProviders.Kubeadm)
 const extraConfigs = computed(() => (useRoute().path.includes("/cloud/register") ? kubeadmConfigsForCluster : kubeadmConfigs));
 
 const setConfigId = (prefix, id) => `${prefix}_${id}`;
-const setPlaceholder = (id) => (id === "post_kubeadm_commands" ? "예) - kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/calico.yaml" : "");
+// const setPlaceholder = (id) => (id === "post_kubeadm_commands" ? "예) - kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/calico.yaml" : "");
 
 const activeIndex = (configs) => {
   const idx = [];
@@ -89,6 +91,12 @@ const kubeadmConfigsForCluster = Util.clone(kubeadmConfigs).map((c) => {
   c.disabled = disable.includes(c.id) ? true : false;
   return c;
 });
+
+onMounted(() => {
+  if (!route.params.cloudId) {
+    props.modelValue.cp_kubeadm_extra_config.post_kubeadm_commands = "- kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.1/manifests/calico.yaml"
+  } 
+})
 </script>
 
 <style scoped lang="scss"></style>

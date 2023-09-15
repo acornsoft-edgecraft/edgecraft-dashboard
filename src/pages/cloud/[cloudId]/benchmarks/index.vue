@@ -65,7 +65,7 @@
         <template #paginatorend></template>
         <K3Column v-for="col of selectedColumns" :field="col.field" :header="col.header" :key="`${col.field}_index`" :sortable="col.sortable" :headerStyle="columnSize(col.field)" :bodyStyle="columnSize(col.field)">
           <template #body="slotProps">
-            <NuxtLink v-if="slotProps.field === 'created'" :to="`/cloud/${cloudId}/cluster/${clusterId}/benchmarks/${slotProps.data.benchmarks_uid}`">{{ Util.getDateLocaleString(slotProps.data.created) }}</NuxtLink>
+            <NuxtLink v-if="slotProps.field === 'created'" :to="`/cloud/${clusterId}/benchmarks/${slotProps.data.benchmarks_uid}`">{{ Util.getDateLocaleString(slotProps.data.created) }}</NuxtLink>
             <span v-if="slotProps.field === 'status'">
               {{ BenchmarksStatus[slotProps.data.status] }}
             </span>            

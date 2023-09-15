@@ -10,7 +10,6 @@
         </div>
         <div class="flex justify-content-end">
           <K3Button icon="pi pi-refresh" class="p-button-text mr-2" @click="getCluster" />
-          <!-- <K3Button label="Kore-Board" icon="pi pi-external-link" iconPos="right" class="p-button mr-2" @click="goKoreboard" v-if="succeed" /> -->
           <K3Button label="k8s Cluster Upgrade" class="p-button mr-2" @click="onUpgrade" v-if="succeed" />
           <NuxtLink v-if="provisioned" :to="goBenchmarks">
             <K3Button label="CIS Benchmarks" class="p-button mr-2 p-button-info" />
@@ -25,7 +24,7 @@
       </div>
       <div class="info-wrapper">
         <K3Accordion :multiple="true" :activeIndex="[0, 1, 2, 3, 4]">
-          <K3AccordionTab header="CLOUD 정보">
+          <K3AccordionTab header="Cloud 정보">
             <K3FormContainer>
               <K3FormRow>
                 <K3FormColumn label="클라우드 명" label-align="right">{{ cluster.cluster.name }}</K3FormColumn>
@@ -64,7 +63,7 @@
               <K3FormRow>
                 <K3FormColumn label="Service Domain" label-align="right">{{ cluster.k8s.svc_domain }}</K3FormColumn>
               </K3FormRow>
-              <K3FormRow>
+              <K3FormRow v-if="cluster.k8s.bootstrap_provider === BootstrapProviders.Kubeadm">
                 <K3FormColumn label="Control Plane Kubeadm Extra Config" label-align="right">
                   <K3FormContainer class="no-style w-full">
                     <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs" :key="index">
@@ -73,7 +72,7 @@
                   </K3FormContainer>
                 </K3FormColumn>
               </K3FormRow>
-              <K3FormRow>
+              <K3FormRow v-if="cluster.k8s.bootstrap_provider === BootstrapProviders.Kubeadm">
                 <K3FormColumn label="Workers Kubeadm Extra Config" label-align="right">
                   <K3FormContainer class="no-style w-full">
                     <K3FormRow direction="vertical" v-for="(config, index) in kubeadmConfigs" :key="index">
@@ -145,7 +144,7 @@
           <K3AccordionTab header="Node 정보">
             <K3FormContainer class="no-style">
               <K3FormRow>
-                <K3FormColumn label="Use LoadBalancer" label-align="right">{{ Util.getUseYnKo(cluster.nodes.use_loadbalancer) }}</K3FormColumn>
+                <K3FormColumn label="Load Balancer" label-align="right">{{ Util.getUseYnKo(cluster.nodes.use_loadbalancer) }}</K3FormColumn>
               </K3FormRow>
             </K3FormContainer>
             <BizClusterNodesets v-model="cluster.nodes.master_sets" :type="NodeTypes.Master" :succeed="succeed" :params="{ cloudId: cloudId, clusterId: clusterId, bootstrapProvider: cluster.k8s.bootstrap_provider }" @add-nodeset="addNodeset" />
@@ -175,7 +174,7 @@
             <K3Fieldset legend="STORAGE Class 설정" :toggleable="true">
               <K3FormContainer class="no-style">
                 <K3FormRow>
-                  <K3FormColumn label="Use Ceph" label-align="right">{{ Util.getUseYnKo(cluster.etcd_storage.storage_class.use_ceph) }}</K3FormColumn>
+                  <K3FormColumn label="Ceph" label-align="right">{{ Util.getUseYnKo(cluster.etcd_storage.storage_class.use_ceph) }}</K3FormColumn>
                 </K3FormRow>
                 <K3FormRow v-if="cluster.etcd_storage.storage_class.use_ceph">
                   <K3FormColumn label="Label 1" label-align="right">{{ cluster.etcd_storage.storage_class.label1 }}</K3FormColumn>

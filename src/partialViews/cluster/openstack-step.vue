@@ -1,6 +1,6 @@
 <template>
   <div class="partial-container m-0 p-0">
-    <OpenstackInfo v-model="modelValue.openstack" />
+    <OpenstackInfo v-model="modelValue.openstack" :bootstrapProvider="modelValue.k8s.bootstrap_provider" :version="modelValue.k8s.version" />
   </div>
 </template>
 
