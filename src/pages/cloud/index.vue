@@ -230,7 +230,6 @@ const onDelete = async (item) => {
 watch(
   () => [(UI.tableSettings.filters.value as any).name.value, (UI.tableSettings.filters.value as any).status.value, (UI.tableSettings.filters.value as any).bootstrap_provider.value],
   () => {
-    console.log(search)
     Search.set(search, UI.tableSettings.filters);
   }
 );

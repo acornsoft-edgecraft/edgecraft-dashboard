@@ -218,7 +218,7 @@
 
   .error-field.pointing.label:before,
   .error-field[class*="pointing above"].label:before {
-    border-width: 1px 0 0 1px;
+    border-width: 1px 0 0 1px !important;
     transform: translateX(-50%) translateY(-50%) rotate(45deg);
     top: 0;
     left: 5%;
