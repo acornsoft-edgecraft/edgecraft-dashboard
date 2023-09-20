@@ -10,7 +10,7 @@
 <script setup>
 const props = defineProps({
   source: { type: String, default: '/images/edgecraft_logo.png' },
-  to: { type: String, default: '/' }
+  to: { type: String, default: '/cloud' }
 })
 </script>
 

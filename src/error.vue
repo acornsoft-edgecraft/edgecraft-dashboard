@@ -11,7 +11,7 @@
             <hr />
             <h4>{{ error.message }}</h4>
             <div class="button-wrapper">
-              <NuxtLink to="/">
+              <NuxtLink to="/cloud">
                 <i class="pi pi-home" />
                 Go Home
               </NuxtLink>

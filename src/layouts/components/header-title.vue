@@ -4,9 +4,6 @@
            class="mr-3"
            severity="success"
            :value="keyPath" />
-    <!-- <K3Breadcrumb :home="home"
-                  :model="useAppHelper().Routing.breadcrumbs()">
-    </K3Breadcrumb> -->
     <K3BreadCrumb v-if="breadcrumbs.length > 0"
                   :home="home"
                   :model="breadcrumbs">
@@ -15,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-const home = ref({ icon: 'pi pi-home', to: '/' })
+const home = ref({ icon: 'pi pi-home', to: '/cloud' })
 
 const breadcrumbs = computed(() => useAppHelper().Routing.breadcrumbs())
 const cloudName = computed(() => useCloudService().currentCloud.value)
