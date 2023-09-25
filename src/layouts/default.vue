@@ -25,7 +25,7 @@ import Header from "./components/header.vue";
 
 const { State } = useAppHelper()
 
-const collapsed = false
+const collapsed = ref(false)
 
 const separator = {
     template: '<hr style="border: 0.175rem inset rgba(255, 255, 255, 0.7); margin: 10px 20px 10px 20px;">'
