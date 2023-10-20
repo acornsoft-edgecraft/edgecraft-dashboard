@@ -22,8 +22,8 @@ export interface openstackConfInfo {
 export const defaultOpenstackConfInfo: openstackConfInfo = {
   node_cidr: "10.6.0.0/24",
   openstack_cloud: "openstack",
-  openstack_cloud_provider_conf_b64: "W0dsb2JhbF0KYXV0aC11cmw9aHR0cDovLzE5Mi4xNjguODguMTE6NTAwMC92My8KdXNlcm5hbWU9ImVkZ2VjcmFmdCIKcGFzc3dvcmQ9IlBhc3MwMDAwQCIKdGVuYW50LWlkPSJjY2UzMWZhNTc0ZmM0OGMyYjJmY2ZhOTgwMjlkNGI1NCIKdGVuYW50LW5hbWU9ImVkZ2VjcmFmdC1rYWFzIgpkb21haW4tbmFtZT0iRGVmYXVsdCIKcmVnaW9uPSJSZWdpb25PbmUiCg==",
-  openstack_cloud_yaml_b64: "Y2xvdWRzOgogIG9wZW5zdGFjazoKICAgIGF1dGg6CiAgICAgIGF1dGhfdXJsOiBodHRwOi8vMTkyLjE2OC44OC4xMTo1MDAwL3YzLwogICAgICB1c2VybmFtZTogImVkZ2VjcmFmdCIKICAgICAgcGFzc3dvcmQ6ICJQYXNzMDAwMEAiCiAgICAgIHByb2plY3RfaWQ6IGNjZTMxZmE1NzRmYzQ4YzJiMmZjZmE5ODAyOWQ0YjU0CiAgICAgIHByb2plY3RfbmFtZTogImVkZ2VjcmFmdC1rYWFzIgogICAgICB1c2VyX2RvbWFpbl9uYW1lOiAiRGVmYXVsdCIKICAgIHJlZ2lvbl9uYW1lOiAiUmVnaW9uT25lIgogICAgaW50ZXJmYWNlOiAicHVibGljIgogICAgaWRlbnRpdHlfYXBpX3ZlcnNpb246IDMK",
+  openstack_cloud_provider_conf_b64: "",
+  openstack_cloud_yaml_b64: "",
   openstack_cloud_cacert_b64: "Cg==",
   dns_nameservers: "168.126.63.1",
   failure_domain: "nova",
