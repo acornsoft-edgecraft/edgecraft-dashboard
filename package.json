@@ -23,7 +23,7 @@
         "chart.js": "^3.8.0",
         "chartjs-plugin-annotation": "^1.4.0",
         "js-yaml": "^4.1.0",
-        "json-server": "^0.17.0",
+        "json-server": "^0.17.4",
         "json-server-auth": "^2.1.0",
         "nuxt": "^3.0.0-rc.8",
         "primevue": "^3.15.0",

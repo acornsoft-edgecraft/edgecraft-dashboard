@@ -1706,5 +1706,157 @@
       "cloud_name": "cloud5555",
       "items": {}
     }
+  ],
+  "charts": [
+    {
+      "id": 1,
+      "icon": "https://argo-cd.readthedocs.io/en/stable/assets/logo.png",
+      "name": "argo-cd",
+      "urls":[
+        "argo-cd-5.43.4.tgz"
+      ],
+      "version": "5.43.4",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 2,
+      "icon": "https://istio.io/latest/favicons/android-192x192.png",
+      "name": "istio-base",
+      "urls":[
+        "base-1.18.2.tgz"
+      ],
+      "version": "1.18.2",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 3,
+      "icon": "https://raw.githubusercontent.com/cert-manager/cert-manager/d53c0b9270f8cd90d908460d69502694e1838f5f/logo/logo-small.png",
+      "name": "cert-manager",
+      "urls":[
+        "cert-manager-v1.12.0.tgz"
+      ],
+      "version": "v1.12.0",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 4,
+      "icon": "https://raw.githubusercontent.com/hashicorp/consul-k8s/main/assets/icon.png",
+      "name": "consul",
+      "urls":[
+        "consul-1.2.0.tgz"
+      ],
+      "version": "1.2.0",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 5,
+      "icon": "https://helm.elastic.co/icons/elasticsearch.png",
+      "name": "elasticsearch",
+      "urls":[
+        "elasticsearch-7.10.2.tgz"
+      ],
+      "version": "7.10.2",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 6,
+      "icon": "https://raw.githubusercontent.com/cncf/artwork/master/projects/fluentd/fluentbit/icon/fluentbit-icon-color.svg",
+      "name": "fluent-bit",
+      "urls":[
+        "fluent-bit-0.36.0.tgz"
+      ],
+      "version": "0.36.0",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 7,
+      "icon": "https://gitlab.com/gitlab-com/gitlab-artwork/raw/master/logo/logo-square.png",
+      "name": "gitlab",
+      "urls":[
+        "gitlab-7.1.1.tgz"
+      ],
+      "version": "7.1.1",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 8,
+      "icon": "https://raw.githubusercontent.com/goharbor/website/master/static/img/logos/harbor-icon-color.png",
+      "name": "harbor",
+      "urls":[
+        "harbor-1.12.2.tgz"
+      ],
+      "version": "1.12.2",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 9,
+      "icon": "https://istio.io/latest/favicons/android-192x192.png",
+      "name": "istiod",
+      "urls":[
+        "istiod-1.18.2.tgz"
+      ],
+      "version": "1.18.2",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 10,
+      "icon": "https://camo.githubusercontent.com/afa87494e0753b4b1f5719a2f35aa5263859dffb/687474703a2f2f6a61656765722e72656164746865646f63732e696f2f656e2f6c61746573742f696d616765732f6a61656765722d766563746f722e737667",
+      "name": "jaeger",
+      "urls":[
+        "jaeger-0.71.11.tgz"
+      ],
+      "version": "0.71.11",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 11,
+      "icon": "https://jupyterhub.github.io/helm-chart/images/hublogo.svg",
+      "name": "jupyterhub",
+      "urls":[
+        "jupyterhub-2.0.0.tgz"
+      ],
+      "version": "2.0.0",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 12,
+      "icon": "https://www.keycloak.org/resources/images/keycloak_icon_512px.svg",
+      "name": "keycloak",
+      "urls":[
+        "keycloak-18.4.3.tgz"
+      ],
+      "version": "18.4.3",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 13,
+      "icon": "https://raw.githubusercontent.com/kiali/kiali.io/master/themes/kiali/static/img/kiali_logo_masthead.png",
+      "name": "kiali-server",
+      "urls":[
+        "kiali-server-1.72.0.tgz"
+      ],
+      "version": "1.72.0",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 14,
+      "icon": "https://helm.elastic.co/icons/kibana.png",
+      "name": "kibana",
+      "urls":[
+        "kibana-7.10.2.tgz"
+      ],
+      "version": "7.10.2",
+      "created": "2022-03-06 21:03:11"
+    },
+    {
+      "id": 15,
+      "icon": "https://s3.amazonaws.com/downloads.kong/universe/assets/icon-kong-inc-large.png",
+      "name": "kong",
+      "urls":[
+        "kong-2.26.4.tgz"
+      ],
+      "version": "2.26.4",
+      "created": "2022-03-06 21:03:11"
+    }
   ]
 }
